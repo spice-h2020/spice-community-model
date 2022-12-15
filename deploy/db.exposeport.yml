@@ -1,0 +1,11 @@
+# Database is *not* exposed in the host, by default. 
+# This extension exposes the MongoDB using the host port MONGO_HOST_PORT
+# Normally, it is employed only for debugging purposes
+
+version: "3.3"
+
+services:
+  mongodb:
+    ports:
+      # Host:container
+      - ${MONGODB_HOST_PORT:-27017}:27017

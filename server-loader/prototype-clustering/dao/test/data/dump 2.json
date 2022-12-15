@@ -1,0 +1,731 @@
+{
+  "distanceMatrixes": [
+    {
+      "_id": {
+        "$oid": "637a2b6c665fd8f042744ae5"
+      },
+      "perspectiveId": "1000-agglomerative",
+      "distanceMatrix": [
+        [
+          0,
+          0.25,
+          0.6,
+          0.25
+        ],
+        [
+          0.25,
+          0,
+          0.75,
+          0.1
+        ],
+        [
+          0.6,
+          0.75,
+          0,
+          0.65
+        ],
+        [
+          0.25,
+          0.1,
+          0.65,
+          0
+        ]
+      ]
+    }
+  ],
+  "flags": [],
+  "perspectives": [
+    {
+      "_id": {
+        "$oid": "6378f0481a5b1d679253a0be"
+      },
+      "id": "1000-agglomerative",
+      "name": "HEHCT Perspective (agglomerative)",
+      "algorithm": {
+        "name": "agglomerative",
+        "params": []
+      },
+      "similarity_functions": [
+        {
+          "sim_function": {
+            "name": "TableSimilarityDAO",
+            "params": [],
+            "on_attribute": {
+              "att_name": "beliefR",
+              "att_type": "String"
+            },
+            "weight": 0.5
+          }
+        },
+        {
+          "sim_function": {
+            "name": "TableSimilarityDAO",
+            "params": [],
+            "on_attribute": {
+              "att_name": "beliefJ",
+              "att_type": "String"
+            },
+            "weight": 0.3
+          }
+        },
+        {
+          "sim_function": {
+            "name": "TableSimilarityDAO",
+            "params": [],
+            "on_attribute": {
+              "att_name": "beliefE",
+              "att_type": "String"
+            },
+            "weight": 0.2
+          }
+        }
+      ],
+      "user_attributes": [
+        {
+          "att_name": "DemographicsReligous",
+          "att_type": "String"
+        },
+        {
+          "att_name": "DemographicsPolitics",
+          "att_type": "String"
+        }
+      ],
+      "interaction_similarity_functions": []
+    },
+    {
+      "_id": {
+        "$oid": "6378f40047d02ed2890d86d5"
+      },
+      "id": "GAM similar user emotions in similar artworks (iconclass)",
+      "name": "GAM similar user emotions in similar artworks (iconclass)",
+      "algorithm": {
+        "name": "agglomerative",
+        "params": []
+      },
+      "similarity_functions": [
+        {
+          "sim_function": {
+            "name": "IconClassSimilarityDAO",
+            "weight": 0.8,
+            "params": [],
+            "on_attribute": {
+              "att_name": "Iconclass_subjects_curators",
+              "att_type": "String"
+            }
+          },
+          "_id": {
+            "$oid": "6378f40047d02ed2890d86d6"
+          }
+        }
+      ],
+      "user_attributes": [
+        {
+          "att_name": "relationship_with_arts",
+          "att_type": "String",
+          "_id": {
+            "$oid": "6378f40047d02ed2890d86d7"
+          }
+        },
+        {
+          "att_name": "relationship_with_museums",
+          "att_type": "String",
+          "_id": {
+            "$oid": "6378f40047d02ed2890d86d8"
+          }
+        }
+      ],
+      "interaction_similarity_functions": [
+        {
+          "sim_function": {
+            "name": "ExtendedPlutchikEmotionSimilarityDAO",
+            "params": [],
+            "on_attribute": {
+              "att_name": "emotions",
+              "att_type": "dict"
+            },
+            "interaction_object": {
+              "att_name": "artworkId",
+              "att_type": "String"
+            }
+          },
+          "_id": {
+            "$oid": "6378f40047d02ed2890d86d9"
+          }
+        }
+      ],
+      "__v": 0
+    }
+  ],
+  "users": [
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e328a"
+      },
+      "pname": "ParticipantType",
+      "userid": "AL122986",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "2",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e329a"
+      },
+      "pname": "beliefR",
+      "userid": "AL122986",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "FRealisticNeg",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e32ae"
+      },
+      "pname": "_id",
+      "userid": "AL122986",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "AL122986",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e32be"
+      },
+      "pname": "beliefE",
+      "userid": "AL122986",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "Balanced",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e32d1"
+      },
+      "pname": "DemographicsReligous",
+      "userid": "AL122986",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "M",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e32e1"
+      },
+      "pname": "DemographicsPolitics",
+      "userid": "AL122986",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "R",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e32f1"
+      },
+      "pname": "beliefJ",
+      "userid": "AL122986",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "CantJudge",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e3304"
+      },
+      "pname": "ParticipantType",
+      "userid": "AL125076",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "2",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e3314"
+      },
+      "pname": "beliefR",
+      "userid": "AL125076",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "FRealisticNeg",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e3328"
+      },
+      "pname": "_id",
+      "userid": "AL125076",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "AL125076",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e3338"
+      },
+      "pname": "beliefE",
+      "userid": "AL125076",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "Oppose",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e334b"
+      },
+      "pname": "DemographicsReligous",
+      "userid": "AL125076",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "S",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e335b"
+      },
+      "pname": "DemographicsPolitics",
+      "userid": "AL125076",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "R",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e336b"
+      },
+      "pname": "beliefJ",
+      "userid": "AL125076",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "NotTraitor",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e337e"
+      },
+      "pname": "ParticipantType",
+      "userid": "AL125209",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "2",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e338e"
+      },
+      "pname": "beliefR",
+      "userid": "AL125209",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "CRealisticPro",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e33a2"
+      },
+      "pname": "_id",
+      "userid": "AL125209",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "AL125209",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e33b2"
+      },
+      "pname": "beliefE",
+      "userid": "AL125209",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "NoOpinion",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e33c5"
+      },
+      "pname": "DemographicsReligous",
+      "userid": "AL125209",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "M",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e33d5"
+      },
+      "pname": "DemographicsPolitics",
+      "userid": "AL125209",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "VR",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e33e5"
+      },
+      "pname": "beliefJ",
+      "userid": "AL125209",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "CantJudge",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fd58585a24bc4e33f8"
+      },
+      "pname": "ParticipantType",
+      "userid": "AL127150",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "2",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fe58585a24bc4e3408"
+      },
+      "pname": "beliefR",
+      "userid": "AL127150",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "FRealisticNeg",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fe58585a24bc4e341c"
+      },
+      "pname": "_id",
+      "userid": "AL127150",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "AL127150",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fe58585a24bc4e342c"
+      },
+      "pname": "beliefE",
+      "userid": "AL127150",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "NoOpinion",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fe58585a24bc4e343f"
+      },
+      "pname": "DemographicsReligous",
+      "userid": "AL127150",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "S",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fe58585a24bc4e344f"
+      },
+      "pname": "DemographicsPolitics",
+      "userid": "AL127150",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "L",
+      "source_id": ""
+    },
+    {
+      "_id": {
+        "$oid": "6378f3fe58585a24bc4e345f"
+      },
+      "pname": "beliefJ",
+      "userid": "AL127150",
+      "id": "xxx",
+      "origin": "",
+      "pvalue": "NotTraitor",
+      "source_id": ""
+    }
+  ],
+  "similarities": [
+    {
+      "_id": {
+        "$oid": "637a2b6c665fd8f042744b04"
+      },
+      "other-community-id": "1000-agglomerative-0",
+      "target-community-id": "1000-agglomerative-0",
+      "similarity-function": "similarityMedoidCommunitiesDAO",
+      "value": 1
+    },
+    {
+      "_id": {
+        "$oid": "637a2b6c665fd8f042744b0e"
+      },
+      "other-community-id": "1000-agglomerative-1",
+      "target-community-id": "1000-agglomerative-0",
+      "similarity-function": "similarityMedoidCommunitiesDAO",
+      "value": 0.25
+    },
+    {
+      "_id": {
+        "$oid": "637a2b6c665fd8f042744b10"
+      },
+      "other-community-id": "1000-agglomerative-0",
+      "target-community-id": "1000-agglomerative-1",
+      "similarity-function": "similarityMedoidCommunitiesDAO",
+      "value": 0.25
+    },
+    {
+      "_id": {
+        "$oid": "637a2b6c665fd8f042744b22"
+      },
+      "other-community-id": "1000-agglomerative-1",
+      "target-community-id": "1000-agglomerative-1",
+      "similarity-function": "similarityMedoidCommunitiesDAO",
+      "value": 1
+    }
+  ],
+  "communitiesVisualization": [
+    {
+      "_id": {
+        "$oid": "637a2b6d3a8f408c617fbffe"
+      },
+      "name": "HEHCT Perspective (agglomerative)",
+      "perspectiveId": "1000-agglomerative",
+      "communities": [
+        {
+          "id": "1000-agglomerative-0",
+          "perspectiveId": "1000-agglomerative",
+          "community-type": "implicit",
+          "name": "Community 0",
+          "explanations": [
+            {
+              "explanation_type": "medoid",
+              "explanation_data": {
+                "id": "AL125076"
+              },
+              "visible": true
+            },
+            {
+              "explanation_type": "implicit_attributes",
+              "explanation_data": {
+                "label": "Percentage distribution of the implicit attribute (beliefR):",
+                "data": {
+                  "FRealisticNeg": 100
+                }
+              },
+              "visible": true
+            },
+            {
+              "explanation_type": "implicit_attributes",
+              "explanation_data": {
+                "label": "Percentage distribution of the implicit attribute (beliefJ):",
+                "data": {
+                  "NotTraitor": 66.666667,
+                  "CantJudge": 33.333333
+                }
+              },
+              "visible": true
+            },
+            {
+              "explanation_type": "explicit_attributes",
+              "explanation_data": {},
+              "visible": true
+            }
+          ],
+          "users": [
+            "AL122986",
+            "AL125076",
+            "AL127150"
+          ]
+        },
+        {
+          "id": "1000-agglomerative-1",
+          "perspectiveId": "1000-agglomerative",
+          "community-type": "inexistent",
+          "name": "Community 1 (Users without community)",
+          "explanations": [
+            {
+              "explanation_type": "medoid",
+              "explanation_data": {
+                "id": "AL125209"
+              },
+              "visible": false
+            }
+          ],
+          "users": [
+            "AL125209"
+          ]
+        }
+      ],
+      "numberOfCommunities": 1,
+      "users": [
+        {
+          "id": "AL122986",
+          "label": "AL122986",
+          "group": 0,
+          "explicit_community": {
+            "DemographicsReligous": "M",
+            "DemographicsPolitics": "R"
+          },
+          "interactions": []
+        },
+        {
+          "id": "AL125076",
+          "label": "AL125076",
+          "group": 0,
+          "explicit_community": {
+            "DemographicsReligous": "S",
+            "DemographicsPolitics": "R"
+          },
+          "interactions": []
+        },
+        {
+          "id": "AL125209",
+          "label": "AL125209",
+          "group": 1,
+          "explicit_community": {
+            "DemographicsReligous": "M",
+            "DemographicsPolitics": "VR"
+          },
+          "interactions": []
+        },
+        {
+          "id": "AL127150",
+          "label": "AL127150",
+          "group": 0,
+          "explicit_community": {
+            "DemographicsReligous": "S",
+            "DemographicsPolitics": "L"
+          },
+          "interactions": []
+        }
+      ],
+      "similarity": [
+        {
+          "u1": "AL122986",
+          "u2": "AL125076",
+          "value": 0.75
+        },
+        {
+          "u1": "AL122986",
+          "u2": "AL125209",
+          "value": 0.4
+        },
+        {
+          "u1": "AL122986",
+          "u2": "AL127150",
+          "value": 0.75
+        },
+        {
+          "u1": "AL125076",
+          "u2": "AL125209",
+          "value": 0.25
+        },
+        {
+          "u1": "AL125076",
+          "u2": "AL127150",
+          "value": 0.9
+        },
+        {
+          "u1": "AL125209",
+          "u2": "AL127150",
+          "value": 0.35
+        }
+      ],
+      "artworks": [],
+      "fileId": ""
+    }
+  ],
+  "communities": [
+    {
+      "_id": {
+        "$oid": "637a2b6d3a8f408c617fbfff"
+      },
+      "id": "1000-agglomerative-0",
+      "perspectiveId": "1000-agglomerative",
+      "community-type": "implicit",
+      "name": "Community 0",
+      "explanations": [
+        {
+          "explanation_type": "medoid",
+          "explanation_data": {
+            "id": "AL125076"
+          },
+          "visible": true
+        },
+        {
+          "explanation_type": "implicit_attributes",
+          "explanation_data": {
+            "label": "Percentage distribution of the implicit attribute (beliefR):",
+            "data": {
+              "FRealisticNeg": 100
+            }
+          },
+          "visible": true
+        },
+        {
+          "explanation_type": "implicit_attributes",
+          "explanation_data": {
+            "label": "Percentage distribution of the implicit attribute (beliefJ):",
+            "data": {
+              "NotTraitor": 66.666667,
+              "CantJudge": 33.333333
+            }
+          },
+          "visible": true
+        },
+        {
+          "explanation_type": "explicit_attributes",
+          "explanation_data": {},
+          "visible": true
+        }
+      ],
+      "users": [
+        "AL122986",
+        "AL125076",
+        "AL127150"
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "637a2b6d3a8f408c617fc000"
+      },
+      "id": "1000-agglomerative-1",
+      "perspectiveId": "1000-agglomerative",
+      "community-type": "inexistent",
+      "name": "Community 1 (Users without community)",
+      "explanations": [
+        {
+          "explanation_type": "medoid",
+          "explanation_data": {
+            "id": "AL125209"
+          },
+          "visible": false
+        }
+      ],
+      "users": [
+        "AL125209"
+      ]
+    }
+  ]
+}

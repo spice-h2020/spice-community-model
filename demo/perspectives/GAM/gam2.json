@@ -1,0 +1,48 @@
+{
+  "id": "638a00af740510cd7727e321",
+  "name": "S-interest.itMakesMeThinkAbout.emotions-S-artworks (Materials)",
+  "algorithm": {
+    "name": "agglomerative",
+    "params": []
+  },
+  "similarity_functions": [
+    {
+      "sim_function": {
+        "name": "TaxonomySimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Materials",
+          "att_type": "String"
+        },
+        "dissimilar": false
+      }
+    }
+  ],
+  "user_attributes": [
+    {
+      "att_name": "demographics.RelationshipWithArt",
+      "att_type": "String"
+    },
+    {
+      "att_name": "demographics.RelationshipWithMuseum",
+      "att_type": "String"
+    }
+  ],
+  "interaction_similarity_functions": [
+    {
+      "sim_function": {
+        "name": "ExtendedPlutchikEmotionSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "interest.itMakesMeThinkAbout.emotions",
+          "att_type": "dict"
+        },
+        "interaction_object": {
+          "att_name": "id",
+          "att_type": "String"
+        }
+      }
+    }
+  ],
+  "__v": 0
+}

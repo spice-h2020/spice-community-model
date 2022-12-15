@@ -1,0 +1,11 @@
+# Extension for using a Docker volume: Volume name cannot be changed (db).
+# It can be useful for testing purposes but it complicates the 
+# creation of backups of the database (data should be removed if the container is rebuilt)
+
+volumes:
+  db:
+
+services:
+  mongodb:
+    volumes:
+      - db:/data/db

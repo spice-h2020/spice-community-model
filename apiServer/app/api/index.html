@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SPICE Community Model API</title>
+  <!-- needed for adaptive design -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+  href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700"
+  rel="stylesheet"
+  />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+  <link rel="icon" href="./img/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="./css/style.css">
+  
+  <!--
+    Redoc doesn't change outer page styles
+  -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <header class="spice">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1 text-center">
+          <span class="text-muted text-center">
+            <a href="http://www.ucm.es/" target="_blank">
+              <img class="img-fluid" src="./img/ucm-logo.png" alt="University Complutense of Madrid" height="60px">
+            </a><br>
+            <a href="https://spice-h2020.eu/" target="_blank">
+              <img class="img-fluid" src="./img/spice-logo.png" class="" width="150px">
+            </a>
+          </span>
+        </div>
+        <div class="col-md-7">
+          <h1>SPICE Community Model API</h1>
+          <p>The SPICE Community Model API forms part of the Linked Data infrastructure used within the wider <a href="https://spice-h2020.eu/">SPICE project</a>, an EU-H2020 funded project dedicated to citizen curation and cultural heritage.</p>
+          <p>The Community Model API (CM-API) is the access point to the Community Model, which supports the social cohesion across groups, by the understanding of their differences and recognizing what they have in common.</p>
+        </div>
+        
+      </div>
+    </header>
+    <!--
+      Redoc element with link to your OpenAPI definition
+    -->
+    <redoc spec-url="./openapi.yaml"></redoc>
+    <footer class="spice">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-2 text-center">
+            <span class="text-muted text-center">
+              <a href="http://www.ucm.es/" target="_blank">
+                <img class="img-fluid" src="./img/ucm-logo.png" alt="University Complutense of Madrid" height="60px">
+              </a><br>
+              <a href="https://spice-h2020.eu/" target="_blank">
+                <img class="img-fluid" src="./img/spice-logo.png" class="" width="150px">
+              </a>
+            </span>
+          </div>
+          <div class="col-md-8 text-center">
+            <small class="text-muted text-right">
+              © 2022 <!-- - 2022 --> by University Complutense of Madrid. All rights reserved. <br>Version 1.1</small>
+            </div>
+            <div class="col-md-2 text-center">
+              <span class="text-muted text-center">
+                <img class="img-fluid" src="./img/eu_footer.png" alt="European Union" height="40px"><br>
+                <small class="text-muted text-center">This project has received funding from the European Union's Horizon 2020
+                  research and innovation programme.</small></span>
+                  
+                </div>
+              </div>
+              
+            </div>
+          </footer>
+          <!--
+            Link to Redoc JavaScript on CDN for rendering standalone element
+          -->
+          <script src="https://cdn.jsdelivr.net/npm/redoc@latest/bundles/redoc.standalone.js"></script>
+        </body>
+        </html>

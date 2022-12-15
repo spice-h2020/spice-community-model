@@ -1,0 +1,62 @@
+UserId,School,Grade,Type,Zone,Timestamp,q103,q107-A,q107-B,q110-A,q110-B
+3bcd671c-771d-49f3-a753-f8e5c8d2c00a,Colegio Arcangel,5 - Primaria,Privado,Extrarradio,1635935936,0;2;5,0,0,0,5
+b836965f-0f1f-4e60-9adf-63f7d9ced35b,Colegio Arcangel,5 - Primaria,Privado,Extrarradio,1635935937,2;3;5,0,0,1,0
+6753a984-128e-489e-9d49-c5406ccef6e6,Colegio Arcangel,5 - Primaria,Privado,Extrarradio,1635935939,2;3;5,0,0,1,1
+3fee2686-e5f9-481a-8cc3-5add84863429,Colegio Arcangel,5 - Primaria,Privado,Extrarradio,1635935960,0;2;3,1,0,1,5
+bc21b0cf-28d0-4bf8-8c44-a3f55ac331ef,Colegio Arcangel,5 - Primaria,Privado,Extrarradio,1635935965,0;2;3,1,0,1,2
+46e6e29a-636f-425d-9c87-b44e48a0090e,Colegio Arcangel,5 - Primaria,Privado,Extrarradio,1635935996,2;4;5,1,1,1,5
+4c6aedc5-c087-4a06-93f1-6b0f3c263663,Colegio Arcangel,6 - Primaria,Privado,Extrarradio,1635935948,0;2;3,1,0,0,1
+4ac79ffe-331b-465a-bb4f-5d61b3a29e79,Colegio Arcangel,6 - Primaria,Privado,Extrarradio,1635935950,0;3;4,2,0,1,1
+a9d6c9b9-b290-4940-9b3c-e2dba1ca74e4,Colegio Arcangel,6 - Primaria,Privado,Extrarradio,1635935954,2;3;5,1,0,1,0
+bf7936cb-4acf-4b51-b417-60faf95b21b4,Colegio Arcangel,6 - Primaria,Privado,Extrarradio,1635935968,0;2;3,1,0,1,1
+d58744da-54c6-4265-8c03-5a36e8507d50,Colegio Arcangel,6 - Primaria,Privado,Extrarradio,1635935970,0;2;4,0,0,0,0
+aec8fa36-b57d-4f38-8725-b85c4b064568,Colegio Arcangel,6 - Primaria,Privado,Extrarradio,1635939759,2;4;5,1,0,1,1
+4c7905ad-22a0-4e0c-b5e8-f84845891387,Colegio Arcangel,6 - Primaria,Privado,Extrarradio,1635939763,0;3;5,1,0,1,1
+4f43bceb-55c4-449a-b9e7-aa547e03f375,Colegio Arcangel,6 - Primaria,Privado,Extrarradio,1635939778,2;3;5,1,0,1,1
+3ec77efc-32d8-4925-adf3-10aed27399f3,Colegio Arcangel,6 - Primaria,Privado,Extrarradio,1635939804,0;3;5,1,0,1,1
+d7c4c99e-fd3e-4e21-bc13-1723f215c5fa,Colegio Arcangel,6 - Primaria,Privado,Extrarradio,1635939806,1;2;4,1,0,1,1
+5799ec2e-4911-438c-8011-38c5a11ff8f7,Colegio Arcangel,6 - Primaria,Privado,Extrarradio,1635940836,,1,1,1,1
+b6a55d3b-2be6-443e-a2a5-7a17cbd581b9,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636021907,2;3;5,0,2,0,3
+2b084efd-638c-4710-a12a-d1d1feccbcf6,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636021915,0;2;3,0,2,1,1
+e0bf915a-373e-473c-9cf0-71c88e7ad6ff,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636021925,0;2;5,0,0,1,5
+decdeaac-f8dd-471e-8467-64a4f258e092,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636021928,2;4;5,0,0,1,1
+06a900a2-fdcb-4d77-8824-4fd5e84c6eca,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636021937,0;2;5,1,0,1,1
+b2ac3fcf-c18e-4128-9dd5-a1af98e0008f,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636021947,2;3;5,1,0,1,2
+b2111c05-735e-478b-8108-0d683f099cce,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636021970,0;3;5,0,0,0,2
+716956e5-22ac-42e1-bfb5-9c0ee47f9e47,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636021971,0;4;5,1,1,1,1
+3fde3429-7156-4c2b-8468-bc924b6092d7,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636021976,0;2;5,1,2,1,1
+d782045d-e3ed-4fac-aec2-9ff3c1a4b01e,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636021995,2;3;5,1,0,1,0
+7d8cdd9c-7d7e-4e09-9299-45505b34982f,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636022008,3;4;5,1,1,1,2
+1129dacb-28f4-4a0b-812f-3056d9ab1563,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636024618,2;3;5,1,0,0,0
+54c8222d-e458-4242-8f30-d91f9cf6da48,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636025721,0;1;5,1,0,1,2
+288cf817-0839-464c-96bb-6197271f68f4,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636025723,0;3;5,1,1,1,5
+849aec57-1960-4a1c-818f-4bfa63f02f87,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636025731,0;2;5,1,0,0,5
+d0a605ee-a1a4-4753-bebe-70e692cee220,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636025745,2;3;5,0,0,1,1
+e91ed4ba-be9e-450b-b0ac-e8afb0f40ac8,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636025746,0;3;5,0,0,0,1
+6c2247ea-9292-4f38-ac63-d5ec2e41af88,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636025752,0;3;5,0,0,1,1
+c8c8e19a-088c-46b0-bda8-34190baa6554,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636025753,0;3;5,0,2,0,1
+005ee183-4a92-41e8-b828-db2e1292dd17,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636025758,0;3;5,0,0,0,2
+8c65abdf-6aa9-4602-856d-3ea14646a7c9,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636025778,0;1;2,3,0,0,5
+d8f83396-a811-4490-b0a5-5983c32ae06d,Colegio Nuestra Señora del Val,6 - Primaria,Público,Extrarradio,1636025779,1;4;5,5,2,1,5
+55ca3571-2d04-4f65-b536-4bd14e84d18a,Colegio San francisco de Asis,2 - ESO,Privado,Centro,1636107189,0;2;5,3,2,1,0
+b9ba45c5-84f3-4244-b5ab-810711e15e08,Colegio San francisco de Asis,2 - ESO,Privado,Centro,1636107906,0;1;3,1,0,1,5
+d7054992-4bc5-4162-857b-fc85696a6476,Colegio San francisco de Asis,2 - ESO,Privado,Centro,1636108116,0;3;5,0,2,0,5
+5de4b765-6202-4f0f-8769-7d525536fb34,Colegio San francisco de Asis,2 - ESO,Privado,Centro,1636108120,2;4;5,0,2,1,5
+ca6c58a0-35e8-4dc2-9b40-d38619408940,Colegio San francisco de Asis,2 - ESO,Privado,Centro,1636108128,0;2;5,3,1,1,1
+55480779-be46-46f0-9123-4a22587fc457,Colegio San francisco de Asis,2 - ESO,Privado,Centro,1636108130,3;5,1,1,0,5
+5d51b02c-1682-4610-a79c-2c0944751168,Colegio San francisco de Asis,2 - ESO,Privado,Centro,1636108135,0;2;3,5,0,1,5
+54d938f3-93ae-4612-8b50-0b3a21f1f64d,Colegio San francisco de Asis,2 - ESO,Privado,Centro,1636108165,2;3,1,2,1,5
+31c04820-c2ed-4620-970b-157d478b4002,CEPA Aluche,Adultos,Público,Centro,1636110730,2;3;5,3,0,1,3
+80d8b9d4-94ce-42c1-a4b1-1df199070a9f,CEPA Aluche,Adultos,Público,Centro,1636111564,5,3,2,1,1
+93a14143-a3a1-4ce8-9df4-ca3cba7a820d,CEPA Aluche,Adultos,Público,Centro,1636111575,0;2;5,3,0,0,1
+888033df-2ddd-42d0-9b95-cd4367eedde0,CEPA Aluche,Adultos,Público,Centro,1636111600,0;2;5,3,2,0,1
+ed9748c6-2c54-4397-9812-6124139ec16e,CEPA Aluche,Adultos,Público,Centro,1636111608,0;2;5,4,0,0,5
+2c025a74-7139-4d1b-9178-2890548933c9,CEPA Aluche,Adultos,Público,Centro,1636111611,0;3;4,4,0,0,3
+7f9631fe-468d-420c-acb4-12ae7009c1cd,CEPA Aluche,Adultos,Público,Centro,1636111613,0;2;5,1,2,1,2
+31c57c57-bcda-40df-a0fd-deed047cf9f3,CEPA Aluche,Adultos,Público,Centro,1636111618,0;4;5,3,1,0,1
+a48da7f5-ece9-4a03-a3b6-3a39aa5da29d,CEPA Aluche,Adultos,Público,Centro,1636111635,0;3;5,4,0,0,1
+13d21c1f-e812-4143-a08e-d9addcf7e147,CEPA Aluche,Adultos,Público,Centro,1636111654,0;1;3,3,0,0,1
+96f9ae20-9cb1-40b1-a550-c86d6b9c4ef5,CEPA Aluche,Adultos,Público,Centro,1636111660,0;2;5,4,0,0,1
+2d3f127b-0d5d-4f3e-b656-11a1ecd7e67d,CEPA Aluche,Adultos,Público,Centro,1636111677,1,3,1,1,1
+9e7633aa-857c-417f-839b-c3e0995144ac,CEPA Aluche,Adultos,Público,Centro,1636111693,0;3;4,3,0,1,1
+c381fe89-71da-4cee-991f-9a30bdbce948,CEPA Aluche,Adultos,Público,Centro,1636112439,,1,0,1,1

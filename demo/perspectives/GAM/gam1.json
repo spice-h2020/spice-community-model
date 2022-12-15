@@ -1,0 +1,48 @@
+{
+  "id": "6389fb7380b4e39b9c363021",
+  "name": "S-interest.itMakesMeThinkAbout.emotions-S-artworks (iconclassArrayIDs)",
+  "algorithm": {
+    "name": "agglomerative",
+    "params": []
+  },
+  "similarity_functions": [
+    {
+      "sim_function": {
+        "name": "IconClassSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "iconclassArrayIDs",
+          "att_type": "List"
+        },
+        "dissimilar": false
+      }
+    }
+  ],
+  "user_attributes": [
+    {
+      "att_name": "demographics.Gender",
+      "att_type": "String"
+    },
+    {
+      "att_name": "demographics.Age",
+      "att_type": "String"
+    }
+  ],
+  "interaction_similarity_functions": [
+    {
+      "sim_function": {
+        "name": "ExtendedPlutchikEmotionSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "interest.itMakesMeThinkAbout.emotions",
+          "att_type": "dict"
+        },
+        "interaction_object": {
+          "att_name": "id",
+          "att_type": "String"
+        }
+      }
+    }
+  ],
+  "__v": 0
+}

@@ -1,0 +1,576 @@
+{
+  "677821": [
+    {
+      "id": 73,
+      "userid": "677821",
+      "origin": "677821",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "147199": [
+    {
+      "id": 49,
+      "userid": "147199",
+      "origin": "147199",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "254668": [
+    {
+      "id": 117,
+      "userid": "254668",
+      "origin": "254668",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "General audience",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "594472": [
+    {
+      "id": 81,
+      "userid": "594472",
+      "origin": "594472",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "561211": [
+    {
+      "id": 28,
+      "userid": "561211",
+      "origin": "561211",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "General audience",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "626889": [
+    {
+      "id": 34,
+      "userid": "626889",
+      "origin": "626889",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "512341": [
+    {
+      "id": 109,
+      "userid": "512341",
+      "origin": "512341",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Asylum seekers",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "921848": [
+    {
+      "id": 19,
+      "userid": "921848",
+      "origin": "921848",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "315375": [
+    {
+      "id": 112,
+      "userid": "315375",
+      "origin": "315375",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "221852": [
+    {
+      "id": 12,
+      "userid": "221852",
+      "origin": "221852",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "General audience",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "344521": [
+    {
+      "id": 107,
+      "userid": "344521",
+      "origin": "344521",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "501851": [
+    {
+      "id": 121,
+      "userid": "501851",
+      "origin": "501851",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "751188": [
+    {
+      "id": 119,
+      "userid": "751188",
+      "origin": "751188",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "766242": [
+    {
+      "id": 78,
+      "userid": "766242",
+      "origin": "766242",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "789838": [
+    {
+      "id": 116,
+      "userid": "789838",
+      "origin": "789838",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "652225": [
+    {
+      "id": 106,
+      "userid": "652225",
+      "origin": "652225",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "788016": [
+    {
+      "id": 101,
+      "userid": "788016",
+      "origin": "788016",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "845666": [
+    {
+      "id": 75,
+      "userid": "845666",
+      "origin": "845666",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "General audience",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "631141": [
+    {
+      "id": 24,
+      "userid": "631141",
+      "origin": "631141",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Asylum seekers",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "234555": [
+    {
+      "id": 51,
+      "userid": "234555",
+      "origin": "234555",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "436574": [
+    {
+      "id": 118,
+      "userid": "436574",
+      "origin": "436574",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "924889": [
+    {
+      "id": 35,
+      "userid": "924889",
+      "origin": "924889",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "General audience",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "388721": [
+    {
+      "id": 91,
+      "userid": "388721",
+      "origin": "388721",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "923304": [
+    {
+      "id": 40,
+      "userid": "923304",
+      "origin": "923304",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "119809": [
+    {
+      "id": 58,
+      "userid": "119809",
+      "origin": "119809",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Finnish language students",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "111222": [
+    {
+      "id": 94,
+      "userid": "111222",
+      "origin": "111222",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "964084": [
+    {
+      "id": 50,
+      "userid": "964084",
+      "origin": "964084",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "General audience",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "981129": [
+    {
+      "id": 102,
+      "userid": "981129",
+      "origin": "981129",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "139120": [
+    {
+      "id": 110,
+      "userid": "139120",
+      "origin": "139120",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "213442": [
+    {
+      "id": 120,
+      "userid": "213442",
+      "origin": "213442",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "General audience",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "451211": [
+    {
+      "id": 66,
+      "userid": "451211",
+      "origin": "451211",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "General audience",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "331897": [
+    {
+      "id": 68,
+      "userid": "331897",
+      "origin": "331897",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "789889": [
+    {
+      "id": 103,
+      "userid": "789889",
+      "origin": "789889",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "434969": [
+    {
+      "id": 71,
+      "userid": "434969",
+      "origin": "434969",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "317892": [
+    {
+      "id": 89,
+      "userid": "317892",
+      "origin": "317892",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Finnish language students",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "185280": [
+    {
+      "id": 90,
+      "userid": "185280",
+      "origin": "185280",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "766245": [
+    {
+      "id": 93,
+      "userid": "766245",
+      "origin": "766245",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "133333": [
+    {
+      "id": 98,
+      "userid": "133333",
+      "origin": "133333",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "111333": [
+    {
+      "id": 108,
+      "userid": "111333",
+      "origin": "111333",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "523452": [
+    {
+      "id": 114,
+      "userid": "523452",
+      "origin": "523452",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ],
+  "608474": [
+    {
+      "id": 115,
+      "userid": "608474",
+      "origin": "608474",
+      "source_id": "fake90e6d701748f08514b01",
+      "source": "fake",
+      "pname": "explicit-community",
+      "pvalue": "Senior citizens",
+      "context": "application",
+      "datapoints": 0,
+      "category": "demographics"
+    }
+  ]
+}
