@@ -2,162 +2,257 @@
     "artwork_attributes": [
         {
             "sim_function": {
-                "name": "TableSimilarityDAO",
+                "name": "EqualSimilarityDAO",
                 "params": [],
                 "on_attribute": {
-                    "att_name": "Beliefs.beliefR",
+                    "att_name": "Inventary",
                     "att_type": "String"
                 }
             }
         },
         {
             "sim_function": {
-                "name": "TableSimilarityDAO",
+                "name": "EqualSimilarityDAO",
                 "params": [],
                 "on_attribute": {
-                    "att_name": "Beliefs.beliefJ",
+                    "att_name": "Collection",
                     "att_type": "String"
                 }
             }
         },
         {
             "sim_function": {
-                "name": "TableSimilarityDAO",
+                "name": "EqualSimilarityDAO",
                 "params": [],
                 "on_attribute": {
-                    "att_name": "Beliefs.beliefE",
+                    "att_name": "author",
                     "att_type": "String"
                 }
             }
         },
         {
             "sim_function": {
-                "name": "HechtExtendedPlutchikEmotionSimilarityDAO",
+                "name": "NumberSimilarityDAO",
                 "params": [],
                 "on_attribute": {
-                    "att_name": "emotion.Galillee_Rebellion",
+                    "att_name": "year",
+                    "att_type": "float"
+                }
+            }
+        },
+        {
+            "sim_function": {
+                "name": "NumberSimilarityDAO",
+                "params": [],
+                "on_attribute": {
+                    "att_name": "Artwork_start_date",
+                    "att_type": "float"
+                }
+            }
+        },
+        {
+            "sim_function": {
+                "name": "NumberSimilarityDAO",
+                "params": [],
+                "on_attribute": {
+                    "att_name": "Artwork_end_date",
+                    "att_type": "float"
+                }
+            }
+        },
+        {
+            "sim_function": {
+                "name": "NumberSimilarityDAO",
+                "params": [],
+                "on_attribute": {
+                    "att_name": "Artist_birth_date",
+                    "att_type": "float"
+                }
+            }
+        },
+        {
+            "sim_function": {
+                "name": "NumberSimilarityDAO",
+                "params": [],
+                "on_attribute": {
+                    "att_name": "Artist_death_date",
+                    "att_type": "float"
+                }
+            }
+        },
+        {
+            "sim_function": {
+                "name": "EqualSimilarityDAO",
+                "params": [],
+                "on_attribute": {
+                    "att_name": "Gender",
                     "att_type": "String"
                 }
             }
         },
         {
             "sim_function": {
-                "name": "HechtExtendedPlutchikEmotionSimilarityDAO",
+                "name": "TaxonomySimilarityDAO",
                 "params": [],
                 "on_attribute": {
-                    "att_name": "emotion.Joseph_Flavius",
+                    "att_name": "Artist_country",
                     "att_type": "String"
                 }
             }
         },
         {
             "sim_function": {
-                "name": "HechtExtendedPlutchikEmotionSimilarityDAO",
+                "name": "TaxonomySimilarityDAO",
                 "params": [],
                 "on_attribute": {
-                    "att_name": "emotion._Exhibition_Curation",
+                    "att_name": "Artist_secondary_country",
                     "att_type": "String"
                 }
             }
         },
         {
             "sim_function": {
-                "name": "HechtSentimentSimilarityDAO",
+                "name": "TaxonomySimilarityDAO",
                 "params": [],
                 "on_attribute": {
-                    "att_name": "sentiment.Galillee_Rebellion",
+                    "att_name": "Artwork_Artistic_Movement",
                     "att_type": "String"
                 }
             }
         },
         {
             "sim_function": {
-                "name": "HechtSentimentSimilarityDAO",
+                "name": "TaxonomySimilarityDAO",
                 "params": [],
                 "on_attribute": {
-                    "att_name": "sentiment.Joseph_Flavius",
+                    "att_name": "Secondary_Artwork_Artistic_Movement",
                     "att_type": "String"
                 }
             }
         },
         {
             "sim_function": {
-                "name": "HechtSentimentSimilarityDAO",
+                "name": "EqualSimilarityDAO",
                 "params": [],
                 "on_attribute": {
-                    "att_name": "sentiment._Exhibition_Curation",
+                    "att_name": "Technique",
                     "att_type": "String"
+                }
+            }
+        },
+        {
+            "sim_function": {
+                "name": "EqualSimilarityDAO",
+                "params": [],
+                "on_attribute": {
+                    "att_name": "Artwork_type",
+                    "att_type": "String"
+                }
+            }
+        },
+        {
+            "sim_function": {
+                "name": "NumberSimilarityDAO",
+                "params": [],
+                "on_attribute": {
+                    "att_name": "Size_height",
+                    "att_type": "float"
+                }
+            }
+        },
+        {
+            "sim_function": {
+                "name": "NumberSimilarityDAO",
+                "params": [],
+                "on_attribute": {
+                    "att_name": "Size_width",
+                    "att_type": "float"
+                }
+            }
+        },
+        {
+            "sim_function": {
+                "name": "NumberSimilarityDAO",
+                "params": [],
+                "on_attribute": {
+                    "att_name": "Size_depth",
+                    "att_type": "String"
+                }
+            }
+        },
+        {
+            "sim_function": {
+                "name": "TaxonomySimilarityDAO",
+                "params": [],
+                "on_attribute": {
+                    "att_name": "Materials",
+                    "att_type": "String"
+                }
+            }
+        },
+        {
+            "sim_function": {
+                "name": "IconClassSimilarityDAO",
+                "params": [],
+                "on_attribute": {
+                    "att_name": "iconclassArrayIDs",
+                    "att_type": "List"
                 }
             }
         }
     ],
     "user_attributes": [
         {
-            "att_name": "Demographics.DemographicsEducationType",
+            "att_name": "demographics.Gender",
             "att_type": "String"
         },
         {
-            "att_name": "Demographics.DemographicsGender",
+            "att_name": "demographics.Age",
             "att_type": "String"
         },
         {
-            "att_name": "Demographics.DemographicsGrade",
+            "att_name": "demographics.RelationshipWithArt",
             "att_type": "String"
         },
         {
-            "att_name": "Demographics.DemographicsIdentity",
+            "att_name": "demographics.RelationshipWithMuseum",
             "att_type": "String"
         },
         {
-            "att_name": "Demographics.DemographicsPolitics",
-            "att_type": "String"
-        },
-        {
-            "att_name": "Demographics.DemographicsEducationType",
-            "att_type": "String"
-        },
-        {
-            "att_name": "Demographics.DemographicsReligous",
-            "att_type": "String"
-        },
-        {
-            "att_name": "Demographics.DemographicsPrepDuration",
-            "att_type": "String"
-        },
-        {
-            "att_name": "Demographics.School",
-            "att_type": "String"
-        },
-        {
-            "att_name": "Demographics.ParticipantType",
-            "att_type": "String"
-        },
-        {
-            "att_name": "Beliefs.RHMSChange",
-            "att_type": "String"
-        },
-        {
-            "att_name": "Beliefs.RHMSPrep",
-            "att_type": "String"
-        },
-        {
-            "att_name": "Beliefs.RHMSPost",
-            "att_type": "String"
-        },
-        {
-            "att_name": "Beliefs.AOTChange",
-            "att_type": "String"
-        },
-        {
-            "att_name": "Beliefs.AOTPrep",
-            "att_type": "String"
-        },
-        {
-            "att_name": "Beliefs.AOTPost",
+            "att_name": "demographics.ContentInLIS",
             "att_type": "String"
         }
     ],
     "interaction_similarity_functions": [
-
+        {
+          "sim_function": {
+            "name": "ExtendedPlutchikEmotionSimilarityDAO",
+            "params": [
+            ],
+            "on_attribute": {
+              "att_name": "interest.itMakesMeThinkAbout.emotions",
+              "att_type": "dict"
+            },
+            "interaction_object": {
+              "att_name": "id",
+              "att_type": "String"
+            }
+          }
+        },
+        {
+          "sim_function": {
+            "name": "SentimentSimilarityDAO",
+            "params": [
+            ],
+            "on_attribute": {
+              "att_name": "interest.itMakesMeThinkAbout.sentiment",
+              "att_type": "dict"
+            },
+            "interaction_object": {
+              "att_name": "id",
+              "att_type": "String"
+            }
+          }
+        }
     ]
 }
