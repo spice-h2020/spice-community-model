@@ -8,7 +8,7 @@ module.exports = app => {
         Similarity: require("../controllers/similarity.js"),
         Users: require("../controllers/users.js"),
         Perspectives: require("../controllers/perspectives.js"),
-        DataInput: require("../controllers/dataInput.js")
+        ConfigTool: require("../controllers/configTool.js")
     };
 
     function initRouters(router) {

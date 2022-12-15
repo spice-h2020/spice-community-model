@@ -1,9 +1,7 @@
 'use strict';
-const Perspectives = require('../../service/PerspectivesService.js');
-const Communities = require('../../service/CommunitiesService');
-const Flags = require('../../service/FlagsService.js');
-const CommunitiesVis = require('../../service/CommunitiesVisualizationService.js');
 
+const Flags = require('../../service/FlagsService.js');
+const jobsHandler = require("./jobsHandler.js");
 
 var jobManager = require('./jobsManager.js');
 
@@ -15,7 +13,10 @@ const { communities } = require('../../models/index.js');
 var router = express.Router();
 
 
-/**Response templates */
+var jobPrefix = "/v1.1/jobs/";
+
+
+/**Response example templates */
 var jobStarted_Template = {
     "job": {
         "@uri": "/jobs/xxxxxxxx",
@@ -47,6 +48,7 @@ var jobCompleted_Template = {
     }
 }
 
+/**Response templates */
 var jobStarted = {
     "job": {
         "path": "xxx",
@@ -72,7 +74,6 @@ var jobCompleted = {
     }
 }
 
-var jobPrefix = "/v1.1/jobs/";
 
 /**
  * Returns filled response template 
@@ -104,7 +105,7 @@ function generateProgressResponse(job) {
     response["job"]["path"] = jobPrefix + job.jobId;
     response["job"]["jobId"] = job.jobId;
     response["job"]["start-time"] = job["start-time"];
-    var timeLeft = (job["start-time"].getTime() + (30 * 60 * 1000)) - (new Date().getTime()); 
+    var timeLeft = (job["start-time"].getTime() + (30 * 60 * 1000)) - (new Date().getTime());
     response["job"]["time-to-autoremove-job"] = timeLeft / (1000 * 60) + " minutes";
 
     return response
@@ -132,21 +133,24 @@ router.get('/:job_id', function (req, res, next) {
         console.log("Monitoring Job: <" + jobId + ">, from request: <" + request + ">, with param: <" + param + ">");
 
         // var checkState;
-        // if (request == "getPerspectives" || request == "getCommunities") {
+        // if (request == "getPerspectives" || request == "getCommunities" || ...) {
         //     checkState = Flags.getFlags();
         // }
         // else {
         //     checkState = Flags.getFlagsById(param);
         // }
+
         // Checks for specific flag
-        let filter = ["getPerspectives", "getCommunities", "getFilesIndex"]
-        if (filter.includes(request)) {
+        // let filter = ["getPerspectives", "getCommunities", "getFilesIndex"]
+        // if (filter.includes(request)) {
+        if (param == 0) {
+            console.log("here:" + param);
             Flags.getFlags()
                 .then(function (data) {
                     if (data == null) {
                         var data = {};
                         // Get data from mongodb if flag is positive
-                        getData(request, param)
+                        jobsHandler.getData(request, param)
                             .then(function (data) {
                                 // if (!job.autoremove) {
                                 //     jobManager.removeJobWithTimeout(jobId, 60 * 5); // 5 min = 60 * 5
@@ -161,8 +165,8 @@ router.get('/:job_id', function (req, res, next) {
                         res.send(generateProgressResponse(job));
                     }
                 })
-                .catch(function (data) {
-                    res.status(404).send("JobsManager: flag not found");
+                .catch(function (error) {
+                    res.status(404).send("JobsManager: flag not found: " + error);
                 });
         }
         else {
@@ -171,7 +175,7 @@ router.get('/:job_id', function (req, res, next) {
                     if (data == null) {
                         var data = {};
                         // Get data from mongodb if flag is positive
-                        getData(request, param)
+                        jobsHandler.getData(request, param)
                             .then(function (data) {
                                 // if (!job.autoremove) {
                                 //     jobManager.removeJobWithTimeout(jobId, 60 * 5); // 5 min
@@ -186,50 +190,12 @@ router.get('/:job_id', function (req, res, next) {
                         res.send(generateProgressResponse(job));
                     }
                 })
-                .catch(function (data) {
-                    res.status(404).send("JobsManager: flag not found: " + data);
+                .catch(function (error) {
+                    res.status(404).send("JobsManager: flag not found: " + error);
                 });
         }
 
     }
 });
-
-/**
- * Get specified promises
- * @param {string} request request type
- * @param {string} param parameters
- * @returns requested data
- */
-function getData(request, param) {
-    switch (request) {
-        case "getPerspectives":
-            return Perspectives.getPerspectives();
-            break;
-        case "getPerspectiveById":
-            return Perspectives.getPerspectiveById(param);
-            break;
-        case "listPerspectiveCommunities":
-            return Perspectives.listPerspectiveCommunities(param);
-            break;
-        case "getCommunities":
-            return Communities.getCommunities();
-            break;
-        case "getCommunityById":
-            return Communities.getCommunityById(param);
-            break;
-        case "listCommunityUsers":
-            return Communities.listCommunityUsers(param);
-            break;
-        case "getFilesIndex":
-            return CommunitiesVis.getIndex();
-            break;
-        case "getFileById":
-            return CommunitiesVis.getById(param);
-            break;
-        default:
-            break;
-    }
-}
-
 
 module.exports = router;
