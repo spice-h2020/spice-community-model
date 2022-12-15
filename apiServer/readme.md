@@ -1,6 +1,5 @@
 # API server
 
-`Description goes here`
 API is a web application that allows finding communities between different data.
 This API allows inserting data for the configuration of the Community Model and retrieving generated data, or data neccesary for other tools like the Config Tool App.
 
