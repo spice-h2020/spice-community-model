@@ -1,7 +1,3 @@
-from context import dao
-# First one is for local, second one for remote.
-from dao.dao_api import DAO_api
-
 import requests
 import json
 import config as cf
@@ -16,7 +12,7 @@ def main():
     #    Select Configuration dictionary for a case study
     #--------------------------------------------------------------------------------------------------------------------------
     
-    configData = cf.GAM_CONFIG
+    configData = cf.HECHT_CONFIG
     
     #--------------------------------------------------------------------------------------------------------------------------
 
