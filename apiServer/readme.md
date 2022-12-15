@@ -16,7 +16,7 @@ Refer to [root readme](../readme.md)
 - app: Includes src files and seed files
     - api: HTML files and OpenApi specifications
     - config: Setup variables for API
-    - controllers: Controllers that manages incoming HTTP request
+    - controllers: Controllers that manages incoming HTTP requests
         - jobsRoute: Job manager that is responsible for managing requests that need an update of the Community Model.
     - models: MongoDB model files responsible for retrieving data from MongoDB
     - routes: Configures the API route

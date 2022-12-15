@@ -42,7 +42,7 @@ paths:
                 $ref: "./openapi_specs/seedFile.yaml#/seedFile"
         "400":
           description: invalid seed id
-      x-swagger-router-controller: DataInput
+      x-swagger-router-controller: ConfigTool
   /jobs/{jobId}:
     get:
       tags:

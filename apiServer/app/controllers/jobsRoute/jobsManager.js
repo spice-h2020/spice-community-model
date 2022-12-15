@@ -24,9 +24,9 @@ jobTemplate = {
 }
 
 
-/*
-    Main loop
-*/
+/**
+ * Main loop. Executes every 2 seconds
+ */
 startJobManager = function () {
     // repeat 
     setInterval(function () {
@@ -35,7 +35,12 @@ startJobManager = function () {
     }, 2000);
 };
 
-
+/**
+ * Advance state & status of the job
+ * {job-state}, {job-status}    -> {job-state}, {job-status}
+ * INQUEUE,     INQUEUE         -> STARTED,     INPROGRESS
+ * STARTED,     INPROGRESS      -> COMPLETED,   SUCCESS
+ */
 advanceState = function (job) {
     if (job["job-state"] == "INQUEUE") {
         job["job-state"] = "STARTED";
@@ -50,21 +55,25 @@ advanceState = function (job) {
     // }
 }
 
+/**
+ * Check flags and if CM is not updating then find first job in queue. Update CM with that job and advance the state if that job
+ */
 checkAndStartNewJob = function () {
     return new Promise(function (resolve, reject) {
+        // Check flags
         Flags.getFlags()
             .then(function (flags) {
                 if (flags != null) {
-                    // check if CM is updating
+                    // Check if CM is updating
                     var updatesNow = false;
                     flags.forEach(flag => {
                         if (!flag["needToprocess"])
                             updatesNow = true;
                     });
-                    
-                    // find first job that need an update
+
+                    // Find first job that need an update
                     var jobToUpdate = jobsList.find(job => (job["job-state"] == "INQUEUE" && job["job-status"] == "INQUEUE"));
-                    
+                    // 
                     if (!updatesNow && jobToUpdate != undefined) {
                         post.update_CM(jobToUpdate["param"]);
                         advanceState(jobToUpdate);
@@ -79,7 +88,9 @@ checkAndStartNewJob = function () {
     });
 };
 
-
+/**
+ * 
+ */
 autoremoveJobs = function () {
     // if actualtime > timecreation+livetime then remove job
 };
@@ -87,7 +98,9 @@ autoremoveJobs = function () {
 
 /**
  * Returns a path for an existing or a new job.
- * jobPath 
+ * @param {string or integer} param param (if no params then set it to integer zero '0')
+ * @param {string} requestTypeName request type (getCommunities, getPerspectiveById, etc)
+ * @returns jobPath
  */
 createJob = function (param, requestTypeName) {
     return new Promise(function (resolve, reject) {
@@ -122,6 +135,9 @@ createJob = function (param, requestTypeName) {
 
 /**
  * Checks if a job with same parameters and request type already exist
+ * @param {string} param param
+ * @param {string} requestTypeName request type
+ * @returns promise that resolves with existing job or null if does not exist
  */
 findExistingJob = function (param, requestTypeName) {
     return new Promise(function (resolve, reject) {
@@ -147,6 +163,8 @@ findExistingJob = function (param, requestTypeName) {
 
 /**
  * Returns requested job by id
+ * @param {integer} jobId job Id
+ * @returns job object
  */
 getJob = function (jobId) {
     return jobsList.find(element => element.jobId == jobId);
@@ -154,6 +172,7 @@ getJob = function (jobId) {
 
 /**
  * Returns jobs
+ * @returns List with all jobs
  */
 getJobs = function () {
     return jobsList;
@@ -161,6 +180,9 @@ getJobs = function () {
 
 /**
  * Adds new job to the job list
+ * @param {integer} jobId job Id
+ * @param {string} request request type
+ * @param {string} param param
  */
 addJob = function (jobId, request, param) {
     Flags.getFlags()

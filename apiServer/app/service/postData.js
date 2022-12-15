@@ -16,8 +16,6 @@ module.exports = {
         let port = process.env.CM_DOCKER_PORT || 8090;
         let url = "http://cm:" + port + path;
 
-
-
         return new Promise((resolve, reject) => {
             try {
 
@@ -39,44 +37,5 @@ module.exports = {
                 reject("post_data.Promise.axios:" + error);
             }
         })
-
-        // var data = JSON.stringify(body)
-        // const options = {
-        //     // hostname: '172.20.1.4',
-        //     host: '172.20.1.4',
-        //     port: process.env.CM_DOCKER_PORT || 8090,
-        //     path: path,
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Content-Length': data.length,
-        //     },
-        // };
-
-        // return new Promise((resolve, reject) => {
-        //     const req = http.request(options, (res) => {
-        //         res.on('data', (d) => {
-        //             process.stdout.write(d);
-        //         });
-
-        //         res.on('end', () => {
-        //             if (res.statusCode == 204) {
-        //                 console.log(' post_data success')
-        //                 resolve(body);
-        //             }
-        //             else {
-        //                 console.log(' post_data failed')
-        //                 resolve(body);
-        //             }
-        //         });
-        //         res.on('error', () => {
-        //             console.log('error');
-        //             reject(Error('HTTP call failed'));
-        //         });
-        //     });
-
-        //     req.write(data);
-        //     req.end();
-        // })
     }
 };
