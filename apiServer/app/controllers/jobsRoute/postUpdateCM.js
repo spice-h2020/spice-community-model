@@ -11,7 +11,7 @@ const http = require('http');
 function oldPost(data = "empty") {
 
   const options = {
-    host: '172.20.1.4',
+    host: 'cm',
     port: process.env.CM_DOCKER_PORT || 8090,
     path: '/update_CM',
     method: 'POST',

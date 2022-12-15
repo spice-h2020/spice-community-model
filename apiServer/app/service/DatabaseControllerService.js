@@ -11,7 +11,7 @@ exports.getDump = function () {
     return new Promise(function (resolve, reject) {
         try {
             const options = {
-                host: '172.20.1.4',
+                host: 'cm',
                 port: process.env.CM_DOCKER_PORT || 8090,
                 path: '/dump',
                 method: 'GET',

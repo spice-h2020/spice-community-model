@@ -14,7 +14,7 @@ module.exports = {
         var data = JSON.stringify(body)
 
         let port = process.env.CM_DOCKER_PORT || 8090;
-        let url = "http://172.20.1.4:" + port + path;
+        let url = "http://cm:" + port + path;
 
 
 

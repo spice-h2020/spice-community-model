@@ -64,7 +64,6 @@ checkAndStartNewJob = function () {
                     
                     // find first job that need an update
                     var jobToUpdate = jobsList.find(job => (job["job-state"] == "INQUEUE" && job["job-status"] == "INQUEUE"));
-                    console.log(jobToUpdate);
                     
                     if (!updatesNow && jobToUpdate != undefined) {
                         post.update_CM(jobToUpdate["param"]);
