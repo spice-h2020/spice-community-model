@@ -1,6 +1,6 @@
 const DataInput = require('../service/DataInput.js');
 var jobManager = require('./jobsRoute/jobsManager.js');
-
+const seedFileConfig = require("../config/seedFile.config.js");
 
 // redirect post request to api_loader
 // module.exports.postInputData = function postInputData(req, res, next) {
@@ -21,19 +21,7 @@ var jobManager = require('./jobsRoute/jobsManager.js');
 // };
 
 module.exports.getSeed = function getSeed(req, res, next) {
-    res.status(200).send(getExampleSeed());
-    // DataInput.getSeed()
-    //     .then(function (response) {
-    //         var seed = response
-    //         res.status(200).send(seed);
-    //     })
-    //     .catch(function (response) {
-    //         res.status(400).send("seed error");
-    //     });
+    let seedFile = require('../src/' + seedFileConfig.filename);
+    // console.log(seedFile);
+    res.status(200).send(seedFile);
 };
-
-function getExampleSeed() {
-    let seed = require('../src/seedFile.json');
-    // console.log(seed);
-    return seed;
-}

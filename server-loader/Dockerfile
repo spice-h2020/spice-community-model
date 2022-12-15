@@ -29,4 +29,4 @@ USER appuser
 EXPOSE 8090
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-CMD ["python", "app/prototype-clustering/api_server/api_server.py"]
+CMD ["python", "app/prototype-clustering/apiServer/apiServer.py"]

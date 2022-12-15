@@ -1,21 +1,25 @@
-# Prototype Clustering Techniques
 
-This repository contains several prototypes that use different similarity metrics and clustering techniques on different SPICE case studies.
+# SPICE Community Model
 
-## Examples
+The Community Model supports the social cohesion across groups, by the understanding of their differences and recognizing what they have in common. The community model is responsible for storing information about explicit communities that users belong to. Additionally, it creates the implicit communities inferred from user interactions and it computes the metrics needed to define the similarity (and dissimilarity) among group of users. The Community Model will support the recommender system in the variety and serendipity to the recommendation results, that will not be oriented to the typically popular contents or based on providing similar contents to the users (the so called, filter bubble) but to the inter-group similarities and the intra-group differences. 
+It is implemented using [Python](https://www.python.org).
 
-- **Example 1**: This example shows how to implement community detection based on the similarity between a property of users. In addition, this example shows how to apply a custom similarity measure to detect communities. This code detects up to 5 communities based on the emotions that
-users felt watching artworks (information saved in users_emotions.json).
+## Quick start
 
-- **Example 2**: This example shows how to implement community detection based on the similarity between a property of users. In addition, this example shows how to apply a basic similarity measure to detect communities. Basic similarity metrics are detailed in class SimilarityCommunityDetection. This code detects up to 5 communities based on the emotions that users felt watching artworks (information saved in users_emotions.json).
 
-- **Example 3**: This example shows how to implement community detection using graphs to relate users. In this example, it is possible to apply  *Markov Clustering* and *Greedy Modularity* algorithms. Data used in this example is emotions_graphs.json.
+## Developing
 
-Usage:
-- Execute Docker from `community-model-api`
-- Execute `api_server/api_server.py`
+- Community detection:
+    - Similarity measures can be found inside /community_module/similarity folder. To add a new one, implement a new class inheriting from SimilarityDAO (in similarityDAO.py).
+    - Clustering algorithms can be found inside /community_module/community_detection folder. To add a new one, implement a new class following the format "prefix" + "CommunityDetection" where "prefix" is the algorithm name that is used by the perspectives.
+    - Community detection functions using these similarity measures and algorithms are defined in explainedCommunitiesDetection.py, which is inside /community_module/community_detection folder.
 
-Requierements:
-- Solo usar el `requierements.txt`
+- Community Model: Files managing the whole process of generating communities, from the input of the data to the generation of the data objects encoding the clustering results and its documentation in the database. They can be found inside /communityModel folder.
 
-El fichero `requierements_conda.txt` es obsoleto y hay que actualizarlo, es para el CM
+- Files managing the communication between the CM-API and the CommunityModel files can be found inside /apiServer.
+
+- DAO: Includes the required classes to communicate with the database.
+
+## License
+
+The content of this repository is distributed under [Apache 2.0 License](LICENSE).
