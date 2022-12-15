@@ -1,0 +1,44 @@
+{
+  "id": "638aa930563f410d529e56e5",
+  "name": "S-interest.plutchik_emotions-S-artworks (author)",
+  "algorithm": {
+    "name": "agglomerative",
+    "params": []
+  },
+  "similarity_functions": [
+    {
+      "sim_function": {
+        "name": "EqualSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "author",
+          "att_type": "String"
+        },
+        "dissimilar": false
+      }
+    }
+  ],
+  "user_attributes": [
+    {
+      "att_name": "demographics.explicit-community",
+      "att_type": "String"
+    }
+  ],
+  "interaction_similarity_functions": [
+    {
+      "sim_function": {
+        "name": "ExtendedPlutchikEmotionSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "interest.plutchik_emotions",
+          "att_type": "dict"
+        },
+        "interaction_object": {
+          "att_name": "id",
+          "att_type": "String"
+        }
+      }
+    }
+  ],
+  "__v": 0
+}

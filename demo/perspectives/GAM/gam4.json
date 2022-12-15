@@ -1,0 +1,103 @@
+{
+  "id": "638a044d8c17a41ca9c9dce0",
+  "name": "S-interest.itMakesMeThinkAbout.emotions-S-artworks (Gender, Artist_country, Artist_secondary_country, Artwork_Artistic_Movement, Secondary_Artwork_Artistic_Movement, Technique)",
+  "algorithm": {
+    "name": "agglomerative",
+    "params": []
+  },
+  "similarity_functions": [
+    {
+      "sim_function": {
+        "name": "EqualSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Gender",
+          "att_type": "String"
+        },
+        "dissimilar": false
+      }
+    },
+    {
+      "sim_function": {
+        "name": "TaxonomySimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Artist_country",
+          "att_type": "String"
+        },
+        "dissimilar": false
+      }
+    },
+    {
+      "sim_function": {
+        "name": "TaxonomySimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Artist_secondary_country",
+          "att_type": "String"
+        },
+        "dissimilar": false
+      }
+    },
+    {
+      "sim_function": {
+        "name": "TaxonomySimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Artwork_Artistic_Movement",
+          "att_type": "String"
+        },
+        "dissimilar": false
+      }
+    },
+    {
+      "sim_function": {
+        "name": "TaxonomySimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Secondary_Artwork_Artistic_Movement",
+          "att_type": "String"
+        },
+        "dissimilar": false
+      }
+    },
+    {
+      "sim_function": {
+        "name": "EqualSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Technique",
+          "att_type": "String"
+        },
+        "dissimilar": false
+      }
+    }
+  ],
+  "user_attributes": [
+    {
+      "att_name": "demographics.Gender",
+      "att_type": "String"
+    },
+    {
+      "att_name": "demographics.Age",
+      "att_type": "String"
+    }
+  ],
+  "interaction_similarity_functions": [
+    {
+      "sim_function": {
+        "name": "ExtendedPlutchikEmotionSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "interest.itMakesMeThinkAbout.emotions",
+          "att_type": "dict"
+        },
+        "interaction_object": {
+          "att_name": "id",
+          "att_type": "String"
+        }
+      }
+    }
+  ],
+  "__v": 0
+}

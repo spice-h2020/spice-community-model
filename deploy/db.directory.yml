@@ -1,0 +1,10 @@
+# Extension for storing the database using a host folder. Absolute path to this folder should be defined using 
+# $HOST_DB_PATH variables. HOST_UID and HOST_GUID must have write permissions in this folder.
+
+version: '3.3'
+  
+services:
+  mongodb:
+        user: ${HOST_UID:-1000}:${HOST_GUID:-1000}
+        volumes:     
+            - ${HOST_DB_PATH}:/data/db

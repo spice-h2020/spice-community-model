@@ -1,0 +1,26 @@
+[
+	{
+	"id": "001",
+	"userid": "001",
+	"origin": "90e6d701748f08514b01",
+	"source_id": "90e6d701748f08514b01",
+	"pname": "DemographicGender",
+	"pvalue": "F (for Female value)"
+	},
+	{
+	"id": "002",
+	"userid": "002",
+	"origin": "90e6d701748f08514b02",
+	"source_id": "90e6d701748f08514b02",
+	"pname": "DemographicGender",
+	"pvalue": "F (for Female value)"
+	},
+	{
+	"id": "003",
+	"userid": "003",
+	"origin": "90e6d701748f08514b03",
+	"source_id": "90e6d701748f08514b03",
+	"pname": "DemographicGender",
+	"pvalue": "M (for Female value)"
+	}
+]

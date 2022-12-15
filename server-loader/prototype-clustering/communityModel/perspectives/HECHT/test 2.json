@@ -1,0 +1,48 @@
+[
+{
+  "id": "1000-agglomerative",
+  "name": "HECHT Perspective (agglomerative)",
+  "algorithm": {
+    "name": "agglomerative",
+    "params": [
+    ]
+  },
+  "similarity_functions": [
+    {
+      "sim_function": {
+        "name": "TableSimilarityDAO",
+        "params": [
+        ],
+        "on_attribute": {
+          "att_name": "Beliefs.beliefR",
+          "att_type": "String"
+        },
+        "weight": 0.3
+      }
+    },
+    {
+      "sim_function": {
+        "name": "TableSimilarityDAO",
+        "params": [
+        ],
+        "on_attribute": {
+          "att_name": "Beliefs.beliefE",
+          "att_type": "String"
+        },
+        "weight": 0.7
+      }
+    }
+  ],
+  "user_attributes": [
+    {
+        "att_name": "Demographics.DemographicsPolitics",
+        "att_type": "String"
+    },
+    {
+        "att_name": "Demographics.DemographicsGender",
+        "att_type": "String"
+    }
+  ],
+  "interaction_similarity_functions": []
+}
+]

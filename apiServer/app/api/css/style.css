@@ -1,0 +1,14 @@
+.spice {
+    width: 100%;
+    background-color: #E4D7C8;
+    padding: 3.5em;
+}
+
+.spice h1 {
+    color: #935D55;
+}
+
+.spice a {
+    color: #F57D0B;
+    text-decoration: none;
+}

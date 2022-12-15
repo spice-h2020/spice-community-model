@@ -1,0 +1,92 @@
+{
+  "id": "638a02a067797b9832de912f",
+  "name": "S-interest.itMakesMeThinkAbout.emotions-S-artworks (Technique, Artwork_type, Size_height, Size_width, Size_depth)",
+  "algorithm": {
+    "name": "agglomerative",
+    "params": []
+  },
+  "similarity_functions": [
+    {
+      "sim_function": {
+        "name": "EqualSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Technique",
+          "att_type": "String"
+        },
+        "dissimilar": false
+      }
+    },
+    {
+      "sim_function": {
+        "name": "EqualSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Artwork_type",
+          "att_type": "String"
+        },
+        "dissimilar": false
+      }
+    },
+    {
+      "sim_function": {
+        "name": "NumberSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Size_height",
+          "att_type": "float"
+        },
+        "dissimilar": false
+      }
+    },
+    {
+      "sim_function": {
+        "name": "NumberSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Size_width",
+          "att_type": "float"
+        },
+        "dissimilar": false
+      }
+    },
+    {
+      "sim_function": {
+        "name": "NumberSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "Size_depth",
+          "att_type": "String"
+        },
+        "dissimilar": false
+      }
+    }
+  ],
+  "user_attributes": [
+    {
+      "att_name": "demographics.Gender",
+      "att_type": "String"
+    },
+    {
+      "att_name": "demographics.Age",
+      "att_type": "String"
+    }
+  ],
+  "interaction_similarity_functions": [
+    {
+      "sim_function": {
+        "name": "ExtendedPlutchikEmotionSimilarityDAO",
+        "params": [],
+        "on_attribute": {
+          "att_name": "interest.itMakesMeThinkAbout.emotions",
+          "att_type": "dict"
+        },
+        "interaction_object": {
+          "att_name": "id",
+          "att_type": "String"
+        }
+      }
+    }
+  ],
+  "__v": 0
+}

@@ -1,0 +1,12 @@
+# Node web server is *not* exposed in the host, by default. 
+# This extension exposes the Node web server using the host port APP_HOST_PORT 
+# APP_HOST_PORT and APP_CONTAINER_PORT might be defined but 
+# default values are provided.
+
+version: "3.3"
+
+services:
+  app:
+    ports:
+      # Host:container
+      - ${APP_HOST_PORT:-8080}:${APP_CONTAINER_PORT:-8080}

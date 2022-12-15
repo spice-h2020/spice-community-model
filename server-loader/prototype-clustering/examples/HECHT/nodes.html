@@ -1,0 +1,123 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": 0, "label": 6, "shape": "dot"}, {"id": 1, "label": 5, "shape": "dot"}, {"id": 2, "label": 5, "shape": "dot"}, {"id": 3, "label": 25, "shape": "dot"}, {"id": 4, "label": 1, "shape": "dot"}, {"id": 5, "label": 25, "shape": "dot"}, {"id": 6, "label": 25, "shape": "dot"}, {"id": 7, "label": 13, "shape": "dot"}, {"id": 8, "label": 25, "shape": "dot"}, {"id": 9, "label": 9, "shape": "dot"}, {"id": 10, "label": 1, "shape": "dot"}, {"id": 11, "label": 4, "shape": "dot"}, {"id": 12, "label": 10, "shape": "dot"}, {"id": 13, "label": 4, "shape": "dot"}, {"id": 14, "label": 12, "shape": "dot"}, {"id": 15, "label": 23, "shape": "dot"}, {"id": 16, "label": 22, "shape": "dot"}, {"id": 17, "label": 18, "shape": "dot"}, {"id": 18, "label": 25, "shape": "dot"}, {"id": 19, "label": 5, "shape": "dot"}, {"id": 20, "label": 3, "shape": "dot"}, {"id": 21, "label": 21, "shape": "dot"}, {"id": 22, "label": 18, "shape": "dot"}, {"id": 23, "label": 10, "shape": "dot"}, {"id": 24, "label": 8, "shape": "dot"}, {"id": 25, "label": 5, "shape": "dot"}, {"id": 26, "label": 5, "shape": "dot"}, {"id": 27, "label": 5, "shape": "dot"}, {"id": 28, "label": 5, "shape": "dot"}, {"id": 29, "label": 10, "shape": "dot"}, {"id": 30, "label": 3, "shape": "dot"}, {"id": 31, "label": 10, "shape": "dot"}, {"id": 32, "label": 32, "shape": "dot"}, {"id": 33, "label": 25, "shape": "dot"}, {"id": 34, "label": 24, "shape": "dot"}, {"id": 35, "label": 15, "shape": "dot"}, {"id": 36, "label": 19, "shape": "dot"}, {"id": 37, "label": 17, "shape": "dot"}, {"id": 38, "label": 10, "shape": "dot"}, {"id": 39, "label": 8, "shape": "dot"}, {"id": 40, "label": 5, "shape": "dot"}, {"id": 41, "label": 16, "shape": "dot"}, {"id": 42, "label": 11, "shape": "dot"}, {"id": 43, "label": 5, "shape": "dot"}, {"id": 44, "label": 7, "shape": "dot"}, {"id": 45, "label": 14, "shape": "dot"}, {"id": 46, "label": 2, "shape": "dot"}, {"id": 47, "label": 6, "shape": "dot"}, {"id": 48, "label": 10, "shape": "dot"}, {"id": 49, "label": 20, "shape": "dot"}, {"id": 50, "label": 12, "shape": "dot"}, {"id": 51, "label": 9, "shape": "dot"}, {"id": 52, "label": 21, "shape": "dot"}, {"id": 53, "label": 5, "shape": "dot"}, {"id": 54, "label": 9, "shape": "dot"}, {"id": 55, "label": 2, "shape": "dot"}]);
+        edges = new vis.DataSet([]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

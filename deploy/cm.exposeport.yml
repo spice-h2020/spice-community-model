@@ -1,0 +1,12 @@
+# CM is *not* exposed in the host, by default. 
+# This extension exposes the Node web server using the host port CM_HOST_PORT 
+# CM_HOST_PORT and CM_CONTAINER_PORT might be defined but 
+# default values are provided.
+
+version: "3.3"
+
+services:
+  cm:
+    ports:
+      # Host:container
+      - ${CM_HOST_PORT:-8090}:${CM_CONTAINER_PORT:-8090}

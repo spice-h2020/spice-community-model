@@ -1,0 +1,51 @@
+
+{
+  "id": "GAM similar user emotions in similar artworks (iconclass)",
+  "name": "GAM similar user emotions in similar artworks (iconclass)",
+  "algorithm": {
+    "name": "agglomerative",
+    "params": [
+    ]
+  },
+  "similarity_functions": [
+    {
+      "sim_function": {
+        "name": "IconClassSimilarityDAO",
+        "params": [
+        ],
+        "on_attribute": {
+          "att_name": "iconclassArrayIDs",
+          "att_type": "String"
+        },
+        "weight": 0.8
+      }
+    }
+  ],
+  "user_attributes": [
+    {
+        "att_name": "RelationshipWithArt",
+        "att_type": "String"
+    },
+    {
+        "att_name": "RelationshipWithMuseum",
+        "att_type": "String"
+    }
+  ],
+  "interaction_similarity_functions": [
+    {
+      "sim_function": {
+        "name": "ExtendedPlutchikEmotionSimilarityDAO",
+        "params": [
+        ],
+        "on_attribute": {
+          "att_name": "interest.itMakesMeThinkAbout.emotions",
+          "att_type": "dict"
+        },
+        "interaction_object": {
+          "att_name": "id",
+          "att_type": "String"
+        }
+      }
+    }
+  ]
+}

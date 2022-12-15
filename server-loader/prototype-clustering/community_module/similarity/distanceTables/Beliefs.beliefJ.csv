@@ -1,0 +1,4 @@
+Key;NotTraitor;CantJudge;Traitor
+NotTraitor;0.0;0.5;1.0
+CantJudge;0.5;0.0;0.5
+Traitor;1.0;0.5;0.0

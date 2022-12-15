@@ -1,0 +1,32 @@
+{
+    "communities": [
+        {
+            "community-type": "implicit",
+            "name": "Community 3",
+            "explanation": "Similar dominant emotions while interacting with the following artworks: {'Aprile': 'sadness'; 'Aracne': 'sadness'; 'La Sirena (Sirena) (Abisso verde)': 'sadness'}",
+            "users": [
+                "27",
+                "88",
+                "95"
+            ]
+        }
+    ],
+    "users": [
+        {
+            "id": "5",
+            "label": "5",
+            "group": 1,
+            "explicit_community": {
+                "ageGroup": "adult",
+                "language": "EN"
+            }
+        }
+    ],
+    "similarity": [
+        {
+            "u1": "124",
+            "u2": "126",
+            "value": 0.5
+        }
+    ]
+}

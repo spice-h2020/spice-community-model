@@ -1,0 +1,30 @@
+# Extension for deploying using Traefik as inverse proxy
+#
+# If you include this file, the server should have *two networks*, 
+# one "external" network  used by Traefik
+# and one "internal" network that connects the web server with the database.
+# The last is created by default if you do not include this file.
+# Node server will be listening both. External and internal are in terms
+# of Traefik.
+#
+# Using both networks avoid collisions in the containers. External network is needed
+# because we do not want to expose the database container. Additionally, other
+# services might be available in this external network and we do not want name collisions
+# with the database container.
+
+version: '3.3'
+
+networks:
+    traefik:
+        external:
+            name: ${TRAEFIK_NETWORK}
+
+services:
+    app:
+        networks:
+            - traefik
+        labels:
+            - "traefik.enable=true"
+            - "traefik.docker.network=${TRAEFIK_NETWORK}"
+            - "traefik.http.routers.${TRAEFIK_SERVICE_ID}.rule=Host(`${SERVER_PUBLIC_NAME}`)"
+            - "traefik.http.services.${TRAEFIK_SERVICE_ID}.loadbalancer.server.port=${APP_INTERNAL_PORT:-8080}"

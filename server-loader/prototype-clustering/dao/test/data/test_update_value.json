@@ -1,0 +1,24 @@
+[
+	{
+	"id": "001",
+	"userid": "001",
+	"origin": "90e6d701748f08514b01",
+	"source_id": "90e6d701748f08514b01",
+	"source": "Content description",
+	"pname": "DemographicGender",
+	"pvalue": "F (for Female value)",
+	"context": "application P:DemographicsPrep",
+	"datapoints": 0
+	},
+	{
+	"id": "002",
+	"userid": "002",
+	"origin": "90e6d701748f08514b02",
+	"source_id": "90e6d701748f08514b02",
+	"source": "Content description",
+	"pname": "DemographicGender",
+	"pvalue": "F (for Female value)",
+	"context": "application P:DemographicsPrep",
+	"datapoints": 0
+	}
+]
