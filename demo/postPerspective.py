@@ -1,26 +1,29 @@
 import json
 import requests
+import config as cf
 
 def main():
 
     #--------------------------------------------------------------------------------------------------------------------------
-    #    Change server
+    #    Select Configuration dictionary for a case study
     #--------------------------------------------------------------------------------------------------------------------------
     
-    server = "http://localhost:8080"
+    configData = cf.GAM_CONFIG
     
     #--------------------------------------------------------------------------------------------------------------------------
-    #    Change data file
-    #--------------------------------------------------------------------------------------------------------------------------
-    
-    museum = 'GAM'
-    filename = 'gam1.json'
+
+   
+    server = configData["server"]
+    museum = configData["museum"]
+
+    # Change Sample Perspective
+    filename = 'samplePerspective.json'
 
     #--------------------------------------------------------------------------------------------------------------------------
     #    Insert perspective
     #--------------------------------------------------------------------------------------------------------------------------
 
-    route = "perspectives/" + museum + "/" + filename
+    route = "data/" + museum + "/" + filename
     file = open(route)
     perspective = json.load(file)
     
