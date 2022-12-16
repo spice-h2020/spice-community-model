@@ -5,8 +5,8 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.1.0/24
-          gateway: 172.20.1.1
+        - subnet: ${NETWORK_BASE:-172.20.1}.0/24
+          gateway: ${NETWORK_BASE:-172.20.1}.1
 
 
 services:
@@ -22,7 +22,7 @@ services:
       - MONGODB_PASSWORD=$MONGODB_PASSWORD
     networks:
       spice:
-        ipv4_address: 172.20.1.3
+        ipv4_address: ${NETWORK_BASE:-172.20.1}.3
 #    user: ${UID:-1000}:${GUID:-1000}
   app:
     depends_on:
@@ -40,7 +40,7 @@ services:
       - CM_DOCKER_PORT=${CM_CONTAINER_PORT:-8090}
     networks:
       spice:
-        ipv4_address: 172.20.1.2
+        ipv4_address: ${NETWORK_BASE:-172.20.1}.2
   cm:
     depends_on:
       - mongodb
@@ -56,4 +56,4 @@ services:
       - CM_DOCKER_PORT=${CM_CONTAINER_PORT:-8090}
     networks:
       spice:
-        ipv4_address: 172.20.1.4
+        ipv4_address: ${NETWORK_BASE:-172.20.1}.4
