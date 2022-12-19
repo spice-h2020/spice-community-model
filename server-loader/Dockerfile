@@ -16,8 +16,8 @@ ENV PYTHONUNBUFFERED=1
 
 # Install pip requirements
 # RUN python -m pip install --upgrade pip
-COPY /prototype-clustering/requirements.txt /app/prototype-clustering/requirements.txt
-RUN --mount=type=cache,target=/root/.cache pip install -r /app/prototype-clustering/requirements.txt
+COPY requirements.txt /app/requirements.txt
+RUN --mount=type=cache,target=/root/.cache pip install -r /app/requirements.txt
 
 COPY . /app
 
@@ -29,4 +29,8 @@ USER appuser
 EXPOSE 8090
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+# TODO: Tras hacer todos los cambios, la manera de ejecutar el servidor debería ser la siguiente:
+# 
+# WORKDIR /app
+# CMD ["python", "-m", "spicecm"]
 CMD ["python", "app/prototype-clustering/apiServer/apiServer.py"]
