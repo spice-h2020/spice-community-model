@@ -27,9 +27,12 @@ class TableSimilarityDAO(SimilarityDAO):
         super().__init__(dao)
         self.similarityCol = similarityFunction['on_attribute']['att_name']
         self.getSimilarityTable()
+
+    def getSimilarityTableName(self):
+        return self.similarityCol
         
     def getSimilarityTable(self):
-        dao_csv = DAO_csv(os.path.dirname(os.path.abspath(getsourcefile(lambda:0))) + "/distanceTables/" + self.similarityCol + ".csv")
+        dao_csv = DAO_csv(os.path.dirname(os.path.abspath(getsourcefile(lambda:0))) + "/distanceTables/" + self.getSimilarityTableName() + ".csv")
         self.similarityTable = dao_csv.getPandasDataframe().set_index('Key')
     
     def distance(self,elemA, elemB):
@@ -51,15 +54,33 @@ class TableSimilarityDAO(SimilarityDAO):
         
         valueA = self.data.loc[elemA][self.similarityCol]
         valueB = self.data.loc[elemB][self.similarityCol]
-        
+
+        return self.distanceTableKeys(valueA, valueB)
+
+    def distanceTableKeys(self, keyA, keyB):
+        """
+        Method to obtain the distance between two table keys or labels.
+
+        Parameters
+        ----------
+        keyA : String
+            
+        keyB : String
+            
+
+        Returns
+        -------
+        double
+            Distance between the two table keys.
+        """
         # Property was not given (nan)
-        if (valueA != valueA or valueB != valueB):
+        if (keyA != keyA or keyB != keyB):
             return 1.0
             
         # Key doesnt exist in the table
-        if ({valueA, valueB}.issubset(self.similarityTable.columns) == False):
+        if ({keyA, keyB}.issubset(self.similarityTable.columns) == False):
             return 1.0
             
-        distance = self.similarityTable.loc[valueA][valueB]
+        distance = self.similarityTable.loc[keyA][keyB]
         return distance
 
