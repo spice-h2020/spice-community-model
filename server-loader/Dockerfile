@@ -31,6 +31,8 @@ EXPOSE 8090
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 # TODO: Tras hacer todos los cambios, la manera de ejecutar el servidor debería ser la siguiente:
 # 
-# WORKDIR /app
 # CMD ["python", "-m", "spicecm"]
-CMD ["python", "app/prototype-clustering/apiServer/apiServer.py"]
+#CMD ["python", "app/cmSpice/apiServer/apiServer.py"]
+
+WORKDIR /app
+CMD python3 -m cmSpice
