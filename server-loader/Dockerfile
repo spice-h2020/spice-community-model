@@ -32,7 +32,7 @@ EXPOSE 8090
 # TODO: Tras hacer todos los cambios, la manera de ejecutar el servidor debería ser la siguiente:
 # 
 # CMD ["python", "-m", "spicecm"]
-#CMD ["python", "app/cmSpice/apiServer/apiServer.py"]
+#CMD ["python", "app/cmSpice/apiServer/server.py"]
 
 WORKDIR /app
 CMD python3 -m cmSpice
