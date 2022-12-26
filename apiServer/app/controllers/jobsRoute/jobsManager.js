@@ -4,7 +4,7 @@
  */
 
 const Flags = require('../../service/FlagsService.js');
-var post = require('./postUpdateCM');
+var redirect = require('../../service/redirectRequest.js');
 
 var jobsList = []
 
@@ -75,7 +75,8 @@ checkAndStartNewJob = function () {
                     var jobToUpdate = jobsList.find(job => (job["job-state"] == "INQUEUE" && job["job-status"] == "INQUEUE"));
                     // 
                     if (!updatesNow && jobToUpdate != undefined) {
-                        post.update_CM(jobToUpdate["param"]);
+                        // post.update_CM(jobToUpdate["param"]);
+                        redirect.postData(jobToUpdate["param"], "/update_CM")
                         advanceState(jobToUpdate);
                     }
                 }

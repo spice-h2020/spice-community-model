@@ -1,6 +1,6 @@
 'use strict';
 const db = require("../models");
-var postData = require('./postData.js');
+var redirect = require('./redirectRequest.js');
 
 const CommunityDAO = db.communities;
 const UsersDAO = db.users;
@@ -43,7 +43,7 @@ exports.listUserCommunities = function (userId) {
 exports.updateUsers = function (body) {
   // return new Promise(function (resolve, reject) {
   // try {
-  return postData.post_data(body, "/updateUsers")
+  return redirect.postData(body, "/updateUsers")
   // } catch (error) {
   //   console.log(error)
   // }
