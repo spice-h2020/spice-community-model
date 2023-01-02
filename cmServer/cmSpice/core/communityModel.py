@@ -18,7 +18,7 @@ import sys
 
 
 # Community model tools
-from cmSpice.communityModel.communityJsonGenerator import CommunityJsonGenerator
+from cmSpice.core.communityJsonGenerator import CommunityJsonGenerator
 
 # Community detection
 from cmSpice.algorithms.clustering.explainedCommunitiesDetection import ExplainedCommunitiesDetection

@@ -20,10 +20,10 @@ from cmSpice.dao.dao_db_distanceMatrixes import DAO_db_distanceMatrixes
 
 from cmSpice.dao.dao_json import DAO_json
 
-from cmSpice.communityModel.communityModel import CommunityModel
-from cmSpice.communityModel.communitiesSimilarityModel import CommunitiesSimilarityModel
+from cmSpice.core.communityModel import CommunityModel
+from cmSpice.core.communitiesSimilarityModel import CommunitiesSimilarityModel
 
-from cmSpice.communityModel.dataLoader import DataLoader
+from cmSpice.core.dataLoader import DataLoader
 
 
 def post(self):

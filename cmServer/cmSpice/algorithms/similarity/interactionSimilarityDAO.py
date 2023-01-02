@@ -129,15 +129,14 @@ class InteractionSimilarityDAO(SimilarityDAO):
     
     def interactionObjectDistanceMatrixRoute(self):
         abspath = os.path.dirname(__file__)
-        relpath = "../../communityModel/" + "interactionObjects/" + self.perspective['name'] + ".json"
+        relpath = "../../core/" + "interactionObjects/" + self.perspective['name'] + ".json"
         exportFile = os.path.normpath(os.path.join(abspath, relpath))
         
         return exportFile
     
     def getInteractionObjectDAO(self):        
         abspath = os.path.dirname(__file__)
-        relpath = "../../communityModel/data/artworks.json"
-        #relpath = "../../communityModel/data/GAM_Catalogue_plus processed.json"
+        relpath = "../../core/data/artworks.json"
         route = os.path.normpath(os.path.join(abspath, relpath))
         
         daoJson = DAO_json(route)

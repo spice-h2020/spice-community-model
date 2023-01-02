@@ -11,9 +11,9 @@ import math
 import os
 import json
 
-from cmSpice.communityModel.similarity.utils import colorsys
-from cmSpice.communityModel.cache.files import getAbsDataFolderName
-from cmSpice.communityModel.similarity.artworks.similarity import Similarity
+from cmSpice.core.similarity.utils import colorsys
+from cmSpice.core.cache.files import getAbsDataFolderName
+from cmSpice.core.similarity.artworks.similarity import Similarity
 
 class DominantColorSimilarity(Similarity):
     """Class that calculates the dominant color similarity between two artworks.
