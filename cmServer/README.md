@@ -9,7 +9,7 @@ It is implemented using [Python](https://www.python.org).
 
 ## Developing
 
-- `ApiServer`: Files managing the communication between the CM-API and the CommunityModel.
+- `ApiServer`: Files managing the communication between the CM-API and the  itself.
 - `algorithms`:
     - `clustering`: Clustering algorithms. To add a new one, implement a new class following the format "prefix" + "CommunityDetection" where "prefix" is the algorithm name that is used by the perspectives. `explainedCommunityDetection` is a special algorithm that generates explanations using any clustering algorithm.
     - `similarity`: Contains similarity measures and additional information for complex similarity measures (like taxonomies and tables). To add a new one, implement a new class inheriting from SimilarityDAO (in `similarityDAO.py`).

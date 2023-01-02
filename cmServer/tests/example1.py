@@ -14,8 +14,7 @@ users felt watching artworks (information saved in users_emotions.json).
 """
 import pandas as pd
 
-from cmSpice.algorithms.clustering.similarityCommunityDetection import SimilarityCommunityDetection
-from cmSpice.algorithms.similarity.emotionSimilarity import EmotionSimilarity
+from context import cmSpice
 
 def main():
 
@@ -25,8 +24,8 @@ def main():
     users_emotions_df.fillna(0.0, inplace=True)
 
     # Step 2: We apply community detection algorithm using a custom similarity measure (EmotionSimilarity)
-    community_detection = SimilarityCommunityDetection(users_emotions_df)
-    result = community_detection.calculate_communities(metric=EmotionSimilarity, n_clusters=5)
+    community_detection = cmSpice.algorithms.clustering.similarityCommunityDetection(users_emotions_df)
+    result = community_detection.calculate_communities(metric=cmSpice.algorithms.similarity.emotionSimilarity, n_clusters=5)
 
     # Step 3: Print communities detected by algorithm
     # NOTE: Esta información debemos almacenarla en el modelo de comunidades ??

@@ -23,7 +23,7 @@ from cmSpice.dao.dao_json import DAO_json
 from cmSpice.core.communityModel import CommunityModel
 from cmSpice.core.communitiesSimilarityModel import CommunitiesSimilarityModel
 
-from cmSpice.core.dataLoader import DataLoader
+from cmSpice.utils.dataLoader import DataLoader
 
 
 def removeData():

@@ -8,6 +8,7 @@ import numpy as np
 from cmSpice.algorithms.similarity.similarityDAO import SimilarityDAO
 from cmSpice.algorithms.similarity.complexSimilarityDAO import ComplexSimilarityDAO
 from cmSpice.dao.dao_json import DAO_json
+from cmSpice.utils.dataLoader import DataLoader
 
 
 class InteractionSimilarityDAO(SimilarityDAO):
@@ -135,13 +136,14 @@ class InteractionSimilarityDAO(SimilarityDAO):
         return exportFile
     
     def getInteractionObjectDAO(self):        
-        abspath = os.path.dirname(__file__)
-        relpath = "../../core/data/artworks.json"
-        route = os.path.normpath(os.path.join(abspath, relpath))
-        
-        daoJson = DAO_json(route)
-        
-        return daoJson
+        route = DataLoader.fileRoute('artworks.json')
+        if route:
+            daoJson = DAO_json(route)
+            return daoJson
+        else:
+            # TODO: Change by Logger
+            print("Unable load artworks.json")
+            return None
     
     def getInteractionObjectData(self):
         daoJson = self.getInteractionObjectDAO()
