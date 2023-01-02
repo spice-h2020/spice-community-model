@@ -27,6 +27,7 @@ services:
   app:
     depends_on:
       - mongodb
+      - cm
     build: ../apiServer
     #name: spice/communitymodel/app
     restart: unless-stopped
@@ -45,7 +46,7 @@ services:
     depends_on:
       - mongodb
     image: cm
-    build: ../server-loader
+    build: ../cmServer
     restart: unless-stopped
     environment:
       - DB_HOST=mongodb
