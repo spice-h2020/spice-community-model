@@ -35,6 +35,7 @@ exports.getData = function(request, param) {
             return CommunitiesVis.getById(param);
             break;
         default:
+            return "getData not defined"
             break;
     }
 }

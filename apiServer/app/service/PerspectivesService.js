@@ -1,6 +1,6 @@
 'use strict';
 const db = require("../models");
-var postData = require('./postData.js');
+var redirect = require('./redirectRequest.js');
 
 const PerspectiveDAO = db.perspectives;
 const CommunityDAO = db.communities;
@@ -140,7 +140,7 @@ exports.PostPerspective = function (body) {
           })
 
         // post cm
-        return postData.post_data(perspectiveId, "/perspective");
+        return redirect.postData(perspectiveId, "/perspective");
       })
       .catch(function (error) {
         console.error("PerspectiveDAO.insertPerspective.promise1: " + error)
