@@ -1,14 +1,19 @@
 import json
 import requests
-import config as cf
+import sys
+from config import configDict
 
 def main():
+    if len(sys.argv) < 2 :
+        print("USAGE: python",__file__,"<museumName>")
+        return -1
 
+    museum = sys.argv[1]
     #--------------------------------------------------------------------------------------------------------------------------
     #    Select Configuration dictionary for a case study
     #--------------------------------------------------------------------------------------------------------------------------
     
-    configData = cf.DMH_CONFIG
+    configData = configDict[museum]
     
     #--------------------------------------------------------------------------------------------------------------------------
 
