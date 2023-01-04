@@ -209,6 +209,12 @@ class SimilarityDAO:
         similarityMeasure = similarityClass(dao,similarityFunction['sim_function'])
         
         return similarityMeasure
+        
+    def perspectiveAttributeType(self):
+        if (len(self.similarityFunction) <= 0):
+            return "String"
+        else:
+            return self.similarityFunction['on_attribute']['att_type'].lower()
     
     def exchangeElements(self, elemA, elemB):
         aux = elemA

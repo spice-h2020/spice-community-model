@@ -339,6 +339,8 @@ class CommunityJsonGenerator:
                         #communityPropertiesList.append(community_data['explanation'][0][k])
                         
                         print("implicit attribute explanations")
+                        print("community number: " + str(c))
+                        print("community id: " + str(communityDictionary['id']))
                         print(community_data['explanation'][key])
                         print(community_data['explanation'][key]['explanation'])
                         print("\n")
@@ -371,15 +373,17 @@ class CommunityJsonGenerator:
                             keySublist = [keyValueSplit[index] for index in indexes]
                             key2 = " ".join(keySublist)
                             
+                            try:
+                                #key2 = keyValueSplit[0]
+                                value = keyValueSplit[-1]
+                                value = float(value)
+                                value = value * 100
+                                value = int(value)
+                                value = value / 100
+                            except Exception as e:
+                                value = 0
                             
-                            #key2 = keyValueSplit[0]
-                            value = keyValueSplit[-1]
-                            value = float(value)
-                            value = value * 100
-                            value = int(value)
-                            value = value / 100
                             percentageTotal += value
-                            
                             #print("keyValueSplit: " + str(keyValueSplit))
                             #print("key2:" + str(key2) + "  ;  " + "value: " + str(value))
                             communityPropertiesDict[key2] = value

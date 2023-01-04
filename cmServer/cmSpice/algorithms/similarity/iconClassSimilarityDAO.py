@@ -13,7 +13,7 @@ class IconClassSimilarityDAO(SimilarityDAO):
             Dataframe where index is ids of elements, columns a list of taxonomy member and
             values contain the number of times that a taxonomy member is in an element.
         """
-        super().__init__(dao)
+        super().__init__(dao, similarityFunction)
         self.similarityColumn = similarityFunction['on_attribute']['att_name']
 
 

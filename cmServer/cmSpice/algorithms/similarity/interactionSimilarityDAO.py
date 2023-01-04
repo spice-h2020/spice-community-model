@@ -51,7 +51,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
         self.interactionAttribute = self.similarityFunction['sim_function']['on_attribute']['att_name']
         self.interactionAttributeOrigin = self.interactionAttribute + "_origin"
         self.interactionAttributeText = self.interactionAttribute.rsplit(".",1)[0] + ".text"
-        
+
         # Citizen attributes
         self.citizenAttributes = []
         for citizenAttribute in self.perspective['user_attributes']:
@@ -69,12 +69,16 @@ class InteractionSimilarityDAO(SimilarityDAO):
         #print("dafdsfasdf")
         if (self.similarityFunction['sim_function']['name'] != 'NoInteractionSimilarityDAO' or 1==1):
             #print("sfdsf")
+            
+            
         
         
             # Remove the interactions with emotion with interactionSimilarityMeasure empty
             IOColumn = self.similarityFunction['sim_function']['interaction_object']['att_name']
             df = self.data.copy()
+
             df2 = df.explode([self.interactionAttribute, self.interactionAttributeOrigin, self.interactionAttributeText])
+
             df3 = df2.loc[ df2[self.similarityColumn].str.len() != 0 ]
             
             # Remove NaN values
@@ -84,11 +88,42 @@ class InteractionSimilarityDAO(SimilarityDAO):
             
             # Remove interactions with artworks that are not in artworks.json
             df3 = df3.loc[ df3[self.interactionAttributeOrigin].isin(self.IO_data['id'].to_list()) ]
+
+            print("df3")
+            print(df3)
+            print("\n\n")
+
+            # Flag artwork is enabled (detect communities interacting with one specific artwork)
+            # This flag is not added by the perspective configuration tool (for now, it is given manually)
+            #if ('communityDetectionForArtwork' in self.perspective):
+            # ["35230"] works
+            """
+            if (len(self.perspective['algorithm']['params']) > 0):
+                # Filter self.data to only consider users interacting with that artwork
+                # Remove interactions with artworks other than the one given by the 'communityDetectionForArtwork' flag
+                communityDetectionArtwork = self.perspective['algorithm']['params'][0] #['communityDetectionForArtwork']
+                print("communityDetectionArtwork: " + str(communityDetectionArtwork))
+
+                dfArtworkFlag = df3.loc[ df3[self.interactionAttributeOrigin] == communityDetectionArtwork ]
+                if (dfArtworkFlag.empty):
+                    df3 = df3.head(1)
+                else:
+                    df3 = dfArtworkFlag.copy()
+            """
+                    
+
+            print("df3 after artwork flag")
+            print(df3)
+            print("\n\n")
             
             groupList = []
             groupList.append('userid')
             groupList.extend(self.citizenAttributes)
             
+            print("groupby groupList")
+            print(groupList)
+            print("\n\n")
+               
             df4 = df3.groupby(groupList).agg(list)         
             df4 = df4.reset_index() 
             
@@ -364,6 +399,11 @@ class InteractionSimilarityDAO(SimilarityDAO):
         dominantValues = {}
         for dominantAttribute in self.dominantAttributes:
             dominantValues[dominantAttribute] = ""
+            if (self.dominantAttributes[dominantAttribute].perspectiveAttributeType() == "list"):
+                dominantValues[dominantAttribute] = []
+            
+            
+            
         # Similar artworks users are compared with
         dominantArtworks = []
         

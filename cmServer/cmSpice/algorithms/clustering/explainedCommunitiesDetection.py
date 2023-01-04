@@ -76,9 +76,26 @@ class ExplainedCommunitiesDetection:
             int: Number of communities detected.
             dict: Dictionary where each user is assigned to a community.
         """
-        n_communities = 2
         maxCommunities = len(self.data)
+        n_communities = min(2, maxCommunities)
         finish_search = False
+
+        # Special case: not enough data (1 or less users)
+        # This can happen if we filter by an artwork and only 1 or less users interacted with it.
+        if (maxCommunities <= 1):
+            finish_search = True
+            result2 = []
+            result = {}
+            for user in self.data.index:
+                result[user] = 0
+                result2.append(0)
+
+            complete_data = self.data.copy()
+            complete_data['community'] = result.values()
+            self.complete_data = complete_data
+
+            # Comprobamos que para cada grupo existe al menos una respuesta en común
+            self.communities = complete_data.groupby(by='community')
 
         while not finish_search:
             community_detection = self.algorithm(self.data)
@@ -509,6 +526,14 @@ class ExplainedCommunitiesDetection:
                         
                         
                         """
+                        """
+                        if (col2 == "Colour"):
+                            print("colour column array")
+                            print("id_community: " + str(id_community))
+                            print("check array")
+                            print(array)
+                            print("\n")
+                        """
                         
                         # For list types (artworks and iconclass)
                         if (len(array) > 0 and isinstance(array[0],list)):
@@ -558,10 +583,15 @@ class ExplainedCommunitiesDetection:
                             print(col)
                             print("\n")
                             
+                            # Iconclass attribute
                             if (col == "community_" + "iconclassArrayIDs"):
                                 for iconclassID in result:
                                     iconclassText = self.daoAPI_iconclass.getIconclassText(iconclassID)
                                     result2.append(str(iconclassID) + " " + iconclassText + " " + "0.0")
+                            # Other array attributes
+                            else:
+                                for element in result:
+                                    result2.append(str(element) + " " + "0.0")
                             
                             #result2.append(str(array) + " " + "0.0")
                                 
@@ -582,6 +612,8 @@ class ExplainedCommunitiesDetection:
                             # Returns dominant one
                             # explainedCommunityProperties[col] = community[col].value_counts().index[0]
                             
+                            
+                            
                             # Returns the values for each of them
                             percentageColumn = community[col].value_counts(normalize=True) * 100
                             #explainedCommunityProperties[col] = percentageColumn.to_dict('records')
@@ -591,8 +623,18 @@ class ExplainedCommunitiesDetection:
                             explainedCommunityProperties[col]["label"] = 'Percentage distribution of the implicit attribute ' + "(" + str(col2) + ")" + ":"
                             explainedCommunityProperties[col]["explanation"] = percentageColumn.to_string()
                             
+                            """
                             
-
+                            if (col2 == "Colour"):
+                                print("colour error")
+                                print("id_community: " + str(id_community))
+                                print(col)
+                                print(col2)
+                                print(percentageColumn)
+                                print(percentageColumn.to_string())
+                                print("end colour error")
+                                print("\n\n")
+                            """
                             
                             
             # Second explanation  
