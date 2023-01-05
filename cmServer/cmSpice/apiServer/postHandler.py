@@ -8,6 +8,7 @@ from bson.objectid import ObjectId
 import json
 import time
 import logging
+import traceback
 
 # local modules
 from cmSpice.dao.dao_db import DAO_db
@@ -101,12 +102,13 @@ def __updateUsers(self, post_data):
                 """
                 attributeLabel = user["category"] + "." + user["pname"]
                 if similarityFunction['sim_function']['on_attribute']['att_name'] == attributeLabel:
-                    flag = {'perspectiveId': perspective['id'], 'userid': user['userid'], 'needToprocess': True}
+                    flag = {'perspectiveId': perspective['id'], 'userid': user['userid'], 'needToprocess': True, 'error': "N/D"}
                     # flag = {'perspectiveId': perspective['id'], 'userid': 'flagAllUsers', 'flag': True}
                     daoFlags.updateFlag(flag)
 
 
 def __updateCM(self):
+
     # Check if there is an update flag
     daoPerspectives = DAO_db_perspectives()
     daoFlags = DAO_db_flags()
@@ -123,21 +125,27 @@ def __updateCM(self):
         flag["needToprocess"] = False
         daoFlags.replaceFlag(flag)
 
-    # Update each perspective communities
-    for perspectiveId in perspectiveFlagsDict:
-        perspective = daoPerspectives.getPerspective(perspectiveId)
+    try:
+        # Update each perspective communities
+        for perspectiveId in perspectiveFlagsDict:
+            perspective = daoPerspectives.getPerspective(perspectiveId)
 
-        # Call to the community model
-        communityModel = CommunityModel(perspective, perspectiveFlagsDict[perspectiveId])
-        communityModel.start()
+            # Call to the community model
+            communityModel = CommunityModel(perspective, perspectiveFlagsDict[perspectiveId])
+            communityModel.start()
 
-        # Compute the similarity between the new communities generated with self.perspective and all the other
-        # communities
-        data = communityModel.getData()
-        communitiesSimilarityModel = CommunitiesSimilarityModel(perspectiveId, data)
+            # Compute the similarity between the new communities generated with self.perspective and all the other
+            # communities
+            data = communityModel.getData()
+            communitiesSimilarityModel = CommunitiesSimilarityModel(perspectiveId, data)
 
-    # Delete updated flags (cannot delete the whole collection because new flags may have been added while CM was
-    # updating)
-    for flag in flags:
-        # Remove flag
-        daoFlags.deleteFlag(flag)
+        # Delete updated flags (cannot delete the whole collection because new flags may have been added while CM was
+        # updating)
+        for flag in flags:
+            # Remove flag
+            daoFlags.deleteFlag(flag)
+
+    except Exception as e:
+        flag["error"] = traceback.format_exc()
+        daoFlags.replaceFlag(flag)
+        logging.error(traceback.format_exc())

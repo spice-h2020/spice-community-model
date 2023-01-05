@@ -3,7 +3,8 @@ module.exports = mongoose => {
     {
       perspectiveId: String,
       userid: String,
-      needToprocess: Boolean
+      needToprocess: Boolean,
+      error: String
     }
   );
 
@@ -29,7 +30,7 @@ module.exports = mongoose => {
         }
       });
     },
-    checkFlag: function (onSuccess, onError) {
+    checkFlags: function (onSuccess, onError) {
       Flags.find({}, function (error, data) {
         // var res = JSON.stringify(data)
         if (error) {

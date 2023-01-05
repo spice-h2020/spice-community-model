@@ -82,9 +82,9 @@ var jobCompleted = {
  */
 function generateCompletedResponse(job, data) {
     advanceState(job);
-    // job["job-state"] = "COMPLETED";
-    // job["job-status"] = "SUCCESS";
     var response = jobCompleted;
+    response["job"]["job-state"] = job["job-state"];
+    response["job"]["job-status"] = job["job-status"];
     response["job"]["path"] = jobPrefix + job.jobId;
     response["job"]["jobId"] = job.jobId;
     response["job"]["data"] = data;
@@ -102,11 +102,13 @@ function generateCompletedResponse(job, data) {
  */
 function generateProgressResponse(job) {
     var response = jobStarted;
+    response["job"]["job-state"] = job["job-state"];
+    response["job"]["job-status"] = job["job-status"];
     response["job"]["path"] = jobPrefix + job.jobId;
     response["job"]["jobId"] = job.jobId;
     response["job"]["start-time"] = job["start-time"];
-    var timeLeft = (job["start-time"].getTime() + (30 * 60 * 1000)) - (new Date().getTime());
-    response["job"]["time-to-autoremove-job"] = timeLeft / (1000 * 60) + " minutes";
+    // var timeLeft = (job["start-time"].getTime() + (30 * 60 * 1000)) - (new Date().getTime());
+    // response["job"]["time-to-autoremove-job"] = timeLeft / (1000 * 60) + " minutes";
 
     return response
 }
@@ -118,8 +120,8 @@ function generateProgressResponse(job) {
  * 
  */
 router.get('/:job_id', function (req, res, next) {
-    console.log("List of current jobs: ");
-    console.log(JSON.stringify(jobManager.getJobs(), null, " "));
+    // console.log("List of current jobs: ");
+    // console.log(JSON.stringify(jobManager.getJobs(), null, " "));
 
     var jobId = req.params.job_id;
     var job = jobManager.getJob(req.params.job_id);
@@ -130,7 +132,8 @@ router.get('/:job_id', function (req, res, next) {
     else {
         var param = job.param;
         var request = job.request;
-        console.log("Monitoring Job: <" + jobId + ">, from request: <" + request + ">, with param: <" + param + ">");
+
+        // console.log("Monitoring Job: <" + jobId + ">, from request: <" + request + ">, with param: <" + param + ">");
 
         // var checkState;
         // if (request == "getPerspectives" || request == "getCommunities" || ...) {
@@ -147,6 +150,13 @@ router.get('/:job_id', function (req, res, next) {
             console.log("here:" + param);
             Flags.getFlags()
                 .then(function (data) {
+                    // console.log("aaaaaaaaaa " + type(data))
+                    // var ok = false;
+                    // flags.forEach(flag => {
+                    //     if (!flag["error"] != "N/D")
+                    //     ok = true;
+                    // });
+
                     if (data == null) {
                         var data = {};
                         // Get data from mongodb if flag is positive

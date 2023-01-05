@@ -11,7 +11,7 @@ const FlagDAO = db.flag;
 **/
 exports.getFlags = function () {
     return new Promise(function (resolve, reject) {
-        FlagDAO.checkFlag(
+        FlagDAO.checkFlags(
             data => {
                 resolve(data)
             },

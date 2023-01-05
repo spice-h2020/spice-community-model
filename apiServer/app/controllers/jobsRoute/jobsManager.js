@@ -10,18 +10,18 @@ var jobsList = []
 
 var jobPrefix = "/v1.1/jobs/";
 
-jobTemplate = {
-    "job": {
-        "path": "xxx",                  // path to id
-        "jobId": "xx",                  // id
-        "name": "CM Update",            // request type
-        "job-state": "STARTED",         // INQUEUE,     STARTED,    COMPLETED 
-        "job-status": "INPROGRESS",     // INQUEUE,     INPROGRESS, SUCCESS/ERROR -- state=completed -> status=SUCCESS/ERROR
-        "start-time": "",               // new Date
-        "time-to-autoremove-job": "",   // timeleft
-        "data": {}                      // data
-    }
-}
+
+// path: "",
+// jobId: jobId,
+// name: "CM Update",
+// "job-state": "INQUEUE",
+// "job-status": "INQUEUE",
+// "start-time": new Date(),
+// "time-to-autoremove-job": "",
+// request: request,
+// param: param,
+// autoremove: false,
+// flags_id: data
 
 
 /**
@@ -55,6 +55,15 @@ advanceState = function (job) {
     // }
 }
 
+setJobsToErrorState = function (errorMsg) {
+    jobsList.forEach(elem => {
+        elem["job-state"] = "COMPLETED";
+        elem["job-status"] = "ERROR";
+        elem["request"] = "error";
+        elem["param"] = errorMsg;
+    });
+}
+
 /**
  * Check flags and if CM is not updating then find first job in queue. Update CM with that job and advance the state if that job
  */
@@ -65,19 +74,29 @@ checkAndStartNewJob = function () {
             .then(function (flags) {
                 if (flags != null) {
                     // Check if CM is updating
-                    var updatesNow = false;
+                    var cmState = "idle";
+                    var errorMsg = "";
                     flags.forEach(flag => {
                         if (!flag["needToprocess"])
-                            updatesNow = true;
+                            cmState = "updating";
+                        if (flag["error"] != "N/D") {
+                            cmState = "error";
+                            errorMsg = flag["error"];
+                        }
                     });
 
-                    // Find first job that need an update
-                    var jobToUpdate = jobsList.find(job => (job["job-state"] == "INQUEUE" && job["job-status"] == "INQUEUE"));
-                    // 
-                    if (!updatesNow && jobToUpdate != undefined) {
-                        // post.update_CM(jobToUpdate["param"]);
-                        redirect.postData(jobToUpdate["param"], "/update_CM")
-                        advanceState(jobToUpdate);
+                    if (cmState == "error") {
+                        setJobsToErrorState(errorMsg)
+                    }
+                    else {
+                        // Find first job that need an update
+                        var jobToUpdate = jobsList.find(job => (job["job-state"] == "INQUEUE" && job["job-status"] == "INQUEUE"));
+                        // 
+                        if (cmState == "idle" && jobToUpdate != undefined) {
+                            // post.update_CM(jobToUpdate["param"]);
+                            redirect.postData(jobToUpdate["param"], "/update_CM")
+                            advanceState(jobToUpdate);
+                        }
                     }
                 }
                 resolve();
@@ -188,11 +207,6 @@ getJobs = function () {
 addJob = function (jobId, request, param) {
     Flags.getFlags()
         .then(function (data) {
-
-            // data.forEach(element => {
-
-            // });
-
             var job = {
                 path: "",
                 jobId: jobId,

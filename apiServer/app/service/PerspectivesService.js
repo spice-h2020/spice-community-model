@@ -130,7 +130,8 @@ exports.PostPerspective = function (body) {
         var json = {
           perspectiveId: perspectiveId,
           userid: "flagAllUsers",
-          needToprocess: true
+          needToprocess: true,
+          error: "N/D"
         };
         FlagDAO.insertFlag(json,
           data => {

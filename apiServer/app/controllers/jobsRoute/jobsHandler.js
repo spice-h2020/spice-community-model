@@ -34,8 +34,11 @@ exports.getData = function(request, param) {
         case "getFileById":
             return CommunitiesVis.getById(param);
             break;
+        case "error":
+            return new Promise(function (resolve) { resolve(param)});
+            break;
         default:
-            return "getData not defined"
+            return new Promise(function (resolve) { resolve("getData not defined")});
             break;
     }
 }
