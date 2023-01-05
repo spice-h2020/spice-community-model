@@ -49,7 +49,7 @@ module.exports.getData  = function getData(path)  {
                     // console.log("data: "+ response.data);
                     // console.log("status: " + response.status);
                     // console.log("statusText: "+ response.statusText);
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch((error) => {
                     console.log("getData.Promise.axios.get: " + error)
