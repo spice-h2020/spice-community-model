@@ -604,21 +604,40 @@ class ExplainedCommunitiesDetection:
                             result3 = {}
                             for iconclassID in result2:
                                 iconclassText = self.daoAPI_iconclass.getIconclassText(iconclassID)
+                                # Get array of dicts {key: iconclassID, value: artwork it originates from}
                                 np_array = np.asarray(result2[iconclassID], dtype=object)
                                 iconclassChildren = list(np.hstack(np_array))
-                                #iconclassChildren.remove(iconclassID)
-                                iconclassChildren = list(set(iconclassChildren))
 
+                                print("iconclass children")
+                                print(iconclassChildren)
+                                print("\n")
 
+                                # Group iconclassChildren into a combined dictionary (values with the same key are added to an array)
+                                iconclassChildrenCombinedDictionary = {}
+                                for dictionary in iconclassChildren:
+                                    for key, value in dictionary.items():
+                                        if (key not in iconclassChildrenCombinedDictionary):
+                                            iconclassChildrenCombinedDictionary[key] = []
+                                        iconclassChildrenCombinedDictionary[key].append(value)
+                                        iconclassChildrenCombinedDictionary[key] = list(set(iconclassChildrenCombinedDictionary[key]))
+
+                                
                                 iconclassExplanation = str(iconclassID) + " " + iconclassText 
+                                if (iconclassID in iconclassChildrenCombinedDictionary):
+                                    iconclassExplanation += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassID]) + ")"
                                 iconclassChildrenText = []
-                                if (len(iconclassChildren) > 1):
-                                    iconclassExplanation += ". Obtained from the artwork's iconclass IDs: ( "
-                                    for iconclassChild in iconclassChildren:
+                                if (len(iconclassChildrenCombinedDictionary) > 1):
+                                    print("iconclass combined dictionary")
+                                    print(iconclassChildrenCombinedDictionary)
+                                    print("\n")
+
+                                    iconclassExplanation += ". Obtained from the artwork's iconclass IDs: "
+                                    for iconclassChild in iconclassChildrenCombinedDictionary:
                                         iconclassChildText = self.daoAPI_iconclass.getIconclassText(iconclassChild)
+                                        iconclassChildText += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassChild]) + ")"
                                         iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
                                     iconclassExplanation += "; ".join(iconclassChildrenText)
-                                    iconclassExplanation += ")"
+                                    iconclassExplanation += ""
 
                                 result3[iconclassExplanation] = 0.0
 

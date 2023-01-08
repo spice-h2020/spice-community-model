@@ -210,7 +210,7 @@ class IconClassSimilarityDAO(SimilarityDAO):
 
                     # New explanation: add information about the iconclassIDs (children) from which this new one (parent) is derived 
                     commonParentDict = {}
-                    commonParentDict[commonParent] = [elemA, longestPrefixElemB]
+                    commonParentDict[commonParent] = {elemA: self.artworkA['tittle'].to_list()[0], longestPrefixElemB: self.artworkB['tittle'].to_list()[0]}
                     explainable_iconclassValues.append(commonParentDict)
 
         except Exception as e:

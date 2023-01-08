@@ -279,8 +279,14 @@ class SimilarityDAO:
 #-------------------------------------------------------------------------------------------------------------------------------
     
     def dominantElemValue(self, elemA, elemB):
-        valueA = self.data.loc[elemA][self.similarityColumn]
-        valueB = self.data.loc[elemB][self.similarityColumn]
+        # Get artwork information
+        self.artworkA = self.data.loc[ self.data['id'] == elemA ]
+        self.artworkB = self.data.loc[ self.data['id'] == elemB ]
+
+        #valueA = self.data.loc[elemA][self.similarityColumn].to_list()[0]
+        #valueB = self.data.loc[elemB][self.similarityColumn].to_list()[0]
+        valueA = self.artworkA[self.similarityColumn].to_list()[0]
+        valueB = self.artworkB[self.similarityColumn].to_list()[0]
         
         return self.dominantValue(valueA,valueB)
         

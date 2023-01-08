@@ -299,8 +299,8 @@ class InteractionSimilarityDAO(SimilarityDAO):
             
             
             # If the best match is still dissimilar
-            
-            if (distanceMatrix_IOB_values[mostSimilarIOIndex] >= 0.6):
+            similarThreshold = 0.4
+            if (distanceMatrix_IOB_values[mostSimilarIOIndex] >= similarThreshold):
                 mostSimilarIOIndex = -1
             """
             """
@@ -495,11 +495,19 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     for dominantAttribute in self.dominantAttributes:
                         similarityMeasure = self.dominantAttributes[dominantAttribute]
                         
+                        """
                         valueA = artworks_df.loc[ artworks_df['id'] == objectA ][dominantAttribute].to_list()[0]
                         #print(valueA)
                         valueB = artworks_df.loc[ artworks_df['id'] == objectB ][dominantAttribute].to_list()[0]
                         #print(valueB)
                         dominantValue = similarityMeasure.dominantValue(valueA, valueB)
+                        #print(dominantValue)
+                        dominantValues[dominantAttribute] = dominantValue
+                        #print(dominantValues)
+                        #print("dominantValue: " + str(dominantValue))
+                        """
+
+                        dominantValue = similarityMeasure.dominantElemValue(objectA, objectB)
                         #print(dominantValue)
                         dominantValues[dominantAttribute] = dominantValue
                         #print(dominantValues)
