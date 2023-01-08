@@ -201,13 +201,18 @@ class IconClassSimilarityDAO(SimilarityDAO):
         try:
             
             for elemA in iconClassListA:
-                h4 = self.iconClassBestMatch(elemA, iconClassListB)
                 longestPrefixElemB = self.iconClassBestMatch(elemA, iconClassListB)
                 commonParent = os.path.commonprefix([elemA, longestPrefixElemB])
                 maxLayer = max(self.elemLayer(elemA), self.elemLayer(longestPrefixElemB))
                 if (self.elemLayer(commonParent) + 2 >= maxLayer):
-                    explainable_iconclassValues.append(commonParent)
-        
+                    # Previous explanation
+                    #explainable_iconclassValues.append(commonParent)
+
+                    # New explanation: add information about the iconclassIDs (children) from which this new one (parent) is derived 
+                    commonParentDict = {}
+                    commonParentDict[commonParent] = [elemA, longestPrefixElemB]
+                    explainable_iconclassValues.append(commonParentDict)
+
         except Exception as e:
             print("exception")
             print(e)

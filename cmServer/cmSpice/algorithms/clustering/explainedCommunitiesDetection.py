@@ -108,6 +108,8 @@ class ExplainedCommunitiesDetection:
                 
             result2 = result
             result = ids_communities
+            self.resultAlgorithm = result2
+            self.idsCommunities = result
             
             complete_data = self.data.copy()
             complete_data['community'] = result.values()
@@ -209,6 +211,8 @@ class ExplainedCommunitiesDetection:
                 
                 """   
 
+
+
                 #print("simplify attribute: " + str(col2))
                 
                 # From the attribute list, consider only the ones between the members of the community
@@ -265,14 +269,6 @@ class ExplainedCommunitiesDetection:
                     array2 = communityMembers_validInteractionAttributeList
                 
                 
-                
-                
-                
-                
-                
-                
-                
-                
                 if (row['userNameAuxiliar'] == 'e4aM9WL7' and 1 == 2):
                     print("username: " + 'e4aM9WL7')
                     print("community: " + str(row['community']))
@@ -300,7 +296,46 @@ class ExplainedCommunitiesDetection:
             #elif (isinstance(communityMembers_interactionAttributeList[0],str)):
             elif (isinstance(communityMembers_interactionAttributeList[0],list) == False):
                 return statistics.mode(communityMembers_interactionAttributeList)
-            # iconclass attribute
+
+            # Testing new iconclass attribute
+            # Now, we get dictionaries with keys (iconclassIDs) and values (arrays indicating the [iconclassIDs artworkA, artworkB] they originate from)
+            elif ('iconclassArrayIDs' in col2):
+                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
+
+                if (len(communityMembers_validInteractionAttributeList) > 0):
+
+                    # First, create a combined dictionary containing all the arrays of pairs each iconclassIDs originates from
+                    iconclassDictionary = {}
+                    for interactionAttribute in communityMembers_validInteractionAttributeList:
+                        for interactionAttributeDict in interactionAttribute:
+                            for interactionAttributeKey in interactionAttributeDict:
+                                if (interactionAttributeKey not in iconclassDictionary):
+                                    iconclassDictionary[interactionAttributeKey] = []
+                                iconclassDictionary[interactionAttributeKey].append(interactionAttributeDict[interactionAttributeKey])
+
+                    # Select x (5) keys with the highest number of results
+                    # using sorted() + join() + lambda
+                    # Sort dictionary by value list length
+                    res = '#separator#'.join(sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key])))
+
+                    # From most frequent to less frequent
+                    result = res.split('#separator#')
+                    result.reverse()
+
+                    # Get children associated to the keys 
+                    result2 = []
+                    result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
+
+                    # Next work: include the artworks these iconclass IDs originate from in the explanations
+
+
+                    return result2
+
+                else:
+                    return {}
+
+
+            # iconclass attribute (OLD) Not used anymore
             else:
                 communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
                 #intersection = communityMembers_validInteractionAttributeList[0]
@@ -535,8 +570,71 @@ class ExplainedCommunitiesDetection:
                             print("\n")
                         """
                         
+                        # For iconclass
+                        if (col == "community_" + "iconclassArrayIDs"):
+                            print("improved explanation for iconclass")
+                            print("\n")
+
+                            print(array)
+                            print("\n")
+
+                            print("end new iconclass")
+                            print("\n")
+
+                            # Example array
+                            # [{}, {'31D1': [['31D15', '31D12']]}]
+
+                            # Combine all into one dictionary
+                            iconclassDictionary = {}
+                            for dictionary in array:
+                                for dictionaryKey in dictionary:
+                                    if (dictionaryKey not in iconclassDictionary):
+                                        iconclassDictionary[dictionaryKey] = []
+                                    iconclassDictionary[dictionaryKey].extend(dictionary[dictionaryKey])
+
+                            # Sort dictionary
+                            res = '#separator#'.join(sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key])))
+                            result = res.split('#separator#')
+                            result.reverse()
+
+                            # Get x more frequent keys
+                            result2 = []
+                            result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
+
+                            result3 = {}
+                            for iconclassID in result2:
+                                iconclassText = self.daoAPI_iconclass.getIconclassText(iconclassID)
+                                np_array = np.asarray(result2[iconclassID], dtype=object)
+                                iconclassChildren = list(np.hstack(np_array))
+                                #iconclassChildren.remove(iconclassID)
+                                iconclassChildren = list(set(iconclassChildren))
+
+
+                                iconclassExplanation = str(iconclassID) + " " + iconclassText 
+                                iconclassChildrenText = []
+                                if (len(iconclassChildren) > 1):
+                                    iconclassExplanation += ". Obtained from the artwork's iconclass IDs: ( "
+                                    for iconclassChild in iconclassChildren:
+                                        iconclassChildText = self.daoAPI_iconclass.getIconclassText(iconclassChild)
+                                        iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
+                                    iconclassExplanation += "; ".join(iconclassChildrenText)
+                                    iconclassExplanation += ")"
+
+                                result3[iconclassExplanation] = 0.0
+
+                            print("result3: " + str(result3))
+                            
+                            
+                            #explainedCommunityProperties[col] = "\n".join(result2)
+                            
+                            explainedCommunityProperties[col] = dict()
+                            explainedCommunityProperties[col]["label"] = 'Community representative properties of the implicit attribute ' + "(" + str(col2) + ")" + ":"
+                            explainedCommunityProperties[col]["explanation"] = result3
+                            
+                            
+
                         # For list types (artworks and iconclass)
-                        if (len(array) > 0 and isinstance(array[0],list)):
+                        elif (len(array) > 0 and isinstance(array[0],list)):
                             
                             
                             """
@@ -566,7 +664,7 @@ class ExplainedCommunitiesDetection:
                             result = self.getMostFrequentElementsList(array2,3)
                             result = [ x['Number'] for x in result ]
                             
-                            result2 = []
+                            result2 = {}
                             
                             """
                             print("result: " + str(result))
@@ -587,11 +685,11 @@ class ExplainedCommunitiesDetection:
                             if (col == "community_" + "iconclassArrayIDs"):
                                 for iconclassID in result:
                                     iconclassText = self.daoAPI_iconclass.getIconclassText(iconclassID)
-                                    result2.append(str(iconclassID) + " " + iconclassText + " " + "0.0")
+                                    result2[str(iconclassID) + " " + iconclassText] = 0.0
                             # Other array attributes
                             else:
                                 for element in result:
-                                    result2.append(str(element) + " " + "0.0")
+                                    result2[str(element)] = 0.0
                             
                             #result2.append(str(array) + " " + "0.0")
                                 
@@ -602,7 +700,7 @@ class ExplainedCommunitiesDetection:
                             
                             explainedCommunityProperties[col] = dict()
                             explainedCommunityProperties[col]["label"] = 'Community representative properties of the implicit attribute ' + "(" + str(col2) + ")" + ":"
-                            explainedCommunityProperties[col]["explanation"] = "\n".join(result2)
+                            explainedCommunityProperties[col]["explanation"] = result2
                             
                             
                             
@@ -612,16 +710,15 @@ class ExplainedCommunitiesDetection:
                             # Returns dominant one
                             # explainedCommunityProperties[col] = community[col].value_counts().index[0]
                             
-                            
-                            
                             # Returns the values for each of them
                             percentageColumn = community[col].value_counts(normalize=True) * 100
-                            #explainedCommunityProperties[col] = percentageColumn.to_dict('records')
-                            #explainedCommunityProperties[col] = percentageColumn.to_string()
+                            percentageColumnDict = percentageColumn.to_dict()
                             
                             explainedCommunityProperties[col] = dict()
                             explainedCommunityProperties[col]["label"] = 'Percentage distribution of the implicit attribute ' + "(" + str(col2) + ")" + ":"
-                            explainedCommunityProperties[col]["explanation"] = percentageColumn.to_string()
+                            explainedCommunityProperties[col]["explanation"] = percentageColumnDict
+
+                            
                             
                             """
                             
@@ -652,6 +749,15 @@ class ExplainedCommunitiesDetection:
         except Exception as e:
             
             print(str(e))
+            print(self.communities)
+            print("\n")
+            # data with communities
+            print(self.complete_data)
+            print("\n\n")
+            print("algorithm result")
+            print(self.resultAlgorithm)
+            print(self.idsCommunities)
+            print("\n")
             raise Exception("Exception retrieving community " + str(id_community))
 
             
