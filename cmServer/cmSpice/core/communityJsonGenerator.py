@@ -15,13 +15,14 @@ import re
 
 class CommunityJsonGenerator:
 
-    def __init__(self, interactionObjectData, data, distanceMatrix, communityDict, community_detection, perspective):
+    def __init__(self, interactionObjectData, data, distanceMatrix, communityDict, community_detection, perspective, percentageExplainability):
         self.io_df = interactionObjectData
         self.json_df = data.copy()
         self.distanceMatrix = distanceMatrix
         self.communityDict = communityDict
         self.community_detection = community_detection
         self.perspective = perspective
+        self.percentageExplainability = percentageExplainability
         
         """
         print("community json generator")
@@ -292,8 +293,8 @@ class CommunityJsonGenerator:
         
         
         # Community Data
-        self.communityJson['name'] = self.communityDict['perspective']['name']
-        self.communityJson['perspectiveId'] = self.communityDict['perspective']['id']
+        self.communityJson['name'] = self.communityDict['perspective']['name'] + " (" + str(self.percentageExplainability) + ")"
+        self.communityJson['perspectiveId'] = self.communityDict['perspective']['id'] + str(self.percentageExplainability)
         #self.communityJson['numberOfCommunities'] = self.communityDict['number']
         self.communityJson['communities'] = []
         
@@ -344,58 +345,67 @@ class CommunityJsonGenerator:
                         print(community_data['explanation'][key])
                         print(community_data['explanation'][key]['explanation'])
                         print("\n")
+
+                        communityPropertiesDict = community_data['explanation'][key]['explanation']
                         
-                        #keyValueList = community_data['explanation'][key].split("\n")
-                        keyValueList = community_data['explanation'][key]['explanation'].split("\n")
+                        # #keyValueList = community_data['explanation'][key].split("\n")
+                        # keyValueList = community_data['explanation'][key]['explanation'].split("\n")
                         
-                        percentageTotal = 0
+                        # percentageTotal = 0
                         
-                        #print("keyValueList: " + str(keyValueList))
-                        for keyValue in keyValueList:
-                            pattern = r'\W+'
-                            # empty character " " one or more times
-                            pattern = r'\s+'
+                        # #print("keyValueList: " + str(keyValueList))
+                        # for keyValue in keyValueList:
+                            # pattern = r'\W+'
+                            # # empty character " " one or more times
+                            # pattern = r'\s+'
                             
-                            """
-                            #keyValueSplit = keyValue.split("    ")
-                            #keyValueSplit = re.split(pattern, keyValue)
-                            keyValueSplit = keyValue.rsplit(" ",1)
-                            print("keyValueList 2: " + str(keyValueSplit))
+                            # """
+                            # #keyValueSplit = keyValue.split("    ")
+                            # #keyValueSplit = re.split(pattern, keyValue)
+                            # keyValueSplit = keyValue.rsplit(" ",1)
+                            # print("keyValueList 2: " + str(keyValueSplit))
                             
-                            key2 = keyValueSplit[0]
-                            key2 = re.split(pattern, key2, 2)
-                            print("key2 : " + str(key2))
-                            key2 = key2[0]
-                            """
+                            # key2 = keyValueSplit[0]
+                            # key2 = re.split(pattern, key2, 2)
+                            # print("key2 : " + str(key2))
+                            # key2 = key2[0]
+                            # """
                             
-                            keyValueSplit = re.split(pattern, keyValue)
-                            indexes = range(len(keyValueSplit) - 1)
-                            keySublist = [keyValueSplit[index] for index in indexes]
-                            key2 = " ".join(keySublist)
+                            # print("communityJSON Generator")
+                            # print("keyValue is " + str(keyValue))
+                            # print("\n")
+
+                            # #keyValueSplit = re.split(pattern, keyValue)
+                            # keyValueSplit = keyValue.split("#percentageSeparator#")
+                            # key2 = keyValueSplit[0]
+                            # """
+                            # indexes = range(len(keyValueSplit) - 1)
+                            # keySublist = [keyValueSplit[index] for index in indexes]
+                            # key2 = " ".join(keySublist)
+                            # """
+                            # try:
+                                # #key2 = keyValueSplit[0]
+                                # value = keyValueSplit[-1]
+                                # value = float(value)
+                                # value = value * 100
+                                # value = int(value)
+                                # value = value / 100
+                            # except Exception as e:
+                                # value = 0
                             
-                            try:
-                                #key2 = keyValueSplit[0]
-                                value = keyValueSplit[-1]
-                                value = float(value)
-                                value = value * 100
-                                value = int(value)
-                                value = value / 100
-                            except Exception as e:
-                                value = 0
+                            # percentageTotal += value
+                            # print("keyValueSplit: " + str(keyValueSplit))
+                            # print("key2:" + str(key2) + "  ;  " + "value: " + str(value))
+                            # communityPropertiesDict[key2] = value
                             
-                            percentageTotal += value
-                            #print("keyValueSplit: " + str(keyValueSplit))
-                            #print("key2:" + str(key2) + "  ;  " + "value: " + str(value))
-                            communityPropertiesDict[key2] = value
-                            
-                        if (percentageTotal != 100 and percentageTotal > 0):
-                            #print("percentage total is different than 100: " + str(percentageTotal))
-                            value = communityPropertiesDict[key2]
-                            newValue = value + 100 - percentageTotal
-                            newValue = newValue * 100
-                            newValue = int(newValue)
-                            newValue = newValue / 100
-                            communityPropertiesDict[key2] = newValue
+                        # if (percentageTotal != 100 and percentageTotal > 0):
+                            # #print("percentage total is different than 100: " + str(percentageTotal))
+                            # value = communityPropertiesDict[key2]
+                            # newValue = value + 100 - percentageTotal
+                            # newValue = newValue * 100
+                            # newValue = int(newValue)
+                            # newValue = newValue / 100
+                            # communityPropertiesDict[key2] = newValue
                         
                         implicitPropertyExplanations[key] = dict()
                         implicitPropertyExplanations[key]['label'] = community_data['explanation'][key]['label']
