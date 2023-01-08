@@ -210,7 +210,7 @@ class SimilarityDAO:
         
         return similarityMeasure
         
-    def perspectiveAttributeType(self):
+    def dominantValueType(self):
         if (len(self.similarityFunction) <= 0):
             return "String"
         else:

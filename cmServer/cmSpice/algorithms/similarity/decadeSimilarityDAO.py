@@ -93,3 +93,18 @@ class DecadeSimilarityDAO(SimilarityDAO):
 
     def convertYearToDecade(self,year):
         return int((year-1)/10) * 10
+
+#-------------------------------------------------------------------------------------------------------------------------------
+#   Dominant value (explanation) between 2 years
+#-------------------------------------------------------------------------------------------------------------------------------
+        
+    def dominantValue(self, valueA, valueB):
+        # Compute decadeA and decadeB associated to valueA, valueB (years)
+        decadeA = self.convertYearToDecade(valueA)
+        decadeB = self.convertYearToDecade(valueB)
+
+        # Return both decades
+        return [decadeA, decadeB]
+    
+    def dominantValueType(self):
+        return "list"

@@ -399,7 +399,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
         dominantValues = {}
         for dominantAttribute in self.dominantAttributes:
             dominantValues[dominantAttribute] = ""
-            if (self.dominantAttributes[dominantAttribute].perspectiveAttributeType() == "list"):
+            if (self.dominantAttributes[dominantAttribute].dominantValueType() == "list"):
                 dominantValues[dominantAttribute] = []
             
             
