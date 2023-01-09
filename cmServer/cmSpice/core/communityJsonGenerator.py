@@ -15,7 +15,7 @@ import re
 
 class CommunityJsonGenerator:
 
-    def __init__(self, interactionObjectData, data, distanceMatrix, communityDict, community_detection, perspective, percentageExplainability):
+    def __init__(self, interactionObjectData, data, distanceMatrix, communityDict, community_detection, perspective, percentageExplainability = 0.5):
         self.io_df = interactionObjectData
         self.json_df = data.copy()
         self.distanceMatrix = distanceMatrix
@@ -295,6 +295,11 @@ class CommunityJsonGenerator:
         # Community Data
         self.communityJson['name'] = self.communityDict['perspective']['name'] + " (" + str(self.percentageExplainability) + ")"
         self.communityJson['perspectiveId'] = self.communityDict['perspective']['id'] + str(self.percentageExplainability)
+
+        self.communityJson['name'] = self.communityDict['perspective']['name']
+        self.communityJson['perspectiveId'] = self.communityDict['perspective']['id']
+
+
         #self.communityJson['numberOfCommunities'] = self.communityDict['number']
         self.communityJson['communities'] = []
         
