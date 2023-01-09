@@ -299,7 +299,8 @@ class InteractionSimilarityDAO(SimilarityDAO):
             
             
             # If the best match is still dissimilar
-            similarThreshold = 0.4
+            similarThreshold = 0.35
+            #similarThreshold = 500.0
             if (distanceMatrix_IOB_values[mostSimilarIOIndex] >= similarThreshold):
                 mostSimilarIOIndex = -1
             """
@@ -382,14 +383,21 @@ class InteractionSimilarityDAO(SimilarityDAO):
         """
         """
         
-        # Set largest list to be A and the other B
-        exchanged = False
+        
         """
         if (len(IOB) > len(IOA)):
             exchanged = True
             IOA, IOB = self.exchangeElements(IOA,IOB)
             userInteractionA, userInteractionB = self.exchangeElements(userInteractionA, userInteractionB)
         """
+
+        return self.distanceInteraction(elemA, elemB, userInteractionA, userInteractionB, IOA, IOB)
+        
+        
+    
+    def distanceInteraction(self, elemA, elemB, userInteractionA, userInteractionB, IOA, IOB):
+        # Set largest list to be A and the other B
+        exchanged = False
         
         # Initialize distance
         distanceTotal = 0
@@ -401,12 +409,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
             dominantValues[dominantAttribute] = ""
             if (self.dominantAttributes[dominantAttribute].dominantValueType() == "list"):
                 dominantValues[dominantAttribute] = []
-            
-            
-            
         # Similar artworks users are compared with
         dominantArtworks = []
-        
+
         try:
         
             # For each IO in A, get most similar IO in B
@@ -426,6 +431,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
                 
                 #print("objectA: " + str(objectA))
                 
+                # IGNORED FOR NOW
                 if (1 == 2 and objectIndexB != -1 and self.similarityFunction['sim_function']['name'] == "NoInteractionSimilarityDAO"):
                     objectB = IOB[objectIndexB]
                     distanceMatrixIndexObjectA = self.IO_distanceIndex.index(str(objectA))
@@ -433,7 +439,8 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     
                     distance = self.IO_distanceMatrix[distanceMatrixIndexObjectA,distanceMatrixIndexObjectB]
                     print("new distance is :" + str(distance))
-                    
+
+                # STARTS HERE IF A MATCHING SIMILAR ARTWORK WAS FOUND
                 elif (objectIndexB != -1):
                     """
                     print("interactionsA: " + str(userInteractionA[self.similarityColumn]))
@@ -518,6 +525,14 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     
                     # Set artwork ID we successfully found a match for
                     dominantArtworks.append(objectA)
+
+                    if (userInteractionA['userid'] == 'x2AUnHqw'):
+                        print('x2AUnHqw')
+                        print("dominant artworks x2AUnHqw")
+                        print(userInteractionB['userid'])
+                        print(objectA)
+                        print(objectB)
+                        print("\n")
                     
                     
                     
@@ -539,7 +554,8 @@ class InteractionSimilarityDAO(SimilarityDAO):
                         dominantInteractionAttribute = dominantInteractionAttributeA
                         
                     # Add objectA to the list of compared interacted artworks 
-                    
+
+                # NO SIMILAR ARTWORK    
                 else:
                     distance = 1
                 
@@ -577,8 +593,10 @@ class InteractionSimilarityDAO(SimilarityDAO):
             print("\n\n\n")
             print("Exception dominant attribute")
             print(str(e))
+            """
             print("elemA: " + str(elemA))
             print("elemB: " + str(elemB))
+            """
             print("userA: " + str(userInteractionA['userid']))
             print("userB: " + str(userInteractionB['userid']))
             print("IOA: " + str(IOA))
@@ -637,7 +655,6 @@ class InteractionSimilarityDAO(SimilarityDAO):
                 
             
         return distanceTotal
-        
         
         
         
