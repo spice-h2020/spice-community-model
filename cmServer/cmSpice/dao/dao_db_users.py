@@ -180,7 +180,7 @@ class DAO_db_users(DAO_db):
             # If the attribute is an interaction_attribute (origin != userid), create two list attributes: category.pname_id (with the ids documented in origin) and category.pname (attribute value)
             for item in data:
                 attributeLabel = item["category"] + "." + item["pname"]
-                if (item["origin"] != "User"):
+                if (item["origin"] != "User" and item['origin'] != 'Openess' and item['origin'] != 'History'):
                     if (attributeLabel not in user):
                         user[attributeLabel] = []
                         user[attributeLabel + "_origin"] = []
