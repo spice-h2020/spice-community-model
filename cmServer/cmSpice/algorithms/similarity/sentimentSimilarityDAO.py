@@ -30,13 +30,27 @@ class SentimentSimilarityDAO(TableSimilarityDAO):
         double
             Distance between the two values.
         """
+        """
+        print("sentiment similarity dao")
+        print(sentimentsDictA)
+        print(sentimentsDictB)
+        print("\n")
+        """
         if len(sentimentsDictA) <= 0 or len(sentimentsDictB) <= 0:
             return 1.0
         else:
             sentimentA = max(sentimentsDictA, key=sentimentsDictA.get).lower()
             sentimentB = max(sentimentsDictB, key=sentimentsDictB.get).lower()
 
-            return super().distanceValues(sentimentA, sentimentB)
+            result = super().distanceValues(sentimentA, sentimentB)
+
+            """
+            print("result sentiment similarity")
+            print(result)
+            print("\n")
+            """
+
+            return result
         
         
     def dominantValue(self, sentimentsDictA, sentimentsDictB):

@@ -57,6 +57,9 @@ class TableSimilarityDAO(SimilarityDAO):
 
         return self.distanceTableKeys(valueA, valueB)
 
+    def distanceValues(self, keyA, keyB):
+        return self.distanceTableKeys(keyA, keyB)
+
     def distanceTableKeys(self, keyA, keyB):
         """
         Method to obtain the distance between two table keys or labels.
