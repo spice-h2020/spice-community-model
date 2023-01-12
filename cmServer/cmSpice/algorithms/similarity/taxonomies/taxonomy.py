@@ -20,7 +20,7 @@ class Taxonomy:
         print(str(taxonomyId))
         """
         
-        self.graph = nx.read_gml(os.path.join(os.path.dirname(__file__), 'taxonomyGraphs/' + taxonomyId + '.gml'))      
+        self.graph = nx.read_gml(os.path.join(os.path.dirname(__file__), 'taxonomyGraphs/' + taxonomyId.lower() + '.gml'))      
     
     def getGraph(self):
         """Get graph
