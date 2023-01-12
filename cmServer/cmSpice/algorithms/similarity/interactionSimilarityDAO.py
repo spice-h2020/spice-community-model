@@ -155,6 +155,10 @@ class InteractionSimilarityDAO(SimilarityDAO):
         #self.IO_distanceIndex = list(map(int, self.distanceDict['index']))
         self.IO_distanceIndex = self.distanceDict['index']
         self.IO_distanceMatrix = np.asarray(self.distanceDict['distanceMatrix'])
+
+        print("self.IO_distanceMatrix")
+        print(self.IO_distanceMatrix)
+        print("\n")
         
         matrix = self.IO_distanceMatrix.copy()
         matrix[matrix == 0.0] = 1.0
@@ -300,6 +304,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
             
             # If the best match is still dissimilar
             similarThreshold = 0.35
+            similarThreshold = 0.65
+            #similarThreshold = 0.8
+            #similarThreshold = 0.6
             #similarThreshold = 500.0
             if (distanceMatrix_IOB_values[mostSimilarIOIndex] >= similarThreshold):
                 mostSimilarIOIndex = -1
@@ -384,11 +391,13 @@ class InteractionSimilarityDAO(SimilarityDAO):
         """
         
         
-        """
+        self.exchanged = False
+        
         if (len(IOB) > len(IOA)):
-            exchanged = True
+            self.exchanged = True
             IOA, IOB = self.exchangeElements(IOA,IOB)
             userInteractionA, userInteractionB = self.exchangeElements(userInteractionA, userInteractionB)
+        """
         """
 
         return self.distanceInteraction(elemA, elemB, userInteractionA, userInteractionB, IOA, IOB)
@@ -397,7 +406,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
     
     def distanceInteraction(self, elemA, elemB, userInteractionA, userInteractionB, IOA, IOB):
         # Set largest list to be A and the other B
-        exchanged = False
+        #self.exchanged = False
         
         # Initialize distance
         distanceTotal = 0
@@ -524,7 +533,10 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     #dominant_artworkSimilarityFeature = 
                     
                     # Set artwork ID we successfully found a match for
-                    dominantArtworks.append(objectA)
+                    if (self.exchanged):
+                        dominantArtworks.append(objectB)
+                    else:
+                        dominantArtworks.append(objectA)
 
                     if (userInteractionA['userid'] == 'x2AUnHqw'):
                         print('x2AUnHqw')
@@ -548,7 +560,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     
                     
 
-                    if (exchanged):
+                    if (self.exchanged):
                         dominantInteractionAttribute = dominantInteractionAttributeB
                     else:
                         dominantInteractionAttribute = dominantInteractionAttributeA

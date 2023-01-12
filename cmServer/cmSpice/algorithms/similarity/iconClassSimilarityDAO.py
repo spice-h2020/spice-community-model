@@ -149,6 +149,25 @@ class IconClassSimilarityDAO(SimilarityDAO):
         iconClassListA = self.data.loc[elemA][self.similarityColumn]
         iconClassListB = self.data.loc[elemB][self.similarityColumn]
         
+        return self.distanceValues(iconClassListA, iconClassListB)
+
+    def distanceValues(self, iconClassListA, iconClassListB):
+        """
+        Method to obtain the distance between two valid values given by the similarity measure.
+        e.g., sadness vs fear in plutchickEmotionSimilarity
+
+        Parameters
+        ----------
+        valueA : object
+            Value of first element corresponding to elemA in self.data
+        valueB : object
+            Value of first element corresponding to elemB in self.data
+
+        Returns
+        -------
+        double
+            Distance between the two values.
+        """
         """
         print("iconclassListA: " + str(iconClassListA))
         print("iconclassListB: " + str(iconClassListB))

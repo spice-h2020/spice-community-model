@@ -319,7 +319,7 @@ class ExplainedCommunitiesDetection:
 
             # Testing new iconclass attribute
             # Now, we get dictionaries with keys (iconclassIDs) and values (arrays indicating the [iconclassIDs artworkA, artworkB] they originate from)
-            elif ('iconclassArrayIDs' in col2):
+            elif ('iconclassArrayIDs' in col2 or 'Materials' in col2):
                 communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
 
                 if (len(communityMembers_validInteractionAttributeList) > 0):
@@ -387,7 +387,7 @@ class ExplainedCommunitiesDetection:
 
                 # Return the 3 most frequent elements
                 #print("result: " + str(result))
-                result = self.getMostFrequentElementsList(result,3)
+                result = self.getMostFrequentElementsList(result,5)
                 result = [ x['Number'] for x in result ]
                 
                 #print(row.index)
@@ -690,6 +690,89 @@ class ExplainedCommunitiesDetection:
                             explainedCommunityProperties[col]["label"] = 'Community representative properties of the implicit attribute ' + "(" + str(col2) + ")" + ":"
                             explainedCommunityProperties[col]["explanation"] = result3
 
+                        # For materials ontology
+                        elif (col == "community_" + "Materials" and 1 == 1):
+                            print("improved explanation for materials")
+                            print("\n")
+
+                            print(array)
+                            print("\n")
+
+                            print("end new materials")
+                            print("\n")
+
+                            # Example array
+                            # [{}, {'31D1': [['31D15', '31D12']]}]
+
+                            # Combine all into one dictionary
+                            iconclassDictionary = {}
+                            for dictionary in array:
+                                for dictionaryKey in dictionary:
+                                    if (dictionaryKey not in iconclassDictionary):
+                                        iconclassDictionary[dictionaryKey] = []
+                                    iconclassDictionary[dictionaryKey].extend(dictionary[dictionaryKey])
+
+                            # Sort dictionary
+                            res = '#separator#'.join(sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key])))
+                            result = res.split('#separator#')
+                            result.reverse()
+
+                            # Get x more frequent keys
+                            result2 = []
+                            result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
+
+                            result3 = {}
+                            for iconclassID in result2:
+                                iconclassText = ""
+                                # Get array of dicts {key: iconclassID, value: artwork it originates from}
+                                np_array = np.asarray(result2[iconclassID], dtype=object)
+                                iconclassChildren = list(np.hstack(np_array))
+
+                                print("iconclass children")
+                                print(iconclassChildren)
+                                print("\n")
+
+                                # Group iconclassChildren into a combined dictionary (values with the same key are added to an array)
+                                iconclassChildrenCombinedDictionary = {}
+                                for dictionary in iconclassChildren:
+                                    for key, value in dictionary.items():
+                                        if (key not in iconclassChildrenCombinedDictionary):
+                                            iconclassChildrenCombinedDictionary[key] = []
+                                        iconclassChildrenCombinedDictionary[key].extend(value)
+                                        iconclassChildrenCombinedDictionary[key] = list(set(iconclassChildrenCombinedDictionary[key]))
+
+                                print("iconclass children combined")
+                                print(iconclassChildrenCombinedDictionary)
+                                print("\n")
+                                
+                                iconclassExplanation = str(iconclassID) + " " + iconclassText 
+                                if (iconclassID in iconclassChildrenCombinedDictionary):
+                                    iconclassExplanation += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassID]) + ")"
+                                iconclassChildrenText = []
+                                if (len(iconclassChildrenCombinedDictionary) > 1):
+                                    print("iconclass combined dictionary")
+                                    print(iconclassChildrenCombinedDictionary)
+                                    print("\n")
+
+                                    iconclassExplanation += ". Obtained from the artwork's materials: "
+                                    for iconclassChild in iconclassChildrenCombinedDictionary:
+                                        iconclassChildText = ""
+                                        iconclassChildText += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassChild]) + ")"
+                                        iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
+                                    iconclassExplanation += "; ".join(iconclassChildrenText)
+                                    iconclassExplanation += ""
+
+                                result3[iconclassExplanation] = 0.0
+
+                            print("result3: " + str(result3))
+                            
+                            
+                            #explainedCommunityProperties[col] = "\n".join(result2)
+                            
+                            explainedCommunityProperties[col] = dict()
+                            explainedCommunityProperties[col]["label"] = 'Community representative properties of the implicit attribute ' + "(" + str(col2) + ")" + ":"
+                            explainedCommunityProperties[col]["explanation"] = result3
+
                         # For list types (artworks and iconclass)
                         elif (len(array) > 0 and isinstance(array[0],list)):
                             
@@ -718,7 +801,7 @@ class ExplainedCommunitiesDetection:
                             
                             #print("array2: " + str(array2))
                             
-                            result = self.getMostFrequentElementsList(array2,3)
+                            result = self.getMostFrequentElementsList(array2,5)
                             result = [ x['Number'] for x in result ]
                             
                             result2 = {}
