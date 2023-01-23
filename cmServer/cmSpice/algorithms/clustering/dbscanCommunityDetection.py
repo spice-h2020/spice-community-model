@@ -34,7 +34,7 @@ class DbscanCommunityDetection:
         """
         clusters = []
         epsParameter = 1.0
-        while len(set(clusters)) < n_clusters and epsParameter > 0:
+        while len(set(clusters)) < n_clusters and epsParameter > 0.01:
             epsParameter -= 0.1
             print("calculating dbscan algorithm")
             print("number of clusters: " + str(n_clusters))
@@ -57,4 +57,13 @@ class DbscanCommunityDetection:
         print("clusters")
         print(clusters)
         print("\n")
+
+        # Correct -1
+        clusters = [len(clusters) if item == -1 else item for item in clusters]
+        # Rename the clusters ids to avoid missing intermediate values
+        uniqueLabels = set(clusters)      
+        uniqueLabels = sorted(uniqueLabels)
+        clusters = [uniqueLabels.index(label) for label in clusters]
+
+
         return clusters
