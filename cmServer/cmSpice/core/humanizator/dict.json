@@ -1,0 +1,29 @@
+{
+    "keys": {
+            "Demographics.DemographicsReligous": "Religious demography",
+            "Demographics.DemographicsPolitics": "Political demography",
+            "EReligousNeg": "Religious",
+            "DExtremistNeg": "Extremist",
+            "FRealisticNeg": "Realistic",
+            "NoOpinion": "No opinion"    
+    },
+    "values": [
+        {
+            "users explicit_community Demographics.DemographicsPolitics": {
+                "VL": "Very left",
+                "L": "Left",
+                "C": "Center",
+                "R": "Right",
+                "VR": "Very right",
+                "DK": "Dont know"
+            }
+        },
+        {
+            "users explicit_community Demographics.DemographicsReligous": {
+                "S": "Secular",
+                "R": "Religious",
+                "M": "Moderated"
+            }
+        }
+    ]
+}

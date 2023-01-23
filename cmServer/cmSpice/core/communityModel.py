@@ -7,6 +7,7 @@ import os
 import pandas as pd
 import numpy as np
 import importlib
+import json
 
 from inspect import getsourcefile
 from os.path import abspath
@@ -324,8 +325,11 @@ class CommunityModel():
         daoCommunityModelCommunity.drop({'perspectiveId': self.perspective['id']})
         daoCommunityModelCommunity.dropFullList({'perspectiveId': self.perspective['id']})
         #daoCommunityModelCommunity.dropFullList()
+
+        # humanize some keys and values
+        humanizedJsonCommunity = self.humanizator(jsonCommunity)
         # add new data
-        daoCommunityModelCommunity.insertFileList("", jsonCommunity)
+        daoCommunityModelCommunity.insertFileList("", humanizedJsonCommunity)
     
 #--------------------------------------------------------------------------------------------------------------------------
 #   Auxiliar function
@@ -333,3 +337,69 @@ class CommunityModel():
    
     def containsInteractions(self):
         return len(self.perspective['interaction_similarity_functions']) > 0
+
+#---
+#   Humanizator (rename keys, values)
+#---
+
+    def renameValues(self, my_dict, humanizator):
+        for e in humanizator:
+            for path in e.keys():
+                self.drill_down(my_dict, path.split(), e[path])
+        return my_dict
+
+    def drill_down(self, obj, path, value):
+        if len(path) == 1:
+            if isinstance(obj, dict):
+                for key in obj.keys():
+                    print(obj)
+                    print(path[0])
+                    print(key)
+                    if key == path[0] and  not isinstance(obj[key], dict) and obj[key] in value:
+                                obj[path[0]] = value[obj[path[0]]]
+            elif isinstance(obj, list):
+                for elem in obj:
+                    #elem = drill_down(elem, path, value)
+                    for key in elem.keys():
+                        if key == path[0] and elem[key] in value:
+                            elem[path[0]] = value[elem[path[0]]]
+            elif obj[path[0]] in value:
+                obj[path[0]] = value[obj[path[0]]]
+    
+        else:
+            if isinstance(obj, dict):
+                obj[path[0]] = self.drill_down(obj[path[0]], path[1:], value) 
+            elif isinstance(obj, list):
+                for elem in obj:
+                    elem = self.drill_down(elem[path[0]], path[1:], value) 
+            return obj
+
+
+    def renameKeys(self, my_dict, humanizator):
+        if isinstance(my_dict, dict):
+            for key in list(my_dict.keys()):
+                if key in humanizator:
+                    my_dict[humanizator[key]] = self.renameKeys(my_dict.pop(key), humanizator)
+                else:
+                    my_dict[key] = self.renameKeys(my_dict.pop(key), humanizator)
+        elif isinstance(my_dict, list):
+            for e in my_dict:
+                self.renameKeys(e, humanizator)
+        return my_dict
+
+    def humanizator(self, jsonCommunity):
+        # open all files inside /humanizator dir
+        dict2Use = "dict"
+
+        dir = "cmSpice/core/humanizator/"
+        dictsList = []
+        # for filename in os.listdir(dir):
+        #    f =  open(dir + "/" + filename)
+        
+        f = open(dir + dict2Use + ".json")
+        humanizator = json.load(f)
+
+        newJsonCommunity = self.renameValues(jsonCommunity, humanizator["values"])
+        newJsonCommunity = self.renameKeys(newJsonCommunity, humanizator["keys"])
+
+        return newJsonCommunity
