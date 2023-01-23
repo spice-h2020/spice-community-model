@@ -19,17 +19,7 @@ class ValuesSimilarity(TableSimilarityDAO):
     def getSimilarityTableName(self):
         return "mftHaidt"
 
-    def getMostSimilarValueInList(self, value, valueList):
-        mostSimilarValue = ""
-        distanceLowest = 1.0
-        for valueB in valueList:
-            distance = self.distanceTableKeys(value, valueB)
-            if (distance < distanceLowest):
-                distanceLowest = distance
-                mostSimilarValue = valueB
-        return mostSimilarValue, distanceLowest
-
-    def distanceValues(self, elemA, elemB):
+    def distanceValues(self, valueA, valueB):
         """
         Method to obtain the distance between two lists of moral values. Only mft values are considered.
 
@@ -55,20 +45,52 @@ class ValuesSimilarity(TableSimilarityDAO):
         double
             Distance between the two elements.
         """
-        # Filter mft values
-        mftListA = [(x.replace("mft:","").lower()) for x in elemA if x.startswith('mft:')]
-        mftListB = [(x.replace("mft:","").lower()) for x in elemB if x.startswith('mft:')]
+        distance = self.distanceBetweenLists(valueA, valueB)
+        return distance
 
-        # Calculate distance
-        distanceTotal = 0
+    def distanceListElements(self, elementA, elementB):
+        """
+        Distance between two MFT_values.
+        Specialization of the inherited function for calculating distance between list members
 
-        for mftValue in mftListA:
-            mftValueB, distance = self.getMostSimilarValueInList(mftValue, mftListB)
-            distanceTotal += distance
-        for mftValue in mftListB:
-            mftValueB, distance = self.getMostSimilarValueInList(mftValue, mftListA)
-            distanceTotal += distance
+        Parameters
+        ----------
+        elementA : String
+            MFT_Value name (String)
         
-        distanceTotal = distanceTotal / max(1,(len(mftListA) + len(mftListB)))
+        elementB : String
+            MFT_Value name (String)
 
-        return distanceTotal
+        Returns
+        -------
+        double
+            Distance between the MFT_Values
+        """
+        
+        # Fix value String
+        mftValueA = elementA.lower().replace(" ", "")
+        mftValueB = elementB.lower().replace(" ", "")
+
+        print("distance between elements values")
+        print("mftvalueA: " + str(mftValueA))
+        print("mftvalueB: " + str(mftValueB))
+        print("\n")
+
+        return self.distanceTableKeys(mftValueA, mftValueB)
+
+    def dominantInteractionAttribute(self, mftValuesListA, mftValuesListB):
+        """
+        Method to obtain the dominant value for A and B
+        Parameters
+        ----------
+        mftValuesListA : List <String>
+            
+        mftValuesListB : List <String>
+
+        Returns
+        -------
+        String, String
+            Predominant valueA, Predominant valueB (pair of most similar ones)
+        """
+        return self.lowestDistancePair[0], self.lowestDistancePair[1]
+        
