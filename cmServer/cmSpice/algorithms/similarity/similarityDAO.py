@@ -26,6 +26,9 @@ class SimilarityDAO:
             self.similarityColumn = ""
             
         self.data = self.dao.getPandasDataframe()
+
+        # To explain communities (dominant values in list attributes)
+        self.lowestDistancePair = ["",""]
         
     def distanceValues(self, valueA, valueB):
         """
@@ -222,6 +225,10 @@ class SimilarityDAO:
         elemB = aux
         
         return elemA, elemB
+
+    
+
+
     
     def exportDistanceMatrix(self, distanceMatrix, exportFile):
         distanceMatrix = distanceMatrix.tolist()
@@ -235,8 +242,75 @@ class SimilarityDAO:
                 
         return np.asarray(distanceMatrix)
         
+#-------------------------------------------------------------------------------------------------------------------------------
+#   To calculate similarity between two lists of different length
+#-------------------------------------------------------------------------------------------------------------------------------
+             
+    def distanceBetweenLists(self, listA, listB):
+        """
+        Auxiliary function to set the comparison between two lists of different length
+
+        """
+        similarityListA = listA
+        similarityListB = listB
+
+        if (len(listB) > len(listA)):
+            similarityListA = listB
+            similarityListB = listA
+
+        print("distance between lists")
+        print("similarityListA: " + str(similarityListA))
+        print("similarityListB: " + str(similarityListB))
+        print("\n")
+
+        # Store pair (elementA, elementB) with the most similarity to work as the dominantAttribute
+        self.lowestDistancePair = ["",""]
+        self.lowestDistance = 1.0
+
+        # Calculate distance
+        totalDistance = 0
+        for listElementA in similarityListA:
+            listElementB = self.mostSimilarListElement(listElementA, similarityListB)
+            distance = self.distanceListElements(listElementA,listElementB)
+            totalDistance += distance
+
+            if (distance < self.lowestDistance):
+                self.lowestDistancePair = [listElementA, listElementB]
+                self.lowestDistance = distance
+            print("elementA: " + str(listElementA))
+            print("elementB: " + str(listElementB))
+            print("distance: " + str(distance))
+            print("\n")
+        totalDistance = totalDistance / len(similarityListA)
+
+        if (similarityListA != listA):
+            self.lowestDistancePair = [listElementB, listElementA]
+
+        return totalDistance
+
+    def distanceListElements(self, elementA, elementB):
+        return 1.0
+
+    def mostSimilarListElement(self, listElementA, listB):
+        """
+        Gets the most similar element to another among the members of a list
+
+        """
+        print("checking most similar list element")
+        print(listElementA)
+        print(listB)
+        print("\n")
+
+        listElementB = ""
+        lowestDistance = 1.0
+        for listElement in listB:
+            distance = self.distanceListElements(listElementA,listElement)
+            if (distance <= lowestDistance):
+                lowestDistance = distance
+                listElementB = listElement
         
-        
+        return listElementB
+
         
 #-------------------------------------------------------------------------------------------------------------------------------
 #   To calculate dominant value in interaction attributes (always dict)
