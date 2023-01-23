@@ -61,7 +61,10 @@ class CommunityJsonGenerator:
     def generateDict(self, element):
         # return {'IdArtefact': element[0], 'emotions': element[1]} 
         # return {'artwork_id': str(element[0]), 'feelings': "scettico", 'extracted_emotions': element[1]} 
-        return {'artwork_id': str(element[0]), 'feelings': element[2], 'extracted_emotions': element[1]} 
+        extractedEmotions = element[1]
+        if (isinstance(extractedEmotions, list)):
+            extractedEmotions = {extractedEmotions[i]: 100 / len(extractedEmotions) for i in range(0, len(extractedEmotions))}
+        return {'artwork_id': str(element[0]), 'feelings': element[2], 'extracted_emotions': extractedEmotions} 
         
         #return {
     
@@ -292,12 +295,15 @@ class CommunityJsonGenerator:
         self.skipPropertyValue = False
         
         
-        # Community Data
-        self.communityJson['name'] = self.communityDict['perspective']['name'] + " (" + str(self.percentageExplainability) + ")"
-        self.communityJson['perspectiveId'] = self.communityDict['perspective']['id'] + str(self.percentageExplainability)
-
+        # Community Data 
         self.communityJson['name'] = self.communityDict['perspective']['name']
         self.communityJson['perspectiveId'] = self.communityDict['perspective']['id']
+
+        extraStr = " (" + str(self.percentageExplainability) + ")" + " " + self.perspective['algorithm']['name']
+        extraStr = ""
+        self.communityJson['name'] = self.communityDict['perspective']['name'] + extraStr
+        self.communityJson['perspectiveId'] = self.communityDict['perspective']['id'] + extraStr
+
 
 
         #self.communityJson['numberOfCommunities'] = self.communityDict['number']
