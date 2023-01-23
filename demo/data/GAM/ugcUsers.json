@@ -31,7 +31,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -43,7 +43,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -93,7 +93,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Non provo nessun interesse per l'arte",
+            "pvalue": "I have no interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -105,7 +105,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito raramente musei e mostre",
+            "pvalue": "I rarely visit museums and exhibitions",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -155,7 +155,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Non provo nessun interesse per l'arte",
+            "pvalue": "I have no interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -167,7 +167,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito raramente musei e mostre",
+            "pvalue": "I rarely visit museums and exhibitions",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -217,7 +217,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Non provo nessun interesse per l'arte",
+            "pvalue": "I have no interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -229,7 +229,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito raramente musei e mostre",
+            "pvalue": "I rarely visit museums and exhibitions",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -279,7 +279,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -291,7 +291,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito raramente musei e mostre",
+            "pvalue": "I rarely visit museums and exhibitions",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -341,7 +341,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -353,7 +353,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -403,7 +403,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -415,7 +415,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -465,7 +465,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -477,7 +477,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -527,7 +527,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Non provo nessun interesse per l'arte",
+            "pvalue": "I have no interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -539,7 +539,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito raramente musei e mostre",
+            "pvalue": "I rarely visit museums and exhibitions",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -589,7 +589,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -601,7 +601,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -651,7 +651,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -663,7 +663,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -713,7 +713,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -725,7 +725,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -775,7 +775,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -787,7 +787,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -837,7 +837,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -849,7 +849,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -899,7 +899,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -911,7 +911,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito raramente musei e mostre",
+            "pvalue": "I rarely visit museums and exhibitions",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -961,7 +961,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -973,7 +973,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1023,7 +1023,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1035,7 +1035,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito raramente musei e mostre",
+            "pvalue": "I rarely visit museums and exhibitions",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1085,7 +1085,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1097,7 +1097,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1147,7 +1147,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1159,7 +1159,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1209,7 +1209,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1221,7 +1221,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1271,7 +1271,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1283,7 +1283,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1333,7 +1333,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1345,7 +1345,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1395,7 +1395,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1407,7 +1407,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1457,7 +1457,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1469,7 +1469,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1519,7 +1519,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1531,7 +1531,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1581,7 +1581,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1593,7 +1593,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1643,7 +1643,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1655,7 +1655,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1705,7 +1705,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Il mio lavoro riguarda l'arte",
+            "pvalue": "My work is about art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1717,7 +1717,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1767,7 +1767,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1779,7 +1779,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1829,7 +1829,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1841,7 +1841,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1859,10 +1859,10 @@
             "category": "demographics"
         }
     ],
-    "e4aM9WL7": [
+    "e4aM9WL8": [
         {
             "id": 150,
-            "userid": "e4aM9WL7",
+            "userid": "e4aM9WL8",
             "origin": "User",
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
@@ -1874,7 +1874,7 @@
         },
         {
             "id": 151,
-            "userid": "e4aM9WL7",
+            "userid": "e4aM9WL8",
             "origin": "User",
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
@@ -1886,31 +1886,31 @@
         },
         {
             "id": 152,
-            "userid": "e4aM9WL7",
+            "userid": "e4aM9WL8",
             "origin": "User",
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
         },
         {
             "id": 153,
-            "userid": "e4aM9WL7",
+            "userid": "e4aM9WL8",
             "origin": "User",
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
         },
         {
             "id": 154,
-            "userid": "e4aM9WL7",
+            "userid": "e4aM9WL8",
             "origin": "User",
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
@@ -1953,7 +1953,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -1965,7 +1965,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2015,7 +2015,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2027,7 +2027,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2077,7 +2077,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2089,7 +2089,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2139,7 +2139,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2151,7 +2151,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2201,7 +2201,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2213,7 +2213,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2263,7 +2263,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2275,7 +2275,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2325,7 +2325,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2337,7 +2337,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2387,7 +2387,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2399,7 +2399,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2449,7 +2449,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2461,7 +2461,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2511,7 +2511,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2523,7 +2523,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2573,7 +2573,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2585,7 +2585,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2635,7 +2635,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2647,7 +2647,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2697,7 +2697,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2709,7 +2709,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2759,7 +2759,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2771,7 +2771,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2821,7 +2821,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "L'arte mi interessa poco",
+            "pvalue": "Art interests me little",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2833,7 +2833,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito di tanto in tanto musei e mostre",
+            "pvalue": "I visit museums and exhibitions from time to time",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2883,7 +2883,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2895,7 +2895,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2945,7 +2945,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithArt",
-            "pvalue": "Ho un forte interesse per l'arte",
+            "pvalue": "I have a strong interest in art",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2957,7 +2957,7 @@
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
             "pname": "RelationshipWithMuseum",
-            "pvalue": "Visito spesso i musei",
+            "pvalue": "I often visit museums",
             "context": "application",
             "datapoints": 0,
             "category": "demographics"
@@ -2965,6 +2965,936 @@
         {
             "id": 239,
             "userid": "btoSxy3T",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Vorrei vedere i contenuti in Lingua dei Segni (LIS)",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "Wsip5y7A": [
+        {
+            "id": 240,
+            "userid": "Wsip5y7A",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Male",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 241,
+            "userid": "Wsip5y7A",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "20-30 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 242,
+            "userid": "Wsip5y7A",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have a strong interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 243,
+            "userid": "Wsip5y7A",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I visit museums and exhibitions from time to time",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 244,
+            "userid": "Wsip5y7A",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Vorrei vedere i contenuti in Lingua dei Segni (LIS)",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "gD630RD1": [
+        {
+            "id": 245,
+            "userid": "gD630RD1",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Female",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 246,
+            "userid": "gD630RD1",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "13-19 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 247,
+            "userid": "gD630RD1",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have no interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 248,
+            "userid": "gD630RD1",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I rarely visit museums and exhibitions",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 249,
+            "userid": "gD630RD1",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Vorrei vedere i contenuti in Lingua dei Segni (LIS)",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "Q13Gnsty": [
+        {
+            "id": 250,
+            "userid": "Q13Gnsty",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Male",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 251,
+            "userid": "Q13Gnsty",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "13-19 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 252,
+            "userid": "Q13Gnsty",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have no interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 253,
+            "userid": "Q13Gnsty",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I rarely visit museums and exhibitions",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 254,
+            "userid": "Q13Gnsty",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Non mi interessano i contenuti in Lingua dei Segni",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "oITaD0ND": [
+        {
+            "id": 255,
+            "userid": "oITaD0ND",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Not binary",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 256,
+            "userid": "oITaD0ND",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "20-30 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 257,
+            "userid": "oITaD0ND",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "Art interests me little",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 258,
+            "userid": "oITaD0ND",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I often visit museums",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 259,
+            "userid": "oITaD0ND",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Vorrei vedere i contenuti in Lingua dei Segni (LIS)",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "2LIm9lcH": [
+        {
+            "id": 260,
+            "userid": "2LIm9lcH",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Not binary",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 261,
+            "userid": "2LIm9lcH",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "Not specified",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 262,
+            "userid": "2LIm9lcH",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have a strong interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 263,
+            "userid": "2LIm9lcH",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I often visit museums",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 264,
+            "userid": "2LIm9lcH",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Non mi interessano i contenuti in Lingua dei Segni",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "jTb1qXEo": [
+        {
+            "id": 265,
+            "userid": "jTb1qXEo",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Female",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 266,
+            "userid": "jTb1qXEo",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "Not specified",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 267,
+            "userid": "jTb1qXEo",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have no interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 268,
+            "userid": "jTb1qXEo",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I rarely visit museums and exhibitions",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 269,
+            "userid": "jTb1qXEo",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Vorrei vedere i contenuti in Lingua dei Segni (LIS)",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "lkkZ1lUv": [
+        {
+            "id": 270,
+            "userid": "lkkZ1lUv",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Female",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 271,
+            "userid": "lkkZ1lUv",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "45-60 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 272,
+            "userid": "lkkZ1lUv",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "My work is about art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 273,
+            "userid": "lkkZ1lUv",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I often visit museums",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 274,
+            "userid": "lkkZ1lUv",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Non mi interessano i contenuti in Lingua dei Segni",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "eLXgq0Hx": [
+        {
+            "id": 275,
+            "userid": "eLXgq0Hx",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Female",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 276,
+            "userid": "eLXgq0Hx",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "20-30 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 277,
+            "userid": "eLXgq0Hx",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have a strong interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 278,
+            "userid": "eLXgq0Hx",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I often visit museums",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 279,
+            "userid": "eLXgq0Hx",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Vorrei vedere i contenuti in Lingua dei Segni (LIS)",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "FQFaM9D4": [
+        {
+            "id": 280,
+            "userid": "FQFaM9D4",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Male",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 281,
+            "userid": "FQFaM9D4",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "45-60 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 282,
+            "userid": "FQFaM9D4",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have a strong interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 283,
+            "userid": "FQFaM9D4",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I visit museums and exhibitions from time to time",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 284,
+            "userid": "FQFaM9D4",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Vorrei vedere i contenuti in Lingua dei Segni (LIS)",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "2GROTNeg": [
+        {
+            "id": 285,
+            "userid": "2GROTNeg",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Female",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 286,
+            "userid": "2GROTNeg",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "31-45 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 287,
+            "userid": "2GROTNeg",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have a strong interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 288,
+            "userid": "2GROTNeg",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I often visit museums",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 289,
+            "userid": "2GROTNeg",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Vorrei vedere i contenuti in Lingua dei Segni (LIS)",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "e4aM9WL7": [
+        {
+            "id": 290,
+            "userid": "e4aM9WL7",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Female",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 291,
+            "userid": "e4aM9WL7",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "31-45 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 292,
+            "userid": "e4aM9WL7",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "My work is about art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 293,
+            "userid": "e4aM9WL7",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I often visit museums",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 294,
+            "userid": "e4aM9WL7",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Vorrei vedere i contenuti in Lingua dei Segni (LIS)",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "FbEHiNmP": [
+        {
+            "id": 295,
+            "userid": "FbEHiNmP",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Female",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 296,
+            "userid": "FbEHiNmP",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "31-45 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 297,
+            "userid": "FbEHiNmP",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have a strong interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 298,
+            "userid": "FbEHiNmP",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I visit museums and exhibitions from time to time",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 299,
+            "userid": "FbEHiNmP",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Non mi interessano i contenuti in Lingua dei Segni",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "xi3DCToA": [
+        {
+            "id": 300,
+            "userid": "xi3DCToA",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Female",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 301,
+            "userid": "xi3DCToA",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "45-60 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 302,
+            "userid": "xi3DCToA",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have a strong interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 303,
+            "userid": "xi3DCToA",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I often visit museums",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 304,
+            "userid": "xi3DCToA",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Vorrei vedere i contenuti in Lingua dei Segni (LIS)",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "SIbOTAP7": [
+        {
+            "id": 305,
+            "userid": "SIbOTAP7",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Female",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 306,
+            "userid": "SIbOTAP7",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "31-45 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 307,
+            "userid": "SIbOTAP7",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have a strong interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 308,
+            "userid": "SIbOTAP7",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I visit museums and exhibitions from time to time",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 309,
+            "userid": "SIbOTAP7",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "ContentInLIS",
+            "pvalue": "Non mi interessano i contenuti in Lingua dei Segni",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        }
+    ],
+    "GdMZ5rXI": [
+        {
+            "id": 310,
+            "userid": "GdMZ5rXI",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Gender",
+            "pvalue": "Female",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 311,
+            "userid": "GdMZ5rXI",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "Age",
+            "pvalue": "31-45 age",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 312,
+            "userid": "GdMZ5rXI",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithArt",
+            "pvalue": "I have a strong interest in art",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 313,
+            "userid": "GdMZ5rXI",
+            "origin": "User",
+            "source_id": "fake90e6d701748f08514b01",
+            "source": "fake",
+            "pname": "RelationshipWithMuseum",
+            "pvalue": "I visit museums and exhibitions from time to time",
+            "context": "application",
+            "datapoints": 0,
+            "category": "demographics"
+        },
+        {
+            "id": 314,
+            "userid": "GdMZ5rXI",
             "origin": "User",
             "source_id": "fake90e6d701748f08514b01",
             "source": "fake",
