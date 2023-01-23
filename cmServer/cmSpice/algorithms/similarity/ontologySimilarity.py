@@ -36,10 +36,21 @@ class OntologySimilarity(SimilarityDAO):
         double
             Distance between the two elements.
         """
-        valueA = self.data.loc[elemA][self.similarityColumn]
-        valueB = self.data.loc[elemB][self.similarityColumn]
-                
-        return self.ontologyDistance(valueA,valueB)
+        try:
+            valueA = self.data.loc[elemA][self.similarityColumn]
+            valueB = self.data.loc[elemB][self.similarityColumn]
+                    
+            return self.ontologyDistance(valueA,valueB)
+        except Exception as e:
+            print("exception materials ontology - distance")
+            print(e)
+            print("elemA: " + str(elemA))
+            print("elemB: " + str(elemB))
+            print("similarityColumn: " + self.similarityColumn)
+            print("materialA: " + str(valueA))
+            print("materialB: " + str(valueB))
+            print("\n")
+            return 1
 
     def distanceValues(self, valueA, valueB):
         return self.ontologyDistance(self, valueA, valueB)
@@ -60,29 +71,20 @@ class OntologySimilarity(SimilarityDAO):
             Similarity between the two taxonomy members.
         """
         try:
-            print("ontologyDistance")
-            print(valueA)
-            print(valueB)
-            print("\n")
+            
 
             # Some artworks have more than one material (separated by ,)
             ontologyValueListA, ontologyValueListB = self.getOntologyValueList(valueA, valueB)
 
-            print("ontologyDistance List")
-            print(ontologyValueListA)
-            print(ontologyValueListB)
-            print("\n")
+            
 
             # Compare each of the ontologyValueListA with each of the ontologyValueListB and the other way around
             distance1 = self.ontologyDistanceList(ontologyValueListA, ontologyValueListB)
-            print("distance1: " + str(distance1))
+            
             distance2 = self.ontologyDistanceList(ontologyValueListB, ontologyValueListA)
-            print("distance2: " + str(distance2))
+            
 
-            print("ontology distance")
-            print(distance1)
-            print(distance2)
-            print("\n")
+            
 
             return (distance1 + distance2) / 2
             
@@ -90,10 +92,27 @@ class OntologySimilarity(SimilarityDAO):
         except Exception as e:
             print("exception ontologyDistance")
             print(e)
-            print("returning distance: 1")
+
+            print("ontologyDistance")
+            print(valueA)
+            print(valueB)
+            print("\n")
+
+            print("ontologyDistance List")
             print(ontologyValueListA)
             print(ontologyValueListB)
             print("\n")
+
+            print("distance1: " + str(distance1))
+            print("distance2: " + str(distance2))
+
+
+            print("ontology distance")
+            print(distance1)
+            print(distance2)
+            print("\n")
+
+
             return 1
 
     def ontologyDistanceList(self, ontologyValueListA, ontologyValueListB):
@@ -203,12 +222,14 @@ class OntologySimilarity(SimilarityDAO):
             chosenLowestCommonAncestor = "none"
             chosenLowestCommonAncestorLayer = -1
             for ontologyValueB in ontologyValueListB:
+                """
                 print("most similar function")
                 print("ontologyValueA: " + str(ontologyValueA))
                 print("ontologyValueA 2: " + str(self.onto[ontologyValueA.capitalize()]))
                 print("ontologyValueB: " + str(ontologyValueB))
                 print("ontologyValueB 2: " + str(self.onto[ontologyValueB.capitalize()]))
                 print("\n")
+                """
                 
                 # Get ancestors chosen values
                 ancestorsA = self.onto[ontologyValueA.capitalize()].ancestors()
@@ -216,16 +237,20 @@ class OntologySimilarity(SimilarityDAO):
 
                 # Intersection ancestors (common ancestors)
                 commonAncestors = ancestorsA.intersection(ancestorsB)
+                """
                 print("common ancestors most similar")
                 print(commonAncestors)
                 print("\n")
+                """
 
                 lowestCommonAncestor, lowestCommonAncestorLayer = self.getOntologyLowestCommonAncestor(commonAncestors)
 
+                """
                 print("lowest common ancestor")
                 print(lowestCommonAncestor)
                 print(lowestCommonAncestorLayer)
                 print("\n")
+                """
                 
                 if (lowestCommonAncestorLayer > chosenLowestCommonAncestorLayer):
                     chosenLowestCommonAncestor = lowestCommonAncestor

@@ -48,7 +48,10 @@ class ExtendedPlutchikEmotionSimilarityDAO(SimilarityDAO):
         double
             Distance value between emotions.
         """        
-        try: 
+        try:
+            emotionA = emotionA.lower()
+            emotionB = emotionB.lower()
+            
             # Real index in the extended list of emotions
             realIndexA = self.plutchikEmotions.index(emotionA)
             realIndexB = self.plutchikEmotions.index(emotionB)
