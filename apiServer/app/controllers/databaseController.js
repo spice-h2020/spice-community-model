@@ -20,7 +20,7 @@ router.get('/dump', function (req, res, next) {
 });
 
 
-router.post('/load', function (req, res, next) {
+router.post('/dump', function (req, res, next) {
     DatabaseContrl.postLoad(req.body)
         .then(function (response) {
             res.status(200).send(response);
