@@ -35,7 +35,6 @@ module.exports.getCommunityById = function getCommunityById(req, res, next) {
   Communities.getCommunityById(communityId)
     .then(function (response) {
       var community = response
-      console.log(community.perspectiveId)
       Flags.getFlagsById(community.perspectiveId)
         .then(function (flag) {
           if (flag == null) { // flag does not exist => no update needed

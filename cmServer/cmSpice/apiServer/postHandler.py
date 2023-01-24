@@ -102,7 +102,7 @@ def __updateUsers(self, post_data):
                 """
                 attributeLabel = user["category"] + "." + user["pname"]
                 if similarityFunction['sim_function']['on_attribute']['att_name'] == attributeLabel:
-                    flag = {'perspectiveId': perspective['id'], 'userid': user['userid'], 'needToprocess': True, 'error': "N/D"}
+                    flag = {'perspectiveId': perspective['id'], 'userid': user['userid'], 'needToProcess': True, 'error': "N/D"}
                     # flag = {'perspectiveId': perspective['id'], 'userid': 'flagAllUsers', 'flag': True}
                     daoFlags.updateFlag(flag)
 
@@ -121,8 +121,8 @@ def __updateCM(self):
         if flag["perspectiveId"] not in perspectiveFlagsDict:
             perspectiveFlagsDict[flag["perspectiveId"]] = []
         perspectiveFlagsDict[flag["perspectiveId"]].append(flag['userid'])
-        # needToprocess to false
-        flag["needToprocess"] = False
+        # needToProcess to false
+        flag["needToProcess"] = False
         daoFlags.replaceFlag(flag)
 
     try:

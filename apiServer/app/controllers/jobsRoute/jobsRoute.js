@@ -149,13 +149,6 @@ router.get('/:job_id', function (req, res, next) {
         if (param == 0) {
             Flags.getFlags()
                 .then(function (data) {
-                    // console.log("aaaaaaaaaa " + type(data))
-                    // var ok = false;
-                    // flags.forEach(flag => {
-                    //     if (!flag["error"] != "N/D")
-                    //     ok = true;
-                    // });
-
                     if (data == null) {
                         var data = {};
                         // Get data from mongodb if flag is positive

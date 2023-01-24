@@ -55,7 +55,7 @@ advanceState = function (job) {
     // }
 }
 
-setJobsToErrorState = function (errorMsg) {
+setAllJobsToErrorState = function (errorMsg) {
     jobsList.forEach(elem => {
         elem["job-state"] = "COMPLETED";
         elem["job-status"] = "ERROR";
@@ -65,7 +65,7 @@ setJobsToErrorState = function (errorMsg) {
 }
 
 /**
- * Check flags and if CM is not updating then find first job in queue. Update CM with that job and advance the state if that job
+ * Check flags and if CM is not updating then find the first job in the queue. Update CM with that job and advance the state of the job.
  */
 checkAndStartNewJob = function () {
     return new Promise(function (resolve, reject) {
@@ -77,7 +77,7 @@ checkAndStartNewJob = function () {
                     var cmState = "idle";
                     var errorMsg = "";
                     flags.forEach(flag => {
-                        if (!flag["needToprocess"])
+                        if (!flag["needToProcess"])
                             cmState = "updating";
                         if (flag["error"] != "N/D") {
                             cmState = "error";
@@ -86,15 +86,16 @@ checkAndStartNewJob = function () {
                     });
 
                     if (cmState == "error") {
-                        setJobsToErrorState(errorMsg)
+                        setAllJobsToErrorState(errorMsg)
                     }
                     else {
                         // Find first job that need an update
                         var jobToUpdate = jobsList.find(job => (job["job-state"] == "INQUEUE" && job["job-status"] == "INQUEUE"));
                         // 
                         if (cmState == "idle" && jobToUpdate != undefined) {
-                            // post.update_CM(jobToUpdate["param"]);
+                            // update CM
                             redirect.postData(jobToUpdate["param"], "/update_CM")
+                            // advance job state from queue to started
                             advanceState(jobToUpdate);
                         }
                     }
@@ -112,6 +113,7 @@ checkAndStartNewJob = function () {
  * 
  */
 autoremoveJobs = function () {
+    // for in jobs
     // if actualtime > timecreation+livetime then remove job
 };
 
@@ -126,7 +128,6 @@ createJob = function (param, requestTypeName) {
     return new Promise(function (resolve, reject) {
         findExistingJob(param, requestTypeName)
             .then(function (existingJob) {
-                console.log(existingJob)
                 if (existingJob == null) {
                     var jobId = generateId()
                     console.log("<JobsQueue> generateId: " + jobId)
@@ -155,6 +156,7 @@ createJob = function (param, requestTypeName) {
 
 /**
  * Checks if a job with same parameters and request type already exist
+ * Compares request, param and flags_id (without "needToProcess" field)
  * @param {string} param param
  * @param {string} requestTypeName request type
  * @returns promise that resolves with existing job or null if does not exist
@@ -164,7 +166,8 @@ findExistingJob = function (param, requestTypeName) {
         Flags.getFlags()
             .then(function (flags) {
                 var job = null;
-                console.log(flags)
+                // remove needToProcess field to compare even if the job has started
+                flags.forEach(function (v) { delete v.needToProcess });
                 jobsList.forEach(elem => {
                     if (elem["request"] == requestTypeName && elem["param"] == param) {
                         if (JSON.stringify(elem["flags_id"]) == JSON.stringify(flags)) {
@@ -206,7 +209,9 @@ getJobs = function () {
  */
 addJob = function (jobId, request, param) {
     Flags.getFlags()
-        .then(function (data) {
+        .then(function (flags) {
+            // remove needToProcess field, so later we can compare jobs (and if the job started it will have this field modified so new job will be creted for the same task)
+            flags.forEach(function (v) { delete v.needToProcess }); 
             var job = {
                 path: "",
                 jobId: jobId,
@@ -218,7 +223,7 @@ addJob = function (jobId, request, param) {
                 request: request,
                 param: param,
                 autoremove: false,
-                flags_id: data
+                flags_id: flags
             }
             jobsList.push(job);
         })

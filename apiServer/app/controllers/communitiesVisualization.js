@@ -38,7 +38,7 @@ router.get('/index', function (req, res, next) {
                         });
 
                 } catch (error) {
-                    console.log("aa " + error)
+                    console.error("CommunitiesVis.getIndex-> jobManager.createJob: error: " + error)
                 }
             }
         })
@@ -58,7 +58,6 @@ router.get('/index', function (req, res, next) {
 router.get('/file/:fileId', function (req, res, next) {
     var fileId = req.params.fileId
 
-    // console.log(file.perspectiveId)
     Flags.getFlagsById(fileId)
         .then(function (flag) {
             if (flag == null) { // flag does not exist => no update needed
