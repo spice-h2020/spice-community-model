@@ -352,9 +352,6 @@ class CommunityModel():
         if len(path) == 1:
             if isinstance(obj, dict):
                 for key in obj.keys():
-                    print(obj)
-                    print(path[0])
-                    print(key)
                     if key == path[0] and  not isinstance(obj[key], dict) and obj[key] in value:
                                 obj[path[0]] = value[obj[path[0]]]
             elif isinstance(obj, list):
