@@ -1,13 +1,15 @@
 # python modules
 import os
-import pymongo
 from bson.json_util import dumps, loads
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ForkingMixIn
 from bson.objectid import ObjectId
 import json
 import time
+
 import logging
+import logging.config
+from cmSpice.logger.mongoLogger import MongoHandler
 
 # local modules
 from cmSpice.dao.dao_db import DAO_db
@@ -30,6 +32,8 @@ from cmSpice.apiServer import postHandler
 server_loader_port = int(os.environ['CM_DOCKER_PORT'])
 server_loader_ip = "0.0.0.0"
 
+
+db_collection = os.environ['DB_LOG_COLLECTION']
 db_host = os.environ['DB_HOST']
 db_user = os.environ['DB_USER']
 db_password = os.environ['DB_PASSWORD']
@@ -54,12 +58,25 @@ class ForkingHTTPServer(ForkingMixIn, HTTPServer):
 
 def run(server_class=HTTPServer, handler_class=Handler):
     logging.basicConfig(level=logging.INFO)
+    logging.config.fileConfig('cmSpice/logger/logging.ini', disable_existing_loggers=False)
+    log = logging.getLogger(__name__)
+    log.addHandler(MongoHandler(collection=db_collection, host=db_host, db_name=db_name,
+                            username=db_user,
+                            password=db_password, port=db_port))
+
+    log.info('Starting server-loader...\n')
+
+
+
+    # f = open("cmSpice/logger/file.log", "r")
+    # print(f.read())
+
     server_address = (server_loader_ip, server_loader_port)
     httpd = ForkingHTTPServer(server_address, handler_class)
-    logging.info('Starting server-loader...\n')
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
         pass
     httpd.server_close()
-    logging.info('Stopping server-loader...\n')
+
+    log.info('Stopping server-loader...\n')

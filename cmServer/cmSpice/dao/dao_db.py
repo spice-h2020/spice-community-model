@@ -17,8 +17,8 @@ class DAO_db(DAO):
         self.db_port = os.environ['DB_PORT']
 
         # print("mongodb://{}:{}@{}:{}/".format(username, password, self.route, port))
-        uri = "mongodb://{}:{}@{}:{}/?authMechanism=DEFAULT&authSource=spiceComMod".format(self.db_user, self.db_password,
-                                                                                           self.db_host, self.db_port)
+        uri = "mongodb://{}:{}@{}:{}/?authMechanism=DEFAULT&authSource={}".format(self.db_user, self.db_password,
+                                                                                           self.db_host, self.db_port, self.db_name)
         self.mongo = MongoClient(uri)
         # self.mongo = MongoClient(uri, serverSelectionTimeoutMS=5000)
         # self.mongo = MongoClient('mongodb://%s:%s@127.0.0.1' % (username, password)) #MongoClient("mongodb://{}:{}@{}:{}/".format(username, password, self.route, port))
