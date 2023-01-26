@@ -291,10 +291,14 @@ class OntologySimilarity(SimilarityDAO):
                     commonParent = lowestCommonAncestor.name.lower()
                     commonParentDict = {}
                     commonParentDict[commonParent] = {}
-                    commonParentDict[commonParent][ontologyValueA] = [ self.artworkA['tittle'].to_list()[0] ]
+                    commonParentDict[commonParent][ontologyValueA] = [ self.artworkA['id'].to_list()[0] ]
+                    #commonParentDict[commonParent][ontologyValueA] = { "id": [self.artworkA['id'].to_list()[0]], "tittle": [self.artworkA['tittle'].to_list()[0]] }
                     if (ontologyValueB not in commonParentDict[commonParent]):
                         commonParentDict[commonParent][ontologyValueB] = []
-                    commonParentDict[commonParent][ontologyValueB].append( self.artworkB['tittle'].to_list()[0] )
+                        #commonParentDict[commonParent][ontologyValueB] = {"id": [], "tittle": []}
+                    commonParentDict[commonParent][ontologyValueB].append( self.artworkB['id'].to_list()[0] )
+                    #commonParentDict[commonParent][ontologyValueB]['id'].append( self.artworkB['id'].to_list()[0] )
+                    #commonParentDict[commonParent][ontologyValueB]['tittle'].append( self.artworkB['tittle'].to_list()[0] )
 
                     explainableValues.append(commonParentDict)
 

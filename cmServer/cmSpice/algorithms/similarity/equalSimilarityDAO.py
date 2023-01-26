@@ -31,6 +31,17 @@ class EqualSimilarityDAO(SimilarityDAO):
             return 1.0
         else:
             return 0.0
+
+#-------------------------------------------------------------------------------------------------------------------------------
+#   To calculate dominant value
+#-------------------------------------------------------------------------------------------------------------------------------
+       
+    def dominantValue(self, valueA, valueB):
+        #return valueA
+        if self.similarityColumn == 'id':
+            return {valueA: self.artworkA['id'].to_list()[0]}
+        else:
+            return valueA
         
         
     

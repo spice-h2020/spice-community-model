@@ -433,8 +433,13 @@ class CommunityJsonGenerator:
                     #explanationJson['explanation_data']['label'] = 'Percentage distribution of the implicit attribute ' + "(" + implicitAttribute + ")" + ":"
                     #explanationJson['explanation_data']['data'] = implicitPropertyExplanations[implicitAttribute]
                     
+                    #explanationJson['explanation_data']['accordionMode'] = False
                     explanationJson['explanation_data']['label'] = implicitPropertyExplanations[implicitAttribute]['label']
                     explanationJson['explanation_data']['data'] = implicitPropertyExplanations[implicitAttribute]['explanation']
+                    
+                    values = list(explanationJson['explanation_data']['data'].values())
+                    if (len(values) > 0 and isinstance(values[0],list)):
+                        explanationJson['explanation_data']['accordionMode'] = True
                     
 
                     explanationJson['visible'] = True
