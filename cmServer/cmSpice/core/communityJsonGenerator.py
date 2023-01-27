@@ -237,9 +237,10 @@ class CommunityJsonGenerator:
         # Export community information to JSON format
         self.communityJson = {}
         
-        self.communityJSON()
+        
         
         if (self.containsInteractions()):
+            print("it contains interactions")
             # Generate interactions column used in self.userJSON()
             #self.generateUserInteractionColumnMaster()
             self.json_df['interactions'] = self.generateUserInteractionColumn()
@@ -258,11 +259,15 @@ class CommunityJsonGenerator:
             #self.json_df['no_community_interactions'] = self.json_df.apply(lambda row:  all(map( row['interactions'].pop, row['community_interactions'] ))    , axis = 1)
             self.json_df['no_community_interactions'] = self.json_df.apply(lambda row:  [ i for i in row['interactions'] if i not in row['community_interactions'] ]    , axis = 1)
         else:
+            print("it doesnt contain interactions")
             self.json_df['interactions'] = [[] for _ in range(len(self.json_df))]
             self.json_df['community_interactions'] = [[] for _ in range(len(self.json_df))]
             self.json_df['no_community_interactions'] = [[] for _ in range(len(self.json_df))]
+
+        # 
         
-        
+        # Generate each of the parts composing the JSON visualization file
+        self.communityJSON()
         self.userJSON()
         self.similarityJSON()
         self.interactionObjectJSON()
@@ -334,7 +339,51 @@ class CommunityJsonGenerator:
                 medoidJson = {'medoid': self.communityDict['medoids'][c]}
                 medoidJson = {'explanation_type': 'medoid', 'explanation_data': {'id': self.communityDict['medoids'][c]}, 'visible': True}
                 communityDictionary['explanations'].append(medoidJson)
-            
+
+                # Artworks the users interacted with that are relevant for the community
+                print("self.json_df")
+                print(self.json_df[['community_interactions']])
+                print("\n")
+                print(self.json_df[['interactions']])
+                print("\n")
+                
+
+                communityMembers_df = self.json_df.loc[ self.json_df['userid'].isin(community_data['members']) ] 
+                #communityInteractedArtworks = self.json_df['community_interactions'].to_list()
+                #communityInteractedArtworks = communityMembers_df['community_interactions'].to_list()
+                communityInteractedArtworks = communityMembers_df['interactions'].to_list()
+
+                print("community interacted artworks")
+                print(communityInteractedArtworks)
+                print("\n")
+                #communityInteractedArtworks_id = [ interaction['artwork_id'] for userInteractedArtworks in communityInteractedArtworks if len(interaction) > 0 ]
+                #communityInteractedArtworks_id=sorted(communityInteractedArtworks_id,key=lambda x:communityInteractedArtworks_id.count(x))
+                communityInteractedArtworks_id = [interaction['artwork_id'] for userInteractedArtworks in communityInteractedArtworks for interaction in userInteractedArtworks]
+                
+                # [ [ interaction ]  for userInteractedArtworks in communityInteractedArtworks]
+                
+                
+                communityInteractedArtworks_id=sorted(communityInteractedArtworks_id,key=communityInteractedArtworks_id.count)
+                print("communityInteractedArtworks_id")
+                print(communityInteractedArtworks_id)
+                print("\n")
+
+                """
+                np_array = np.asarray(communityInteractedArtworks_id, dtype=object)
+                communityInteractedArtworks_id = list(np.hstack(np_array))
+                print("communityInteractedArtworks_id")
+                print(communityInteractedArtworks_id)
+                print("\n")
+                """
+
+                
+                communityInteractedArtworksJson = {'explanation_type': 'implicit_attributes', 'explanation_data': {'label': 'Artworks interacted with by the users that influenced their inclusion in this community', 'data': {'Artworks': communityInteractedArtworks_id}, 'accordionMode': True}, 'visible': True}
+                print("communityInteractedArtworksJson " + str(c))
+                print(communityInteractedArtworksJson)
+                print("\n")
+                communityDictionary['explanations'].append(communityInteractedArtworksJson)
+
+
                 # Implicit community explanation
                 implicitPropertyExplanations = {}
                 
