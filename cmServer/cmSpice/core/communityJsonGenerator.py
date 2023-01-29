@@ -23,6 +23,8 @@ class CommunityJsonGenerator:
         self.community_detection = community_detection
         self.perspective = perspective
         self.percentageExplainability = percentageExplainability
+
+        print("percentage explainability json generator: " + str(self.percentageExplainability))
         
         """
         print("community json generator")
@@ -32,6 +34,10 @@ class CommunityJsonGenerator:
         print("artworks dominant community")
         print(self.json_df['community_dominantArtworks'].tolist())
         """
+
+        print("community json generator")
+        print(self.json_df['community_dominantArtworks'])
+        print("\n")
         
         
         
@@ -41,7 +47,9 @@ class CommunityJsonGenerator:
         self.json_df['label'] = self.json_df['userid']
         self.json_df['group'] = communityDict['users'].values()
         self.json_df['explicit_community'] = self.json_df[communityDict['userAttributes']].to_dict(orient='records')
-        self.json_df['community_dominantArtworks'] = [[] for _ in range(len(self.json_df))]
+        
+        if 'community_dominantArtworks' not in self.json_df.columns:
+            self.json_df['community_dominantArtworks'] = [[] for _ in range(len(self.json_df))]
         
         
         # Extra to make it work with Marco Visualization
@@ -305,7 +313,7 @@ class CommunityJsonGenerator:
         self.communityJson['perspectiveId'] = self.communityDict['perspective']['id']
 
         extraStr = " (" + str(self.percentageExplainability) + ")" + " " + self.perspective['algorithm']['name']
-        extraStr = ""
+        #extraStr = ""
         self.communityJson['name'] = self.communityDict['perspective']['name'] + extraStr
         self.communityJson['perspectiveId'] = self.communityDict['perspective']['id'] + extraStr
 
@@ -341,21 +349,11 @@ class CommunityJsonGenerator:
                 communityDictionary['explanations'].append(medoidJson)
 
                 # Artworks the users interacted with that are relevant for the community
-                print("self.json_df")
-                print(self.json_df[['community_interactions']])
-                print("\n")
-                print(self.json_df[['interactions']])
-                print("\n")
-                
-
                 communityMembers_df = self.json_df.loc[ self.json_df['userid'].isin(community_data['members']) ] 
                 #communityInteractedArtworks = self.json_df['community_interactions'].to_list()
                 #communityInteractedArtworks = communityMembers_df['community_interactions'].to_list()
-                communityInteractedArtworks = communityMembers_df['interactions'].to_list()
+                communityInteractedArtworks = communityMembers_df['community_interactions'].to_list()
 
-                print("community interacted artworks")
-                print(communityInteractedArtworks)
-                print("\n")
                 #communityInteractedArtworks_id = [ interaction['artwork_id'] for userInteractedArtworks in communityInteractedArtworks if len(interaction) > 0 ]
                 #communityInteractedArtworks_id=sorted(communityInteractedArtworks_id,key=lambda x:communityInteractedArtworks_id.count(x))
                 communityInteractedArtworks_id = [interaction['artwork_id'] for userInteractedArtworks in communityInteractedArtworks for interaction in userInteractedArtworks]
@@ -364,9 +362,9 @@ class CommunityJsonGenerator:
                 
                 
                 communityInteractedArtworks_id=sorted(communityInteractedArtworks_id,key=communityInteractedArtworks_id.count)
-                print("communityInteractedArtworks_id")
-                print(communityInteractedArtworks_id)
-                print("\n")
+                #communityInteractedArtworks_id = list(set(communityInteractedArtworks_id))
+                # Slower than list(set()), but it preserves the order.
+                communityInteractedArtworks_id = list(dict.fromkeys(communityInteractedArtworks_id))
 
                 """
                 np_array = np.asarray(communityInteractedArtworks_id, dtype=object)
@@ -378,9 +376,6 @@ class CommunityJsonGenerator:
 
                 
                 communityInteractedArtworksJson = {'explanation_type': 'implicit_attributes', 'explanation_data': {'label': 'Artworks interacted with by the users that influenced their inclusion in this community', 'data': {'Artworks': communityInteractedArtworks_id}, 'accordionMode': True}, 'visible': True}
-                print("communityInteractedArtworksJson " + str(c))
-                print(communityInteractedArtworksJson)
-                print("\n")
                 communityDictionary['explanations'].append(communityInteractedArtworksJson)
 
 
@@ -399,12 +394,14 @@ class CommunityJsonGenerator:
                         #communityPropertiesList.append("'" + str(k) + "'"  + ': ' + "'" + str(community_data['explanation'][0][k]) + "'")
                         #communityPropertiesList.append(community_data['explanation'][0][k])
                         
+                        """
                         print("implicit attribute explanations")
                         print("community number: " + str(c))
                         print("community id: " + str(communityDictionary['id']))
                         print(community_data['explanation'][key])
                         print(community_data['explanation'][key]['explanation'])
                         print("\n")
+                        """
 
                         communityPropertiesDict = community_data['explanation'][key]['explanation']
                         

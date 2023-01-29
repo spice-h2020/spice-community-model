@@ -10,3 +10,4 @@ gephistreamer==2.0.3
 ipywidgets==7.7.0
 markov-clustering==0.0.6.dev0
 fuzzy-c-means==1.6.4
+Owlready2==0.37

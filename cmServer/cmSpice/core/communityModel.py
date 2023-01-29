@@ -63,7 +63,7 @@ log.addHandler(MongoHandler(collection=os.environ['DB_LOG_COLLECTION'],
 
 class CommunityModel():
 
-    def __init__(self, perspective, updateUsers=[]):
+    def __init__(self,perspective,updateUsers = [], percentageExplainability = 0.5):
         """
         Construct of Community Model objects.
 
@@ -80,7 +80,11 @@ class CommunityModel():
         self.perspective = perspective
         self.updateUsers = updateUsers
         self.percentageExplainability = 0.5
+        self.percentageExplainability = 0.3
+        self.percentageExplainability = percentageExplainability
 
+        print("percentage Explainability community model" + str(percentageExplainability))
+        
     def start(self):
 
         log.info("update started")
@@ -174,42 +178,6 @@ class CommunityModel():
         # return self.similarityMeasure.distanceMatrix
         return distanceMatrix
 
-    def clusteringOLD(self):
-        """
-        Performs clustering using the distance matrix and the algorithm specified by the perspective object.
-
-        Parameters
-        ----------
-
-        """
-        percentageDefault = 0.78
-        percentageDefault = 0.5
-
-        algorithmName = self.perspective['algorithm']['name'] + \
-            "CommunityDetection"
-        algorithmFile = "cmSpice.algorithms.clustering." + algorithmName
-        algorithmModule = importlib.import_module(algorithmFile)
-        algorithmClass = getattr(
-            algorithmModule, algorithmName[0].upper() + algorithmName[1:])
-
-        community_detection_df = self.similarityMeasure.data.set_index('user')
-
-        distanceMatrix = self.self.similarityMeasure.distanceMatrix
-        community_detection = ExplainedCommunitiesDetection(
-            algorithmClass, community_detection_df, distanceMatrix, self.perspective)
-
-        n_communities, users_communities, self.medoids_communities = community_detection.search_all_communities(
-            percentage=percentageDefault)
-
-        hecht_beliefR_pivot_df2 = community_detection_df.copy()
-        hecht_beliefR_pivot_df2['community'] = users_communities.values()
-        hecht_beliefR_pivot_df2.reset_index(inplace=True)
-        hecht_beliefR_pivot_df2
-
-        # Export to json
-        self.exportCommunityClusteringJSON(
-            hecht_beliefR_pivot_df2, community_detection, n_communities, percentageDefault, distanceMatrix)
-
     def clusteringExportFileRoute(self, percentageExplainability, algorithmName):
         abspath = os.path.dirname(__file__)
         #relpath = "clustering/" + self.perspective['name'] + " " + "(" + self.perspective['algorithm']['name'] + ")"
@@ -231,44 +199,6 @@ class CommunityModel():
         route = os.path.normpath(os.path.join(abspath, relpath))
 
         return route
-
-    def clusteringOLD(self, exportFile="clustering.json"):
-        """
-        Performs clustering using the distance matrix and the algorithm specified by the perspective object.
-
-        Parameters
-        ----------
-            percentageExplainability: minimum percentage of the most frequent value among 1+ main similarity features.
-
-        """
-        percentageExplainability = self.percentageExplainability
-
-        # Initialize data
-        algorithm = self.initializeAlgorithm()
-        data = self.similarityMeasure.data
-        data = data.set_index('userid')
-
-        #interactionObjectData = self.similarityMeasure.getInteractionObjectData()
-        interactionObjectData = pd.DataFrame()
-
-        # Get results
-        community_detection = ExplainedCommunitiesDetection(
-            algorithm, data, self.distanceMatrix, self.perspective)
-        communityDict = community_detection.search_all_communities(
-            percentage=percentageExplainability)
-        communityDict['perspective'] = self.perspective
-
-        # Export to json
-        data.reset_index(inplace=True)
-        exportFile = self.clusteringExportFileRoute(percentageExplainability)
-        jsonGenerator = CommunityJsonGenerator(
-            interactionObjectData, data, self.distanceMatrix, communityDict, community_detection, self.perspective)
-        jsonCommunity = jsonGenerator.generateJSON(exportFile)
-
-        # Save data to database
-        insertedId = self.saveDatabase(jsonCommunity)
-
-        return insertedId
 
     def clustering(self, exportFile="clustering.json"):
         """
@@ -312,16 +242,21 @@ class CommunityModel():
         # Get results
         community_detection = ExplainedCommunitiesDetection(
             algorithm, data, self.distanceMatrix, self.perspective)
-        communityDict = community_detection.search_all_communities(
+        data, communityDict = community_detection.search_all_communities(
             percentage=percentageExplainability)
         communityDict['perspective'] = self.perspective
 
+        
+
         # Export to json
         data.reset_index(inplace=True)
+        print("data community model")
+        print(data[['userid','community_dominantArtworks']])
+        print("\n")
         exportFile = self.clusteringExportFileRoute(
             percentageExplainability, self.perspective['algorithm']['name'])
         jsonGenerator = CommunityJsonGenerator(
-            interactionObjectData, data, self.distanceMatrix, communityDict, community_detection, self.perspective)
+            interactionObjectData, data, self.distanceMatrix, communityDict, community_detection, self.perspective, self.percentageExplainability)
         jsonCommunity = jsonGenerator.generateJSON(exportFile)
 
         return jsonCommunity
