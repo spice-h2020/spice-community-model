@@ -34,29 +34,32 @@ class DbscanCommunityDetection:
         """
         clusters = []
         epsParameter = 1.0
-        while len(set(clusters)) < n_clusters and epsParameter > 0.01:
-            epsParameter -= 0.1
-            print("calculating dbscan algorithm")
-            print("number of clusters: " + str(n_clusters))
-            print("eps: " + str(epsParameter))
-            print(distanceMatrix)
-            print("clusters")
-            print(clusters)
-            print("\n")
+        bestResult = 999
+        best = []
+        while len(set(clusters)) != n_clusters and epsParameter > 0.01:
             # run dbscan
             dbscan = DBSCAN(metric='precomputed', eps = epsParameter, min_samples = 1)
-            result = dbscan.fit(distanceMatrix)
+            dbscan.fit(distanceMatrix)
 
             # Get clusters
             clusters = dbscan.labels_
-        epsParameter -= 0.1
-        print("calculating dbscan algorithm")
-        print("number of clusters: " + str(n_clusters))
-        print("eps: " + str(epsParameter))
-        print(distanceMatrix)
-        print("clusters")
-        print(clusters)
-        print("\n")
+
+            epsParameter -= 0.01
+            print("calculating dbscan algorithm")
+            print("number of clusters: " + str(len(set(clusters))) + " expected:" + str(n_clusters))
+            print("eps: " + str(epsParameter))
+            # print("clusters:")
+            # print(clusters)
+            print("\n")
+
+            comp = abs(n_clusters-len(set(clusters)))
+            if comp < bestResult and len(set(clusters)) > 1:
+                best = clusters
+                bestResult = comp
+
+            
+        clusters = best
+        print("best number of clusters: " + str(len(set(clusters))) + " expected:" + str(n_clusters))
 
         # Correct -1
         clusters = [len(clusters) if item == -1 else item for item in clusters]
@@ -64,6 +67,10 @@ class DbscanCommunityDetection:
         uniqueLabels = set(clusters)      
         uniqueLabels = sorted(uniqueLabels)
         clusters = [uniqueLabels.index(label) for label in clusters]
+
+        print("number of clusters: ")
+        print(clusters)
+        print(len(set(clusters)))
 
 
         return clusters

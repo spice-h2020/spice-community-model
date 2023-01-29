@@ -103,5 +103,7 @@ class BirchCommunityDetection:
 
         # Get clusters
         clusters = model.labels_
-
+        print("number of clusters: ")
+        print(clusters)
+        
         return clusters

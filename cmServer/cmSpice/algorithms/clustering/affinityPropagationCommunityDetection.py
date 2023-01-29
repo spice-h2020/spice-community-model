@@ -92,14 +92,42 @@ class AffinityPropagationCommunityDetection:
 
 
         # run AffinityPropagation
-        model = AffinityPropagation(convergence_iter= 7, affinity="euclidean", damping= 0.5)
-        model.fit(distanceMatrix)
+        # model = AffinityPropagation(convergence_iter= 7, affinity="euclidean", damping= 0.5)
 
-        # db_index = davies_bouldin_score(distanceMatrix, model.labels_)
+        clusters = []
+        parameter = 0.5
+        bestResult = 999
+        best = [-1]
+        while len(set(clusters)) != n_clusters and parameter < 1:
+            # run dbscan
+            model = AffinityPropagation(max_iter=500, damping=parameter)
+            model.fit(distanceMatrix)
+
+            # Get clusters
+            clusters = model.labels_
+
+            parameter += 0.01
+            print("calculating AffinityPropagation algorithm")
+            print("number of clusters: " + str(len(set(clusters))) + " expected:" + str(n_clusters))
+            print("parameter: " + str(parameter))
+            print("clusters:")
+            print(clusters)
+            print("\n")
+
+            comp = abs(n_clusters-len(set(clusters)))
+            if comp < bestResult and len(set(clusters)) > 1:
+                best = clusters
+                bestResult = comp
+
+            
+        clusters = best
+        print("best number of clusters: " + str(len(set(clusters))) + " expected:" + str(n_clusters))
+        print(clusters)
+
+        # db_index = davies_bouldin_score(distanceMatrix, clusters)
         # print("db_index:")
         # print(db_index)
 
-        # Get clusters
-        clusters = model.labels_
+
 
         return clusters
