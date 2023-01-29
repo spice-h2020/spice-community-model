@@ -27,6 +27,7 @@ from cmSpice.algorithms.clustering.explainedCommunitiesDetection import Explaine
 # similarity measures
 from cmSpice.algorithms.similarity.complexSimilarityDAO import ComplexSimilarityDAO
 from cmSpice.algorithms.similarity.interactionSimilarityDAO import InteractionSimilarityDAO
+from cmSpice.algorithms.similarity.communityModelSimilarity import CommunityModelSimilarity
 
 # dao
 from cmSpice.dao.dao_csv import DAO_csv
@@ -121,6 +122,15 @@ class CommunityModel():
         print(self.perspective)
         print(self.perspective['similarity_functions'])
         daoCommunityModel = DAO_db_users()
+
+        # Call wrapper to distinguish for HECHT special case.
+        """
+        """
+        similarityMeasureWrapper = CommunityModelSimilarity(daoCommunityModel, self.perspective)
+        similarityMeasure, self.perspective = similarityMeasureWrapper.initializeComplexSimilarityMeasure()
+
+    
+        """
         # If there are interaction_features use interactionSimilarityDAO
         if (len(self.perspective['interaction_similarity_functions']) > 0):
             similarityMeasure = InteractionSimilarityDAO(
@@ -131,6 +141,8 @@ class CommunityModel():
             similarityDict = self.perspective['similarity_functions']
             similarityMeasure = ComplexSimilarityDAO(
                 daoCommunityModel, similarityDict)
+        
+        """
 
         print("similarity measure: " + str(type(similarityMeasure)))
 
