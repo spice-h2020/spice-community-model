@@ -144,10 +144,10 @@ exports.PostPerspective = function (body) {
         return redirect.postData(perspectiveId, "/perspective");
       })
       .catch(function (error) {
-        console.error("PerspectiveDAO.insertPerspective.promise1: " + error)
+        console.error("PerspectiveDAO.insertPerspective.promise1: " + error);
       });
   } catch (error) {
-    console.log("PostPerspective error:" + error)
+    console.log("PostPerspective error:" + error);
   }
 
 }

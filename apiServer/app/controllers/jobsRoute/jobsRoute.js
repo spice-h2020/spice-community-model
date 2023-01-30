@@ -15,39 +15,6 @@ var router = express.Router();
 
 var jobPrefix = "/v1.1/jobs/";
 
-
-/**Response example templates */
-var jobStarted_Template = {
-    "job": {
-        "@uri": "/jobs/xxxxxxxx",
-        "id": "2130040",
-        "name": "Update Community Model",
-        "job-state": "STARTED",
-        "job-status": "INPROGRESS",
-        "percent-complete": "30",
-        "scheduled-start-time": "01-01-2013 10:50:45 PM GMT",
-        "start-time": "01-01-2013 10:50:55 PM GMT",
-        "end-time": "",
-        "owner": "Admin",
-        "summary": "random text"
-    }
-}
-var jobCompleted_Template = {
-    "job": {
-        "@uri": "/api/company/job-management/jobs/2130040",
-        "id": "2130040",
-        "name": "Update Resource",
-        "job-state": "COMPLETED",
-        "job-status": "SUCCESS",
-        "percent-complete": "100",
-        "scheduled-start-time": "01-01-2013 10:50:45 PM GMT",
-        "start-time": "01-01-2013 10:50:55 PM GMT",
-        "end-time": "01-01-2013 10:52:18 PM GMT",
-        "owner": "Admin",
-        "summary": "random text"
-    }
-}
-
 /**Response templates */
 var jobStarted = {
     "job": {
@@ -55,9 +22,9 @@ var jobStarted = {
         "jobId": "xx",
         "name": "CM Update",
         "job-state": "STARTED",
-        "job-status": "INPROGRESS",
-        "start-time": "",
-        "time-to-autoremove-job": "",
+        "time-created": -1,
+        "time-completed": -1,
+        "time-to-autoremove-job": -1,
         "data": {}
     }
 }
@@ -67,9 +34,9 @@ var jobCompleted = {
         "jobId": "",
         "name": "CM Update",
         "job-state": "COMPLETED",
-        "job-status": "SUCCESS",
-        "start-time": "",
-        "time-to-autoremove-job": "",
+        "time-created": -1,
+        "time-completed": -1,
+        "time-to-autoremove-job": -1,
         "data": {}
     }
 }
@@ -81,17 +48,22 @@ var jobCompleted = {
  * @returns Completed response
  */
 function generateCompletedResponse(job, data) {
-    advanceState(job);
+    jobManager.advanceState(job);
+
     var response = jobCompleted;
+    var timeLeft = -1;
+    if (job["job-state"] != jobManager.jobStates.ERROR) {
+        var msLeft = job["time-completed"].getTime() + jobManager.timeoutAfterCompletion - (new Date().getTime());
+        var dateLeft = new Date(msLeft);
+        timeLeft = dateLeft.getMinutes() + ":" + dateLeft.getSeconds();
+    }
     response["job"]["job-state"] = job["job-state"];
-    response["job"]["job-status"] = job["job-status"];
     response["job"]["path"] = jobPrefix + job.jobId;
     response["job"]["jobId"] = job.jobId;
     response["job"]["data"] = data;
-    response["job"]["start-time"] = job["start-time"];
-    var timeLeft = (job["start-time"].getTime() + (5 * 60 * 1000)) - (new Date().getTime());
-    response["job"]["time-to-autoremove-job"] = timeLeft / (1000 * 60) + " minutes";
-
+    response["job"]["time-created"] = job["time-created"];
+    response["job"]["time-completed"] = job["time-completed"];
+    response["job"]["time-to-autoremove-job"] = timeLeft;
     return response
 }
 
@@ -101,15 +73,14 @@ function generateCompletedResponse(job, data) {
  * @returns Progress response
  */
 function generateProgressResponse(job) {
+    var data = {}
     var response = jobStarted;
     response["job"]["job-state"] = job["job-state"];
-    response["job"]["job-status"] = job["job-status"];
     response["job"]["path"] = jobPrefix + job.jobId;
     response["job"]["jobId"] = job.jobId;
-    response["job"]["start-time"] = job["start-time"];
-    // var timeLeft = (job["start-time"].getTime() + (30 * 60 * 1000)) - (new Date().getTime());
-    // response["job"]["time-to-autoremove-job"] = timeLeft / (1000 * 60) + " minutes";
-
+    response["job"]["data"] = data;
+    response["job"]["time-created"] = job["time-created"];
+    response["job"]["time-completed"] = job["time-completed"];
     return response
 }
 
@@ -150,7 +121,7 @@ router.get('/:job_id', function (req, res, next) {
             Flags.getFlags()
                 .then(function (data) {
                     if (data == null) {
-                        var data = {};
+                        data = {};
                         // Get data from mongodb if flag is positive
                         jobsHandler.getData(request, param)
                             .then(function (data) {
@@ -175,7 +146,7 @@ router.get('/:job_id', function (req, res, next) {
             Flags.getFlagsById(param)
                 .then(function (data) {
                     if (data == null) {
-                        var data = {};
+                        data = {};
                         // Get data from mongodb if flag is positive
                         jobsHandler.getData(request, param)
                             .then(function (data) {

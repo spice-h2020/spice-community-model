@@ -113,6 +113,6 @@ module.exports.PostPerspective = function PostPerspective(req, res, next) {
           });
       });
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 };

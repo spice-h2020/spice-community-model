@@ -10,13 +10,23 @@ var jobsList = []
 
 var jobPrefix = "/v1.1/jobs/";
 
+// time: minutes*60*1000=ms
+var timeoutAfterCompletion = 30 * 60 * 1000;
+
+// job states
+const jobStates = {
+    INQUEUE: "INQUEUE",
+    STARTED: "STARTED",
+    COMPLETED: "COMPLETED",
+    ERROR: "ERROR"
+}
 
 // path: "",
 // jobId: jobId,
 // name: "CM Update",
-// "job-state": "INQUEUE",
-// "job-status": "INQUEUE",
-// "start-time": new Date(),
+// "job-state": jobStates.INQUEUE,
+// "time-created": new Date(),
+// "time-completed": new Date(),
 // "time-to-autoremove-job": "",
 // request: request,
 // param: param,
@@ -36,29 +46,27 @@ startJobManager = function () {
 };
 
 /**
- * Advance state & status of the job
- * {job-state}, {job-status}    -> {job-state}, {job-status}
- * INQUEUE,     INQUEUE         -> STARTED,     INPROGRESS
- * STARTED,     INPROGRESS      -> COMPLETED,   SUCCESS
+ * Advance state of the job
+ * {job-state} -> {job-state}
+ * INQUEUE,    -> STARTED,
+ * STARTED,    -> COMPLETED 
  */
 advanceState = function (job) {
-    if (job["job-state"] == "INQUEUE") {
-        job["job-state"] = "STARTED";
-        job["job-status"] = "INPROGRESS";
+    if (job["job-state"] == jobStates.INQUEUE) {
+        job["job-state"] = jobStates.STARTED;
     }
-    else if (job["job-state"] == "STARTED") {
-        job["job-state"] = "COMPLETED";
-        job["job-status"] = "SUCCESS";
+    else if (job["job-state"] == jobStates.STARTED) {
+        job["job-state"] = jobStates.COMPLETED;
+        job["time-completed"] = new Date();
     }
-    // else{
+    // else {
     //     throw 'Incorrect use of "advanceState()" function';
     // }
 }
 
 setAllJobsToErrorState = function (errorMsg) {
     jobsList.forEach(elem => {
-        elem["job-state"] = "COMPLETED";
-        elem["job-status"] = "ERROR";
+        elem["job-state"] = jobStates.ERROR;
         elem["request"] = "error";
         elem["param"] = errorMsg;
     });
@@ -84,13 +92,13 @@ checkAndStartNewJob = function () {
                             errorMsg = flag["error"];
                         }
                     });
-
                     if (cmState == "error") {
+                        // If any job has an error state, then set all jobs to error state (jobManager stops)
                         setAllJobsToErrorState(errorMsg)
                     }
                     else {
                         // Find first job that need an update
-                        var jobToUpdate = jobsList.find(job => (job["job-state"] == "INQUEUE" && job["job-status"] == "INQUEUE"));
+                        var jobToUpdate = jobsList.find(job => (job["job-state"] == jobStates.INQUEUE));
                         // 
                         if (cmState == "idle" && jobToUpdate != undefined) {
                             // update CM
@@ -114,7 +122,16 @@ checkAndStartNewJob = function () {
  */
 autoremoveJobs = function () {
     // for in jobs
-    // if actualtime > timecreation+livetime then remove job
+    // if actualtime > timeCompleted+livetime => then remove job
+    var actualTime = new Date().getTime();
+    jobsList.forEach(job => {
+        if (job["job-state"] == jobStates.COMPLETED) {
+            var timeRemove = job["time-completed"].getTime() + timeoutAfterCompletion;
+            if (actualTime > timeRemove) {
+                removeJob(job["jobId"]);
+            }
+        }
+    });
 };
 
 
@@ -211,15 +228,15 @@ addJob = function (jobId, request, param) {
     Flags.getFlags()
         .then(function (flags) {
             // remove needToProcess field, so later we can compare jobs (and if the job started it will have this field modified so new job will be creted for the same task)
-            flags.forEach(function (v) { delete v.needToProcess }); 
+            flags.forEach(function (v) { delete v.needToProcess });
             var job = {
                 path: "",
                 jobId: jobId,
                 name: "CM Update",
-                "job-state": "INQUEUE",
-                "job-status": "INQUEUE",
-                "start-time": new Date(),
-                "time-to-autoremove-job": "",
+                "job-state": jobStates.INQUEUE,
+                "time-created": new Date(),
+                "time-completed": -1,
+                "time-to-autoremove-job": -1,
                 request: request,
                 param: param,
                 autoremove: false,
@@ -246,20 +263,20 @@ removeJob = function (jobId) {
     }
 };
 
-removeJobWithTimeout = removeTimeout = function (jobId, seconds) {
-    // if (!getJob(jobId).autoremove) {
-    // getJob(jobId).autoremove = true;
-    // setTimeout(() => {
-    //     // console.log(`<JobsQueue> auto-removing job => ${jobId}`);
-    //     try {
-    //         removeJob(jobId)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }, seconds * 1000, jobId, jobsList);
-    // }
+// removeJobWithTimeout = removeTimeout = function (jobId, seconds) {
+//     // if (!getJob(jobId).autoremove) {
+//     // getJob(jobId).autoremove = true;
+//     // setTimeout(() => {
+//     //     // console.log(`<JobsQueue> auto-removing job => ${jobId}`);
+//     //     try {
+//     //         removeJob(jobId)
+//     //     } catch (error) {
+//     //         console.log(error)
+//     //     }
+//     // }, seconds * 1000, jobId, jobsList);
+//     // }
 
-}
+// }
 
 
 /**
@@ -279,7 +296,8 @@ generateId = function (jobId) {
     return id;
 };
 
-
+exports.jobStates = jobStates;
+exports.timeoutAfterCompletion = timeoutAfterCompletion;
 exports.advanceState = advanceState;
 exports.startJobManager = startJobManager;
 exports.createJob = createJob;
@@ -288,7 +306,6 @@ exports.getJob = getJob;
 exports.getJobs = getJobs
 exports.addJob = addJob;
 exports.removeJob = removeJob;
-exports.removeJobWithTimeout = removeJobWithTimeout;
 exports.generateId = generateId;
 
 
