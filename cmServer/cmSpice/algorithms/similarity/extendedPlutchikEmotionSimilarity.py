@@ -10,12 +10,6 @@ Extension of the Plutchik wheel of emotions to include the second level of emoti
 """
 Use at least two emotions to perform the similarity
 """
-
-PLUTCHIK_EMOTIONS = ['anger', 'anticipation', 'joy', 'trust', 'fear', 'surprise', 'sadness', 'disgust']
-PLUTCHIK_EMOTIONS_SECOND_LEVEL = ['annoyance','interest', 'serenity','acceptance','apprehension','distraction','pensiveness','boredom']
-PLUTCHIK_EMOTIONS_INTERMEDIATE_LEVEL = ['agressiveness', 'optimism', 'love', 'submission', 'awe', 'disapproval', 'remorse', 'contempt']
-
-
 class ExtendedPlutchikEmotionSimilarity(ExtendedPlutchikEmotionSimilarityDAO):
     
     def distanceValues(self, emotionsDictA, emotionsDictB):
@@ -74,14 +68,9 @@ class ExtendedPlutchikEmotionSimilarity(ExtendedPlutchikEmotionSimilarityDAO):
         """
         
         # Fix value String
-        mftValueA = elementA.lower().replace(" ", "")
-        mftValueB = elementB.lower().replace(" ", "")
-
-        print("distance between elements emotions")
-        print("mftvalueA: " + str(mftValueA))
-        print("mftvalueB: " + str(mftValueB))
-        print("\n")
-
+        emotionA = elementA.lower().replace(" ", "")
+        emotionsB = elementB.lower().replace(" ", "")
+        
         return self.getDistanceBetweenItems(emotionA, emotionB)
 
     def dominantValue(self, emotionsDictA, emotionsDictB):
