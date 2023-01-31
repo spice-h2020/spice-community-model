@@ -78,7 +78,7 @@ class CommunityModel():
         
     def start(self):
 
-        log.info("update started")
+        logger.info("update started")
 
         # Perspective was not found
         if (len(self.perspective) <= 0):
@@ -306,7 +306,7 @@ class CommunityModel():
         # add new data
         daoCommunityModelCommunity.insertFileList("", humanizedJsonCommunity)
 
-        log.info("json data saved")
+        logger.info("json data saved")
 
 # --------------------------------------------------------------------------------------------------------------------------
 #   Auxiliar function
