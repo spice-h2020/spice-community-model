@@ -47,7 +47,7 @@ class PolarityPlutchikEmotionSimilarity(SimilarityDAO):
         else:
             return "neutral"
     
-    def distanceEmotions(self, emotionA, emotionB):
+    def distanceItems(self, emotionA, emotionB):
         """Method to calculate the distance between 2 emotions based on PLUTCHKIN emotions.
 
         Parameters
@@ -145,7 +145,7 @@ class PolarityPlutchikEmotionSimilarity(SimilarityDAO):
             emotionA = emotionA.lower()
             emotionB = emotionB.lower()
 
-            return self.distanceEmotions(emotionA,emotionB)
+            return self.getDistanceBetweenItems(emotionA,emotionB)
         
         
     def dominantValue(self, emotionsDictA, emotionsDictB):

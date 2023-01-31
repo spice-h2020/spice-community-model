@@ -53,7 +53,7 @@ class SimilarityDAO:
         Returns
         -------
         double
-            Distance between the two values.
+            Distance between the two items.
         """
         return 1.0
 
@@ -61,7 +61,7 @@ class SimilarityDAO:
         """
         Method to call additional logic after the function overwrite of "distanceItems()" in the children classes
         
-        Basic distance function: ultimately called by any distance function
+        Basic distance function: ultimately called by any distance function in any similarity measure
 
         Parameters
         ----------
@@ -132,7 +132,32 @@ class SimilarityDAO:
 #-------------------------------------------------------------------------------------------------------------------------------
 #   To calculate similarity between two lists of different length
 #-------------------------------------------------------------------------------------------------------------------------------
-             
+    
+    def distanceListElements(self, elementA, elementB):
+        return self.getDistanceBetweenItems(elementA, elementB)
+
+    def mostSimilarListElement(self, listElementA, listB):
+        """
+        Gets the most similar element to another among the members of a list
+
+        """
+        """
+        print("checking most similar list element")
+        print(listElementA)
+        print(listB)
+        print("\n")
+        """
+
+        listElementB = ""
+        lowestDistance = 1.0
+        for listElement in listB:
+            distance = self.distanceListElements(listElementA,listElement)
+            if (distance <= lowestDistance):
+                lowestDistance = distance
+                listElementB = listElement
+        
+        return listElementB
+
     def distanceBetweenLists(self, listA, listB):
         """
         Auxiliary function to set the comparison between two lists of different length
@@ -175,31 +200,7 @@ class SimilarityDAO:
 
         return totalDistance
 
-    def distanceListElements(self, elementA, elementB):
-        return 1.0
-
-    def mostSimilarListElement(self, listElementA, listB):
-        """
-        Gets the most similar element to another among the members of a list
-
-        """
-        """
-        print("checking most similar list element")
-        print(listElementA)
-        print(listB)
-        print("\n")
-        """
-
-        listElementB = ""
-        lowestDistance = 1.0
-        for listElement in listB:
-            distance = self.distanceListElements(listElementA,listElement)
-            if (distance <= lowestDistance):
-                lowestDistance = distance
-                listElementB = listElement
-        
-        return listElementB
-
+    
     
     """
     Other functions:

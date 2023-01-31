@@ -7,6 +7,29 @@ class SameValuesDictSimilarity(ValuesSimilarity):
     """
     Handles similarity between values when the data is given by a dict
     """
+    def distanceItems(self, valuesListA, valuesListB):
+        """
+        Method to obtain the distance between two ages.
+
+        Parameters
+        ----------
+        valuesListA : List
+            First age
+        valuesListB : List
+            Second age
+
+        Returns
+        -------
+        double
+            Distance between the two elements.
+        """
+        if (len(valuesListA) <= 0 or len(valuesListB) <= 0):
+            return 1.0
+        elif (valuesListA[0] != valuesListB[0]):
+            return 1.0
+        else: 
+            self.lowestDistancePair = [valuesListA[0], valuesListA[0]]
+            return 0.0
     
     def distanceValues(self, valueA, valueB):
         """
@@ -43,13 +66,7 @@ class SameValuesDictSimilarity(ValuesSimilarity):
         valuesListA = list(dict(itertools.islice(sorted_valuesDictA.items(),numValues)).keys())
         valuesListB = list(dict(itertools.islice(sorted_valuesDictB.items(),numValues)).keys())
 
-        if (len(valuesListA) <= 0 or len(valuesListB) <= 0):
-            return 1.0
-        elif (valuesListA[0] != valuesListB[0]):
-            return 1.0
-        else: 
-            self.lowestDistancePair = [valuesListA[0], valuesListA[0]]
-            return 0.0
+        return self.getDistanceBetweenItems(valuesListA, valuesListB)
 
     def dominantInteractionAttribute(self, mftValuesListA, mftValuesListB):
         """

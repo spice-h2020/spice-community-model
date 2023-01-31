@@ -27,7 +27,7 @@ class TaxonomySimilarityDAO(SimilarityDAO):
     def elemLayer(self,elem):
         return self.taxonomy.getGraph().nodes[elem]['layer']
     
-    def taxonomyDistance(self,elemA,elemB):
+    def distanceItems(self,elemA,elemB):
         """Method to obtain the distance between two taxonomy members.
 
         Parameters
@@ -49,28 +49,6 @@ class TaxonomySimilarityDAO(SimilarityDAO):
         # One of the elements is not in the taxonomy
         except Exception as e:
             return 1
-
-    def distance(self,elemA, elemB):
-        """Method to obtain the distance between two element.
-
-        Parameters
-        ----------
-        elemA : int
-            Id of first element. This id should be in self.data.
-        elemB : int
-            Id of second element. This id should be in self.data.
-
-        Returns
-        -------
-        double
-            Distance between the two elements.
-        """
-        valueA = self.data.loc[elemA][self.similarityColumn]
-        valueB = self.data.loc[elemB][self.similarityColumn]
-                
-        return self.taxonomyDistance(valueA,valueB)
-        
-        #return 1 - self.similarity(elemA,elemB)
 
 #-------------------------------------------------------------------------------------------------------------------------------
 #   To calculate dominant value between two values (in order to explain communities)

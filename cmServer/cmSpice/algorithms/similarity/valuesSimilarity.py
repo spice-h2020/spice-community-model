@@ -16,6 +16,10 @@ class ValuesSimilarity(TableSimilarityDAO):
         """
         super().__init__(dao, similarityFunction)
 
+        print("values similarity initialization")
+        print(similarityFunction)
+        print("\n")
+
     def getSimilarityTableName(self):
         return "mftHaidt"
 
@@ -76,7 +80,7 @@ class ValuesSimilarity(TableSimilarityDAO):
         print("mftvalueB: " + str(mftValueB))
         print("\n")
 
-        return self.distanceTableKeys(mftValueA, mftValueB)
+        return self.getDistanceBetweenItems(mftValueA, mftValueB)
 
     def dominantInteractionAttribute(self, mftValuesListA, mftValuesListB):
         """

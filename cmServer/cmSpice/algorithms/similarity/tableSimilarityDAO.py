@@ -24,7 +24,7 @@ class TableSimilarityDAO(SimilarityDAO):
             att_name: name of the attribute (column) the similarity measure is used upon
             weight: weight of the similarity measure
         """
-        super().__init__(dao)
+        super().__init__(dao, similarityFunction)
         self.similarityCol = similarityFunction['on_attribute']['att_name']
         self.getSimilarityTable()
 
@@ -34,33 +34,11 @@ class TableSimilarityDAO(SimilarityDAO):
     def getSimilarityTable(self):
         dao_csv = DAO_csv(os.path.dirname(os.path.abspath(getsourcefile(lambda:0))) + "/distanceTables/" + self.getSimilarityTableName() + ".csv")
         self.similarityTable = dao_csv.getPandasDataframe().set_index('Key')
-    
-    def distance(self,elemA, elemB):
-        """
-        Method to obtain the distance between two element.
-
-        Parameters
-        ----------
-        elemA : int
-            Id of first element. This id should be in self.data.
-        elemB : int
-            Id of second element. This id should be in self.data.
-
-        Returns
-        -------
-        double
-            Distance between the two elements.
-        """
-        
-        valueA = self.data.loc[elemA][self.similarityCol]
-        valueB = self.data.loc[elemB][self.similarityCol]
-
-        return self.distanceTableKeys(valueA, valueB)
 
     def distanceValues(self, keyA, keyB):
-        return self.distanceTableKeys(keyA, keyB)
+        return self.getDistanceBetweenItems(keyA, keyB)
 
-    def distanceTableKeys(self, keyA, keyB):
+    def distanceItems(self, keyA, keyB):
         """
         Method to obtain the distance between two table keys or labels.
 

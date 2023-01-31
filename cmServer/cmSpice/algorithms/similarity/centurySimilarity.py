@@ -7,27 +7,46 @@ import math
 
 from cmSpice.algorithms.similarity.similarityDAO import SimilarityDAO
 
-
-HECHT_BELIEFS_E = ['Justify','Balanced','Oppose']
-
-
 class CenturySimilarity(SimilarityDAO):
 
-    def distanceValues(self, elemA, elemB):
-        """Method to obtain the distance between two element.
+    def distanceItems(self, itemA, itemB):
+        """
+        Method to obtain the distance between two centuries.
 
         Parameters
         ----------
-        elemA : int
-            Id of first element. This id should be in self.data.
-        elemB : int
-            Id of second element. This id should be in self.data.
+        itemA : int
+            First item
+        itemB : int
+            Second item
 
         Returns
         -------
         double
-            Distance between the two elements.
+            Distance between the two items.
         """
-        # supposing that centuries are numbers
+
         return (abs(elemA - elemB))
+
+    def distanceValues(self, valueA, valueB):
+        """
+        Method to obtain the distance between two pandas cell valiues [row, similarityColumn]
+
+        Defaults to getDistanceBetweenItems(self, itemA, itemB) if it is not overwritten by the 
+        similarity measure child
+
+        Parameters
+        ----------
+        valueA : object
+            Value of first element corresponding to elemA in self.data
+            e.g: GAM emotions: {"serenity": 1.0, "anger": 0.8}
+        valueB : object
+            Value of first element corresponding to elemB in self.data
+
+        Returns
+        -------
+        double
+            Distance between the two values.
+        """
+        return super().distanceValues(valueA, valueB)
 

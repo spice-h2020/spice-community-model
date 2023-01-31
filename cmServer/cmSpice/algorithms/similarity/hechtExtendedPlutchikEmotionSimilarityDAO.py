@@ -28,6 +28,6 @@ class HechtExtendedPlutchikEmotionSimilarityDAO(ExtendedPlutchikEmotionSimilarit
         emotionA = emotionsA.split(";")[0].lower()
         emotionB = emotionsB.split(";")[0].lower()
         
-        return self.distanceEmotions(emotionA,emotionB)
+        return self.getDistanceBetweenItems(emotionA,emotionB)
 
             

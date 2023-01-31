@@ -38,15 +38,16 @@ class DecadeSimilarityDAO(SimilarityDAO):
         self.maxDecade = self.convertYearToDecade(self.convertToYear(maxValue))
         self.minDecade = self.convertYearToDecade(self.convertToYear(minValue))
 
-    def distanceValues(self, elemA, elemB):
-        """Method to obtain the distance between two element.
+    def distanceItems(self, elemA, elemB):
+        """
+        Method to obtain the distance between two items
 
         Parameters
         ----------
-        elemA : int
-            Id of first element. This id should be in self.data.
-        elemB : int
-            Id of second element. This id should be in self.data.
+        elemA : String
+            First item
+        elemB : String
+            Second item
 
         Returns
         -------

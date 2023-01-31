@@ -33,8 +33,9 @@ class ExtendedPlutchikEmotionSimilarityDAO(SimilarityDAO):
 
         self.plutchikEmotions = plutchikEmotions
     
-    def distanceEmotions(self, emotionA, emotionB):
-        """Method to calculate the distance between 2 emotions based on PLUTCHKIN emotions.
+    def distanceItems(self, emotionA, emotionB):
+        """
+        Method to calculate the distance between 2 emotions based on PLUTCHKIN emotions.
 
         Parameters
         ----------
@@ -152,8 +153,7 @@ class ExtendedPlutchikEmotionSimilarityDAO(SimilarityDAO):
             emotionA = emotionA.lower()
             emotionB = emotionB.lower()
 
-            return self.distanceEmotions(emotionA,emotionB)
-        
+            return self.getDistanceBetweenItems(emotionA, emotionB)       
         
     def dominantValue(self, emotionsDictA, emotionsDictB):
         """

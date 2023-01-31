@@ -52,7 +52,8 @@ class ComplexSimilarityDAO(SimilarityDAO):
             """
             
             # Different mode (return 1 - originalDistance)
-            simDistance = similarity.dissimilarFlag(simDistance)
+            # Already done at the time the similarity is calculated
+            #simDistance = similarity.dissimilarFlag(simDistance)
             simDistance2 = simDistance * weight
             
             complexDistance += simDistance2

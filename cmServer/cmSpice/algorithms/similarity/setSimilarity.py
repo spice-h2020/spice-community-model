@@ -7,7 +7,10 @@ import math
 
 from cmSpice.algorithms.similarity.similarityDAO import SimilarityDAO
 
-class IntersectionSimilarityDAO(SimilarityDAO):
+class SetSimilarity(SimilarityDAO):
+    """
+    Similarity between two sets of elements.
+    """
 
     def __init__(self,dao,col):
         """Construct of Similarity objects.
@@ -54,7 +57,26 @@ class IntersectionSimilarityDAO(SimilarityDAO):
         # sets
         setA = set(listA)
         setB = set(listB)
-        
+
+        return self.getDistanceBetweenItems(setA, setB)
+
+    def distanceItems(self, setA, setB):
+        """
+        Method to obtain the distance between two sets.
+
+        Parameters
+        ----------
+        itemA : int
+            First age
+        itemB : int
+            Second age
+
+        Returns
+        -------
+        double
+            Distance between the two elements.
+        """
+
         # Get intersection
         intersection = setA.intersection(setB)
         union = setA.union(setB)
@@ -70,8 +92,7 @@ class IntersectionSimilarityDAO(SimilarityDAO):
         print(intersection)
         print(union)
         print("\n")
-        
         """
-        
         return 1 - (len(intersection) / len(union))
+
         

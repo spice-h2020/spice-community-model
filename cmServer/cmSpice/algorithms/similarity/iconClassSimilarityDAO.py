@@ -33,7 +33,7 @@ class IconClassSimilarityDAO(SimilarityDAO):
     
     """
     
-    def taxonomyDistance(self,elemA,elemB):
+    def distanceItems(self,elemA,elemB):
         """Method to obtain the distance between two taxonomy members.
 
         Parameters
@@ -112,44 +112,7 @@ class IconClassSimilarityDAO(SimilarityDAO):
             distance: float
         """
         longestPrefixElemB = self.iconClassBestMatch(elemA, iconClassListB)
-        return self.taxonomyDistance(elemA,longestPrefixElemB)    
-        
-
-    def distance(self,elemA, elemB):
-        """Method to obtain the distance between two element.
-
-        Parameters
-        ----------
-        elemA : int
-            Id of first element. This id should be in self.data.
-        elemB : int
-            Id of second element. This id should be in self.data.
-
-        Returns
-        -------
-        double
-            Distance between the two elements.
-        """
-        
-        """
-        if (elemA != elemB or self.data.loc[elemA]['_id'] != '35433'):
-            return 1.0
-        """
-         
-        """
-        iconClassListA = self.getIconClassList(elemA)
-        iconClassListB = self.getIconClassList(elemB)
-        """
-        
-        """
-        print("icon class distance")
-        print("elemA: " + str(elemA) + " ; " + "elemB: " + str(elemB))
-        """
-        
-        iconClassListA = self.data.loc[elemA][self.similarityColumn]
-        iconClassListB = self.data.loc[elemB][self.similarityColumn]
-        
-        return self.distanceValues(iconClassListA, iconClassListB)
+        return self.getDistanceBetweenItems(elemA,longestPrefixElemB)    
 
     def distanceValues(self, iconClassListA, iconClassListB):
         """

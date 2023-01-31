@@ -11,7 +11,7 @@ class EqualSimilarityDAO(SimilarityDAO):
     Class to check if two attribute values are equal
     """
     
-    def distanceValues(self, valueA, valueB):
+    def distanceItems(self, valueA, valueB):
         """
         Method to obtain the distance between two valid values given by the similarity measure.
 

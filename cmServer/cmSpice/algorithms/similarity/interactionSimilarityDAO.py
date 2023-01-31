@@ -62,20 +62,30 @@ class InteractionSimilarityDAO(SimilarityDAO):
         print("self.attribute (text): " + str(self.interactionAttributeText))
         print("self.data.columns: " + str(list(self.data.columns)))
         print("\n")
+
+        print("self perspective")
+        print(self.perspective)
+        print("self.interactionSimilarityFunction")
+        print(self.similarityFunction)
+        print("\n")
         
         self.interactionSimilarityMeasure = self.initializeFromPerspective(dao, self.similarityFunction)
+
+        print("checking self.interactionSimilarityFunction")
+        print(self.interactionSimilarityMeasure.similarityFunction)
+        print("\n")
+        
         #print(self.interactionSimilarityMeasure)
         
         #print("dafdsfasdf")
         if (self.similarityFunction['sim_function']['name'] != 'NoInteractionSimilarityDAO' or 1==1):
             #print("sfdsf")
-            
-            
-        
-        
+
             # Remove the interactions with emotion with interactionSimilarityMeasure empty
             IOColumn = self.similarityFunction['sim_function']['interaction_object']['att_name']
             df = self.data.copy()
+
+            print("dsfdsfsdf")
 
             df2 = df.explode([self.interactionAttribute, self.interactionAttributeOrigin, self.interactionAttributeText])
 
@@ -119,6 +129,11 @@ class InteractionSimilarityDAO(SimilarityDAO):
             groupList = []
             groupList.append('userid')
             groupList.extend(self.citizenAttributes)
+
+            # Df3 perspective
+            print("df3 perspective")
+            print(df3[['userid', self.interactionAttribute, self.interactionAttributeOrigin, self.interactionAttributeText]])
+            print("\n")
             
             print("groupby groupList")
             print(groupList)
@@ -305,6 +320,12 @@ class InteractionSimilarityDAO(SimilarityDAO):
             # If the best match is still dissimilar
             similarThreshold = 0.35
             similarThreshold = 0.65
+            similarThreshold = 0.5
+            similarThreshold = 0.65
+            similarThreshold = 0.5
+            similarThreshold = 0.3
+            similarThreshold = 0.5
+            #similarThreshold = 0.3
             #similarThreshold = 0.8
             #similarThreshold = 0.6
             #similarThreshold = 500.0
@@ -478,7 +499,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     # Calculate distance between them
                     distance = self.interactionSimilarityMeasure.distanceValues(interactionFeatureA, interactionFeatureB)
                     #print("distance (" + str(interactionFeatureA) + "," + str(interactionFeatureB) + "): " + str(distance))
-                    distance = self.interactionSimilarityMeasure.dissimilarFlag(distance)
+                    #distance = self.interactionSimilarityMeasure.dissimilarFlag(distance)
                     #print("distance dissimilar (" + str(interactionFeatureA) + "," + str(interactionFeatureB) + "): " + str(distance))
                     #print("\n")
                     
@@ -538,7 +559,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     else:
                         dominantArtworks.append(objectA)
 
-                    if (userInteractionA['userid'] == 'x2AUnHqw'):
+                    if (userInteractionA['userid'] == 'x2AUnHqw' and 1 == 2):
                         print('x2AUnHqw')
                         print("dominant artworks x2AUnHqw")
                         print(userInteractionB['userid'])
@@ -619,6 +640,8 @@ class InteractionSimilarityDAO(SimilarityDAO):
             print("len IOA: " + str(len(IOA)))
             print("IOA: " + str(IOA))
             print(userInteractionA['userid'])
+
+            raise Exception(e)
             
             # Get interaction similarity feature associated to IO A and IO B
             interactionFeatureA = userInteractionA[self.similarityColumn][objectIndexA]

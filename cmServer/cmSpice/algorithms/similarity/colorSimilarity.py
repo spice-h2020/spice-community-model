@@ -75,11 +75,10 @@ class ColorSimilarity(SimilarityDAO):
         #print(self.dfDistance)
         print("\n\n")
         """
-
         distance = self.distanceBetweenLists(valueA, valueB)
         return distance
 
-    def distanceListElements(self, elementA, elementB):
+    def distanceItems(self, elementA, elementB):
         """
         Distance between two colors.
         Specialization of the inherited function for calculating distance between list members

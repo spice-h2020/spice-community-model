@@ -11,7 +11,7 @@ from cmSpice.algorithms.similarity.similarityDAO import SimilarityDAO
 
 class NumberSimilarityDAO (SimilarityDAO):
 
-    def distanceValues(self, valueA, valueB):
+    def distanceItems(self, valueA, valueB):
         """
         Method to obtain the distance between two valid values given by the similarity measure.
         e.g., sadness vs fear in plutchickEmotionSimilarity

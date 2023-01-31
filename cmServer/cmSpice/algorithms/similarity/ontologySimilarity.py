@@ -21,6 +21,42 @@ class OntologySimilarity(SimilarityDAO):
 
         self.onto.load()
 
+
+    def distanceItems(self, ontologyValueA, ontologyValueB):
+        """
+        Method to obtain the distance between two ages.
+
+        Parameters
+        ----------
+        ontologyValueA : String
+            First ontology id
+        ontologyValueB : String
+            Second ontology id
+
+        Returns
+        -------
+        double
+            Distance between the two elements.
+        """
+
+        if (ontologyValueB != "none"):
+
+            # Get ancestors chosen values
+            ancestorsA = self.onto[ontologyValueA.capitalize()].ancestors()
+            ancestorsB = self.onto[ontologyValueB.capitalize()].ancestors()
+
+            # Intersection ancestors (common ancestors)
+            commonAncestors = ancestorsA.intersection(ancestorsB)
+            lowestCommonAncestor, lowestCommonAncestorLayer = self.getOntologyLowestCommonAncestor(commonAncestors)
+
+            # Get distance
+            sim = lowestCommonAncestorLayer / max(self.elemLayer(ancestorsA), self.elemLayer(ancestorsB))
+            distance = 1 - sim
+        else:
+            distance = 1.0
+
+        return distance
+
     def distance(self,elemA, elemB):
         """Method to obtain the distance between two element.
 
@@ -141,24 +177,11 @@ class OntologySimilarity(SimilarityDAO):
             print("ontologyValueA: " + str(ontologyValueA))
             print("ontologyValueB: " + str(ontologyValueB))
             print("\n")
-            if (ontologyValueB != "none"):
 
-                # Get ancestors chosen values
-                ancestorsA = self.onto[ontologyValueA.capitalize()].ancestors()
-                ancestorsB = self.onto[ontologyValueB.capitalize()].ancestors()
+            distance = self.getDistanceBetweenItems(ontologyValueA, ontologyValueB)
 
-                # Intersection ancestors (common ancestors)
-                commonAncestors = ancestorsA.intersection(ancestorsB)
-                lowestCommonAncestor, lowestCommonAncestorLayer = self.getOntologyLowestCommonAncestor(commonAncestors)
-
-                # Get distance
-                sim = lowestCommonAncestorLayer / max(self.elemLayer(ancestorsA), self.elemLayer(ancestorsB))
-                distance = 1 - sim
-            else:
-                distance = 1.0
-
-                distanceTotal += distance
-                valuesNumber += 1
+            distanceTotal += distance
+            valuesNumber += 1
 
         if (valuesNumber > 0):
             distanceTotal = distanceTotal / valuesNumber
