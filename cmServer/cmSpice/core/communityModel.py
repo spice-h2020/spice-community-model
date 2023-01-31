@@ -39,22 +39,12 @@ from cmSpice.dao.dao_db_similarities import DAO_db_similarity
 
 # ------------------
 # logger
-# usar todo este codigo en cada fichero donde se quiera hacer log
 import logging
-import logging.config
-from cmSpice.logger.mongoLogger import MongoHandler
+from cmSpice.logger.logger import getLogger
 
-logging.basicConfig(level=logging.INFO)
-logging.config.fileConfig('cmSpice/logger/logging.ini',
-                          disable_existing_loggers=False)
-log = logging.getLogger(__name__)
-log.addHandler(MongoHandler(collection=os.environ['DB_LOG_COLLECTION'],
-                            host=os.environ['DB_HOST'],
-                            db_name=os.environ['DB_NAME'],
-                            username=os.environ['DB_USER'],
-                            password=os.environ['DB_PASSWORD'],
-                            port=os.environ['DB_PORT']))
+logger = getLogger(__name__)
 # ------------------
+
 
 
 # --------------------------------------------------------------------------------------------------------------------------

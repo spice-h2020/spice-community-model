@@ -8,8 +8,7 @@ import json
 import time
 
 import logging
-import logging.config
-from cmSpice.logger.mongoLogger import MongoHandler
+from cmSpice.logger.logger import getLogger
 
 # local modules
 from cmSpice.dao.dao_db import DAO_db
@@ -57,16 +56,11 @@ class ForkingHTTPServer(ForkingMixIn, HTTPServer):
 
 
 def run(server_class=HTTPServer, handler_class=Handler):
-    logging.basicConfig(level=logging.INFO)
-    logging.config.fileConfig('cmSpice/logger/logging.ini', disable_existing_loggers=False)
-    log = logging.getLogger(__name__)
-    log.addHandler(MongoHandler(collection=db_collection, host=db_host, db_name=db_name,
-                            username=db_user,
-                            password=db_password, port=db_port))
-
-    log.info('Starting server-loader...\n')
 
 
+    # logger
+    logger = getLogger(__name__)
+    logger.info('Starting server-loader...\n')
 
     # f = open("cmSpice/logger/file.log", "r")
     # print(f.read())
@@ -79,4 +73,4 @@ def run(server_class=HTTPServer, handler_class=Handler):
         pass
     httpd.server_close()
 
-    log.info('Stopping server-loader...\n')
+    logger.info('Stopping server-loader...\n')
