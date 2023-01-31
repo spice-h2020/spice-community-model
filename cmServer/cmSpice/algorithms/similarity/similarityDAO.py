@@ -29,16 +29,69 @@ class SimilarityDAO:
 
         # To explain communities (dominant values in list attributes)
         self.lowestDistancePair = ["",""]
+
+    """
+    Distance functions:
+
+    From more specific to more generic
+    """
+    def distanceItems(self, itemA, itemB):
+        """
+        Method to obtain the distance between two valid items of the similarity measure 
+        Example: emotionSimilarity (joy, anger, sadness...)
+
+        Basic distance function: all similarity measures inheriting from similarityDAO must
+        implement this function
+
+        Parameters
+        ----------
+        itemA : object
+            First valid element we can use the similarity measure on
+        valueB : object
+            Second valid element we can use the similarity measure on
+
+        Returns
+        -------
+        double
+            Distance between the two values.
+        """
+        return 1.0
+
+    def getDistanceBetweenItems(self, itemA, itemB):
+        """
+        Method to call additional logic after the function overwrite of "distanceItems()" in the children classes
         
+        Basic distance function: ultimately called by any distance function
+
+        Parameters
+        ----------
+        itemA : object
+            First valid element we can use the similarity measure on
+        valueB : object
+            Second valid element we can use the similarity measure on
+
+        Returns
+        -------
+        double
+            Distance between the two values.
+        """
+        distance = self.distanceItems(itemA, itemB)
+        distance = self.dissimilarFlag(distance)
+
+        return distance
+
     def distanceValues(self, valueA, valueB):
         """
-        Method to obtain the distance between two valid values given by the similarity measure.
-        e.g., sadness vs fear in plutchickEmotionSimilarity
+        Method to obtain the distance between two pandas cell valiues [row, similarityColumn]
+
+        Defaults to getDistanceBetweenItems(self, itemA, itemB) if it is not overwritten by the 
+        similarity measure child
 
         Parameters
         ----------
         valueA : object
             Value of first element corresponding to elemA in self.data
+            e.g: GAM emotions: {"serenity": 1.0, "anger": 0.8}
         valueB : object
             Value of first element corresponding to elemB in self.data
 
@@ -47,18 +100,11 @@ class SimilarityDAO:
         double
             Distance between the two values.
         """
-        return 1.0
-        
-    def dissimilarFlag(self, distance):
-        if ('dissimilar' in self.similarityFunction and self.similarityFunction['dissimilar'] == True):
-            print("apply dissimilar")
-            distance = 1 - distance
-            
-        return distance
-        
+        return self.getDistanceBetweenItems(valueA, valueB)
 
     def distance(self,elemA, elemB):
-        """Method to obtain the distance between two elements whose information is given as a row of a pandas dataframe.
+        """
+        Method to obtain the distance between two pandas cell values
 
         Parameters
         ----------
@@ -76,6 +122,128 @@ class SimilarityDAO:
         valueB = self.data.loc[elemB][self.similarityColumn]
         
         return self.distanceValues(valueA, valueB)
+    
+    """
+    Distance functions:
+
+    Distance between lists
+    """
+
+#-------------------------------------------------------------------------------------------------------------------------------
+#   To calculate similarity between two lists of different length
+#-------------------------------------------------------------------------------------------------------------------------------
+             
+    def distanceBetweenLists(self, listA, listB):
+        """
+        Auxiliary function to set the comparison between two lists of different length
+
+        """
+        similarityListA = listA
+        similarityListB = listB
+
+        if (len(listB) > len(listA)):
+            similarityListA = listB
+            similarityListB = listA
+
+        print("distance between lists")
+        print("similarityListA: " + str(similarityListA))
+        print("similarityListB: " + str(similarityListB))
+        print("\n")
+
+        # Store pair (elementA, elementB) with the most similarity to work as the dominantAttribute
+        self.lowestDistancePair = ["",""]
+        self.lowestDistance = 1.0
+
+        # Calculate distance
+        totalDistance = 0
+        for listElementA in similarityListA:
+            listElementB = self.mostSimilarListElement(listElementA, similarityListB)
+            distance = self.distanceListElements(listElementA,listElementB)
+            totalDistance += distance
+
+            if (distance < self.lowestDistance):
+                self.lowestDistancePair = [listElementA, listElementB]
+                self.lowestDistance = distance
+            print("elementA: " + str(listElementA))
+            print("elementB: " + str(listElementB))
+            print("distance: " + str(distance))
+            print("\n")
+        totalDistance = totalDistance / len(similarityListA)
+
+        if (similarityListA != listA):
+            self.lowestDistancePair = [listElementB, listElementA]
+
+        return totalDistance
+
+    def distanceListElements(self, elementA, elementB):
+        return 1.0
+
+    def mostSimilarListElement(self, listElementA, listB):
+        """
+        Gets the most similar element to another among the members of a list
+
+        """
+        """
+        print("checking most similar list element")
+        print(listElementA)
+        print(listB)
+        print("\n")
+        """
+
+        listElementB = ""
+        lowestDistance = 1.0
+        for listElement in listB:
+            distance = self.distanceListElements(listElementA,listElement)
+            if (distance <= lowestDistance):
+                lowestDistance = distance
+                listElementB = listElement
+        
+        return listElementB
+
+    
+    """
+    Other functions:
+    """
+
+    def dissimilarFlag(self, distance):
+        """
+        Method to apply [dissimilar] similarity measures
+
+        It is always called by getDistanceBetweenItems(self, itemA, itemB)
+
+        Parameters
+        ----------
+        distance : double
+            Original distance obtained by applying the similarity measure normally.
+
+        Returns
+        -------
+        double
+            New distance between the two elements.
+        """
+
+
+        """
+        print("dissimilar flag function")
+        print("distance")
+        print(distance)
+        print("self similarity function")
+        print(self.similarityFunction)
+        """
+
+        if ('dissimilar' in self.similarityFunction and self.similarityFunction['dissimilar'] == True):
+            #print("apply dissimilar to " + self.similarityFunction["on_attribute"]['att_name'])
+            distance = 1 - distance
+        """
+        print("distance")
+        print(distance)
+        print("\n")
+        """
+
+        return distance
+        
+
+    
 
     def similarity(self,elemA, elemB):
         """Method to obtain the similarity between two element.
@@ -242,74 +410,7 @@ class SimilarityDAO:
                 
         return np.asarray(distanceMatrix)
         
-#-------------------------------------------------------------------------------------------------------------------------------
-#   To calculate similarity between two lists of different length
-#-------------------------------------------------------------------------------------------------------------------------------
-             
-    def distanceBetweenLists(self, listA, listB):
-        """
-        Auxiliary function to set the comparison between two lists of different length
 
-        """
-        similarityListA = listA
-        similarityListB = listB
-
-        if (len(listB) > len(listA)):
-            similarityListA = listB
-            similarityListB = listA
-
-        print("distance between lists")
-        print("similarityListA: " + str(similarityListA))
-        print("similarityListB: " + str(similarityListB))
-        print("\n")
-
-        # Store pair (elementA, elementB) with the most similarity to work as the dominantAttribute
-        self.lowestDistancePair = ["",""]
-        self.lowestDistance = 1.0
-
-        # Calculate distance
-        totalDistance = 0
-        for listElementA in similarityListA:
-            listElementB = self.mostSimilarListElement(listElementA, similarityListB)
-            distance = self.distanceListElements(listElementA,listElementB)
-            totalDistance += distance
-
-            if (distance < self.lowestDistance):
-                self.lowestDistancePair = [listElementA, listElementB]
-                self.lowestDistance = distance
-            print("elementA: " + str(listElementA))
-            print("elementB: " + str(listElementB))
-            print("distance: " + str(distance))
-            print("\n")
-        totalDistance = totalDistance / len(similarityListA)
-
-        if (similarityListA != listA):
-            self.lowestDistancePair = [listElementB, listElementA]
-
-        return totalDistance
-
-    def distanceListElements(self, elementA, elementB):
-        return 1.0
-
-    def mostSimilarListElement(self, listElementA, listB):
-        """
-        Gets the most similar element to another among the members of a list
-
-        """
-        print("checking most similar list element")
-        print(listElementA)
-        print(listB)
-        print("\n")
-
-        listElementB = ""
-        lowestDistance = 1.0
-        for listElement in listB:
-            distance = self.distanceListElements(listElementA,listElement)
-            if (distance <= lowestDistance):
-                lowestDistance = distance
-                listElementB = listElement
-        
-        return listElementB
 
         
 #-------------------------------------------------------------------------------------------------------------------------------
