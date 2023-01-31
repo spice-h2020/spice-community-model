@@ -3,6 +3,8 @@ import os
 
 from cmSpice.algorithms.similarity.extendedPlutchikEmotionSimilarityDAO import ExtendedPlutchikEmotionSimilarityDAO
 
+import itertools
+
 """
 Extension of the Plutchik wheel of emotions to include the second level of emotions in addition to the basic ones
 """
@@ -69,7 +71,7 @@ class ExtendedPlutchikEmotionSimilarity(ExtendedPlutchikEmotionSimilarityDAO):
         
         # Fix value String
         emotionA = elementA.lower().replace(" ", "")
-        emotionsB = elementB.lower().replace(" ", "")
+        emotionB = elementB.lower().replace(" ", "")
         
         return self.getDistanceBetweenItems(emotionA, emotionB)
 
