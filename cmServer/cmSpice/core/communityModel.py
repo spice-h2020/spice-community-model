@@ -253,7 +253,7 @@ class CommunityModel():
         # Export to json
         data.reset_index(inplace=True)
         print("data community model")
-        print(data[['userid','community_dominantArtworks']])
+        #print(data[['userid','community_dominantArtworks']])
         print("\n")
         exportFile = self.clusteringExportFileRoute(
             percentageExplainability, self.perspective['algorithm']['name'])

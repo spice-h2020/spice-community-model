@@ -36,7 +36,7 @@ class CommunityJsonGenerator:
         """
 
         print("community json generator")
-        print(self.json_df['community_dominantArtworks'])
+        #print(self.json_df['community_dominantArtworks'])
         print("\n")
         
         
