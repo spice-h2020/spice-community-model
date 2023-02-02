@@ -35,7 +35,7 @@ class DbscanCommunityDetection:
         clusters = []
         epsParameter = 1.0
         bestResult = 999
-        best = []
+        best = [-1]
         while len(set(clusters)) != n_clusters and epsParameter > 0.01:
             # run dbscan
             dbscan = DBSCAN(metric='precomputed', eps = epsParameter, min_samples = 1)
@@ -53,7 +53,7 @@ class DbscanCommunityDetection:
             print("\n")
 
             comp = abs(n_clusters-len(set(clusters)))
-            if comp < bestResult and len(set(clusters)) > 1:
+            if comp < bestResult:
                 best = clusters
                 bestResult = comp
 

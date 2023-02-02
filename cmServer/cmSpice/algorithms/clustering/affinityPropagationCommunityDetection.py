@@ -106,16 +106,17 @@ class AffinityPropagationCommunityDetection:
             # Get clusters
             clusters = model.labels_
 
-            parameter += 0.01
             print("calculating AffinityPropagation algorithm")
             print("number of clusters: " + str(len(set(clusters))) + " expected:" + str(n_clusters))
             print("parameter: " + str(parameter))
             print("clusters:")
             print(clusters)
             print("\n")
+            
+            parameter += 0.01
 
             comp = abs(n_clusters-len(set(clusters)))
-            if comp < bestResult and len(set(clusters)) > 1:
+            if comp < bestResult:
                 best = clusters
                 bestResult = comp
 

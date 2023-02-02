@@ -34,33 +34,45 @@ class OpticsCommunityDetection:
             List with the clusters each element belongs to (e.g., list[0] === cluster the element 0 belongs to.) 
         """
         min_cluster_size = 2
-        max_eps = 66
         xi = .05
 
         clusters = []
-        epsParameter = 1.0
-        while len(set(clusters)) < n_clusters and epsParameter > 0:
-            epsParameter -= 0.1
-            print("calculating optics algorithm")
-            print("number of clusters: " + str(n_clusters))
-            print("eps: " + str(epsParameter))
-            print(distanceMatrix)
-            print("clusters")
-            print(clusters)
-            print("\n")
-            # run dbscan
-            optics_model = OPTICS(metric="precomputed", min_samples=2, min_cluster_size=min_cluster_size, max_eps=max_eps,
-                            xi=xi)
+        parameter = 15
+        bestResult = 999
+        best = [-1]
+        while len(set(clusters)) != n_clusters and parameter > 0:
+
+            optics_model = OPTICS(metric="precomputed", max_eps=parameter, min_cluster_size=min_cluster_size,xi=xi)
             optics_model.fit(distanceMatrix)
 
             # Get clusters
             clusters = optics_model.labels_[optics_model.ordering_]
-        epsParameter -= 0.1
-        print("calculating dbscan algorithm")
-        print("number of clusters: " + str(n_clusters))
-        print("eps: " + str(epsParameter))
-        print(distanceMatrix)
-        print("clusters")
+
+            print("calculating OPTICS algorithm")
+            print("number of clusters: " + str(len(set(clusters))) + " expected:" + str(n_clusters))
+            print("parameter: " + str(parameter))
+            # print("clusters:")
+            # print(clusters)
+            print("\n")
+            parameter -= 0.01
+
+            comp = abs(n_clusters-len(set(clusters)))
+            if comp < bestResult:
+                best = clusters
+                bestResult = comp
+
+        clusters = best
+        print("best number of clusters: " + str(len(set(clusters))) + " expected:" + str(n_clusters))
+
+        # Correct -1
+        clusters = [len(clusters) if item == -1 else item for item in clusters]
+        # Rename the clusters ids to avoid missing intermediate values
+        uniqueLabels = set(clusters)      
+        uniqueLabels = sorted(uniqueLabels)
+        clusters = [uniqueLabels.index(label) for label in clusters]
+
+        print("number of clusters: ")
         print(clusters)
-        print("\n")
+        print(len(set(clusters)))
+
         return clusters

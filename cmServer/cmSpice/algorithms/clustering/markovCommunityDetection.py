@@ -1,4 +1,3 @@
-# Authors: José Ángel Sánchez Martín
 import networkx as nx
 from networkx.algorithms import community
 import markov_clustering as mc
@@ -8,7 +7,7 @@ from cmSpice.algorithms.clustering.graphCommunityDetection import GraphCommunity
 
 class MarkovCommunityDetection(GraphCommunityDetection):
 
-    def calculate_communities(self, distanceMatrix='euclidean', n_clusters=2):
+    def calculate_communities(self, distanceMatrix, n_clusters=2):
         """Method to calculate the communities of elements from data.
 
         Parameters
@@ -26,19 +25,49 @@ class MarkovCommunityDetection(GraphCommunityDetection):
         self.graph = self.generateGraph(self.data.index,distanceMatrix)
         
         # Get adjacency matrix of graph
-        A = nx.to_numpy_matrix(self.graph)
+        adjMatrix = nx.to_numpy_matrix(self.graph)
 
-        # Apply Markov Clustering algorithm
-        result = mc.run_mcl(A)
-        clusters = mc.get_clusters(result)
+        # prepare array for clusters
+        size = max(len(distanceMatrix), len(distanceMatrix[0]))
+        communities = [0] * size
+
+
+        clusters = []
+        parameter = 1
+        bestResult = 999
+        best = [-1]
+        while len(set(clusters)) < n_clusters and parameter < 500:
+            parameter += 0.1
+            # print(adjMatrix)
+
+
+            # run MCL with default parameters
+            result = mc.run_mcl(adjMatrix, inflation=parameter)  
+            # get clusters         
+            clusters = mc.get_clusters(result)    
+            # tranform format from 
+            # [(1,3),(0),(2)] to [1,0,2,0]
+            for i in range(len(clusters)):
+                for j in clusters[i]:
+                    communities[j] = i
+
+            print("calculating markov algorithm")
+            print("number of clusters: " + str(len(set(communities))) + " expected:" + str(n_clusters))
+            print("parameter 'inflation': " + str(parameter))
+            print("clusters:")
+            print(communities)
+            print("\n")
+
+            comp = abs(n_clusters-len(set(clusters)))
+            if comp < bestResult:
+                best = communities
+                bestResult = comp
+            
         
-        print("markov clustering")
-        print(type(clusters))
-        print(n_clusters)
-        print(clusters)
-        print("fin markov clustering")
-        print("\n")
+        communities = best
+        print("best number of clusters: " + str(len(set(communities))) + " expected:" + str(communities))
+        print(communities)
 
-        return clusters
+        return communities
         
       

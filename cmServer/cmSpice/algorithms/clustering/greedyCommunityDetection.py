@@ -6,7 +6,7 @@ from cmSpice.algorithms.clustering.graphCommunityDetection import GraphCommunity
 
 class GreedyCommunityDetection(GraphCommunityDetection):
 
-    def calculate_communities(self, distanceMatrix='euclidean', n_clusters=2):
+    def calculate_communities(self, distanceMatrix, n_clusters=2):
         """Method to calculate the communities of elements from data.
 
         Parameters
@@ -23,6 +23,7 @@ class GreedyCommunityDetection(GraphCommunityDetection):
         """
         self.graph = self.generateGraph(self.data.index,distanceMatrix)
         communities = community.greedy_modularity_communities(self.graph)
+        print("communities", communities)
         return communities
 
       
