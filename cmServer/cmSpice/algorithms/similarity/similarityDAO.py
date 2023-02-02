@@ -468,4 +468,25 @@ class SimilarityDAO:
         
     def dominantValue(self, valueA, valueB):
         return valueA
+
+
+    def dominantDistance(self, dominantItemA, dominantItemB):
+        """
+        Method to obtain the distance between the two dominant items encoding the interaction between A and B
+        
+        Used to explain dissimilar communities
+
+        Parameters
+        ----------
+        dominantItemA : object
+
+        dominantItemB : object
+            Dict of Plutchik emotions (key: emotion; value: confidence level)
+
+        Returns
+        -------
+        double
+            Distance
+        """
+        return 1.0
          

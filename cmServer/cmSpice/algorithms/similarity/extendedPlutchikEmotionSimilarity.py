@@ -44,11 +44,34 @@ class ExtendedPlutchikEmotionSimilarity(ExtendedPlutchikEmotionSimilarityDAO):
             sorted_emotionsDictA = {k: v for k, v in sorted(emotionsDictA.items(), key=lambda item: item[1], reverse=True)}
             sorted_emotionsDictB = {k: v for k, v in sorted(emotionsDictB.items(), key=lambda item: item[1], reverse=True)}
         
-            numValues = 2
+            numValues = 3
             emotionsListA = list(dict(itertools.islice(sorted_emotionsDictA.items(),numValues)).keys())
             emotionsListB = list(dict(itertools.islice(sorted_emotionsDictB.items(),numValues)).keys())
 
-            return self.distanceBetweenLists(emotionsListA, emotionsListB)
+            """
+            print("emotionsListA: " + str(emotionsListA))
+            print("emotionsListB: " + str(emotionsListB))
+            print("before calling distance between lists")
+            print("\n")
+            """
+
+            distance = self.distanceBetweenLists(emotionsListA, emotionsListB)
+
+            """
+            print("emotion similarity")
+            print("emotionsDictA")
+            print(emotionsDictA)
+            print("emotionsDictB")
+            print(emotionsDictB)
+            print("sorted A")
+            print(sorted_emotionsDictA)
+            print("emotionsListA: " + str(emotionsListA))
+            print("emotionsListB: " + str(emotionsListB))
+            print("distance between lists: " + str(distance))
+            print("\n")
+            """
+
+            return distance
 
     def distanceListElements(self, elementA, elementB):
         """
@@ -97,6 +120,31 @@ class ExtendedPlutchikEmotionSimilarity(ExtendedPlutchikEmotionSimilarityDAO):
         emotionsDictB = dict([(x.replace("emotion:",""), y) for x, y in emotionsDictB.items() if x.startswith('emotion:')])
         """
         return self.lowestDistancePair[0], self.lowestDistancePair[1]
+
+    
+    def dominantInteractionAttribute(self, emotionsDictA, emotionsDictB):
+        """
+        Method to obtain the dominant value in each combination of emotions
+        
+        Parameters
+        ----------
+        emotionsDictA : dict
+            Dict of Plutchik emotions (key: emotion; value: confidence level)
+        emotionsDictB : dict
+            Dict of Plutchik emotions (key: emotion; value: confidence level)
+
+        Returns
+        -------
+        String
+            Dominant emotion for A and B
+        """
+        
+        """
+        emotionsDictA = dict([(x.replace("emotion:",""), y) for x, y in emotionsDictA.items() if x.startswith('emotion:')])
+        emotionsDictB = dict([(x.replace("emotion:",""), y) for x, y in emotionsDictB.items() if x.startswith('emotion:')])
+        """
+        return self.lowestDistancePair[0], self.lowestDistancePair[1]
+
     
     
     

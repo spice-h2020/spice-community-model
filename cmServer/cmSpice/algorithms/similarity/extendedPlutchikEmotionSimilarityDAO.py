@@ -52,6 +52,9 @@ class ExtendedPlutchikEmotionSimilarityDAO(SimilarityDAO):
         try:
             emotionA = emotionA.lower()
             emotionB = emotionB.lower()
+
+            if (emotionA not in self.plutchikEmotions or emotionB not in self.plutchikEmotions):
+                return 1.0
             
             # Real index in the extended list of emotions
             realIndexA = self.plutchikEmotions.index(emotionA)
@@ -72,13 +75,31 @@ class ExtendedPlutchikEmotionSimilarityDAO(SimilarityDAO):
             listB = realIndexB // 8
             
             # First and second list of emotions
-            # Increase distance by 0.075
+            # Decrease distance by 0.075 (it is less similar)
             if (listA + listB == 1):
-                result += 0.075
+                result -= 0.075
                 
-            # First or second AND third list of emotions (increase by 0.125 - half 0.25 between emotions 
+            # First or second AND third list of emotions (increase by 0.125 - half 0.25 between emotions
+            # In the extreme values, increase/decrease by a little
             elif (listA != listB):
-                if ( (indexA - indexB) / 4 < (indexB - indexA + 8) / 4 ):
+                """
+                print("emotions are in the same spoke")
+                print(emotionA)
+                print(emotionB)
+                print(result)
+                """
+
+                if (result == 1.0):
+                    #print("change 1.0")
+                    result -= 0.125
+                    """
+                    print(result)
+                    print("\n")
+                    """
+                elif (result == 0.0):
+                    #print("change 0.0")
+                    result += 0.125
+                elif ( (indexA - indexB) / 4 < (indexB - indexA + 8) / 4 ):
                     result -= 0.125
                 else:
                     result += 0.125
@@ -89,16 +110,27 @@ class ExtendedPlutchikEmotionSimilarityDAO(SimilarityDAO):
             # Correction: If lower than 0 or higher than 1, correct it
             result = min(result, 1.0)
             result = max(result, 0.0)
+
+            """
+            print("distanceItems emotion")
+            print(emotionA)
+            print(emotionB)
+            print(result)
+            print("\n")
+            """
             
             return result
             
         # We don't have a Plutchick emotion for that user and artwork
         except ValueError:
-            """
+            
+            print("distanceItems emotion")
             print("Value error")
             print(emotionA)
             print(emotionB)
             print("fin value error")
+            print("\n")
+            """
             """
             
             #print("Wrong Plutchick emotion: " + "emotionA: " + str(emotionA) + " ; " + "emotionB: " + str(emotionB))
@@ -192,6 +224,27 @@ class ExtendedPlutchikEmotionSimilarityDAO(SimilarityDAO):
         
         
         return emotionA, emotionB
+
+    def dominantDistance(self, emotionsDictA, emotionsDictB):
+        """
+        Method to obtain the distance between the two dominant values encoding the interaction between A and B
+        
+        Used to explain dissimilar communities
+
+        Parameters
+        ----------
+        emotionsDictA : dict
+            Dict of Plutchik emotions (key: emotion; value: confidence level)
+        emotionsDictB : dict
+            Dict of Plutchik emotions (key: emotion; value: confidence level)
+
+        Returns
+        -------
+        double
+            Distance
+        """
+        dominantItemA, dominantItemB = self.dominantInteractionAttribute(emotionsDictA, emotionsDictB)
+        return self.getDistanceBetweenItems(dominantItemA, dominantItemB)
     
     
     

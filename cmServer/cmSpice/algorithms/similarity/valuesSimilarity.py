@@ -97,4 +97,25 @@ class ValuesSimilarity(TableSimilarityDAO):
             Predominant valueA, Predominant valueB (pair of most similar ones)
         """
         return self.lowestDistancePair[0], self.lowestDistancePair[1]
+
+    def dominantDistance(self, mftValuesListA, mftValuesListB):
+        """
+        Method to obtain the distance between the two dominant values encoding the interaction between A and B
+        
+        Used to explain dissimilar communities
+
+        Parameters
+        ----------
+        mftValuesListA : dict
+            Dict of Plutchik emotions (key: emotion; value: confidence level)
+        mftValuesListB : dict
+            Dict of Plutchik emotions (key: emotion; value: confidence level)
+
+        Returns
+        -------
+        double
+            Distance
+        """
+        dominantItemA, dominantItemB = self.dominantInteractionAttribute(mftValuesListA, mftValuesListB)
+        return self.getDistanceBetweenItems(dominantItemA, dominantItemB)
         

@@ -55,6 +55,10 @@ class IconClassSimilarityDAO(SimilarityDAO):
         print("distance: " + str(1 - sim))
         print("\n")
         """
+        """
+        elemA = elemA.split("(")[0]
+        elemB = elemB.split("(")[0]
+        """
         
         # Get first common characters 
         # https://stackoverflow.com/questions/18715688/find-common-substring-between-two-strings
