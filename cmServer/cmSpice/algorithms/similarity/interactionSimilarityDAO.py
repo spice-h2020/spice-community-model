@@ -10,6 +10,9 @@ from cmSpice.algorithms.similarity.complexSimilarityDAO import ComplexSimilarity
 from cmSpice.dao.dao_json import DAO_json
 from cmSpice.utils.dataLoader import DataLoader
 
+import statistics
+from statistics import mode
+
 
 class InteractionSimilarityDAO(SimilarityDAO):
     """
@@ -155,6 +158,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
                 
             # interaction similarity functions
             df4[self.similarityColumn + 'DominantInteractionGenerated'] = [[] for _ in range(len(df4))]
+            df4[self.similarityColumn + 'DistanceDominantInteractionGenerated'] = [[] for _ in range(len(df4))]
             # artworks we could match with a similar artwork
             df4['dominantArtworksDominantInteractionGenerated'] = [[] for _ in range(len(df4))]
             
@@ -325,6 +329,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
             similarThreshold = 0.5
             similarThreshold = 0.3
             similarThreshold = 0.5
+            similarThreshold = 0.6
             #similarThreshold = 0.3
             #similarThreshold = 0.8
             #similarThreshold = 0.6
@@ -431,8 +436,14 @@ class InteractionSimilarityDAO(SimilarityDAO):
         
         # Initialize distance
         distanceTotal = 0
+
         # Dominant interaction attribute value
         dominantInteractionAttribute = ""
+        dominantInteractionAttributeDistance = 1.0
+
+        dominantInteractionAttributes = []
+        dominantInteractionAttributeDistances = {}
+        
         # Artwork implicit attributes
         dominantValues = {}
         for dominantAttribute in self.dominantAttributes:
@@ -506,7 +517,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
 
                     # Add dominant interaction value to list (e.g., emotions = {joy: 3, sadness: 4, trust: 1} -> sadness
                     dominantInteractionAttributeA, dominantInteractionAttributeB = self.interactionSimilarityMeasure.dominantInteractionAttribute(interactionFeatureA, interactionFeatureB)
-                    
+                    dominantInteractionAttributeDistance = self.interactionSimilarityMeasure.dominantDistance(interactionFeatureA, interactionFeatureB)
                     
                     # Add dominant value for each artwork attribute used to compute similarity between them
                     """
@@ -588,6 +599,12 @@ class InteractionSimilarityDAO(SimilarityDAO):
                         
                     # Add objectA to the list of compared interacted artworks 
 
+                    dominantInteractionAttributes.append(dominantInteractionAttribute)
+                    #dominantInteractionAttributeDistances.append(dominantInteractionAttributeDistance)
+                    if dominantInteractionAttribute not in dominantInteractionAttributeDistances:
+                        dominantInteractionAttributeDistances[dominantInteractionAttribute] = []
+                    dominantInteractionAttributeDistances[dominantInteractionAttribute].append(dominantInteractionAttributeDistance)
+
                 # NO SIMILAR ARTWORK    
                 else:
                     distance = 1
@@ -653,6 +670,21 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     
             print("\n\n\n")
             """
+
+
+        # Get most frequent element in dominantInteractionAttributes
+        """
+        print("dominant interaction attributes")
+        print(dominantInteractionAttributes)
+        """
+        if (len(dominantInteractionAttributes) > 0):
+            dominantInteractionAttribute = mode(dominantInteractionAttributes)
+            distances = dominantInteractionAttributeDistances[dominantInteractionAttribute]
+            dominantInteractionAttributeDistance = (sum(distances)) / (len(distances))
+        
+        else:
+            dominantInteractionAttribute = ""
+            dominantInteractionAttributeDistance = 1.0
             
             
         if (self.similarityFunction['sim_function']['name'] != 'NoInteractionSimilarityDAO'):
@@ -672,7 +704,15 @@ class InteractionSimilarityDAO(SimilarityDAO):
             # Set dominant interaction attribute list
             dominantInteractionAttributeList = self.data.loc[elemA][self.similarityColumn + 'DominantInteractionGenerated']
             dominantInteractionAttributeList.append(dominantInteractionAttribute)
+            # Use all the emotions
+            #dominantInteractionAttributeList.append(dominantInteractionAttributes)
             self.data.at[elemA, self.similarityColumn + 'DominantInteractionGenerated'] = dominantInteractionAttributeList
+
+            # Add dominant distance
+            dominantInteractionAttributeDistanceList = self.data.loc[elemA][self.similarityColumn + 'DistanceDominantInteractionGenerated']
+            dominantInteractionAttributeDistanceList.append(dominantInteractionAttributeDistance)
+            self.data.at[elemA, self.similarityColumn + 'DistanceDominantInteractionGenerated'] = dominantInteractionAttributeDistanceList
+
             
             
             # Set dominant implicit attribute (artworks)

@@ -62,6 +62,13 @@ class ExplainedCommunitiesDetection:
             else:
                 self.explanaible_attributes = self.interaction_attributes
 
+            # dissimilar attributes
+            self.dissimilar_attributes = []
+            self.dissimilar_atributes_dict = {}
+            for similarityFunction in self.perspective['interaction_similarity_functions'] + self.perspective['similarity_functions']:
+                if ('dissimilar' in similarityFunction['sim_function'] and similarityFunction['sim_function']['dissimilar'] == True):
+                    self.dissimilar_attributes.append(similarityFunction['sim_function']['on_attribute']['att_name'])
+                    self.dissimilar_atributes_dict[similarityFunction['sim_function']['on_attribute']['att_name']] = similarityFunction
         
 
     def search_all_communities(self, answer_binary=False, percentage=1.0):
@@ -136,13 +143,36 @@ class ExplainedCommunitiesDetection:
             
             
             #for c in range(n_communities):
-            n_clusters = min(n_communities,len(set(result2)))
+            #n_clusters = min(n_communities,len(set(result2)))
+            n_clusters = len(set(result2))
+            n_communities_before = n_communities
 
             # Cannot be explained with implicit
             if (n_clusters < n_communities):
-                finish_search = True 
-                n_communities = n_clusters
+                # Set n_communities = n_clusters (communities could not be explained)
+                #finish_search = True 
+                #n_communities = n_clusters
+
+                """
+                print("n clusters is less than communities")
+                print("maxCommunities")
+                print(str(maxCommunities))
+                print("n clusters")
+                print(str(n_clusters))
+                print("n_communities before clusters")
+                print(str(n_communities_before))
+                print("n_communities")
+                print(str(n_communities))
+                print("explainables")
+                print(str(sum(explainables)))
+                print("\n")
+                """
+
             else:
+                
+
+                
+
                 n_communities = n_clusters
                 """
                 
@@ -152,6 +182,21 @@ class ExplainedCommunitiesDetection:
                     community = self.communities.get_group(c)
                     #community = self.simplifyInteractionAttributes(community, printing = False)
                     explainables.append(self.is_explainable(community, answer_binary, percentage))
+
+                """
+                print("maxCommunities")
+                print(str(maxCommunities))
+                print("n clusters")
+                print(str(n_clusters))
+                print("n_communities before clusters")
+                print(str(n_communities_before))
+                print("n_communities")
+                print(str(n_communities))
+                print("explainables")
+                print(str(sum(explainables)))
+                print("\n")
+                """
+                
 
                 finish_search = sum(explainables) == n_communities
             
@@ -171,8 +216,37 @@ class ExplainedCommunitiesDetection:
                     print("\n")
             """
 
+        # Set communities to be equal to clusters (if it is bigger, then at least one community cannot be explained)
+        n_communities = n_clusters
         # Get medoids
         medoids_communities = self.getMedoidsCommunities(result2)
+
+        """
+        print("end search_all_communities")
+        print("maxCommunities")
+        print(str(maxCommunities))
+        print("n clusters")
+        print(str(n_clusters))
+        print("n_communities before clusters")
+        print(str(n_communities_before))
+        print("n_communities")
+        print(str(n_communities))
+        print("explainables")
+        print(str(sum(explainables)))
+        print("\n")
+        """
+
+        
+        
+        print("complete data communities")
+        print(complete_data[['community']])
+        print("\n")
+
+        print("community unique")
+        print(complete_data['community'].unique())
+        print("\n")
+        """
+        """
 
         """
         print("complete data")
@@ -235,7 +309,17 @@ class ExplainedCommunitiesDetection:
             df = community.copy()
             #for col in self.explanaible_attributes:
             # Include similarity features between artworks too
-            for col in self.explanaible_attributes + self.artwork_attributes + ['dominantArtworks']:
+            #for col in self.explanaible_attributes + self.artwork_attributes + ['dominantArtworks']:
+            # Add distance between emotions for dissimilar emotions
+            simplify_cols = self.explanaible_attributes + self.artwork_attributes + ['dominantArtworks'] 
+            
+            for attribute in self.dissimilar_attributes:
+                simplify_cols.append(attribute + "Distance")
+
+            print("simplify_cols")
+            print(simplify_cols)
+            print("\n")
+            for col in simplify_cols:  
                 col2 = col + 'DominantInteractionGenerated'
 
                 # Get row index of community members
@@ -312,6 +396,12 @@ class ExplainedCommunitiesDetection:
         # Skip itself
         communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
         
+        print("extract dominant interaction attribute")
+        print("col2: " + str(col2))
+        print("dominant artworks: " + str(row[col2]))
+        print("\n")
+
+
         #if (row['userNameAuxiliar'] == 'e4aM9WL7' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 2):
         if (row['userNameAuxiliar'] == 'x2AUnHqw' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 1):
          
@@ -395,7 +485,7 @@ class ExplainedCommunitiesDetection:
                     
                     """
 
-                    print("simplify iconclassArrayIDs")
+                    #print("simplify iconclassArrayIDs")
 
                     # First, create a combined dictionary containing all the arrays of pairs each iconclassIDs originates from
                     iconclassDictionary = {}
@@ -451,12 +541,33 @@ class ExplainedCommunitiesDetection:
                     # Select x (5) keys with the highest number of results
                     # using sorted() + join() + lambda
                     # Sort dictionary by value list length
-                    res = '#separator#'.join(sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key])))
+                    sorted_iconclassDictionary = sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key]))
+                    """
+                    print("sorted iconclass dictionary")
+                    print(sorted_iconclassDictionary)
+                    print("\n")
+                    """
+
+
+
+                    res = '#separator#'.join(sorted_iconclassDictionary)
 
                     # From most frequent to less frequent
                     result = res.split('#separator#')
+                    """
+                    print("iconclass")
+                    print("iconclass chosen")
+                    print(result)
+                    """
+
                     result.reverse()
 
+                    """
+                    print(result)
+                    print("\n")
+                    """
+
+                    
                     """
                     print("result")
                     print(result)
@@ -467,11 +578,24 @@ class ExplainedCommunitiesDetection:
                     result2 = []
                     result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
 
+                    """
+                    print("community: " + str(row['community']))
+                    print("iconclassDictionary")
+                    print(iconclassDictionary)
+                    print("\n")
+                    print("result2")
+                    print(result2)
+                    print("\n")
+                    """
+
+
                     # Next work: include the artworks these iconclass IDs originate from in the explanations
 
+                    """
                     print("final result (simplify iconclass)")
                     print(result2)
                     print("\n")
+                    """
 
                     return result2
 
@@ -487,6 +611,7 @@ class ExplainedCommunitiesDetection:
                 # Sort key by length of the array
 
                 # Print
+                """
                 print("new dict explanation")
                 print("username: " + row['userNameAuxiliar'])
                 print("index: " + str(row['real_index']))
@@ -496,6 +621,7 @@ class ExplainedCommunitiesDetection:
                 print("communityMembers_interactionAttributeList")
                 print(communityMembers_interactionAttributeList)
                 print("\n")
+                """
 
                 # Flatten array of dicts into a dict
                 #res = {k: v for d in ini_dict for k, v in d.items()}
@@ -517,23 +643,33 @@ class ExplainedCommunitiesDetection:
                 result = res.split('#separator#')
                 result.reverse()
 
+                """
                 print("result")
                 print(result)
                 print("\n")
+                """
 
                 # Get children associated to the keys 
                 result2 = []
                 result2 = {k:explanationDictionary[k] for k in result[0:5:1] if k in explanationDictionary}
 
+                """
                 print("result2")
                 print(result2)
                 print("\n")
+                """
 
                 return result2
 
             #elif (isinstance(communityMembers_interactionAttributeList[0],str)):
             elif (isinstance(communityMembers_interactionAttributeList[0],list) == False):
-                return statistics.mode(communityMembers_interactionAttributeList)
+                if ('Distance' in col2):
+                    print("extract dominant distance dissimilar")
+                    print(communityMembers_interactionAttributeList)
+                    print("\n")
+                    return communityMembers_interactionAttributeList
+                else:
+                    return statistics.mode(communityMembers_interactionAttributeList)
 
 
 
@@ -626,19 +762,114 @@ class ExplainedCommunitiesDetection:
                 else:
                     col = col2
                     
-                """    
+                 
+                print("is_explainable")
                 print("col: " + str(col))
+                print("community " + str(community['community'].to_list()[0]))
                 print(community[col])
+                print("dissimilar attributes")
+                print(self.dissimilar_attributes)
                 print("\n")
+                """   
                 """
+
                 
                 # https://www.alphacodingskills.com/python/notes/python-operator-bitwise-or-assignment.php
                 # (x |= y) is equivalent to (x = x | y)
+                explainableAttribute = False
                 if answer_binary:
-                    explainable_community |= (len(community[col]) * percentage)  <= community[col].sum()
+                    explainableAttribute = (len(community[col]) * percentage)  <= community[col].sum()
                 else:
-                    explainable_community |= (len(community[col]) * percentage) <= community[col].value_counts().max()
-        
+                    explainableAttribute = (len(community[col]) * percentage) <= community[col].value_counts().max()
+
+                # Apply dissimilar
+                # First approximation (most frequent value appears below the community similarity percentage)
+                
+                if (col2 in self.dissimilar_attributes):
+                    
+
+                    explainableAttribute = not explainableAttribute
+
+                    print("apply dissimilar explanation")
+                    print(explainableAttribute)
+                    print("(len(community[col]) * percentage)")
+                    print(str((len(community[col]) * percentage)))
+                    print("community[col].value_counts().max()")
+                    print(str(community[col].value_counts().max()))
+                    print("\n")
+
+
+                    # Second approximation
+                    # Calculate the similarity average of the community members based on [col2] attribute. 
+                    # If it is higher or equal to percentage, the community can be explained
+                    print("checking distance")
+                    print(list(community.columns))
+                    print(community[[col + 'Distance']])
+                    print("\n")
+
+                    # Now filter distance column using the community 
+                    #distanceList = community[col2 + 'DistanceDominantInteractionGenerated'].to_list()
+                    distanceList = community[col + 'Distance'].to_list()
+                    # Community only has one user (users without community)
+                    if (len(distanceList) <= 1):
+                        explainableAttribute = True
+                    else:
+
+                        print("distanceList")
+                        print(distanceList)
+                        print(str(len(distanceList)))
+                        print(str(len(distanceList[0])))
+                        print(str(len(community)))
+                        print("\n")
+
+                        np_array = np.asarray(distanceList, dtype=object)
+                        distanceList_flatten = list(np.hstack(np_array)) #if (len(np_array) > 0)
+                        print("distanceList_flatten")
+                        print(distanceList_flatten)
+                        print(str(len(distanceList_flatten)))
+                        print("\n")
+
+                        distanceCommunity = sum(distanceList_flatten)
+                        print("distance comunity")
+                        print(str(distanceCommunity))
+                        print("\n")
+
+                        distanceCommunity = distanceCommunity / len(distanceList_flatten)
+                        print("distance comunity final")
+                        print(str(distanceCommunity))
+                        print("\n")
+
+                        self.distanceCommunity = distanceCommunity
+
+                        if (distanceCommunity <= percentage):
+                            print("less percentage")
+                            explainableAttribute = True
+                        else:
+                            explainableAttribute = False
+
+
+
+
+
+
+
+                """
+                # Second approximation (better, not yet implemented)
+                # Maximize a distance function between the different values of the attribute.
+                if (col2 in self.dissimilar_attributes):
+                    # Perfect case example (emotions): community with only two opposite emotions (joy, sadness)
+                    # Distance value: 1.0
+                    # If there are equal number of joy and sadness, the distance is 0.5
+
+
+
+
+                    # Pick an emotion, value (compute the dissimilarity between all of them)
+                """
+
+
+                explainable_community |= explainableAttribute
+
         return explainable_community
     
     
@@ -850,8 +1081,18 @@ class ExplainedCommunitiesDetection:
 
                             result3 = {}
 
+                            """
                             print("result2 dictionary")
                             print(iconclassDictionary)
+                            print("\n")
+                            """
+
+                            print("community: " + str(id_community))
+                            print("iconclassDictionary explanation")
+                            print(iconclassDictionary)
+                            print("\n")
+                            print("result2 explanation")
+                            print(result2)
                             print("\n")
 
                             # Prepare explanation text for each of the selected keys
@@ -870,7 +1111,8 @@ class ExplainedCommunitiesDetection:
                                 print("\n")
 
                                 # basic explanation
-                                iconclassExplanation = str(iconclassID) + " " + iconclassText
+                                #iconclassExplanation = str(iconclassID) + " " + iconclassText
+                                iconclassExplanation = iconclassText + " " + "[" + str(iconclassID) + "]"
                                 artworksExplanation = []
 
                                 # key includes children keys (dict value): iconclass, ontology
@@ -904,7 +1146,8 @@ class ExplainedCommunitiesDetection:
                                                 iconclassChildText = self.daoAPI_iconclass.getIconclassText(iconclassChild)
                                             iconclassChildText += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassChild]) + ")"
                                             artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassChild])
-                                            iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
+                                            #iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
+                                            iconclassChildrenText.append(iconclassChildText + " " + "[" + str(iconclassChild) + "]")
                                         iconclassExplanation += "; ".join(iconclassChildrenText)
                                         iconclassExplanation += ""
 
@@ -1136,9 +1379,11 @@ class ExplainedCommunitiesDetection:
                                         iconclassDictionary[dictionaryKey] = []
                                     iconclassDictionary[dictionaryKey].extend(dictionary[dictionaryKey])
 
+                            """
                             print("iconclass dictionary id")
                             print(iconclassDictionary)
                             print("\n")
+                            """
 
                             # Sort dictionary
                             res = '#separator#'.join(sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key])))
@@ -1156,9 +1401,11 @@ class ExplainedCommunitiesDetection:
                                 np_array = np.asarray(result2[iconclassID], dtype=object)
                                 iconclassChildren = list(np.hstack(np_array))
 
+                                """
                                 print("iconclass children")
                                 print(iconclassChildren)
                                 print("\n")
+                                """
 
                                 iconclassExplanation = str(iconclassID) + " " + iconclassText 
 
@@ -1177,9 +1424,11 @@ class ExplainedCommunitiesDetection:
                                         iconclassExplanation += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassID]) + ")"
                                         iconclassChildrenText = []
                                         if (len(iconclassChildrenCombinedDictionary) > 1):
+                                            """
                                             print("iconclass combined dictionary")
                                             print(iconclassChildrenCombinedDictionary)
                                             print("\n")
+                                            """
 
                                             iconclassExplanation += ". Obtained from the artwork's materials: "
                                             for iconclassChild in iconclassChildrenCombinedDictionary:
@@ -1198,10 +1447,11 @@ class ExplainedCommunitiesDetection:
                                     
                                     #iconclassChildren = {}
 
-
+                                """
                                 print("iconclass children combined")
                                 print(iconclassChildrenCombinedDictionary)
                                 print("\n")
+                                """
                                 
                                 
                                 
@@ -1291,19 +1541,53 @@ class ExplainedCommunitiesDetection:
                             
                         
                         # For string types
-                        elif (len(community[col]) * percentage) <= community[col].value_counts().max():
+                        else:
+
+                            print("is explainable get community")
+
+                            explainableAttribute = self.is_explainable(community, answer_binary, percentage)
+
+                            """
+
+                            explainableAttribute = (len(community[col]) * percentage) <= community[col].value_counts().max()
+                            if (col2 in self.dissimilar_attributes):
+                                explainableAttribute = not explainableAttribute
+
+                            """
+
                             # Returns dominant one
                             # explainedCommunityProperties[col] = community[col].value_counts().index[0]
-                            
+
+                            # Remove empty string
+                            df = community.copy()
+                            df2 = df.loc[ df[col].str.len() != 0 ]
+                            percentageColumn = df2[col].value_counts(normalize=True) * 100
+                            percentageColumnDict = percentageColumn.to_dict()
+
                             # Returns the values for each of them
+                            """
                             percentageColumn = community[col].value_counts(normalize=True) * 100
                             percentageColumnDict = percentageColumn.to_dict()
+                            """
+
+                            """
+                            print("community col")
+                            print(community[col])
+                            print("percentageColumn")
+                            print(percentageColumn)
+                            print("percentageColumnDict")
+                            print(percentageColumnDict)
+                            print("\n")
+                            """
                             
                             explainedCommunityProperties[col] = dict()
                             explainedCommunityProperties[col]["label"] = 'Percentage distribution of the implicit attribute ' + "(" + str(col2) + ")" + ":"
+                            #if (not explainableAttribute):
+                                #explainedCommunityProperties[col]["label"] += "(This community doesn't meet the dissimilar requirements) :"
+                            #explainedCommunityProperties[col]["label"] += "distanceCommunity: " + str(self.distanceCommunity)
                             explainedCommunityProperties[col]["explanation"] = percentageColumnDict
 
-                            
+                        
                             
                             """
                             
