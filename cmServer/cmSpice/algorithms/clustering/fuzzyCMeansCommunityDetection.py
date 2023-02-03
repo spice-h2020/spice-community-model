@@ -35,16 +35,39 @@ class FuzzyCMeansCommunityDetection:
         list
             List with the clusters each element belongs to (e.g., list[0] === cluster the element 0 belongs to.) 
         """
-        # devuelve resultados incorrectos, si se pide 3 n_cluster y solo encuentra 2 devuelve [1,2,2,1] pero tiene que devolver [0,1,1,0]
-        # TODO: fix
         
-        # fcm = FCM(n_clusters=n_clusters)
-        # print("1", fcm.fit(distanceMatrix))
-        # clusters = fcm.predict(distanceMatrix)
-        # print("clusters:", clusters)
 
-        size = max(len(distanceMatrix), len(distanceMatrix[0]))
-        communities = [0] * size
+        """
+        FCM
+        Attributes:
+        ----------
+        n_clusters (int) (5): The number of clusters to form as well as the number
+            of centroids to generate by the fuzzy C-means.
+        max_iter (int) (150): Maximum number of iterations of the fuzzy C-means
+            algorithm for a single run.
+        m (float) (2.0): Degree of fuzziness: $m \in (1, \infty)$.
+        error (float) (1e-5): Relative tolerance with regards to Frobenius norm of
+            the difference
+            in the cluster centers of two consecutive iterations to declare
+            convergence.
+        random_state (Optional[int]) (None): Determines random number generation for
+            centroid initialization.
+            Use an int to make the randomness deterministic.
+        trained (bool) (Field(False, const=True)): Variable to store whether or not the model has been
+            trained.
+        distance (euclidean): "euclidean", "cosine", "minkowski"
+        """
+        fcm = FCM(n_clusters=n_clusters, max_iter=150, m=2.0, error=1e-5)
+        fcm.fit(distanceMatrix)
+        clusters = fcm.predict(distanceMatrix)
 
 
-        return communities
+        # fix values
+        clusters = [len(clusters) if item == -1 else item for item in clusters]
+        # Rename the clusters ids to avoid missing intermediate values
+        uniqueLabels = set(clusters)      
+        uniqueLabels = sorted(uniqueLabels)
+        clusters = [uniqueLabels.index(label) for label in clusters]
+
+        print("clusters:", clusters)
+        return clusters
