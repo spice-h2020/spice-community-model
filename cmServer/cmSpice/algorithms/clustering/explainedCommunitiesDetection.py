@@ -11,7 +11,13 @@ from cmSpice.algorithms.clustering.explainedCommunity import getCommunity
 from cmSpice.algorithms.clustering.explainedCommunity import getMostFrequentElementsList
 from cmSpice.algorithms.clustering.explainedCommunity import explainInteractionAttributes
 
+# ---------logger---------
+#
+import logging
+from cmSpice.logger.logger import getLogger
 
+logger = getLogger(__name__)
+# ------------------------
 
 class ExplainedCommunitiesDetection:
     """Class to search all communities that all members have a common
@@ -134,15 +140,6 @@ class ExplainedCommunitiesDetection:
             complete_data = self.__simplifyInteractionAttributesCompleteData(complete_data, len(set(result2)),
                                                                              printing=False)
 
-            """
-            print("columns")
-            print(complete_data.columns)
-            print("\n")
-            
-            print("complete data simplify dominant")
-            print(complete_data['community_' + 'dominantArtworks'])
-            print("\n")
-            """
 
             # Comprobamos que para cada grupo existe al menos una respuesta en común
             explainables = []
@@ -157,8 +154,7 @@ class ExplainedCommunitiesDetection:
             if n_clusters < n_communities:
                 # Set n_communities = n_clusters (communities could not be explained)
                 # finish_search = True
-                # n_communities = n_clusters
-                print()
+                n_communities = n_clusters
 
             else:
                 n_communities = n_clusters
@@ -182,13 +178,11 @@ class ExplainedCommunitiesDetection:
         # Get medoids
         medoids_communities = self.__getMedoidsCommunities(result2)
 
-        print("complete data communities")
-        print(complete_data[['community']])
-        print("\n")
+        logger.info("complete data communities")
+        logger.info(complete_data[['community']])
 
-        print("community unique")
-        print(complete_data['community'].unique())
-        print("\n")
+        logger.info("community unique")
+        logger.info(complete_data['community'].unique())
 
         communityDict = {}
         communityDict['number'] = n_communities
@@ -245,9 +239,9 @@ class ExplainedCommunitiesDetection:
             for attribute in self.dissimilar_attributes:
                 simplify_cols.append(attribute + "Distance")
 
-            print("simplify_cols")
-            print(simplify_cols)
-            print("\n")
+            logger.info("simplify_cols")
+            logger.info(simplify_cols)
+
             for col in simplify_cols:
                 col2 = col + 'DominantInteractionGenerated'
 
@@ -255,32 +249,6 @@ class ExplainedCommunitiesDetection:
                 communityMemberIndexes = np.nonzero(np.in1d(self.data.index, community.index))[0]
 
                 # communityMemberIndexes = np.nonzero(np.in1d(self.data.index,self.data.index))[0]
-
-                """
-                print("community")
-                print(community)
-
-                print("data index:")
-                print(self.data.index)
-                print("community index:")
-                print(community.index)
-                print("communityMemberIndexes: ")
-                print(communityMemberIndexes)
-                print("\n")
-                """
-
-                """
-                if (printing):
-                    print("col2: " + str(col2))
-                    print(df[col2])
-                    print("self.data.index: " + str(self.data.index))
-                    print("community.index: " + str(community.index))
-                    print("community member indexes: " + str(communityMemberIndexes))
-                    print("\n\n")
-                
-                """
-
-                # print("simplify attribute: " + str(col2))
 
                 # From the attribute list, consider only the ones between the members of the community
                 # https://stackoverflow.com/questions/23763591/python-selecting-elements-in-a-list-by-indices
@@ -298,10 +266,9 @@ class ExplainedCommunitiesDetection:
         communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if
                                                      row[col2][i] != '' and i != row['real_index']]
 
-        print("extract dominant interaction attribute")
-        print("col2: " + str(col2))
-        print("dominant artworks: " + str(row[col2]))
-        print("\n")
+        logger.info("extract dominant interaction attribute")
+        logger.info("col2: " + str(col2))
+        logger.info("dominant artworks: " + str(row[col2]))
 
         if len(communityMembers_interactionAttributeList) > 0:
             if col2 == 'dominantArtworksDominantInteractionGenerated':
@@ -315,14 +282,14 @@ class ExplainedCommunitiesDetection:
 
                 # if (row['userNameAuxiliar'] == 'e4aM9WL7' and 1 == 2):
                 if row['userNameAuxiliar'] == 'x2AUnHqw' and 1 == 2:
-                    print("username: " + row['userNameAuxiliar'])
-                    print("community: " + str(row['community']))
-                    print("community member indexes: " + str(communityMemberIndexes))
-                    print("dominantArtworks: " + str(communityMembers_interactionAttributeList))
-                    print("community dominantArtworks: " + str(communityMembers_validInteractionAttributeList))
-                    print("community dominantArtworks flatten: " + str(array2))
-                    print("result: " + str(list(set(array2))))
-                    print("\n")
+                    logger.info("username: " + row['userNameAuxiliar'])
+                    logger.info("community: " + str(row['community']))
+                    logger.info("community member indexes: " + str(communityMemberIndexes))
+                    logger.info("dominantArtworks: " + str(communityMembers_interactionAttributeList))
+                    logger.info("community dominantArtworks: " + str(communityMembers_validInteractionAttributeList))
+                    logger.info("community dominantArtworks flatten: " + str(array2))
+                    logger.info("result: " + str(list(set(array2))))
+                    logger.info("\n")
 
                 return list(set(array2))
 
@@ -334,14 +301,7 @@ class ExplainedCommunitiesDetection:
                                                                   if len(x) > 0]
 
                 if len(communityMembers_validInteractionAttributeList) > 0:
-                    """
-                    print("new iconclass generation")
-                    print(communityMembers_validInteractionAttributeList)
-                    print("\n")
-                    
-                    """
 
-                    # print("simplify iconclassArrayIDs")
 
                     # First, create a combined dictionary containing all the arrays of pairs each iconclassIDs originates from
                     iconclassDictionary = {}
@@ -352,22 +312,6 @@ class ExplainedCommunitiesDetection:
                                     iconclassDictionary[interactionAttributeKey] = []
                                 iconclassDictionary[interactionAttributeKey].append(
                                     interactionAttributeDict[interactionAttributeKey])
-                    """
-                    print("username: " + row['userNameAuxiliar'])
-                    print("index: " + str(row['real_index']))
-                    print("community: " + str(row['community']))
-                    print("dominant artworks: " + str(row[col2]))
-                    print("communityMemberIndexes: " + str(communityMemberIndexes))
-                    print("communityMembers_interactionAttributeList")
-                    print(communityMembers_interactionAttributeList)
-                    print("\n")
-                    """
-
-                    """
-                    print("new iconclass generation 2")
-                    print(iconclassDictionary)
-                    print("\n")
-                    """
 
                     # Up to now, it also takes the number of times the artwork appears. 
                     # For example, a iconclassID (lovers) may only be linked to La Sirena, but La Sirena is interacted 
@@ -415,18 +359,6 @@ class ExplainedCommunitiesDetection:
                 # return statistics.mode(communityMembers_interactionAttributeList)
                 # Sort key by length of the array
 
-                # Print
-                """
-                print("new dict explanation")
-                print("username: " + row['userNameAuxiliar'])
-                print("index: " + str(row['real_index']))
-                print("community: " + str(row['community']))
-                print("dominant artworks: " + str(row[col2]))
-                print("communityMemberIndexes: " + str(communityMemberIndexes))
-                print("communityMembers_interactionAttributeList")
-                print(communityMembers_interactionAttributeList)
-                print("\n")
-                """
 
                 # Flatten array of dicts into a dict
                 # res = {k: v for d in ini_dict for k, v in d.items()}
@@ -447,29 +379,20 @@ class ExplainedCommunitiesDetection:
                 result = res.split('#separator#')
                 result.reverse()
 
-                """
-                print("result")
-                print(result)
-                print("\n")
-                """
+
 
                 # Get children associated to the keys 
                 result2 = []
                 result2 = {k: explanationDictionary[k] for k in result[0:5:1] if k in explanationDictionary}
 
-                """
-                print("result2")
-                print(result2)
-                print("\n")
-                """
+
 
                 return result2
 
             elif not isinstance(communityMembers_interactionAttributeList[0], list):
                 if 'Distance' in col2:
-                    print("extract dominant distance dissimilar")
-                    print(communityMembers_interactionAttributeList)
-                    print("\n")
+                    logger.info("extract dominant distance dissimilar")
+                    logger.info(communityMembers_interactionAttributeList)
                     return communityMembers_interactionAttributeList
                 else:
                     return statistics.mode(communityMembers_interactionAttributeList)
@@ -481,7 +404,7 @@ class ExplainedCommunitiesDetection:
                 # intersection = communityMembers_validInteractionAttributeList[0]
                 result = []
                 for interactionAttribute in communityMembers_validInteractionAttributeList:
-                    # print("interactionAttribute: " + str(interactionAttribute))
+
                     # intersection = set(intersection).intersection(interactionAttribute)
                     # Union without repetition
                     # intersection = list(set(intersection) | set(lst2))
@@ -489,22 +412,22 @@ class ExplainedCommunitiesDetection:
                     result.extend(interactionAttribute)
 
                 # Return the 3 most frequent elements
-                # print("result: " + str(result))
+
                 result = getMostFrequentElementsList(result, 5)
                 result = [x['Number'] for x in result]
 
 
                 if row['community'] == 6 and 1 == 2:
-                    print("community 6")
-                    print("col2: " + str(col2))
-                    print("index: " + str(row['real_index']))
-                    print("userName: " + str(row['userNameAuxiliar']))
+                    logger.info("community 6")
+                    logger.info("col2: " + str(col2))
+                    logger.info("index: " + str(row['real_index']))
+                    logger.info("userName: " + str(row['userNameAuxiliar']))
                     artworks = [row['dominantArtworksDominantInteractionGenerated'][i] for i in communityMemberIndexes
                                 if
                                 row['dominantArtworksDominantInteractionGenerated'][i] != '' and i != row['real_index']]
-                    print("dominantArtworks: " + str(row['dominantArtworksDominantInteractionGenerated']))
-                    print("dominantArtworks community: " + str(artworks))
-                    print("\n")
+                    logger.info("dominantArtworks: " + str(row['dominantArtworksDominantInteractionGenerated']))
+                    logger.info("dominantArtworks community: " + str(artworks))
+                    logger.info("\n")
 
                 return result
 
@@ -537,14 +460,14 @@ class ExplainedCommunitiesDetection:
                 explainableAttribute = False
                 if answer_binary:
                     explainableAttribute = (len(community[col]) * percentage) <= community[col].sum()
-                    print((len(community[col]) * percentage))
-                    print(community[col].sum())
+                    logger.info((len(community[col]) * percentage))
+                    logger.info(community[col].sum())
                 else:
                     explainableAttribute = (len(community[col]) * percentage) <= community[col].value_counts().max()
-                    print((len(community[col]) * percentage))
-                    print(community[col].value_counts().max())
+                    logger.info((len(community[col]) * percentage))
+                    logger.info(community[col].value_counts().max())
 
-                print("\n")
+                logger.info("\n")
 
                 # Apply dissimilar
                 # First approximation (most frequent value appears below the community similarity percentage)
@@ -553,21 +476,21 @@ class ExplainedCommunitiesDetection:
 
                     explainableAttribute = not explainableAttribute
 
-                    print("apply dissimilar explanation")
-                    print(explainableAttribute)
-                    print("(len(community[col]) * percentage)")
-                    print(str((len(community[col]) * percentage)))
-                    print("community[col].value_counts().max()")
-                    print(str(community[col].value_counts().max()))
-                    print("\n")
+                    logger.info("apply dissimilar explanation")
+                    logger.info(explainableAttribute)
+                    logger.info("(len(community[col]) * percentage)")
+                    logger.info(str((len(community[col]) * percentage)))
+                    logger.info("community[col].value_counts().max()")
+                    logger.info(str(community[col].value_counts().max()))
+                    logger.info("\n")
 
                     # Second approximation
                     # Calculate the similarity average of the community members based on [col2] attribute. 
                     # If it is higher or equal to percentage, the community can be explained
-                    print("checking distance")
-                    print(list(community.columns))
-                    print(community[[col + 'Distance']])
-                    print("\n")
+                    logger.info("checking distance")
+                    logger.info(list(community.columns))
+                    logger.info(community[[col + 'Distance']])
+                    logger.info("\n")
 
                     # Now filter distance column using the community 
                     # distanceList = community[col2 + 'DistanceDominantInteractionGenerated'].to_list()
@@ -577,34 +500,34 @@ class ExplainedCommunitiesDetection:
                         explainableAttribute = True
                     else:
 
-                        print("distanceList")
-                        print(distanceList)
-                        print(str(len(distanceList)))
-                        print(str(len(distanceList[0])))
-                        print(str(len(community)))
-                        print("\n")
+                        logger.info("distanceList")
+                        logger.info(distanceList)
+                        logger.info(str(len(distanceList)))
+                        logger.info(str(len(distanceList[0])))
+                        logger.info(str(len(community)))
+                        logger.info("\n")
 
                         np_array = np.asarray(distanceList, dtype=object)
                         distanceList_flatten = list(np.hstack(np_array))  # if (len(np_array) > 0)
-                        print("distanceList_flatten")
-                        print(distanceList_flatten)
-                        print(str(len(distanceList_flatten)))
-                        print("\n")
+                        logger.info("distanceList_flatten")
+                        logger.info(distanceList_flatten)
+                        logger.info(str(len(distanceList_flatten)))
+                        logger.info("\n")
 
                         distanceCommunity = sum(distanceList_flatten)
-                        print("distance comunity")
-                        print(str(distanceCommunity))
-                        print("\n")
+                        logger.info("distance comunity")
+                        logger.info(str(distanceCommunity))
+                        logger.info("\n")
 
                         distanceCommunity = distanceCommunity / len(distanceList_flatten)
-                        print("distance comunity final")
-                        print(str(distanceCommunity))
-                        print("\n")
+                        logger.info("distance comunity final")
+                        logger.info(str(distanceCommunity))
+                        logger.info("\n")
 
                         self.distanceCommunity = distanceCommunity
 
                         if distanceCommunity <= percentage:
-                            print("less percentage")
+                            logger.info("less percentage")
                             explainableAttribute = True
                         else:
                             explainableAttribute = False
@@ -670,7 +593,7 @@ class ExplainedCommunitiesDetection:
         return modePropertiesCommunity
 
     def get_community(self, id_community, answer_binary=False, percentage=1.0):
-        return getCommunity(id_community, answer_binary, percentage, self.daoAPI_iconclass)
+        return getCommunity(self, id_community, answer_binary, percentage, self.daoAPI_iconclass)
 
     # def __get_community_genericDict(self, id_community, array, col, col2, explainedCommunityProperties):
     #     print("improved explanation for dict type explanations")

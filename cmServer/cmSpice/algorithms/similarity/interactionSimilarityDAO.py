@@ -13,6 +13,12 @@ from cmSpice.utils.dataLoader import DataLoader
 import statistics
 from statistics import mode
 
+# ---------logger---------
+
+from cmSpice.logger.logger import getLogger
+
+logger = getLogger(__name__)
+# ------------------------
 
 class InteractionSimilarityDAO(SimilarityDAO):
     """
@@ -60,35 +66,35 @@ class InteractionSimilarityDAO(SimilarityDAO):
         for citizenAttribute in self.perspective['user_attributes']:
             self.citizenAttributes.append(citizenAttribute['att_name'])
 
-        print("self.attribute: " + str(self.interactionAttribute))
-        print("self.attribute (Origin): " + str(self.interactionAttributeOrigin))
-        print("self.attribute (text): " + str(self.interactionAttributeText))
-        print("self.data.columns: " + str(list(self.data.columns)))
-        print("\n")
+        logger.info("self.attribute: " + str(self.interactionAttribute))
+        logger.info("self.attribute (Origin): " + str(self.interactionAttributeOrigin))
+        logger.info("self.attribute (text): " + str(self.interactionAttributeText))
+        logger.info("self.data.columns: " + str(list(self.data.columns)))
+        logger.info("\n")
 
-        print("self perspective")
-        print(self.perspective)
-        print("self.interactionSimilarityFunction")
-        print(self.similarityFunction)
-        print("\n")
+        logger.info("self perspective")
+        logger.info(self.perspective)
+        logger.info("self.interactionSimilarityFunction")
+        logger.info(self.similarityFunction)
+        logger.info("\n")
 
         self.interactionSimilarityMeasure = self.initializeFromPerspective(dao, self.similarityFunction)
 
-        print("checking self.interactionSimilarityFunction")
-        print(self.interactionSimilarityMeasure.similarityFunction)
-        print("\n")
+        logger.info("checking self.interactionSimilarityFunction")
+        logger.info(self.interactionSimilarityMeasure.similarityFunction)
+        logger.info("\n")
 
-        # print(self.interactionSimilarityMeasure)
+        # logger.info(self.interactionSimilarityMeasure)
 
-        # print("dafdsfasdf")
+        # logger.info("dafdsfasdf")
         if self.similarityFunction['sim_function']['name'] != 'NoInteractionSimilarityDAO' or 1 == 1:
-            # print("sfdsf")
+            # logger.info("sfdsf")
 
             # Remove the interactions with emotion with interactionSimilarityMeasure empty
             IOColumn = self.similarityFunction['sim_function']['interaction_object']['att_name']
             df = self.data.copy()
 
-            print("dsfdsfsdf")
+            logger.info("dsfdsfsdf")
 
             df2 = df.explode(
                 [self.interactionAttribute, self.interactionAttributeOrigin, self.interactionAttributeText])
@@ -103,9 +109,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
             # Remove interactions with artworks that are not in artworks.json
             df3 = df3.loc[df3[self.interactionAttributeOrigin].isin(self.IO_data['id'].to_list())]
 
-            print("df3")
-            print(df3)
-            print("\n\n")
+            logger.info("df3")
+            logger.info(df3)
+            logger.info("\n\n")
 
             # Flag artwork is enabled (detect communities interacting with one specific artwork)
             # This flag is not added by the perspective configuration tool (for now, it is given manually)
@@ -116,7 +122,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
                 # Filter self.data to only consider users interacting with that artwork
                 # Remove interactions with artworks other than the one given by the 'communityDetectionForArtwork' flag
                 communityDetectionArtwork = self.perspective['algorithm']['params'][0] #['communityDetectionForArtwork']
-                print("communityDetectionArtwork: " + str(communityDetectionArtwork))
+                logger.info("communityDetectionArtwork: " + str(communityDetectionArtwork))
 
                 dfArtworkFlag = df3.loc[ df3[self.interactionAttributeOrigin] == communityDetectionArtwork ]
                 if (dfArtworkFlag.empty):
@@ -125,22 +131,22 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     df3 = dfArtworkFlag.copy()
             """
 
-            print("df3 after artwork flag")
-            print(df3)
-            print("\n\n")
+            logger.info("df3 after artwork flag")
+            logger.info(df3)
+            logger.info("\n\n")
 
             groupList = ['userid']
             groupList.extend(self.citizenAttributes)
 
             # Df3 perspective
-            print("df3 perspective")
-            print(df3[['userid', self.interactionAttribute, self.interactionAttributeOrigin,
+            logger.info("df3 perspective")
+            logger.info(df3[['userid', self.interactionAttribute, self.interactionAttributeOrigin,
                        self.interactionAttributeText]])
-            print("\n")
+            logger.info("\n")
 
-            print("groupby groupList")
-            print(groupList)
-            print("\n\n")
+            logger.info("groupby groupList")
+            logger.info(groupList)
+            logger.info("\n\n")
 
             df4 = df3.groupby(groupList).agg(list)
             df4 = df4.reset_index()
@@ -174,9 +180,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
         self.IO_distanceIndex = self.distanceDict['index']
         self.IO_distanceMatrix = np.asarray(self.distanceDict['distanceMatrix'])
 
-        print("self.IO_distanceMatrix")
-        print(self.IO_distanceMatrix)
-        print("\n")
+        logger.info("self.IO_distanceMatrix")
+        logger.info(self.IO_distanceMatrix)
+        logger.info("\n")
 
         matrix = self.IO_distanceMatrix.copy()
         matrix[matrix == 0.0] = 1.0
@@ -199,7 +205,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
             return daoJson
         else:
             # TODO: Change by Logger
-            print("Unable load artworks.json")
+            logger.info("Unable load artworks.json")
             return None
 
     def getInteractionObjectData(self):
@@ -283,11 +289,11 @@ class InteractionSimilarityDAO(SimilarityDAO):
             IOB = list(map(str, IOB))
 
             """
-            print("type object A: " + str(type(objectA)))
-            print("type IO_distanceIndex: " + str(type(self.IO_distanceIndex[0])))
-            print("objectA: " + str(objectA))
-            print("IOB: " + str(IOB))
-            print("\n")
+            logger.info("type object A: " + str(type(objectA)))
+            logger.info("type IO_distanceIndex: " + str(type(self.IO_distanceIndex[0])))
+            logger.info("objectA: " + str(objectA))
+            logger.info("IOB: " + str(IOB))
+            logger.info("\n")
             """
 
             objectAIndex = self.IO_distanceIndex.index(str(objectA))
@@ -297,21 +303,21 @@ class InteractionSimilarityDAO(SimilarityDAO):
             mostSimilarIO = IOB[mostSimilarIOIndex]
 
             """
-            print("type object A: " + str(type(objectA)))
-            print("type IO_distanceIndex: " + str(type(self.IO_distanceIndex[0])))
-            print("objectA: " + str(objectA))
-            print("IOB: " + str(IOB))
-            print("\n")
-            print("IO_distanceIndex: " + str(self.IO_distanceIndex))
-            print(self.IO_distanceMatrix)
-            print("\n")
-            print("objectA index: " + str(objectAIndex))
-            print("distanceMatrix_IOB_indexes: " + str(distanceMatrix_IOB_indexes))
-            print("distanceMatrix_IOB_values: " + str(distanceMatrix_IOB_values))
-            print("minimumDistance index: " + str(mostSimilarIOIndex))
-            print("minimumDistance value: " + str(distanceMatrix_IOB_values[mostSimilarIOIndex]))
-            print("most similar IO: " + str(mostSimilarIO))
-            print("\n\n\n")
+            logger.info("type object A: " + str(type(objectA)))
+            logger.info("type IO_distanceIndex: " + str(type(self.IO_distanceIndex[0])))
+            logger.info("objectA: " + str(objectA))
+            logger.info("IOB: " + str(IOB))
+            logger.info("\n")
+            logger.info("IO_distanceIndex: " + str(self.IO_distanceIndex))
+            logger.info(self.IO_distanceMatrix)
+            logger.info("\n")
+            logger.info("objectA index: " + str(objectAIndex))
+            logger.info("distanceMatrix_IOB_indexes: " + str(distanceMatrix_IOB_indexes))
+            logger.info("distanceMatrix_IOB_values: " + str(distanceMatrix_IOB_values))
+            logger.info("minimumDistance index: " + str(mostSimilarIOIndex))
+            logger.info("minimumDistance value: " + str(distanceMatrix_IOB_values[mostSimilarIOIndex]))
+            logger.info("most similar IO: " + str(mostSimilarIO))
+            logger.info("\n\n\n")
             
             """
 
@@ -339,25 +345,25 @@ class InteractionSimilarityDAO(SimilarityDAO):
 
         except ValueError:
 
-            print("exception ")
-            print("type object A: " + str(type(objectA)))
+            logger.info("exception ")
+            logger.info("type object A: " + str(type(objectA)))
             """
             """
-            print("objectA: " + str(objectA))
-            print("IO_distanceIndex: " + str(self.IO_distanceIndex))
+            logger.info("objectA: " + str(objectA))
+            logger.info("IO_distanceIndex: " + str(self.IO_distanceIndex))
 
             objectAIndex = self.IO_distanceIndex.index(str(objectA))
-            print("objectA index: " + str(objectAIndex))
+            logger.info("objectA index: " + str(objectAIndex))
             distanceMatrix_IOB_indexes = np.nonzero(np.in1d(self.IO_distanceIndex, IOB))[0]
-            print("distanceMatrix_IOB_indexes: " + str(distanceMatrix_IOB_indexes))
+            logger.info("distanceMatrix_IOB_indexes: " + str(distanceMatrix_IOB_indexes))
             distanceMatrix_IOB_values = self.IO_distanceMatrix[objectAIndex, distanceMatrix_IOB_indexes]
-            print("distanceMatrix_IOB_values: " + str(distanceMatrix_IOB_values))
+            logger.info("distanceMatrix_IOB_values: " + str(distanceMatrix_IOB_values))
             mostSimilarIOIndex = distanceMatrix_IOB_values.argmin()
-            print("most similar IO Index: " + str(mostSimilarIOIndex))
+            logger.info("most similar IO Index: " + str(mostSimilarIOIndex))
             mostSimilarIO = IOB[mostSimilarIOIndex]
-            print("most similar IO: " + str(mostSimilarIO))
+            logger.info("most similar IO: " + str(mostSimilarIO))
 
-            print("end exception")
+            logger.info("end exception")
 
             return -1
 
@@ -381,12 +387,12 @@ class InteractionSimilarityDAO(SimilarityDAO):
         userInteractionB = self.data.loc[elemB]
 
         """
-        print(userInteractionA['userid'])
-        print(userInteractionB['userid'])
+        logger.info(userInteractionA['userid'])
+        logger.info(userInteractionB['userid'])
         """
 
         # Get interaction objects (IO) the user interacted with
-        # print(self.similarityFunction)
+        # logger.info(self.similarityFunction)
 
         # Get ids of artworks the user interacted with
         IOColumn = self.interactionAttribute + "_origin"
@@ -398,11 +404,11 @@ class InteractionSimilarityDAO(SimilarityDAO):
         IOB = list(map(str, IOB))
 
         """
-        print("IO Columns")
-        print(IOColumn)
-        print(IOA)
-        print(IOB)
-        print("\n\n\n")
+        logger.info("IO Columns")
+        logger.info(IOColumn)
+        logger.info(IOA)
+        logger.info(IOB)
+        logger.info("\n\n\n")
         """
 
         """
@@ -452,14 +458,14 @@ class InteractionSimilarityDAO(SimilarityDAO):
 
                 """
                 if (userInteractionA['userid'] == 'e4aM9WL7' and userInteractionB['userid'] == 'BNtsz8zb' and 1 == 2):
-                    print("check object index " + str(userInteractionA['userid']))
-                    print("elemB: " + str(userInteractionB['userid']))
-                    print("objectA: " + str(objectA))
-                    print("objectIndexB: " + str(objectIndexB))
-                    print("\n\n")
+                    logger.info("check object index " + str(userInteractionA['userid']))
+                    logger.info("elemB: " + str(userInteractionB['userid']))
+                    logger.info("objectA: " + str(objectA))
+                    logger.info("objectIndexB: " + str(objectIndexB))
+                    logger.info("\n\n")
                 """
 
-                # print("objectA: " + str(objectA))
+                # logger.info("objectA: " + str(objectA))
 
                 # IGNORED FOR NOW
                 if (1 == 2 and objectIndexB != -1 and self.similarityFunction['sim_function'][
@@ -469,17 +475,17 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     distanceMatrixIndexObjectB = self.IO_distanceIndex.index(str(objectB))
 
                     distance = self.IO_distanceMatrix[distanceMatrixIndexObjectA, distanceMatrixIndexObjectB]
-                    print("new distance is :" + str(distance))
+                    logger.info("new distance is :" + str(distance))
 
                 # STARTS HERE IF A MATCHING SIMILAR ARTWORK WAS FOUND
                 elif objectIndexB != -1:
                     """
-                    print("interactionsA: " + str(userInteractionA[self.similarityColumn]))
-                    print("interactionsB: " + str(userInteractionB[self.similarityColumn]))
-                    print("objectIndexA: " + str(objectIndexA))
-                    print("len IOA: " + str(len(IOA)))
-                    print("IOA: " + str(IOA))
-                    print(userInteractionA['userid'])
+                    logger.info("interactionsA: " + str(userInteractionA[self.similarityColumn]))
+                    logger.info("interactionsB: " + str(userInteractionB[self.similarityColumn]))
+                    logger.info("objectIndexA: " + str(objectIndexA))
+                    logger.info("len IOA: " + str(len(IOA)))
+                    logger.info("IOA: " + str(IOA))
+                    logger.info(userInteractionA['userid'])
                     
                     """
 
@@ -488,9 +494,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     interactionFeatureB = userInteractionB[self.similarityColumn][objectIndexB]
 
                     """
-                    print("self.interaction similarity measure: " + str(self.interactionSimilarityMeasure))
-                    print("interactionFeatureA: " + str(interactionFeatureA))
-                    print("interactionFeatureB: " + str(interactionFeatureB))
+                    logger.info("self.interaction similarity measure: " + str(self.interactionSimilarityMeasure))
+                    logger.info("interactionFeatureA: " + str(interactionFeatureA))
+                    logger.info("interactionFeatureB: " + str(interactionFeatureB))
                     
                     
                     """
@@ -498,10 +504,10 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     # Calculate distance between them
                     distance = self.interactionSimilarityMeasure.distanceValues(interactionFeatureA,
                                                                                 interactionFeatureB)
-                    # print("distance (" + str(interactionFeatureA) + "," + str(interactionFeatureB) + "): " + str(distance))
+                    # logger.info("distance (" + str(interactionFeatureA) + "," + str(interactionFeatureB) + "): " + str(distance))
                     # distance = self.interactionSimilarityMeasure.dissimilarFlag(distance)
-                    # print("distance dissimilar (" + str(interactionFeatureA) + "," + str(interactionFeatureB) + "): " + str(distance))
-                    # print("\n")
+                    # logger.info("distance dissimilar (" + str(interactionFeatureA) + "," + str(interactionFeatureB) + "): " + str(distance))
+                    # logger.info("\n")
 
                     # Add dominant interaction value to list (e.g., emotions = {joy: 3, sadness: 4, trust: 1} -> sadness
                     dominantInteractionAttributeA, dominantInteractionAttributeB = self.interactionSimilarityMeasure.dominantInteractionAttribute(
@@ -511,9 +517,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
 
                     # Add dominant value for each artwork attribute used to compute similarity between them
                     """
-                    print("objectA: " + str(objectA))
-                    print("objectB: " + str(objectB))
-                    print("\n")
+                    logger.info("objectA: " + str(objectA))
+                    logger.info("objectB: " + str(objectB))
+                    logger.info("\n")
                     """
 
                     # Get objects data
@@ -521,9 +527,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     artworks_df = self.IO_data.loc[self.IO_data['id'].isin([objectA, objectB])]
 
                     """
-                    print("df")
-                    print(df[['id', column]] )
-                    print("\n")
+                    logger.info("df")
+                    logger.info(df[['id', column]] )
+                    logger.info("\n")
                     
                     """
 
@@ -533,21 +539,21 @@ class InteractionSimilarityDAO(SimilarityDAO):
 
                         """
                         valueA = artworks_df.loc[ artworks_df['id'] == objectA ][dominantAttribute].to_list()[0]
-                        #print(valueA)
+                        #logger.info(valueA)
                         valueB = artworks_df.loc[ artworks_df['id'] == objectB ][dominantAttribute].to_list()[0]
-                        #print(valueB)
+                        #logger.info(valueB)
                         dominantValue = similarityMeasure.dominantValue(valueA, valueB)
-                        #print(dominantValue)
+                        #logger.info(dominantValue)
                         dominantValues[dominantAttribute] = dominantValue
-                        #print(dominantValues)
-                        #print("dominantValue: " + str(dominantValue))
+                        #logger.info(dominantValues)
+                        #logger.info("dominantValue: " + str(dominantValue))
                         """
 
                         dominantValue = similarityMeasure.dominantElemValue(objectA, objectB)
-                        # print(dominantValue)
+                        # logger.info(dominantValue)
                         dominantValues[dominantAttribute] = dominantValue
-                        # print(dominantValues)
-                        # print("dominantValue: " + str(dominantValue))
+                        # logger.info(dominantValues)
+                        # logger.info("dominantValue: " + str(dominantValue))
 
                     # dominant_artworkSimilarityFeature =
 
@@ -558,16 +564,16 @@ class InteractionSimilarityDAO(SimilarityDAO):
                         dominantArtworks.append(objectA)
 
                     if (userInteractionA['userid'] == 'x2AUnHqw' and 1 == 2):
-                        print('x2AUnHqw')
-                        print("dominant artworks x2AUnHqw")
-                        print(userInteractionB['userid'])
-                        print(objectA)
-                        print(objectB)
-                        print("\n")
+                        logger.info('x2AUnHqw')
+                        logger.info("dominant artworks x2AUnHqw")
+                        logger.info(userInteractionB['userid'])
+                        logger.info(objectA)
+                        logger.info(objectB)
+                        logger.info("\n")
 
                     """
-                    print("dominantA: " + str(dominantInteractionAttributeA))
-                    print("dominantB: " + str(dominantInteractionAttributeB))
+                    logger.info("dominantA: " + str(dominantInteractionAttributeA))
+                    logger.info("dominantB: " + str(dominantInteractionAttributeB))
                     
                     
                     
@@ -592,9 +598,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     distance = 1
 
                 """
-                print("distance: " + str(distance))
-                print("distanceTotal: " + str(distanceTotal))
-                print("\n\n")
+                logger.info("distance: " + str(distance))
+                logger.info("distanceTotal: " + str(distanceTotal))
+                logger.info("\n\n")
                 
                 """
 
@@ -605,8 +611,8 @@ class InteractionSimilarityDAO(SimilarityDAO):
             distanceTotal /= len(IOA)
 
             """
-            print("distanceTotal (FINAL) (" + str(userInteractionA['userid']) + "; " + str(userInteractionB['userid']) + "): " + str(distanceTotal))
-            print("\n\n")
+            logger.info("distanceTotal (FINAL) (" + str(userInteractionA['userid']) + "; " + str(userInteractionB['userid']) + "): " + str(distanceTotal))
+            logger.info("\n\n")
             
             """
 
@@ -614,29 +620,29 @@ class InteractionSimilarityDAO(SimilarityDAO):
             """
 
             if userInteractionA['userid'] == 'e4aM9WL7' and userInteractionB['userid'] == 'BNtsz8zb' and 1 == 2:
-                print("check interaction distance " + str(userInteractionA['userid']))
-                print("elemB: " + str(userInteractionB['userid']))
-                print("distanceTotal (FINAL): " + str(distanceTotal))
-                print("\n\n")
+                logger.info("check interaction distance " + str(userInteractionA['userid']))
+                logger.info("elemB: " + str(userInteractionB['userid']))
+                logger.info("distanceTotal (FINAL): " + str(distanceTotal))
+                logger.info("\n\n")
 
         except Exception as e:
-            print("\n\n\n")
-            print("Exception dominant attribute")
-            print(str(e))
+            logger.error("\n\n\n")
+            logger.error("Exception dominant attribute")
+            logger.error(str(e))
             """
-            print("elemA: " + str(elemA))
-            print("elemB: " + str(elemB))
+            logger.info("elemA: " + str(elemA))
+            logger.info("elemB: " + str(elemB))
             """
-            print("userA: " + str(userInteractionA['userid']))
-            print("userB: " + str(userInteractionB['userid']))
-            print("IOA: " + str(IOA))
-            print("IOB: " + str(IOB))
-            print("interactionsA: " + str(userInteractionA[self.similarityColumn]))
-            print("interactionsB: " + str(userInteractionB[self.similarityColumn]))
-            print("objectIndexA: " + str(objectIndexA))
-            print("len IOA: " + str(len(IOA)))
-            print("IOA: " + str(IOA))
-            print(userInteractionA['userid'])
+            logger.error("userA: " + str(userInteractionA['userid']))
+            logger.error("userB: " + str(userInteractionB['userid']))
+            logger.error("IOA: " + str(IOA))
+            logger.error("IOB: " + str(IOB))
+            logger.error("interactionsA: " + str(userInteractionA[self.similarityColumn]))
+            logger.error("interactionsB: " + str(userInteractionB[self.similarityColumn]))
+            logger.error("objectIndexA: " + str(objectIndexA))
+            logger.error("len IOA: " + str(len(IOA)))
+            logger.error("IOA: " + str(IOA))
+            logger.error(userInteractionA['userid'])
 
             raise Exception(e)
 
@@ -646,8 +652,8 @@ class InteractionSimilarityDAO(SimilarityDAO):
 
         # Get most frequent element in dominantInteractionAttributes
         """
-        print("dominant interaction attributes")
-        print(dominantInteractionAttributes)
+        logger.info("dominant interaction attributes")
+        logger.info(dominantInteractionAttributes)
         """
         if len(dominantInteractionAttributes) > 0:
             dominantInteractionAttribute = mode(dominantInteractionAttributes)
@@ -660,12 +666,12 @@ class InteractionSimilarityDAO(SimilarityDAO):
 
         if self.similarityFunction['sim_function']['name'] != 'NoInteractionSimilarityDAO':
 
-            # print(self.data[[self.similarityColumn]])
+            # logger.info(self.data[[self.similarityColumn]])
 
             """
-            print("dominantInteractionAttributeList: " + str(dominantInteractionAttributeList))
-            print("distanceTotal: " + str(distanceTotal))
-            print("\n\n")
+            logger.info("dominantInteractionAttributeList: " + str(dominantInteractionAttributeList))
+            logger.info("distanceTotal: " + str(distanceTotal))
+            logger.info("\n\n")
             
             
             """

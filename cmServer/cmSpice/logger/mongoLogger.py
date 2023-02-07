@@ -83,5 +83,5 @@ class MongoHandler(logging.Handler):
         try:
             self.collection.insert_one(self.format(record))
         except InvalidDocument as e:
-            logging.error("Unable to save log record: %s", e.message,
+            logging.error("Unable to save log record: %s", e,
                 exc_info=True)

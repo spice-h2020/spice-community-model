@@ -5,6 +5,12 @@ import pandas as pd
 
 import json
 
+# ---------logger---------
+
+from cmSpice.logger.logger import getLogger
+
+logger = getLogger(__name__)
+# ------------------------
 
 def getMostFrequentElementsList(array, k):
     df = pd.DataFrame({'Number': array, 'Value': array})
@@ -77,35 +83,35 @@ def getCommunity(explainedObject, id_community, answer_binary, percentage, daoAP
 
                     # Generic for dict types (iconclass, ontology, artwork id)
                     if len(array) > 0 and isinstance(array[0], dict):
-                        explainedCommunityProperties = __get_community_genericDict(id_community, array, col,
+                        explainedCommunityProperties = __get_community_genericDict(explainedObject, id_community, array, col,
                                                                                         col2,
                                                                                         explainedCommunityProperties, daoAPI_iconclass)
 
                     # For iconclass
                     elif col == ("community_" + "iconclassArrayIDs"):
-                        explainedCommunityProperties = __get_community_iconClass(array, col, col2,
+                        explainedCommunityProperties = __get_community_iconClass(explainedObject, array, col, col2,
                                                                                       explainedCommunityProperties, daoAPI_iconclass)
 
                     # For materials ontology
                     elif col == ("community_" + "Materials") and 1 == 1:
-                        explainedCommunityProperties = __get_community_materialOntology(array, col, col2,
-                                                                                             explainedCommunityProperties, daoAPI_iconclass)
+                        explainedCommunityProperties = __get_community_materialOntology(explainedObject, array, col, col2,
+                                                                                             explainedCommunityProperties)
 
                     # For id
                     elif col == ("community_" + "id") and 1 == 1:
-                        explainedCommunityProperties = __get_community_id(array, col, col2,
-                                                                               explainedCommunityProperties, daoAPI_iconclass)
+                        explainedCommunityProperties = __get_community_id(explainedObject, array, col, col2,
+                                                                               explainedCommunityProperties)
 
                     # For list types (artworks and iconclass)
                     elif len(array) > 0 and isinstance(array[0], list):
-                        explainedCommunityProperties = __get_community_listTypes(array, col, col2,
+                        explainedCommunityProperties = __get_community_listTypes(explainedObject, array, col, col2,
                                                                                       explainedCommunityProperties, daoAPI_iconclass)
 
                     # For string types
                     else:
-                        explainedCommunityProperties = __get_community_stringTypes(col, col2,
+                        explainedCommunityProperties = __get_community_stringTypes(explainedObject, col, col2,
                                                                                         explainedCommunityProperties,
-                                                                                        community, daoAPI_iconclass)
+                                                                                        community)
 
         # Second explanation
 
@@ -116,16 +122,15 @@ def getCommunity(explainedObject, id_community, answer_binary, percentage, daoAP
 
     except Exception as e:
 
-        print(str(e))
-        print(explainedObject.communities)
-        print("\n")
+        logger.error(str(e))
+        logger.error(explainedObject.communities)
         # data with communities
-        print(explainedObject.complete_data)
-        print("\n\n")
-        print("algorithm result")
-        print(explainedObject.resultAlgorithm)
-        print(explainedObject.idsCommunities)
-        print("\n")
+        logger.error(explainedObject.complete_data)
+        logger.error("\n\n")
+        logger.error("algorithm result")
+        logger.error(explainedObject.resultAlgorithm)
+        logger.error(explainedObject.idsCommunities)
+        logger.error("\n")
         raise Exception("Exception retrieving community " + str(id_community))
         # return -1
 
@@ -133,15 +138,15 @@ def getCommunity(explainedObject, id_community, answer_binary, percentage, daoAP
 
 
 def __get_community_genericDict(explainedObject, id_community, array, col, col2, explainedCommunityProperties, daoAPI_iconclass):
-    print("improved explanation for dict type explanations")
-    print("col: " + str(col))
-    print("\n")
+    logger.info("improved explanation for dict type explanations")
+    logger.info("col: " + str(col))
+    logger.info("\n")
 
-    print(array)
-    print("\n")
+    logger.info(array)
+    logger.info("\n")
 
-    print("end new dict type explanations")
-    print("\n")
+    logger.info("end new dict type explanations")
+    logger.info("\n")
 
     # Example array
     # [{}, {'31D1': [['31D15', '31D12']]}] (iconclass)
@@ -158,14 +163,14 @@ def __get_community_genericDict(explainedObject, id_community, array, col, col2,
 
     if col != ("community_" + "id"):
         for key in iconclassDictionary:
-            print("iconclassDictionary " + "(" + str(key) + ")")
-            print(iconclassDictionary[key])
+            logger.info("iconclassDictionary " + "(" + str(key) + ")")
+            logger.info(iconclassDictionary[key])
 
             set_of_jsons = {json.dumps(d, sort_keys=True) for d in iconclassDictionary[key]}
             iconclassDictionary[key] = [json.loads(t) for t in set_of_jsons]
 
-            print(iconclassDictionary[key])
-            print("\n")
+            logger.info(iconclassDictionary[key])
+            logger.info("\n")
             """
             """
 
@@ -174,17 +179,17 @@ def __get_community_genericDict(explainedObject, id_community, array, col, col2,
 
     result3 = {}
 
-    print("community: " + str(id_community))
-    print("iconclassDictionary explanation")
-    print(iconclassDictionary)
-    print("\n")
-    print("result2 explanation")
-    print(result2)
-    print("\n")
+    logger.info("community: " + str(id_community))
+    logger.info("iconclassDictionary explanation")
+    logger.info(iconclassDictionary)
+    logger.info("\n")
+    logger.info("result2 explanation")
+    logger.info(result2)
+    logger.info("\n")
 
     # Prepare explanation text for each of the selected keys
     for iconclassID in result2:
-        print("checking iconclass id " + str(iconclassID))
+        logger.info("checking iconclass id " + str(iconclassID))
         iconclassText = ""
         if col == "community_" + "iconclassArrayIDs":
             iconclassText = daoAPI_iconclass.getIconclassText(iconclassID)
@@ -193,9 +198,9 @@ def __get_community_genericDict(explainedObject, id_community, array, col, col2,
         np_array = np.asarray(result2[iconclassID], dtype=object)
         iconclassChildren = list(np.hstack(np_array))
 
-        print("iconclass children")
-        print(iconclassChildren)
-        print("\n")
+        logger.info("iconclass children")
+        logger.info(iconclassChildren)
+        logger.info("\n")
 
         # basic explanation
         # iconclassExplanation = str(iconclassID) + " " + iconclassText
@@ -214,9 +219,9 @@ def __get_community_genericDict(explainedObject, id_community, array, col, col2,
                 artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassID])
             iconclassChildrenText = []
             if len(iconclassChildrenCombinedDictionary) > 1:
-                print("iconclass combined dictionary")
-                print(iconclassChildrenCombinedDictionary)
-                print("\n")
+                logger.info("iconclass combined dictionary")
+                logger.info(iconclassChildrenCombinedDictionary)
+                logger.info("\n")
 
                 # iconclassExplanation += ". Obtained from the artwork's materials: "
                 iconclassExplanation += ". Obtained from the artwork's " + str(
@@ -245,9 +250,9 @@ def __get_community_genericDict(explainedObject, id_community, array, col, col2,
             artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassID])
             # iconclassChildren = {}
 
-        print("iconclass children combined")
-        print(iconclassChildrenCombinedDictionary)
-        print("\n")
+        logger.info("iconclass children combined")
+        logger.info(iconclassChildrenCombinedDictionary)
+        logger.info("\n")
 
         # result3[iconclassExplanation] = 0.0
         result3[iconclassExplanation] = list(set(artworksExplanation))
@@ -256,14 +261,14 @@ def __get_community_genericDict(explainedObject, id_community, array, col, col2,
 
 
 def __get_community_iconClass(explainedObject, array, col, col2, explainedCommunityProperties, daoAPI_iconclass):
-    print("improved explanation for iconclass")
-    print("\n")
+    logger.info("improved explanation for iconclass")
+    logger.info("\n")
 
-    print(array)
-    print("\n")
+    logger.info(array)
+    logger.info("\n")
 
-    print("end new iconclass")
-    print("\n")
+    logger.info("end new iconclass")
+    logger.info("\n")
 
     # Example array
     # [{}, {'31D1': [['31D15', '31D12']]}]
@@ -284,9 +289,9 @@ def __get_community_iconClass(explainedObject, array, col, col2, explainedCommun
         iconclassChildrenText = []
 
         if len(iconclassChildrenCombinedDictionary) > 1:
-            print("iconclass combined dictionary")
-            print(iconclassChildrenCombinedDictionary)
-            print("\n")
+            logger.info("iconclass combined dictionary")
+            logger.info(iconclassChildrenCombinedDictionary)
+            logger.info("\n")
 
             iconclassExplanation += ". Obtained from the artwork's iconclass IDs: "
             for iconclassChild in iconclassChildrenCombinedDictionary:
@@ -303,14 +308,14 @@ def __get_community_iconClass(explainedObject, array, col, col2, explainedCommun
 
 
 def __get_community_materialOntology(explainedObject, array, col, col2, explainedCommunityProperties):
-    print("improved explanation for materials")
-    print("\n")
+    logger.info("improved explanation for materials")
+    logger.info("\n")
 
-    print(array)
-    print("\n")
+    logger.info(array)
+    logger.info("\n")
 
-    print("end new materials")
-    print("\n")
+    logger.info("end new materials")
+    logger.info("\n")
 
     # Example array
     # [{}, {'31D1': [['31D15', '31D12']]}]
@@ -330,9 +335,9 @@ def __get_community_materialOntology(explainedObject, array, col, col2, explaine
 
         iconclassChildrenText = []
         if len(iconclassChildrenCombinedDictionary) > 1:
-            print("iconclass combined dictionary")
-            print(iconclassChildrenCombinedDictionary)
-            print("\n")
+            logger.info("iconclass combined dictionary")
+            logger.info(iconclassChildrenCombinedDictionary)
+            logger.info("\n")
 
             iconclassExplanation = __setIconclassExplanation(iconclassExplanation,
                                                                   iconclassChildrenCombinedDictionary,
@@ -398,7 +403,7 @@ def __get_community_listTypes(explainedObject, array, col, col2, explainedCommun
     # array2 = list(np_array.flat)
     array2 = list(np.hstack(np_array))
 
-    # print("array2: " + str(array2))
+    # logger.info("array2: " + str(array2))
 
 
     result = getMostFrequentElementsList(array2, 5)
@@ -406,9 +411,9 @@ def __get_community_listTypes(explainedObject, array, col, col2, explainedCommun
 
     result2 = {}
 
-    print("before entering iconclass extra functionality")
-    print(col)
-    print("\n")
+    logger.info("before entering iconclass extra functionality")
+    logger.info(col)
+    logger.info("\n")
 
     # Iconclass attribute
     if col == "community_" + "iconclassArrayIDs":
@@ -422,7 +427,7 @@ def __get_community_listTypes(explainedObject, array, col, col2, explainedCommun
 
     # result2.append(str(array) + " " + "0.0")
 
-    print("result2: " + str(result2))
+    logger.info("result2: " + str(result2))
 
     # explainedCommunityProperties[col] = "\n".join(result2)
 
@@ -436,8 +441,6 @@ def __get_community_listTypes(explainedObject, array, col, col2, explainedCommun
 
 
 def __get_community_stringTypes(explainedObject, col, col2, explainedCommunityProperties, community):
-    print("is explainable get community")
-
     # explainableAttribute = __is_explainable(community, answer_binary, percentage)
 
     # Returns dominant one
@@ -471,16 +474,16 @@ def __getArrayOfDicts(explainedObject, result2, iconclassID, iconclassText):
     np_array = np.asarray(result2[iconclassID], dtype=object)
     iconclassChildren = list(np.hstack(np_array))
 
-    print("iconclass children")
-    print(iconclassChildren)
-    print("\n")
+    logger.info("iconclass children")
+    logger.info(iconclassChildren)
+    logger.info("\n")
 
     # Group iconclassChildren into a combined dictionary (values with the same key are added to an array)
     iconclassChildrenCombinedDictionary = __groupIconclassChildrenCombinedDictionary(iconclassChildren)
 
-    print("iconclass children combined")
-    print(iconclassChildrenCombinedDictionary)
-    print("\n")
+    logger.info("iconclass children combined")
+    logger.info(iconclassChildrenCombinedDictionary)
+    logger.info("\n")
 
     iconclassExplanation = str(iconclassID) + " " + iconclassText
     if iconclassID in iconclassChildrenCombinedDictionary:
@@ -491,7 +494,7 @@ def __getArrayOfDicts(explainedObject, result2, iconclassID, iconclassText):
 
 
 def __setExplainedCommunityProperties(explainedObject, explainedCommunityProperties, result3, col, col2):
-    print("result3: " + str(result3))
+    logger.info("result3: " + str(result3))
 
     # explainedCommunityProperties[col] = "\n".join(result2)
 
