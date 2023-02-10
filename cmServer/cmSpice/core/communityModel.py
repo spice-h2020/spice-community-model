@@ -74,6 +74,26 @@ class CommunityModel():
         self.percentageExplainability = 0.3
         self.percentageExplainability = percentageExplainability
 
+        if ('weight' in self.perspective['algorithm']):
+            """
+            print("check weight perspective")
+            print(self.perspective['algorithm']['weight'])
+            print(type(self.perspective['algorithm']['weight']))
+            print("\n")
+            
+
+
+            print("self.percentageExplainability: " + str(self.percentageExplainability))
+            """
+
+            self.percentageExplainability = float(self.perspective['algorithm']['weight'])
+
+            """
+            print("self.percentageExplainability: " + str(self.percentageExplainability))
+            print("\n")
+            """
+
+
         print("percentage Explainability community model" + str(percentageExplainability))
         
     def start(self):

@@ -6,25 +6,16 @@ import pandas as pd
 
 import json
 
+
 from cmSpice.dao.dao_api_iconclass import DAO_api_iconclass
-from cmSpice.algorithms.clustering.explainedCommunity import getCommunity
-from cmSpice.algorithms.clustering.explainedCommunity import getMostFrequentElementsList
-from cmSpice.algorithms.clustering.explainedCommunity import explainInteractionAttributes
 
-# ---------logger---------
-#
-import logging
-from cmSpice.logger.logger import getLogger
-
-logger = getLogger(__name__)
-# ------------------------
 
 class ExplainedCommunitiesDetection:
     """Class to search all communities that all members have a common
     propertie. This algorithm works with clustering techniques.
     """
 
-    def __init__(self, algorithm, data, distanceMatrix, perspective={}):
+    def __init__(self, algorithm, data, distanceMatrix, perspective = {}):
         """Method to configure the detection algorithm.
 
         Args:
@@ -36,37 +27,37 @@ class ExplainedCommunitiesDetection:
         """
         # To get iconclass data
         self.daoAPI_iconclass = DAO_api_iconclass()
-
+        
         # Initialization
         self.algorithm = algorithm
         self.data = data.copy()
         self.distanceMatrix = distanceMatrix
         self.perspective = perspective
-
+        
         self.user_attributes = []
         self.interaction_attributes = []
         self.artwork_attributes = []
-
-        if len(self.perspective) == 0:
+        
+        if (len(self.perspective) == 0):
             self.explanaible_attributes = self.data.columns
-
+            
         else:
-
+        
             # user's explicit attributes
             for userAttribute in self.perspective['user_attributes']:
                 self.user_attributes.append(userAttribute['att_name'])
-
+                
             # user's interaction features
             for similarityFunction in self.perspective['interaction_similarity_functions']:
                 self.interaction_attributes.append(similarityFunction['sim_function']['on_attribute']['att_name'])
-
+                
             # artwork's similarity features
             for similarityFunction in self.perspective['similarity_functions']:
                 self.artwork_attributes.append(similarityFunction['sim_function']['on_attribute']['att_name'])
 
             # explainable attributes
-            self.explanaible_attributes = []
-            if explainInteractionAttributes(self.perspective) == False:
+            self.explanaible_attributes = []              
+            if (self.explainInteractionAttributes() == False):
                 self.explanaible_attributes = self.artwork_attributes
             else:
                 self.explanaible_attributes = self.interaction_attributes
@@ -74,13 +65,11 @@ class ExplainedCommunitiesDetection:
             # dissimilar attributes
             self.dissimilar_attributes = []
             self.dissimilar_atributes_dict = {}
-            for similarityFunction in self.perspective['interaction_similarity_functions'] + self.perspective[
-                'similarity_functions']:
-                if ('dissimilar' in similarityFunction['sim_function'] and similarityFunction['sim_function'][
-                    'dissimilar'] == True):
+            for similarityFunction in self.perspective['interaction_similarity_functions'] + self.perspective['similarity_functions']:
+                if ('dissimilar' in similarityFunction['sim_function'] and similarityFunction['sim_function']['dissimilar'] == True):
                     self.dissimilar_attributes.append(similarityFunction['sim_function']['on_attribute']['att_name'])
-                    self.dissimilar_atributes_dict[
-                        similarityFunction['sim_function']['on_attribute']['att_name']] = similarityFunction
+                    self.dissimilar_atributes_dict[similarityFunction['sim_function']['on_attribute']['att_name']] = similarityFunction
+        
 
     def search_all_communities(self, answer_binary=False, percentage=1.0):
         """Method to search all explainable communities.
@@ -97,11 +86,12 @@ class ExplainedCommunitiesDetection:
         """
         maxCommunities = len(self.data)
         n_communities = min(2, maxCommunities)
+        n_clusters = n_communities
         finish_search = False
 
         # Special case: not enough data (1 or less users)
         # This can happen if we filter by an artwork and only 1 or less users interacted with it.
-        if maxCommunities <= 1:
+        if (maxCommunities <= 1):
             finish_search = True
             result2 = []
             result = {}
@@ -118,14 +108,13 @@ class ExplainedCommunitiesDetection:
 
         while not finish_search:
             community_detection = self.algorithm(self.data)
-            result = community_detection.calculate_communities(distanceMatrix=self.distanceMatrix,
-                                                               n_clusters=n_communities)
-
+            result = community_detection.calculate_communities(distanceMatrix = self.distanceMatrix, n_clusters=n_communities)
+            
             # Asignamos a cada elemento su cluster/comunidad correspondiente (fix this later)
             ids_communities = {}
             for i in range(len(self.data.index)):
                 ids_communities[self.data.index[i]] = result[i]
-
+                
             result2 = result
             result = ids_communities
             self.resultAlgorithm = result2
@@ -137,71 +126,154 @@ class ExplainedCommunitiesDetection:
             self.complete_data = complete_data
 
             # Try to simplifyInteractionAttributes directly in complete_data
-            complete_data = self.__simplifyInteractionAttributesCompleteData(complete_data, len(set(result2)),
-                                                                             printing=False)
-
+            complete_data = self.simplifyInteractionAttributesCompleteData(complete_data, len(set(result2)), printing = False)
+            
+            """
+            print("columns")
+            print(complete_data.columns)
+            print("\n")
+            
+            print("complete data simplify dominant")
+            print(complete_data['community_' + 'dominantArtworks'])
+            print("\n")
+            """
 
             # Comprobamos que para cada grupo existe al menos una respuesta en común
             explainables = []
             self.communities = complete_data.groupby(by='community')
-
-            # for c in range(n_communities):
-            # n_clusters = min(n_communities,len(set(result2)))
+            
+            
+            #for c in range(n_communities):
+            #n_clusters = min(n_communities,len(set(result2)))
             n_clusters = len(set(result2))
             n_communities_before = n_communities
 
             # Cannot be explained with implicit
-            if n_clusters < n_communities:
+            if (n_clusters < n_communities):
                 # Set n_communities = n_clusters (communities could not be explained)
-                # finish_search = True
-                n_communities = n_clusters
+                #finish_search = True 
+                #n_communities = n_clusters
+
+                """
+                print("n clusters is less than communities")
+                print("maxCommunities")
+                print(str(maxCommunities))
+                print("n clusters")
+                print(str(n_clusters))
+                print("n_communities before clusters")
+                print(str(n_communities_before))
+                print("n_communities")
+                print(str(n_communities))
+                print("explainables")
+                print(str(sum(explainables)))
+                print("\n")
+                """
 
             else:
+                
+
+                
+
                 n_communities = n_clusters
+                """
+                
+                """
 
                 for c in range(n_communities):
                     community = self.communities.get_group(c)
-                    # community = self.simplifyInteractionAttributes(community, printing = False)
-                    explainables.append(self.__is_explainable(community, answer_binary, percentage))
+                    #community = self.simplifyInteractionAttributes(community, printing = False)
+                    explainables.append(self.is_explainable(community, answer_binary, percentage))
+
+                """
+                print("maxCommunities")
+                print(str(maxCommunities))
+                print("n clusters")
+                print(str(n_clusters))
+                print("n_communities before clusters")
+                print(str(n_communities_before))
+                print("n_communities")
+                print(str(n_communities))
+                print("explainables")
+                print(str(sum(explainables)))
+                print("\n")
+                """
+                
 
                 finish_search = sum(explainables) == n_communities
-
+            
             # Each datapoint belongs to a different cluster  
-            if n_communities == maxCommunities:
+            if (n_communities == maxCommunities):
                 finish_search = True
-
+                
             if not finish_search:
                 n_communities += 1
+            """
+            if finish_search:
+                print("finish search")
+                for c in range(n_communities):
+                    community = self.communities.get_group(c)
+                    print("community " + str(c))
+                    print(community[['userNameAuxiliar','community']])
+                    print("\n")
+            """
 
         # Set communities to be equal to clusters (if it is bigger, then at least one community cannot be explained)
         n_communities = n_clusters
         # Get medoids
-        medoids_communities = self.__getMedoidsCommunities(result2)
+        medoids_communities = self.getMedoidsCommunities(result2)
 
-        logger.info("complete data communities")
-        logger.info(complete_data[['community']])
+        """
+        print("end search_all_communities")
+        print("maxCommunities")
+        print(str(maxCommunities))
+        print("n clusters")
+        print(str(n_clusters))
+        print("n_communities before clusters")
+        print(str(n_communities_before))
+        print("n_communities")
+        print(str(n_communities))
+        print("explainables")
+        print(str(sum(explainables)))
+        print("\n")
+        """
 
-        logger.info("community unique")
-        logger.info(complete_data['community'].unique())
+        
+        
+        print("complete data communities")
+        print(complete_data[['community']])
+        print("\n")
 
+        print("community unique")
+        print(complete_data['community'].unique())
+        print("\n")
+        """
+        """
+
+        """
+        print("complete data")
+        print(self.complete_data)
+        print("\n")
+        """
+        
         communityDict = {}
         communityDict['number'] = n_communities
         communityDict['users'] = result
         communityDict['medoids'] = medoids_communities
         communityDict['percentage'] = percentage
         communityDict['userAttributes'] = self.user_attributes
-
+        
         return complete_data, communityDict
+    
+    def explainInteractionAttributes(self):
+        return len(self.perspective['interaction_similarity_functions']) > 0
 
-
-
-    def __simplifyInteractionAttributesCompleteData(self, completeData_df, n_communities, printing=False):
+    def simplifyInteractionAttributesCompleteData(self, completeData_df, n_communities, printing = False):
         self.communities = completeData_df.groupby(by='community')
         communities = []
 
         for c in range(n_communities):
             community = self.communities.get_group(c)
-            community = self.__simplifyInteractionAttributes(community, printing=False)
+            community = self.simplifyInteractionAttributes(community, printing = False)
 
             communities.append(community)
 
@@ -209,8 +281,8 @@ class ExplainedCommunitiesDetection:
         completeData_df = df.sort_values(by=['real_index'])
 
         return completeData_df
-
-    def __simplifyInteractionAttributes(self, community, printing=False):
+            
+    def simplifyInteractionAttributes(self, community, printing = False):
         """
         Method to obtain the dominant value in the list of interaction attribute values with the other community members.
         
@@ -225,126 +297,306 @@ class ExplainedCommunitiesDetection:
             Updated dataframe including the dominant value for each user-interaction attribute pair in new columns.
             Column name = community_ + 'interaction attribute label'
         """
-        if not explainInteractionAttributes(self.perspective):
+        """
+        print("simplify interaction attributes")
+        print(community['community'].tolist())
+        print("\n\n")
+        """
+        
+        if (self.explainInteractionAttributes() == False):
             return community
         else:
-
+                    
             df = community.copy()
-            # for col in self.explanaible_attributes:
+            #for col in self.explanaible_attributes:
             # Include similarity features between artworks too
-            # for col in self.explanaible_attributes + self.artwork_attributes + ['dominantArtworks']:
+            #for col in self.explanaible_attributes + self.artwork_attributes + ['dominantArtworks']:
             # Add distance between emotions for dissimilar emotions
-            simplify_cols = self.explanaible_attributes + self.artwork_attributes + ['dominantArtworks']
-
+            simplify_cols = self.explanaible_attributes + self.artwork_attributes + ['dominantArtworks'] 
+            
             for attribute in self.dissimilar_attributes:
                 simplify_cols.append(attribute + "Distance")
 
-            logger.info("simplify_cols")
-            logger.info(simplify_cols)
-
-            for col in simplify_cols:
+            print("simplify_cols")
+            print(simplify_cols)
+            print("\n")
+            for col in simplify_cols:  
                 col2 = col + 'DominantInteractionGenerated'
 
                 # Get row index of community members
-                communityMemberIndexes = np.nonzero(np.in1d(self.data.index, community.index))[0]
+                communityMemberIndexes = np.nonzero(np.in1d(self.data.index,community.index))[0]
 
-                # communityMemberIndexes = np.nonzero(np.in1d(self.data.index,self.data.index))[0]
 
+                #communityMemberIndexes = np.nonzero(np.in1d(self.data.index,self.data.index))[0]
+
+                """
+                print("community")
+                print(community)
+
+                print("data index:")
+                print(self.data.index)
+                print("community index:")
+                print(community.index)
+                print("communityMemberIndexes: ")
+                print(communityMemberIndexes)
+                print("\n")
+                """
+                
+                """
+                if (printing):
+                    print("col2: " + str(col2))
+                    print(df[col2])
+                    print("self.data.index: " + str(self.data.index))
+                    print("community.index: " + str(community.index))
+                    print("community member indexes: " + str(communityMemberIndexes))
+                    print("\n\n")
+                
+                """   
+
+
+
+                #print("simplify attribute: " + str(col2))
+                
                 # From the attribute list, consider only the ones between the members of the community
                 # https://stackoverflow.com/questions/23763591/python-selecting-elements-in-a-list-by-indices
                 # Transform attribute list to fit community members
-                df.loc[:, ('community_' + col)] = community.apply(
-                    lambda row: self.__extractDominantInteractionAttribute(row, col2, communityMemberIndexes), axis=1)
+                df.loc[:, ('community_' + col)] = community.apply(lambda row: self.extractDominantInteractionAttribute(row, col2, communityMemberIndexes), axis = 1)
                 # df.loc[:, ('community_' + col)] = community.apply(lambda row: statistics.mode([row[col2][i] for i in communityMemberIndexes if row[col2][i] != '']), axis = 1)
+            
 
+
+            if (1 == 2):
+                print("dominantArtworks")
+                print(df[['real_index','userNameAuxiliar', 'community_dominantArtworks']])
+                print("\n")
+
+            """
+            if (printing):
+                print('dominant artworks')
+                print(df[['real_index', 'community_' + 'dominantArtworks']])
+                print("\n")
+            
+            """
+            
             return df
-
-
-
-    def __extractDominantInteractionAttribute(self, row, col2, communityMemberIndexes):
+    
+    def getMostFrequentElementsList(self, array, k):
+        df=pd.DataFrame({'Number': array, 'Value': array})
+        df['Count'] = df.groupby(['Number'])['Value'].transform('count')
+        
+        df1 = df.copy()
+        df1 = df1.sort_values(by=['Count'], ascending=False)
+        df1 = df1.drop_duplicates(['Number'])
+        
+        #return df1.head(k)['Number'].tolist()
+        
+        return df1.head(k)[['Number','Count']].to_dict('records')
+    
+    def extractDominantInteractionAttribute(self, row, col2, communityMemberIndexes):
+        #communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '']
         # Skip itself
-        communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if
-                                                     row[col2][i] != '' and i != row['real_index']]
+        communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
+        
+        print("extract dominant interaction attribute")
+        print("col2: " + str(col2))
+        print("dominant artworks: " + str(row[col2]))
+        print("\n")
 
-        logger.info("extract dominant interaction attribute")
-        logger.info("col2: " + str(col2))
-        logger.info("dominant artworks: " + str(row[col2]))
 
-        if len(communityMembers_interactionAttributeList) > 0:
+        #if (row['userNameAuxiliar'] == 'e4aM9WL7' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 2):
+        if (row['userNameAuxiliar'] == 'x2AUnHqw' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 1):
+         
+        
+            """
+            print("username: " + row['userNameAuxiliar'])
+            print("index: " + str(row['real_index']))
+            print("community: " + str(row['community']))
+            print("dominant artworks: " + str(row[col2]))
+            print("communityMemberIndexes: " + str(communityMemberIndexes))
+            print("communityMembers_interactionAttributeList")
+            print(communityMembers_interactionAttributeList)
+            print("\n")
+
+            
+            """
+                    
+        if (len(communityMembers_interactionAttributeList) > 0):
             if col2 == 'dominantArtworksDominantInteractionGenerated':
-                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList
-                                                                  if len(x) > 0]
-                if len(communityMembers_validInteractionAttributeList) > 0:
+                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
+                if (len(communityMembers_validInteractionAttributeList) > 0):
                     np_array = np.asarray(communityMembers_validInteractionAttributeList, dtype=object)
-                    array2 = list(np.hstack(np_array))  # if (len(np_array) > 0)
+                    array2 = list(np.hstack(np_array)) #if (len(np_array) > 0)
                 else:
                     array2 = communityMembers_validInteractionAttributeList
+                
+                
+                #if (row['userNameAuxiliar'] == 'e4aM9WL7' and 1 == 2):
+                if (row['userNameAuxiliar'] == 'x2AUnHqw' and 1 == 2):
+                    print("username: " + row['userNameAuxiliar'])
+                    print("community: " + str(row['community']))
+                    print("community member indexes: " + str(communityMemberIndexes))
+                    print("dominantArtworks: " + str(communityMembers_interactionAttributeList))
+                    print("community dominantArtworks: " + str(communityMembers_validInteractionAttributeList))
+                    print("community dominantArtworks flatten: " + str(array2))
+                    print("result: " + str(list(set(array2))))
+                    print("\n")
+                    
+                    """
+                    print("username: " + str(row['userNameAuxiliar']))
+                    print("community: " + str(row['community']))
+                    print("\n")
+                    """
+                    
+                    """
+                    print("dominantArtworks")
+                    print("username: " + str(row['userNameAuxiliar']))
+                    print("community: " + str(row['community']))
+                    print(communityMembers_interactionAttributeList)
+                    print("\n")
+                    """
 
-                # if (row['userNameAuxiliar'] == 'e4aM9WL7' and 1 == 2):
-                if row['userNameAuxiliar'] == 'x2AUnHqw' and 1 == 2:
-                    logger.info("username: " + row['userNameAuxiliar'])
-                    logger.info("community: " + str(row['community']))
-                    logger.info("community member indexes: " + str(communityMemberIndexes))
-                    logger.info("dominantArtworks: " + str(communityMembers_interactionAttributeList))
-                    logger.info("community dominantArtworks: " + str(communityMembers_validInteractionAttributeList))
-                    logger.info("community dominantArtworks flatten: " + str(array2))
-                    logger.info("result: " + str(list(set(array2))))
-                    logger.info("\n")
-
+                # Print
+                """
+                print("dominant artworks explanation")
+                print("username: " + row['userNameAuxiliar'])
+                print("index: " + str(row['real_index']))
+                print("community: " + str(row['community']))
+                print("dominant artworks: " + str(row[col2]))
+                print("communityMemberIndexes: " + str(communityMemberIndexes))
+                print("communityMembers_interactionAttributeList")
+                print(communityMembers_interactionAttributeList)
+                print("result: ")
+                print(list(set(array2)))
+                print("\n")
+                """
+                    
                 return list(set(array2))
-
+            
 
             # Testing new iconclass attribute
             # Now, we get dictionaries with keys (iconclassIDs) and values (arrays indicating the [iconclassIDs artworkA, artworkB] they originate from)
-            elif 'iconclassArrayIDs' in col2 or 'Materials' in col2:
-                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList
-                                                                  if len(x) > 0]
+            elif ('iconclassArrayIDs' in col2 or 'Materials' in col2):
+                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
 
-                if len(communityMembers_validInteractionAttributeList) > 0:
+                if (len(communityMembers_validInteractionAttributeList) > 0):
+                    """
+                    print("new iconclass generation")
+                    print(communityMembers_validInteractionAttributeList)
+                    print("\n")
+                    
+                    """
 
+                    #print("simplify iconclassArrayIDs")
 
                     # First, create a combined dictionary containing all the arrays of pairs each iconclassIDs originates from
                     iconclassDictionary = {}
                     for interactionAttribute in communityMembers_validInteractionAttributeList:
                         for interactionAttributeDict in interactionAttribute:
                             for interactionAttributeKey in interactionAttributeDict:
-                                if interactionAttributeKey not in iconclassDictionary:
+                                if (interactionAttributeKey not in iconclassDictionary):
                                     iconclassDictionary[interactionAttributeKey] = []
-                                iconclassDictionary[interactionAttributeKey].append(
-                                    interactionAttributeDict[interactionAttributeKey])
-
+                                iconclassDictionary[interactionAttributeKey].append(interactionAttributeDict[interactionAttributeKey])
+                    """
+                    print("username: " + row['userNameAuxiliar'])
+                    print("index: " + str(row['real_index']))
+                    print("community: " + str(row['community']))
+                    print("dominant artworks: " + str(row[col2]))
+                    print("communityMemberIndexes: " + str(communityMemberIndexes))
+                    print("communityMembers_interactionAttributeList")
+                    print(communityMembers_interactionAttributeList)
+                    print("\n")
+                    """
+                    
+                    """
+                    print("new iconclass generation 2")
+                    print(iconclassDictionary)
+                    print("\n")
+                    """
+                    
                     # Up to now, it also takes the number of times the artwork appears. 
                     # For example, a iconclassID (lovers) may only be linked to La Sirena, but La Sirena is interacted 
                     # with more times than any other artwork.
 
                     # Now, consider the number of different artworks linked to the iconclass ID
 
+                    
                     for iconclassID in iconclassDictionary:
-                        # iconclassDictionary[iconclassID]= list(set(iconclassDictionary[iconclassID]))
+                        """
+                        print("iconclassDictionary " + "(" + str(iconclassID) + ")" )
+                        print(iconclassDictionary[iconclassID])
+                        """
+                        #iconclassDictionary[iconclassID]= list(set(iconclassDictionary[iconclassID]))
 
                         set_of_jsons = {json.dumps(d, sort_keys=True) for d in iconclassDictionary[iconclassID]}
                         iconclassDictionary[iconclassID] = [json.loads(t) for t in set_of_jsons]
 
-                        # iconclassDictionary[iconclassID] = [dict(t) for t in {tuple(d.items()) for d in iconclassDictionary[iconclassID]}]
+                        #iconclassDictionary[iconclassID] = [dict(t) for t in {tuple(d.items()) for d in iconclassDictionary[iconclassID]}]
+
+                        """
+                        print(iconclassDictionary[iconclassID])
+                        print("\n")
+                    
+                        """
+                    
 
                     # Select x (5) keys with the highest number of results
                     # using sorted() + join() + lambda
                     # Sort dictionary by value list length
-                    sorted_iconclassDictionary = sorted(iconclassDictionary,
-                                                        key=lambda key: len(iconclassDictionary[key]))
+                    sorted_iconclassDictionary = sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key]))
+                    """
+                    print("sorted iconclass dictionary")
+                    print(sorted_iconclassDictionary)
+                    print("\n")
+                    """
+
+
 
                     res = '#separator#'.join(sorted_iconclassDictionary)
 
                     # From most frequent to less frequent
                     result = res.split('#separator#')
+                    """
+                    print("iconclass")
+                    print("iconclass chosen")
+                    print(result)
+                    """
 
                     result.reverse()
 
+                    """
+                    print(result)
+                    print("\n")
+                    """
+
+                    
+                    """
+                    print("result")
+                    print(result)
+                    print("\n")
+                    """
+
                     # Get children associated to the keys 
                     result2 = []
-                    result2 = {k: iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
+                    result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
+
+                    """
+                    print("community: " + str(row['community']))
+                    print("iconclassDictionary")
+                    print(iconclassDictionary)
+                    print("\n")
+                    print("result2")
+                    print(result2)
+                    print("\n")
+                    """
+
 
                     # Next work: include the artworks these iconclass IDs originate from in the explanations
+
+                    """
+                    print("final result (simplify iconclass)")
+                    print(result2)
+                    print("\n")
+                    """
 
                     return result2
 
@@ -355,182 +607,252 @@ class ExplainedCommunitiesDetection:
             # dict: key (attribute); value (list of artwork(s) id(s) they reference)
             # Example: SAME ARTWORKS 
             # key: artwork id; value: [artwork id]
-            elif isinstance(communityMembers_interactionAttributeList[0], dict):
+            elif (isinstance(communityMembers_interactionAttributeList[0],dict) == True):
                 # return statistics.mode(communityMembers_interactionAttributeList)
                 # Sort key by length of the array
 
+                # Print
+                """
+                print("new dict explanation")
+                print("username: " + row['userNameAuxiliar'])
+                print("index: " + str(row['real_index']))
+                print("community: " + str(row['community']))
+                print("dominant artworks: " + str(row[col2]))
+                print("communityMemberIndexes: " + str(communityMemberIndexes))
+                print("communityMembers_interactionAttributeList")
+                print(communityMembers_interactionAttributeList)
+                print("\n")
+                """
 
                 # Flatten array of dicts into a dict
-                # res = {k: v for d in ini_dict for k, v in d.items()}
+                #res = {k: v for d in ini_dict for k, v in d.items()}
                 explanationDictionary = {}
                 for dictionary in communityMembers_interactionAttributeList:
                     for key in dictionary:
-                        if key not in explanationDictionary:
+                        if (key not in explanationDictionary):
                             explanationDictionary[key] = []
                         explanationDictionary[key].append(dictionary[key])
 
+                
                 # Sort it by length of key
                 # Select x (5) keys with the highest number of results
                 # using sorted() + join() + lambda
                 # Sort dictionary by value list length
-                res = '#separator#'.join(sorted(explanationDictionary, key=lambda key: len(explanationDictionary[key])))
+                res = '#separator#'.join(sorted(explanationDictionary, key = lambda key: len(explanationDictionary[key])))
 
                 # From most frequent to less frequent
                 result = res.split('#separator#')
                 result.reverse()
 
-
+                """
+                print("result")
+                print(result)
+                print("\n")
+                """
 
                 # Get children associated to the keys 
                 result2 = []
-                result2 = {k: explanationDictionary[k] for k in result[0:5:1] if k in explanationDictionary}
+                result2 = {k:explanationDictionary[k] for k in result[0:5:1] if k in explanationDictionary}
 
-
+                """
+                print("result2")
+                print(result2)
+                print("\n")
+                """
 
                 return result2
 
-            elif not isinstance(communityMembers_interactionAttributeList[0], list):
-                if 'Distance' in col2:
-                    logger.info("extract dominant distance dissimilar")
-                    logger.info(communityMembers_interactionAttributeList)
+            #elif (isinstance(communityMembers_interactionAttributeList[0],str)):
+            elif (isinstance(communityMembers_interactionAttributeList[0],list) == False):
+                if ('Distance' in col2):
+                    print("extract dominant distance dissimilar")
+                    print(communityMembers_interactionAttributeList)
+                    print("\n")
                     return communityMembers_interactionAttributeList
                 else:
                     return statistics.mode(communityMembers_interactionAttributeList)
 
+
+
+
+
             # iconclass attribute (OLD) Not used anymore
             else:
-                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList
-                                                                  if len(x) > 0]
-                # intersection = communityMembers_validInteractionAttributeList[0]
+                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
+                #intersection = communityMembers_validInteractionAttributeList[0]
                 result = []
                 for interactionAttribute in communityMembers_validInteractionAttributeList:
-
+                    #print("interactionAttribute: " + str(interactionAttribute))
                     # intersection = set(intersection).intersection(interactionAttribute)
                     # Union without repetition
-                    # intersection = list(set(intersection) | set(lst2))
+                    #intersection = list(set(intersection) | set(lst2))
                     # Union with repetition
                     result.extend(interactionAttribute)
 
                 # Return the 3 most frequent elements
-
-                result = getMostFrequentElementsList(result, 5)
-                result = [x['Number'] for x in result]
-
-
-                if row['community'] == 6 and 1 == 2:
-                    logger.info("community 6")
-                    logger.info("col2: " + str(col2))
-                    logger.info("index: " + str(row['real_index']))
-                    logger.info("userName: " + str(row['userNameAuxiliar']))
-                    artworks = [row['dominantArtworksDominantInteractionGenerated'][i] for i in communityMemberIndexes
-                                if
-                                row['dominantArtworksDominantInteractionGenerated'][i] != '' and i != row['real_index']]
-                    logger.info("dominantArtworks: " + str(row['dominantArtworksDominantInteractionGenerated']))
-                    logger.info("dominantArtworks community: " + str(artworks))
-                    logger.info("\n")
-
+                #print("result: " + str(result))
+                result = self.getMostFrequentElementsList(result,5)
+                result = [ x['Number'] for x in result ]
+                
+                #print(row.index)
+                #print("row: " + str(row['userNameAuxiliar']) + " ; " + str(communityMembers_validInteractionAttributeList))
+                
+                # print
+                """
+                if (row['community'] == 6):
+                    print("community 6")
+                    print("communityMemberIndexes: " + str(communityMemberIndexes))
+                    print("attribute list: " + str(communityMembers_interactionAttributeList))
+                    print("index: " + str(row['real_index']))
+                    print("userName: " + str(row['userNameAuxiliar']))
+                    print("result: " + str(result))
+                    print("\n")
+                """
+                
+                """
+                print("community: " + str(row['community']))
+                print("col2: " + str(col2))
+                print("index: " + str(row['real_index']))
+                print("userName: " + str(row['userNameAuxiliar']))
+                print("attribute list (not empty): " + str(communityMembers_interactionAttributeList))
+                print("valid ones: " + str(communityMembers_validInteractionAttributeList))
+                print("result: " + str(result))
+                print("\n")
+                """
+                
+                
+                #artworks = [row['iconclassArrayIDsDominantInteractionGenerated'][i] for i in communityMemberIndexes if row['iconclassArrayIDsDominantInteractionGenerated'][i] != '' and i != row['real_index']]
+                #print("dominant iconclassArrayIDs: " + str(row['iconclassArrayIDsDominantInteractionGenerated']))
+                #print("dominant iconclassArrayIDs community: " + str(artworks))
+                #print("\n")
+                    
+                    
+                if (row['community'] == 6 and 1==2):
+                    print("community 6")
+                    print("col2: " + str(col2))
+                    print("index: " + str(row['real_index']))
+                    print("userName: " + str(row['userNameAuxiliar']))
+                    artworks = [row['dominantArtworksDominantInteractionGenerated'][i] for i in communityMemberIndexes if row['dominantArtworksDominantInteractionGenerated'][i] != '' and i != row['real_index']]
+                    print("dominantArtworks: " + str(row['dominantArtworksDominantInteractionGenerated']))
+                    print("dominantArtworks community: " + str(artworks))
+                    print("\n")
+                
                 return result
 
         else:
             return ''
-
-    def __is_explainable(self, community, answer_binary=False, percentage=1.0):
+        
+    
+        
+    def is_explainable(self, community, answer_binary=False, percentage=1.0):
         explainable_community = False
-
-        # for col in community.columns.values:
+        
+        """
+        print("is_explainable")
+        print(community)
+        print("\n")
+        print("self.explanaible_attributes: " + str(self.explanaible_attributes))
+        print("\n")
+        """
+        
+        #for col in community.columns.values:
         for col2 in self.explanaible_attributes:
             if col2 != 'community':
-                if explainInteractionAttributes(self.perspective):
+                if (self.explainInteractionAttributes()):
                     col = "community_" + col2
                 else:
                     col = col2
-
+                    
+                 
                 print("is_explainable")
                 print("col: " + str(col))
                 print("community " + str(community['community'].to_list()[0]))
                 print(community[col])
                 print("dissimilar attributes")
                 print(self.dissimilar_attributes)
+                print("\n")
+                """   
+                """
 
-                print("answer_binary", answer_binary)
-
-
+                
                 # https://www.alphacodingskills.com/python/notes/python-operator-bitwise-or-assignment.php
                 # (x |= y) is equivalent to (x = x | y)
                 explainableAttribute = False
                 if answer_binary:
-                    explainableAttribute = (len(community[col]) * percentage) <= community[col].sum()
-                    logger.info((len(community[col]) * percentage))
-                    logger.info(community[col].sum())
+                    explainableAttribute = (len(community[col]) * percentage)  <= community[col].sum()
                 else:
                     explainableAttribute = (len(community[col]) * percentage) <= community[col].value_counts().max()
-                    logger.info((len(community[col]) * percentage))
-                    logger.info(community[col].value_counts().max())
-
-                logger.info("\n")
 
                 # Apply dissimilar
                 # First approximation (most frequent value appears below the community similarity percentage)
-
-                if col2 in self.dissimilar_attributes:
+                
+                if (col2 in self.dissimilar_attributes):
+                    
 
                     explainableAttribute = not explainableAttribute
 
-                    logger.info("apply dissimilar explanation")
-                    logger.info(explainableAttribute)
-                    logger.info("(len(community[col]) * percentage)")
-                    logger.info(str((len(community[col]) * percentage)))
-                    logger.info("community[col].value_counts().max()")
-                    logger.info(str(community[col].value_counts().max()))
-                    logger.info("\n")
+                    print("apply dissimilar explanation")
+                    print(explainableAttribute)
+                    print("(len(community[col]) * percentage)")
+                    print(str((len(community[col]) * percentage)))
+                    print("community[col].value_counts().max()")
+                    print(str(community[col].value_counts().max()))
+                    print("\n")
+
 
                     # Second approximation
                     # Calculate the similarity average of the community members based on [col2] attribute. 
                     # If it is higher or equal to percentage, the community can be explained
-                    logger.info("checking distance")
-                    logger.info(list(community.columns))
-                    logger.info(community[[col + 'Distance']])
-                    logger.info("\n")
+                    print("checking distance")
+                    print(list(community.columns))
+                    print(community[[col + 'Distance']])
+                    print("\n")
 
                     # Now filter distance column using the community 
-                    # distanceList = community[col2 + 'DistanceDominantInteractionGenerated'].to_list()
+                    #distanceList = community[col2 + 'DistanceDominantInteractionGenerated'].to_list()
                     distanceList = community[col + 'Distance'].to_list()
                     # Community only has one user (users without community)
-                    if len(distanceList) <= 1:
+                    if (len(distanceList) <= 1):
                         explainableAttribute = True
                     else:
 
-                        logger.info("distanceList")
-                        logger.info(distanceList)
-                        logger.info(str(len(distanceList)))
-                        logger.info(str(len(distanceList[0])))
-                        logger.info(str(len(community)))
-                        logger.info("\n")
+                        print("distanceList")
+                        print(distanceList)
+                        print(str(len(distanceList)))
+                        print(str(len(distanceList[0])))
+                        print(str(len(community)))
+                        print("\n")
 
                         np_array = np.asarray(distanceList, dtype=object)
-                        distanceList_flatten = list(np.hstack(np_array))  # if (len(np_array) > 0)
-                        logger.info("distanceList_flatten")
-                        logger.info(distanceList_flatten)
-                        logger.info(str(len(distanceList_flatten)))
-                        logger.info("\n")
+                        distanceList_flatten = list(np.hstack(np_array)) #if (len(np_array) > 0)
+                        print("distanceList_flatten")
+                        print(distanceList_flatten)
+                        print(str(len(distanceList_flatten)))
+                        print("\n")
 
                         distanceCommunity = sum(distanceList_flatten)
-                        logger.info("distance comunity")
-                        logger.info(str(distanceCommunity))
-                        logger.info("\n")
+                        print("distance comunity")
+                        print(str(distanceCommunity))
+                        print("\n")
 
                         distanceCommunity = distanceCommunity / len(distanceList_flatten)
-                        logger.info("distance comunity final")
-                        logger.info(str(distanceCommunity))
-                        logger.info("\n")
+                        print("distance comunity final")
+                        print(str(distanceCommunity))
+                        print("\n")
 
                         self.distanceCommunity = distanceCommunity
 
-                        if distanceCommunity <= percentage:
-                            logger.info("less percentage")
+                        if (distanceCommunity <= percentage):
+                            print("less percentage")
                             explainableAttribute = True
                         else:
                             explainableAttribute = False
+
+
+
+
+
+
 
                 """
                 # Second approximation (better, not yet implemented)
@@ -540,14 +862,21 @@ class ExplainedCommunitiesDetection:
                     # Distance value: 1.0
                     # If there are equal number of joy and sadness, the distance is 0.5
 
+
+
+
                     # Pick an emotion, value (compute the dissimilarity between all of them)
                 """
+
 
                 explainable_community |= explainableAttribute
 
         return explainable_community
-
-    def __getMedoidsCommunities(self, clusteringResult):
+    
+    
+    
+    
+    def getMedoidsCommunities(self, clusteringResult):
         """
         Calculates the community medoid (Representative member)
             
@@ -561,26 +890,26 @@ class ExplainedCommunitiesDetection:
             communitiesMedoids [<class 'dict'>]
                 Dictionary with keys (community id) and values (pandas dataframe with the medoid row)
         """
-
+        
         # Get cluster representative (medoid)
         # The one with the smallest distance to each other datapoint in the cluster
         communities_members = {}
         for i in range(len(clusteringResult)):
-            communities_members.setdefault(clusteringResult[i], []).append(i)
-
+            communities_members.setdefault(clusteringResult[i],[]).append(i)
+        
         medoids_communities = {}
         for key in communities_members.keys():
-            clusterIxgrid = np.ix_(communities_members[key], communities_members[key])
+            clusterIxgrid = np.ix_(communities_members[key],communities_members[key])
             clusterDistanceMatrix = self.distanceMatrix[clusterIxgrid]
             clusterRepresentativeIndex = np.argmin(np.sum(clusterDistanceMatrix, axis=1))
             clusterRepresentative = communities_members[key][clusterRepresentativeIndex]
-
+            
             medoids_communities[key] = self.data.index[clusterRepresentative]
 
         return medoids_communities
-
+    
     # Get the percentage of most frequent value for each feature.
-    def __secondExplanation(self, community):
+    def secondExplanation(self,community):
         modePropertiesCommunity = {}
 
         for attribute in self.explanaible_attributes:
@@ -589,419 +918,725 @@ class ExplainedCommunitiesDetection:
             modePropertiesCommunity[attribute] = {}
             modePropertiesCommunity[attribute]['representative'] = modeAttribute
             modePropertiesCommunity[attribute]['percentage'] = counts[modeAttribute]
-
+    
         return modePropertiesCommunity
-
+    
+    
+    
     def get_community(self, id_community, answer_binary=False, percentage=1.0):
-        return getCommunity(self, id_community, answer_binary, percentage, self.daoAPI_iconclass)
+        """Method to obtain all information about a community.
 
-    # def __get_community_genericDict(self, id_community, array, col, col2, explainedCommunityProperties):
-    #     print("improved explanation for dict type explanations")
-    #     print("col: " + str(col))
-    #     print("\n")
-    #
-    #     print(array)
-    #     print("\n")
-    #
-    #     print("end new dict type explanations")
-    #     print("\n")
-    #
-    #     # Example array
-    #     # [{}, {'31D1': [['31D15', '31D12']]}] (iconclass)
-    #     #
-    #     # {'44174': ['44174']} (id)
-    #
-    #     # Combine all dictionaries inside the array into one dictionary
-    #     iconclassDictionary = {}
-    #     for dictionary in array:
-    #         for dictionaryKey in dictionary:
-    #             if dictionaryKey not in iconclassDictionary:
-    #                 iconclassDictionary[dictionaryKey] = []
-    #             iconclassDictionary[dictionaryKey].extend(dictionary[dictionaryKey])
-    #
-    #     if col != ("community_" + "id"):
-    #         for key in iconclassDictionary:
-    #             print("iconclassDictionary " + "(" + str(key) + ")")
-    #             print(iconclassDictionary[key])
-    #
-    #             set_of_jsons = {json.dumps(d, sort_keys=True) for d in iconclassDictionary[key]}
-    #             iconclassDictionary[key] = [json.loads(t) for t in set_of_jsons]
-    #
-    #             print(iconclassDictionary[key])
-    #             print("\n")
-    #             """
-    #             """
-    #
-    #     # Sort dictionary
-    #     result2 = self.__sortDictionary(iconclassDictionary)
-    #
-    #     result3 = {}
-    #
-    #     print("community: " + str(id_community))
-    #     print("iconclassDictionary explanation")
-    #     print(iconclassDictionary)
-    #     print("\n")
-    #     print("result2 explanation")
-    #     print(result2)
-    #     print("\n")
-    #
-    #     # Prepare explanation text for each of the selected keys
-    #     for iconclassID in result2:
-    #         print("checking iconclass id " + str(iconclassID))
-    #         iconclassText = ""
-    #         if col == "community_" + "iconclassArrayIDs":
-    #             iconclassText = self.daoAPI_iconclass.getIconclassText(iconclassID)
-    #
-    #         # Get array of dicts {key: iconclassID, value: artwork it originates from}
-    #         np_array = np.asarray(result2[iconclassID], dtype=object)
-    #         iconclassChildren = list(np.hstack(np_array))
-    #
-    #         print("iconclass children")
-    #         print(iconclassChildren)
-    #         print("\n")
-    #
-    #         # basic explanation
-    #         # iconclassExplanation = str(iconclassID) + " " + iconclassText
-    #         iconclassExplanation = iconclassText + " " + "[" + str(iconclassID) + "]"
-    #         artworksExplanation = []
-    #
-    #         # key includes children keys (dict value): iconclass, ontology
-    #         if isinstance(iconclassChildren[0], dict):
-    #
-    #             # Group iconclassChildren into a combined dictionary (values with the same key are added to an array)
-    #             iconclassChildrenCombinedDictionary = self.__groupIconclassChildrenCombinedDictionary(iconclassChildren)
-    #
-    #             if iconclassID in iconclassChildrenCombinedDictionary:
-    #                 iconclassExplanation += " (" + ", ".join(
-    #                     iconclassChildrenCombinedDictionary[iconclassID]) + ")"
-    #                 artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassID])
-    #             iconclassChildrenText = []
-    #             if len(iconclassChildrenCombinedDictionary) > 1:
-    #                 print("iconclass combined dictionary")
-    #                 print(iconclassChildrenCombinedDictionary)
-    #                 print("\n")
-    #
-    #                 # iconclassExplanation += ". Obtained from the artwork's materials: "
-    #                 iconclassExplanation += ". Obtained from the artwork's " + str(
-    #                     col2).lower() + ": "
-    #                 for iconclassChild in iconclassChildrenCombinedDictionary:
-    #                     iconclassChildText = ""
-    #                     # Iconclass: Get description of the iconclassID through the Iconclass API
-    #                     if col == ("community_" + "iconclassArrayIDs"):
-    #                         iconclassChildText = self.daoAPI_iconclass.getIconclassText(
-    #                             iconclassChild)
-    #                     iconclassChildText += " (" + ", ".join(
-    #                         iconclassChildrenCombinedDictionary[iconclassChild]) + ")"
-    #                     artworksExplanation.extend(
-    #                         iconclassChildrenCombinedDictionary[iconclassChild])
-    #                     # iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
-    #                     iconclassChildrenText.append(
-    #                         iconclassChildText + " " + "[" + str(iconclassChild) + "]")
-    #                 iconclassExplanation += "; ".join(iconclassChildrenText)
-    #                 iconclassExplanation += ""
-    #
-    #         # key references a basic array value: artwork id
-    #         else:
-    #
-    #             iconclassChildren = list(set(iconclassChildren))
-    #             iconclassChildrenCombinedDictionary = {iconclassChildren[0]: iconclassChildren}
-    #             artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassID])
-    #             # iconclassChildren = {}
-    #
-    #         print("iconclass children combined")
-    #         print(iconclassChildrenCombinedDictionary)
-    #         print("\n")
-    #
-    #         # result3[iconclassExplanation] = 0.0
-    #         result3[iconclassExplanation] = list(set(artworksExplanation))
-    #
-    #     return self.__setExplainedCommunityProperties(explainedCommunityProperties, result3, col, col2)
-    #
-    # def __get_community_iconClass(self, array, col, col2, explainedCommunityProperties):
-    #     print("improved explanation for iconclass")
-    #     print("\n")
-    #
-    #     print(array)
-    #     print("\n")
-    #
-    #     print("end new iconclass")
-    #     print("\n")
-    #
-    #     # Example array
-    #     # [{}, {'31D1': [['31D15', '31D12']]}]
-    #
-    #     # Combine all into one dictionary
-    #     iconclassDictionary = self.__combineIconclassDictionary(array)
-    #
-    #     # Sort dictionary
-    #     result2 = self.__sortDictionary(iconclassDictionary)
-    #
-    #     result3 = {}
-    #     for iconclassID in result2:
-    #         iconclassText = self.daoAPI_iconclass.getIconclassText(iconclassID)
-    #         # Get array of dicts {key: iconclassID, value: artwork it originates from}
-    #         iconclassExplanation, iconclassChildrenCombinedDictionary = self.__getArrayOfDicts(result2, iconclassID,
-    #                                                                                            iconclassText)
-    #
-    #         iconclassChildrenText = []
-    #
-    #         if len(iconclassChildrenCombinedDictionary) > 1:
-    #             print("iconclass combined dictionary")
-    #             print(iconclassChildrenCombinedDictionary)
-    #             print("\n")
-    #
-    #             iconclassExplanation += ". Obtained from the artwork's iconclass IDs: "
-    #             for iconclassChild in iconclassChildrenCombinedDictionary:
-    #                 iconclassChildText = self.daoAPI_iconclass.getIconclassText(iconclassChild)
-    #                 iconclassChildText += " (" + ", ".join(
-    #                     iconclassChildrenCombinedDictionary[iconclassChild]) + ")"
-    #                 iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
-    #             iconclassExplanation += "; ".join(iconclassChildrenText)
-    #             iconclassExplanation += ""
-    #
-    #         result3[iconclassExplanation] = 0.0
-    #
-    #     return self.__setExplainedCommunityProperties(explainedCommunityProperties, result3, col, col2)
-    #
-    # def __get_community_materialOntology(self, array, col, col2, explainedCommunityProperties):
-    #     print("improved explanation for materials")
-    #     print("\n")
-    #
-    #     print(array)
-    #     print("\n")
-    #
-    #     print("end new materials")
-    #     print("\n")
-    #
-    #     # Example array
-    #     # [{}, {'31D1': [['31D15', '31D12']]}]
-    #
-    #     # Combine all into one dictionary
-    #     iconclassDictionary = self.__combineIconclassDictionary(array)
-    #
-    #     # Sort dictionary
-    #     result2 = self.__sortDictionary(iconclassDictionary)
-    #
-    #     result3 = {}
-    #     for iconclassID in result2:
-    #         iconclassText = ""
-    #         # Get array of dicts {key: iconclassID, value: artwork it originates from}
-    #         iconclassExplanation, iconclassChildrenCombinedDictionary = self.__getArrayOfDicts(result2, iconclassID,
-    #                                                                                            iconclassText)
-    #
-    #         iconclassChildrenText = []
-    #         if len(iconclassChildrenCombinedDictionary) > 1:
-    #             print("iconclass combined dictionary")
-    #             print(iconclassChildrenCombinedDictionary)
-    #             print("\n")
-    #
-    #             iconclassExplanation = self.__setIconclassExplanation(iconclassExplanation,
-    #                                                                   iconclassChildrenCombinedDictionary,
-    #                                                                   iconclassChildrenText)
-    #
-    #         result3[iconclassExplanation] = 0.0
-    #
-    #     return self.__setExplainedCommunityProperties(explainedCommunityProperties, result3, col, col2)
-    #
-    # def __get_community_id(self, array, col, col2, explainedCommunityProperties):
-    #
-    #     # Example array
-    #     # [{}, {'31D1': [['31D15', '31D12']]}]
-    #
-    #     # Combine all into one dictionary
-    #     iconclassDictionary = {}
-    #     for dictionary in array:
-    #         for dictionaryKey in dictionary:
-    #             if dictionaryKey not in iconclassDictionary:
-    #                 iconclassDictionary[dictionaryKey] = []
-    #             iconclassDictionary[dictionaryKey].extend(dictionary[dictionaryKey])
-    #
-    #     # Sort dictionary
-    #     result2 = self.__sortDictionary(iconclassDictionary)
-    #
-    #     result3 = {}
-    #     for iconclassID in result2:
-    #         iconclassText = ""
-    #         # Get array of dicts {key: iconclassID, value: artwork it originates from}
-    #         np_array = np.asarray(result2[iconclassID], dtype=object)
-    #         iconclassChildren = list(np.hstack(np_array))
-    #
-    #         iconclassExplanation = str(iconclassID) + " " + iconclassText
-    #
-    #         if isinstance(iconclassChildren[0], dict):
-    #             # Group iconclassChildren into a combined dictionary (values with the same key are added to an array)
-    #             iconclassChildrenCombinedDictionary = self.__groupIconclassChildrenCombinedDictionary(iconclassChildren)
-    #
-    #             if iconclassID in iconclassChildrenCombinedDictionary:
-    #                 iconclassExplanation += " (" + ", ".join(
-    #                     iconclassChildrenCombinedDictionary[iconclassID]) + ")"
-    #                 iconclassChildrenText = []
-    #                 if len(iconclassChildrenCombinedDictionary) > 1:
-    #                     iconclassExplanation = self.__setIconclassExplanation(iconclassExplanation,
-    #                                                                           iconclassChildrenCombinedDictionary,
-    #                                                                           iconclassChildrenText)
-    #
-    #         else:
-    #             iconclassChildren = list(set(iconclassChildren))
-    #             iconclassChildrenCombinedDictionary = {iconclassChildren[0]: iconclassChildren}
-    #
-    #             # iconclassChildren = {}
-    #
-    #         # result3[iconclassExplanation] = 0.0
-    #         result3[iconclassExplanation] = iconclassChildrenCombinedDictionary[iconclassID]
-    #
-    #     return self.__setExplainedCommunityProperties(explainedCommunityProperties, result3, col, col2)
-    #
-    # def __get_community_listTypes(self, array, col, col2, explainedCommunityProperties):
-    #
-    #     np_array = np.asarray(array, dtype=object)
-    #
-    #     # array2 = list(np_array.flat)
-    #     array2 = list(np.hstack(np_array))
-    #
-    #     # print("array2: " + str(array2))
-    #
-    #     result = getMostFrequentElementsList(array2, 5)
-    #     result = [x['Number'] for x in result]
-    #
-    #     result2 = {}
-    #
-    #     print("before entering iconclass extra functionality")
-    #     print(col)
-    #     print("\n")
-    #
-    #     # Iconclass attribute
-    #     if col == "community_" + "iconclassArrayIDs":
-    #         for iconclassID in result:
-    #             iconclassText = self.daoAPI_iconclass.getIconclassText(iconclassID)
-    #             result2[str(iconclassID) + " " + iconclassText] = 0.0
-    #     # Other array attributes
-    #     else:
-    #         for element in result:
-    #             result2[str(element)] = 0.0
-    #
-    #     # result2.append(str(array) + " " + "0.0")
-    #
-    #     print("result2: " + str(result2))
-    #
-    #     # explainedCommunityProperties[col] = "\n".join(result2)
-    #
-    #     explainedCommunityProperties[col] = dict()
-    #     explainedCommunityProperties[col][
-    #         "label"] = 'Community representative properties of the implicit attribute ' + "(" + str(
-    #         col2) + ")" + ":"
-    #     explainedCommunityProperties[col]["explanation"] = result2
-    #
-    #     return explainedCommunityProperties
-    #
-    # def __get_community_stringTypes(self, col, col2, explainedCommunityProperties, community):
-    #
-    #     print("is explainable get community")
-    #
-    #     # explainableAttribute = self.__is_explainable(community, answer_binary, percentage)
-    #
-    #     # Returns dominant one
-    #     # explainedCommunityProperties[col] = community[col].value_counts().index[0]
-    #
-    #     # Remove empty string
-    #     df = community.copy()
-    #     df2 = df.loc[df[col].str.len() != 0]
-    #     percentageColumn = df2[col].value_counts(normalize=True) * 100
-    #     percentageColumnDict = percentageColumn.to_dict()
-    #
-    #     # Returns the values for each of them
-    #     """
-    #     percentageColumn = community[col].value_counts(normalize=True) * 100
-    #     percentageColumnDict = percentageColumn.to_dict()
-    #     """
-    #
-    #     explainedCommunityProperties[col] = dict()
-    #     explainedCommunityProperties[col][
-    #         "label"] = 'Percentage distribution of the implicit attribute ' + "(" + str(
-    #         col2) + ")" + ":"
-    #     # if (not explainableAttribute):
-    #     # explainedCommunityProperties[col]["label"] += "(This community doesn't meet the dissimilar requirements) :"
-    #     # explainedCommunityProperties[col]["label"] += "distanceCommunity: " + str(self.distanceCommunity)
-    #     explainedCommunityProperties[col]["explanation"] = percentageColumnDict
-    #
-    #     return explainedCommunityProperties
-    #
-    # def __getArrayOfDicts(self, result2, iconclassID, iconclassText):
-    #     np_array = np.asarray(result2[iconclassID], dtype=object)
-    #     iconclassChildren = list(np.hstack(np_array))
-    #
-    #     print("iconclass children")
-    #     print(iconclassChildren)
-    #     print("\n")
-    #
-    #     # Group iconclassChildren into a combined dictionary (values with the same key are added to an array)
-    #     iconclassChildrenCombinedDictionary = self.__groupIconclassChildrenCombinedDictionary(iconclassChildren)
-    #
-    #     print("iconclass children combined")
-    #     print(iconclassChildrenCombinedDictionary)
-    #     print("\n")
-    #
-    #     iconclassExplanation = str(iconclassID) + " " + iconclassText
-    #     if iconclassID in iconclassChildrenCombinedDictionary:
-    #         iconclassExplanation += " (" + ", ".join(
-    #             iconclassChildrenCombinedDictionary[iconclassID]) + ")"
-    #
-    #     return iconclassExplanation, iconclassChildrenCombinedDictionary
-    #
-    # def __setExplainedCommunityProperties(self, explainedCommunityProperties, result3, col, col2):
-    #     print("result3: " + str(result3))
-    #
-    #     # explainedCommunityProperties[col] = "\n".join(result2)
-    #
-    #     explainedCommunityProperties[col] = dict()
-    #     explainedCommunityProperties[col][
-    #         "label"] = 'Community representative properties of the implicit attribute ' + "(" + str(
-    #         col2) + ")" + ":"
-    #     explainedCommunityProperties[col]["explanation"] = result3
-    #
-    #     return explainedCommunityProperties
-    #
-    # def __setIconclassExplanation(self, iconclassExplanation, iconclassChildrenCombinedDictionary,
-    #                               iconclassChildrenText):
-    #     iconclassExplanation += ". Obtained from the artwork's materials: "
-    #     for iconclassChild in iconclassChildrenCombinedDictionary:
-    #         iconclassChildText = ""
-    #         iconclassChildText += " (" + ", ".join(
-    #             iconclassChildrenCombinedDictionary[iconclassChild]) + ")"
-    #         iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
-    #     iconclassExplanation += "; ".join(iconclassChildrenText)
-    #     iconclassExplanation += ""
-    #     return iconclassExplanation
-    #
-    # def __sortDictionary(self, iconclassDictionary):
-    #     # Sort dictionary
-    #     res = '#separator#'.join(
-    #         sorted(iconclassDictionary, key=lambda key: len(iconclassDictionary[key])))
-    #     result = res.split('#separator#')
-    #     result.reverse()
-    #
-    #     # Get x more frequent keys
-    #     result2 = []
-    #     result2 = {k: iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
-    #
-    #     return result2
-    #
-    # def __groupIconclassChildrenCombinedDictionary(self, iconclassChildren):
-    #     iconclassChildrenCombinedDictionary = {}
-    #     for dictionary in iconclassChildren:
-    #         for key, value in dictionary.items():
-    #             if key not in iconclassChildrenCombinedDictionary:
-    #                 iconclassChildrenCombinedDictionary[key] = []
-    #             iconclassChildrenCombinedDictionary[key].extend(value)
-    #             iconclassChildrenCombinedDictionary[key] = list(
-    #                 set(iconclassChildrenCombinedDictionary[key]))
-    #     return iconclassChildrenCombinedDictionary
-    #
-    # def __combineIconclassDictionary(self, array):
-    #     iconclassDictionary = {}
-    #     for dictionary in array:
-    #         for dictionaryKey in dictionary:
-    #             if dictionaryKey not in iconclassDictionary:
-    #                 iconclassDictionary[dictionaryKey] = []
-    #             iconclassDictionary[dictionaryKey].extend(dictionary[dictionaryKey])
-    #     return iconclassDictionary
+        Args:
+            id_community (int): Id or name of community returned by detection method.
+            answer_binary (bool, optional): True to indicate that a common property
+            occurs only when all answers are 1.0. Defaults to False. Defaults to False.
+
+        Returns:
+            dict: All data that describes the community:
+                - name: name of community.
+                - members: list of index included in this community.
+                - properties: common properties of community. It is a dictionary where:
+                    each property is identified by column_name of data, and the value is
+                    the common value in this column.
+        """
+        try:
+        
+            #print("get community: " + str(id_community))
+            
+            community = self.communities.get_group(id_community)
+            #community = self.simplifyInteractionAttributes(community, printing = False)
+
+            community_user_attributes = community[self.user_attributes]
+
+            community_data = {'name': id_community}
+            community_data['percentage'] = str(percentage * 100) + " %"
+            #community_data['members'] = list(community_user_attributes.index.values)
+            community_data['members'] = community['userid'].tolist()
+            
+            community_data['data'] = community
+            
+            """
+            print("self.communities")
+            print(community[['userNameAuxiliar','community']])
+            print("\n")
+            
+            
+
+            print("Dominant artworks get_community (explanation)")
+            print(community["community_" + "dominantArtworks"])
+            print("\n")
+            """             
+
+            explainedCommunityProperties = dict()       
+
+            #for col in community.columns.values:
+            #for col2 in self.explanaible_attributes:
+            for col2 in self.explanaible_attributes + self.artwork_attributes:
+                if col2 != 'community':
+                    if (self.explainInteractionAttributes()):
+                        col = "community_" + col2
+                    else:
+                        col = col2
+                   # print(community)
+                    #print(len(community[col]))
+                    #print('-', col, community[col].value_counts().index[0])
+                    if answer_binary:
+                        if (len(community[col]) * percentage) <= community[col].sum():
+                            explainedCommunityProperties[col] = community[col].value_counts().index[0]
+                            
+                            
+                            
+                            # print('-', col, community[col].value_counts().index[0])
+                    else:
+                    
+                        array = community[col].tolist()                        
+                        # For iconclass (list) types
+                        #if (len(community[col] > 0 and isinstance(community[col][0],list))):
+
+
+
+                        
+                        """
+                        print("\n")
+                        print(community[col])
+                        print(col)
+                        print(type(community[col]))
+                        print(type(community[col][0]))
+                        print("\n")
+                        
+                        
+                        """
+                        """
+                        if (col2 == "Colour"):
+                            print("colour column array")
+                            print("id_community: " + str(id_community))
+                            print("check array")
+                            print(array)
+                            print("\n")
+                        """
+
+                        # Generic for dict types (iconclass, ontology, artwork id)
+                        """
+                        print("checking array")
+                        print(array)
+                        print(type(array[0]))
+                        print(isinstance(array[0],dict))
+                        print("\n")
+                        """
+
+                        if (len(array) > 0 and isinstance(array[0],dict)):
+                            print("improved explanation for dict type explanations")
+                            print("col: " + str(col))
+                            print("\n")
+
+                            print(array)
+                            print("\n")
+
+                            print("end new dict type explanations")
+                            print("\n")
+
+                            # Example array
+                            # [{}, {'31D1': [['31D15', '31D12']]}] (iconclass)
+                            # 
+                            # {'44174': ['44174']} (id)
+
+                            # Combine all dictionaries inside the array into one dictionary
+                            iconclassDictionary = {}
+                            for dictionary in array:
+                                for dictionaryKey in dictionary:
+                                    if (dictionaryKey not in iconclassDictionary):
+                                        iconclassDictionary[dictionaryKey] = []
+                                    iconclassDictionary[dictionaryKey].extend(dictionary[dictionaryKey])
+
+                            """
+                            print("explanation combined dictionary")
+                            print(iconclassDictionary)
+                            print("\n")
+                            """
+
+                            if (col != "community_" + "id"):
+                                for key in iconclassDictionary:
+                                    print("iconclassDictionary " + "(" + str(key) + ")" )
+                                    print(iconclassDictionary[key])
+                                    #iconclassDictionary[iconclassID]= list(set(iconclassDictionary[iconclassID]))
+
+                                    set_of_jsons = {json.dumps(d, sort_keys=True) for d in iconclassDictionary[key]}
+                                    iconclassDictionary[key] = [json.loads(t) for t in set_of_jsons]
+
+                                    #iconclassDictionary[iconclassID] = [dict(t) for t in {tuple(d.items()) for d in iconclassDictionary[iconclassID]}]
+
+
+                                    print(iconclassDictionary[key])
+                                    print("\n")
+                                    """
+                                    """
+
+                            # Sort dictionary
+                            res = '#separator#'.join(sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key])))
+                            result = res.split('#separator#')
+                            result.reverse()
+
+                            # Get x more frequent keys
+                            result2 = []
+                            result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
+
+                            result3 = {}
+
+                            """
+                            print("result2 dictionary")
+                            print(iconclassDictionary)
+                            print("\n")
+                            """
+
+                            print("community: " + str(id_community))
+                            print("iconclassDictionary explanation")
+                            print(iconclassDictionary)
+                            print("\n")
+                            print("result2 explanation")
+                            print(result2)
+                            print("\n")
+
+                            # Prepare explanation text for each of the selected keys
+                            for iconclassID in result2:
+                                print("checking iconclass id " + str(iconclassID))
+                                iconclassText = ""
+                                if (col == "community_" + "iconclassArrayIDs"):
+                                    iconclassText = self.daoAPI_iconclass.getIconclassText(iconclassID)
+
+                                # Get array of dicts {key: iconclassID, value: artwork it originates from}
+                                np_array = np.asarray(result2[iconclassID], dtype=object)
+                                iconclassChildren = list(np.hstack(np_array))
+
+                                print("iconclass children")
+                                print(iconclassChildren)
+                                print("\n")
+
+                                # basic explanation
+                                #iconclassExplanation = str(iconclassID) + " " + iconclassText
+                                iconclassExplanation = iconclassText + " " + "[" + str(iconclassID) + "]"
+                                artworksExplanation = []
+
+                                # key includes children keys (dict value): iconclass, ontology
+                                if (isinstance(iconclassChildren[0],dict) == True):
+
+                                    # Group iconclassChildren into a combined dictionary (values with the same key are added to an array)
+                                    iconclassChildrenCombinedDictionary = {}
+                                    for dictionary in iconclassChildren:
+                                        for key, value in dictionary.items():
+                                            #print("key: " + str(key) + "\n" + "value: " + str(value))
+                                            if (key not in iconclassChildrenCombinedDictionary):
+                                                iconclassChildrenCombinedDictionary[key] = []
+                                            iconclassChildrenCombinedDictionary[key].extend(value)
+                                            iconclassChildrenCombinedDictionary[key] = list(set(iconclassChildrenCombinedDictionary[key]))
+
+                                    if (iconclassID in iconclassChildrenCombinedDictionary):
+                                        iconclassExplanation += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassID]) + ")"
+                                        artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassID])
+                                    iconclassChildrenText = []
+                                    if (len(iconclassChildrenCombinedDictionary) > 1):
+                                        print("iconclass combined dictionary")
+                                        print(iconclassChildrenCombinedDictionary)
+                                        print("\n")
+
+                                        #iconclassExplanation += ". Obtained from the artwork's materials: "
+                                        iconclassExplanation += ". Obtained from the artwork's " + str(col2).lower() + ": "
+                                        for iconclassChild in iconclassChildrenCombinedDictionary:
+                                            iconclassChildText = ""
+                                            # Iconclass: Get description of the iconclassID through the Iconclass API
+                                            if (col == "community_" + "iconclassArrayIDs"):
+                                                iconclassChildText = self.daoAPI_iconclass.getIconclassText(iconclassChild)
+                                            iconclassChildText += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassChild]) + ")"
+                                            artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassChild])
+                                            #iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
+                                            iconclassChildrenText.append(iconclassChildText + " " + "[" + str(iconclassChild) + "]")
+                                        iconclassExplanation += "; ".join(iconclassChildrenText)
+                                        iconclassExplanation += ""
+
+                                # key references a basic array value: artwork id
+                                else:
+                                    
+                                    """
+                                    """
+                                    iconclassChildren = list(set(iconclassChildren))
+                                    iconclassChildrenCombinedDictionary = {iconclassChildren[0]: iconclassChildren}
+                                    artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassID])
+                                    #iconclassChildren = {}
+
+
+
+                                print("iconclass children combined")
+                                print(iconclassChildrenCombinedDictionary)
+                                print("\n")
+                                
+                                
+                                
+
+                                #result3[iconclassExplanation] = 0.0
+                                """
+                                print("new dict explanation")
+                                print(iconclassExplanation)
+                                print(iconclassChildrenCombinedDictionary[iconclassID])
+                                print("\n")
+                                """
+                                result3[iconclassExplanation] = list(set(artworksExplanation))
+                                
+
+                            print("result3: " + str(result3))
+                            
+                            
+                            #explainedCommunityProperties[col] = "\n".join(result2)
+                            
+                            explainedCommunityProperties[col] = dict()
+                            explainedCommunityProperties[col]["label"] = 'Community representative properties of the implicit attribute ' + "(" + str(col2) + ")" + ":"
+                            explainedCommunityProperties[col]["explanation"] = result3
+
+                            
+
+                        # For iconclass
+                        elif (col == "community_" + "iconclassArrayIDs"):
+                            print("improved explanation for iconclass")
+                            print("\n")
+
+                            print(array)
+                            print("\n")
+
+                            print("end new iconclass")
+                            print("\n")
+
+                            # Example array
+                            # [{}, {'31D1': [['31D15', '31D12']]}]
+
+                            # Combine all into one dictionary
+                            iconclassDictionary = {}
+                            for dictionary in array:
+                                for dictionaryKey in dictionary:
+                                    if (dictionaryKey not in iconclassDictionary):
+                                        iconclassDictionary[dictionaryKey] = []
+                                    iconclassDictionary[dictionaryKey].extend(dictionary[dictionaryKey])
+
+                            # Sort dictionary
+                            res = '#separator#'.join(sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key])))
+                            result = res.split('#separator#')
+                            result.reverse()
+
+                            # Get x more frequent keys
+                            result2 = []
+                            result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
+
+                            result3 = {}
+                            for iconclassID in result2:
+                                iconclassText = self.daoAPI_iconclass.getIconclassText(iconclassID)
+                                # Get array of dicts {key: iconclassID, value: artwork it originates from}
+                                np_array = np.asarray(result2[iconclassID], dtype=object)
+                                iconclassChildren = list(np.hstack(np_array))
+
+                                print("iconclass children")
+                                print(iconclassChildren)
+                                print("\n")
+
+                                # Group iconclassChildren into a combined dictionary (values with the same key are added to an array)
+                                iconclassChildrenCombinedDictionary = {}
+                                for dictionary in iconclassChildren:
+                                    for key, value in dictionary.items():
+                                        if (key not in iconclassChildrenCombinedDictionary):
+                                            iconclassChildrenCombinedDictionary[key] = []
+                                        iconclassChildrenCombinedDictionary[key].extend(value)
+                                        iconclassChildrenCombinedDictionary[key] = list(set(iconclassChildrenCombinedDictionary[key]))
+
+                                print("iconclass children combined")
+                                print(iconclassChildrenCombinedDictionary)
+                                print("\n")
+                                
+                                iconclassExplanation = str(iconclassID) + " " + iconclassText 
+                                if (iconclassID in iconclassChildrenCombinedDictionary):
+                                    iconclassExplanation += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassID]) + ")"
+                                iconclassChildrenText = []
+                                if (len(iconclassChildrenCombinedDictionary) > 1):
+                                    print("iconclass combined dictionary")
+                                    print(iconclassChildrenCombinedDictionary)
+                                    print("\n")
+
+                                    iconclassExplanation += ". Obtained from the artwork's iconclass IDs: "
+                                    for iconclassChild in iconclassChildrenCombinedDictionary:
+                                        iconclassChildText = self.daoAPI_iconclass.getIconclassText(iconclassChild)
+                                        iconclassChildText += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassChild]) + ")"
+                                        iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
+                                    iconclassExplanation += "; ".join(iconclassChildrenText)
+                                    iconclassExplanation += ""
+
+                                result3[iconclassExplanation] = 0.0
+
+                            print("result3: " + str(result3))
+                            
+                            
+                            #explainedCommunityProperties[col] = "\n".join(result2)
+                            
+                            explainedCommunityProperties[col] = dict()
+                            explainedCommunityProperties[col]["label"] = 'Community representative properties of the implicit attribute ' + "(" + str(col2) + ")" + ":"
+                            explainedCommunityProperties[col]["explanation"] = result3
+
+                        # For materials ontology
+                        elif (col == "community_" + "Materials" and 1 == 1):
+                            print("improved explanation for materials")
+                            print("\n")
+
+                            print(array)
+                            print("\n")
+
+                            print("end new materials")
+                            print("\n")
+
+                            # Example array
+                            # [{}, {'31D1': [['31D15', '31D12']]}]
+
+                            # Combine all into one dictionary
+                            iconclassDictionary = {}
+                            for dictionary in array:
+                                for dictionaryKey in dictionary:
+                                    if (dictionaryKey not in iconclassDictionary):
+                                        iconclassDictionary[dictionaryKey] = []
+                                    iconclassDictionary[dictionaryKey].extend(dictionary[dictionaryKey])
+
+                            # Sort dictionary
+                            res = '#separator#'.join(sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key])))
+                            result = res.split('#separator#')
+                            result.reverse()
+
+                            # Get x more frequent keys
+                            result2 = []
+                            result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
+
+                            result3 = {}
+                            for iconclassID in result2:
+                                iconclassText = ""
+                                # Get array of dicts {key: iconclassID, value: artwork it originates from}
+                                np_array = np.asarray(result2[iconclassID], dtype=object)
+                                iconclassChildren = list(np.hstack(np_array))
+
+                                print("iconclass children")
+                                print(iconclassChildren)
+                                print("\n")
+
+                                # Group iconclassChildren into a combined dictionary (values with the same key are added to an array)
+                                iconclassChildrenCombinedDictionary = {}
+                                for dictionary in iconclassChildren:
+                                    for key, value in dictionary.items():
+                                        if (key not in iconclassChildrenCombinedDictionary):
+                                            iconclassChildrenCombinedDictionary[key] = []
+                                        iconclassChildrenCombinedDictionary[key].extend(value)
+                                        iconclassChildrenCombinedDictionary[key] = list(set(iconclassChildrenCombinedDictionary[key]))
+
+                                print("iconclass children combined")
+                                print(iconclassChildrenCombinedDictionary)
+                                print("\n")
+                                
+                                iconclassExplanation = str(iconclassID) + " " + iconclassText 
+                                if (iconclassID in iconclassChildrenCombinedDictionary):
+                                    iconclassExplanation += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassID]) + ")"
+                                iconclassChildrenText = []
+                                if (len(iconclassChildrenCombinedDictionary) > 1):
+                                    print("iconclass combined dictionary")
+                                    print(iconclassChildrenCombinedDictionary)
+                                    print("\n")
+
+                                    iconclassExplanation += ". Obtained from the artwork's materials: "
+                                    for iconclassChild in iconclassChildrenCombinedDictionary:
+                                        iconclassChildText = ""
+                                        iconclassChildText += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassChild]) + ")"
+                                        iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
+                                    iconclassExplanation += "; ".join(iconclassChildrenText)
+                                    iconclassExplanation += ""
+
+                                result3[iconclassExplanation] = 0.0
+
+                            print("result3: " + str(result3))
+                            
+                            
+                            #explainedCommunityProperties[col] = "\n".join(result2)
+                            
+                            explainedCommunityProperties[col] = dict()
+                            explainedCommunityProperties[col]["label"] = 'Community representative properties of the implicit attribute ' + "(" + str(col2) + ")" + ":"
+                            explainedCommunityProperties[col]["explanation"] = result3
+
+                        # For id
+                        elif (col == "community_" + "id" and 1 == 1):
+                            print("improved explanation for id")
+                            print("\n")
+
+                            print(array)
+                            print("\n")
+
+                            print("end new id")
+                            print("\n")
+
+                            # Example array
+                            # [{}, {'31D1': [['31D15', '31D12']]}]
+
+                            # Combine all into one dictionary
+                            iconclassDictionary = {}
+                            for dictionary in array:
+                                for dictionaryKey in dictionary:
+                                    if (dictionaryKey not in iconclassDictionary):
+                                        iconclassDictionary[dictionaryKey] = []
+                                    iconclassDictionary[dictionaryKey].extend(dictionary[dictionaryKey])
+
+                            """
+                            print("iconclass dictionary id")
+                            print(iconclassDictionary)
+                            print("\n")
+                            """
+
+                            # Sort dictionary
+                            res = '#separator#'.join(sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key])))
+                            result = res.split('#separator#')
+                            result.reverse()
+
+                            # Get x more frequent keys
+                            result2 = []
+                            result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
+
+                            result3 = {}
+                            for iconclassID in result2:
+                                iconclassText = ""
+                                # Get array of dicts {key: iconclassID, value: artwork it originates from}
+                                np_array = np.asarray(result2[iconclassID], dtype=object)
+                                iconclassChildren = list(np.hstack(np_array))
+
+                                """
+                                print("iconclass children")
+                                print(iconclassChildren)
+                                print("\n")
+                                """
+
+                                iconclassExplanation = str(iconclassID) + " " + iconclassText 
+
+                                if (isinstance(iconclassChildren[0],dict) == True):
+
+                                    # Group iconclassChildren into a combined dictionary (values with the same key are added to an array)
+                                    iconclassChildrenCombinedDictionary = {}
+                                    for dictionary in iconclassChildren:
+                                        for key, value in dictionary.items():
+                                            if (key not in iconclassChildrenCombinedDictionary):
+                                                iconclassChildrenCombinedDictionary[key] = []
+                                            iconclassChildrenCombinedDictionary[key].extend(value)
+                                            iconclassChildrenCombinedDictionary[key] = list(set(iconclassChildrenCombinedDictionary[key]))
+
+                                    if (iconclassID in iconclassChildrenCombinedDictionary):
+                                        iconclassExplanation += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassID]) + ")"
+                                        iconclassChildrenText = []
+                                        if (len(iconclassChildrenCombinedDictionary) > 1):
+                                            """
+                                            print("iconclass combined dictionary")
+                                            print(iconclassChildrenCombinedDictionary)
+                                            print("\n")
+                                            """
+
+                                            iconclassExplanation += ". Obtained from the artwork's materials: "
+                                            for iconclassChild in iconclassChildrenCombinedDictionary:
+                                                iconclassChildText = ""
+                                                iconclassChildText += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassChild]) + ")"
+                                                iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
+                                            iconclassExplanation += "; ".join(iconclassChildrenText)
+                                            iconclassExplanation += ""
+
+                                else:
+                                    
+                                    """
+                                    """
+                                    iconclassChildren = list(set(iconclassChildren))
+                                    iconclassChildrenCombinedDictionary = {iconclassChildren[0]: iconclassChildren}
+                                    
+                                    #iconclassChildren = {}
+
+                                """
+                                print("iconclass children combined")
+                                print(iconclassChildrenCombinedDictionary)
+                                print("\n")
+                                """
+                                
+                                
+                                
+
+                                #result3[iconclassExplanation] = 0.0
+                                result3[iconclassExplanation] = iconclassChildrenCombinedDictionary[iconclassID]
+
+                            print("result3: " + str(result3))
+                            
+                            
+                            #explainedCommunityProperties[col] = "\n".join(result2)
+                            
+                            explainedCommunityProperties[col] = dict()
+                            explainedCommunityProperties[col]["label"] = 'Community representative properties of the implicit attribute ' + "(" + str(col2) + ")" + ":"
+                            explainedCommunityProperties[col]["explanation"] = result3
+
+                        # For list types (artworks and iconclass)
+                        elif (len(array) > 0 and isinstance(array[0],list)):
+                            
+                            
+                            """
+                            print("\n")
+                            print("iconclass list type")
+                            print(community[col])
+                            print(array)
+                            print("\n\n\n")
+                            
+                            
+                            
+                            """
+                            
+                            np_array = np.asarray(array, dtype=object)
+                            
+                            """
+                            print("shape")
+                            print(np_array.shape)
+                            print(np.hstack(np_array))
+                            
+                            """
+                            #array2 = list(np_array.flat)
+                            array2 = list(np.hstack(np_array))
+                            
+                            #print("array2: " + str(array2))
+                            
+                            result = self.getMostFrequentElementsList(array2,5)
+                            result = [ x['Number'] for x in result ]
+                            
+                            result2 = {}
+                            
+                            """
+                            print("result: " + str(result))
+                            
+                            
+                            print("before entering iconclass extra functionality")
+                            print(col)
+                            print("\n")
+                            
+                            
+                            """
+                            
+                            print("before entering iconclass extra functionality")
+                            print(col)
+                            print("\n")
+                            
+                            # Iconclass attribute
+                            if (col == "community_" + "iconclassArrayIDs"):
+                                for iconclassID in result:
+                                    iconclassText = self.daoAPI_iconclass.getIconclassText(iconclassID)
+                                    result2[str(iconclassID) + " " + iconclassText] = 0.0
+                            # Other array attributes
+                            else:
+                                for element in result:
+                                    result2[str(element)] = 0.0
+                            
+                            #result2.append(str(array) + " " + "0.0")
+                                
+                            print("result2: " + str(result2))
+                            
+                            
+                            #explainedCommunityProperties[col] = "\n".join(result2)
+                            
+                            explainedCommunityProperties[col] = dict()
+                            explainedCommunityProperties[col]["label"] = 'Community representative properties of the implicit attribute ' + "(" + str(col2) + ")" + ":"
+                            explainedCommunityProperties[col]["explanation"] = result2
+                            
+                            
+                            
+                        
+                        # For string types
+                        else:
+
+                            print("is explainable get community")
+
+                            explainableAttribute = self.is_explainable(community, answer_binary, percentage)
+
+                            """
+
+                            explainableAttribute = (len(community[col]) * percentage) <= community[col].value_counts().max()
+                            if (col2 in self.dissimilar_attributes):
+                                explainableAttribute = not explainableAttribute
+
+                            """
+
+                            # Returns dominant one
+                            # explainedCommunityProperties[col] = community[col].value_counts().index[0]
+
+                            # Remove empty string
+                            df = community.copy()
+                            df2 = df.loc[ df[col].str.len() != 0 ]
+                            percentageColumn = df2[col].value_counts(normalize=True) * 100
+                            percentageColumnDict = percentageColumn.to_dict()
+
+                            # Returns the values for each of them
+                            """
+                            percentageColumn = community[col].value_counts(normalize=True) * 100
+                            percentageColumnDict = percentageColumn.to_dict()
+                            """
+
+                            """
+                            print("community col")
+                            print(community[col])
+                            print("percentageColumn")
+                            print(percentageColumn)
+                            print("percentageColumnDict")
+                            print(percentageColumnDict)
+                            print("\n")
+                            """
+                            
+                            explainedCommunityProperties[col] = dict()
+                            explainedCommunityProperties[col]["label"] = 'Percentage distribution of the implicit attribute ' + "(" + str(col2) + ")" + ":"
+                            #if (not explainableAttribute):
+                                #explainedCommunityProperties[col]["label"] += "(This community doesn't meet the dissimilar requirements) :"
+                            #explainedCommunityProperties[col]["label"] += "distanceCommunity: " + str(self.distanceCommunity)
+                            explainedCommunityProperties[col]["explanation"] = percentageColumnDict
+
+                        
+                            
+                            """
+                            
+                            if (col2 == "Colour"):
+                                print("colour error")
+                                print("id_community: " + str(id_community))
+                                print(col)
+                                print(col2)
+                                print(percentageColumn)
+                                print(percentageColumn.to_string())
+                                print("end colour error")
+                                print("\n\n")
+                            """
+                            
+                            
+            # Second explanation  
+            #print(explainedCommunityProperties)    
+            """
+            community_data['explanation'] = []
+            community_data['explanation'].append(explainedCommunityProperties)
+            """
+            
+            community_data['explanation'] = explainedCommunityProperties
+            
+            
+            #community_data['explanation'].append(self.secondExplanation(community))
+            
+        except Exception as e:
+            
+            print(str(e))
+            print(self.communities)
+            print("\n")
+            # data with communities
+            print(self.complete_data)
+            print("\n\n")
+            print("algorithm result")
+            print(self.resultAlgorithm)
+            print(self.idsCommunities)
+            print("\n")
+            raise Exception("Exception retrieving community " + str(id_community))
+
+            
+            return -1
+            
+    
+            
+        return community_data
+    
+    
+    
+        
