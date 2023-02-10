@@ -114,6 +114,10 @@ exports.listPerspectiveCommunities = function (perspectiveId) {
  */
 exports.PostPerspective = function (body) {
   try {
+    console.log("perspective service - post perspective")
+    console.log(body)
+    console.log("\n")
+
     return new Promise(function (resolve, reject) {
       // insert perspective
       PerspectiveDAO.insertPerspective(body,
