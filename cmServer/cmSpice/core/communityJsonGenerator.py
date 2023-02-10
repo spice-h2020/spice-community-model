@@ -12,6 +12,9 @@ import uuid
 
 import re
 
+import statistics
+
+
 
 class CommunityJsonGenerator:
 
@@ -290,6 +293,9 @@ class CommunityJsonGenerator:
         #self.communityJson.pop('numberOfCommunities')
         #self.communityJson['communities'].pop('community-type')
         #self.communityJson['communities'].pop('medoid')
+
+        # Insert centroid
+        self.insertCentroidVisualization(self.communityJson)
         
         print("\n\n")
         print("generate json " + filename)
@@ -350,21 +356,22 @@ class CommunityJsonGenerator:
 
                 # Artworks the users interacted with that are relevant for the community
                 communityMembers_df = self.json_df.loc[ self.json_df['userid'].isin(community_data['members']) ] 
-                #communityInteractedArtworks = self.json_df['community_interactions'].to_list()
-                #communityInteractedArtworks = communityMembers_df['community_interactions'].to_list()
+                # communityInteractedArtworks = self.json_df['community_interactions'].to_list()
+                # communityInteractedArtworks = communityMembers_df['community_interactions'].to_list()
                 communityInteractedArtworks = communityMembers_df['community_interactions'].to_list()
 
-                #communityInteractedArtworks_id = [ interaction['artwork_id'] for userInteractedArtworks in communityInteractedArtworks if len(interaction) > 0 ]
-                #communityInteractedArtworks_id=sorted(communityInteractedArtworks_id,key=lambda x:communityInteractedArtworks_id.count(x))
+                # communityInteractedArtworks_id = [ interaction['artwork_id'] for userInteractedArtworks in communityInteractedArtworks if len(interaction) > 0 ]
+                # communityInteractedArtworks_id=sorted(communityInteractedArtworks_id,key=lambda x:communityInteractedArtworks_id.count(x))
                 communityInteractedArtworks_id = [interaction['artwork_id'] for userInteractedArtworks in communityInteractedArtworks for interaction in userInteractedArtworks]
                 
                 # [ [ interaction ]  for userInteractedArtworks in communityInteractedArtworks]
                 
                 
-                communityInteractedArtworks_id=sorted(communityInteractedArtworks_id,key=communityInteractedArtworks_id.count)
-                #communityInteractedArtworks_id = list(set(communityInteractedArtworks_id))
+                # communityInteractedArtworks_id=sorted(communityInteractedArtworks_id,key=communityInteractedArtworks_id.count)
+                # communityInteractedArtworks_id = list(set(communityInteractedArtworks_id))
                 # Slower than list(set()), but it preserves the order.
                 communityInteractedArtworks_id = list(dict.fromkeys(communityInteractedArtworks_id))
+
 
                 """
                 np_array = np.asarray(communityInteractedArtworks_id, dtype=object)
@@ -581,8 +588,10 @@ class CommunityJsonGenerator:
         df = self.json_df.copy()
         df['id'] = df['userid']
         
-        self.communityJson['users'] = df[['id','label','group','explicit_community','interactions', 'community_interactions', 'no_community_interactions']].to_dict('records')
+        #self.communityJson['users'] = df[['id','label','group','explicit_community','interactions', 'community_interactions', 'no_community_interactions']].to_dict('records')
+        self.communityJson['users'] = df[['id','label','group','explicit_community', 'community_interactions', 'no_community_interactions']].to_dict('records')
         
+
         #self.communityJson
     
     def similarityJSON(self):
@@ -633,6 +642,103 @@ class CommunityJsonGenerator:
     def containsInteractions(self):
         return len(self.perspective['interaction_similarity_functions']) > 0
             
+
+    #--------------------------------------------------------------------------------------------------------------------------
+    #    Replace medoid with centroid
+    #--------------------------------------------------------------------------------------------------------------------------
+
+    def insertCentroidVisualization(self, visualization):
+        """
+        print("insert centroid visualization")
+        print(visualization)
+        print("\n")
+        """
+        
+        medoids = []
+        centroids = []
+
+        for community in visualization['communities']:
+            community_explicitAttributes = {}
+
+            centroid = 'centroid' + community['name'].replace("Community ","")
+            centroids.append(centroid)
+
+            # Replace medoid with centroid in explanation
+            for explanation in community['explanations']:
+                if (explanation['explanation_type'] == 'medoid'):
+                    medoid = explanation['explanation_data']['id']
+                    medoids.append(medoid)
+                    # Replace with centroid
+                    explanation['explanation_data']['id'] = centroid
+
+            # Add centroid to users
+            community['users'].append(centroid)
+
+            # Add centroid information to user data
+            centroidData = {}
+            for userData in visualization['users']:
+                if (userData['id'] in community['users']):
+                    for explicitAttribute in userData['explicit_community']:
+                        if (explicitAttribute not in community_explicitAttributes):
+                            community_explicitAttributes[explicitAttribute] = []
+                        community_explicitAttributes[explicitAttribute].append(userData['explicit_community'][explicitAttribute])
+
+                    if (userData['id'] == medoid):
+                        centroidData = userData.copy()
+
+            centroidData['id'] = centroid
+            centroidData['label'] = centroid
+            centroidData['explicit_community'] = {}
+
+            for explicitAttribute in community_explicitAttributes:
+
+                centroidData['explicit_community'][explicitAttribute] = statistics.mode(community_explicitAttributes[explicitAttribute])
             
+            visualization['users'].append(centroidData)
+
+            # Update similarity
+            centroidSimilarity = []
+            for similarity in visualization['similarity']:
+                if (similarity['u1'] == medoid):
+                    similarity2 = similarity.copy()
+                    similarity2['u1'] = centroid
+                    centroidSimilarity.append(similarity2)
+                elif (similarity['u2'] == medoid):
+                    similarity2 = similarity.copy()
+                    similarity2['u2'] = centroid
+                    centroidSimilarity.append(similarity2)
+
+            centroidMedoidSimilarity = {'u1': centroid, 'u2': medoid, 'value': 1}
+            centroidSimilarity.append(centroidMedoidSimilarity)
+
+            visualization['similarity'].extend(centroidSimilarity)
+
+
+        # Update similarity between centroids
+        centroidSimilarity = []
+        for i in range(len(centroids)):
+            centroid = centroids[i]
+            medoid = medoids[i]
+
+            similarity2 = {}
+
+            for similarity in visualization['similarity']:
+                index = -1
+                if (similarity['u1'] != medoid and similarity['u1'] in medoids):
+                    if (similarity['u2'] == medoid):
+                        index = medoids.index(similarity['u1'])
+                        similarity2 = similarity.copy()
+                        similarity2['u2'] = centroids[index]
+                elif (similarity['u2'] != medoid and similarity['u2'] in medoids):
+                    if (similarity['u1'] == medoid):
+                        index = medoids.index(similarity['u2'])
+                        similarity2 = similarity.copy()
+                        similarity2['u2'] = centroids[index]
+
+                if (index > i):
+                    similarity2['u1'] = centroid
+                    centroidSimilarity.append(similarity2)
+
+        visualization['similarity'].extend(centroidSimilarity)
             
             
