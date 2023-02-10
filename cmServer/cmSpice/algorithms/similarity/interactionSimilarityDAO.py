@@ -757,7 +757,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
         # Filter self.data to only consider users interacting with that artwork
         # Remove interactions with artworks other than the one given by the 'communityDetectionForArtwork' flag
         artworkId = self.perspective['similarity_functions'][0]['sim_function']['params'][0]['artworkId']
-        logger.info("communityDetectionArtwork: " + str(artworkId))
+        #logger.info("communityDetectionArtwork: " + str(artworkId))
 
         print("apply same artworks filter")
         print(df3[[self.interactionAttributeOrigin]])
@@ -766,7 +766,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
         dfArtworkFlag = df3.loc[ df3[self.interactionAttributeOrigin] == artworkId ]
         if (dfArtworkFlag.empty):
             df3 = df3.head(1)
-            logger.info("There are not interactions with the artwork with id " + str(artworkId))
+            #logger.info("There are not interactions with the artwork with id " + str(artworkId))
         else:
             df3 = dfArtworkFlag.copy()
 
