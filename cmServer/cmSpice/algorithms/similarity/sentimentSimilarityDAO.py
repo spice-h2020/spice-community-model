@@ -85,6 +85,7 @@ class SentimentSimilarityDAO(TableSimilarityDAO):
             sentimentB = max(sentimentsDictB, key=sentimentsDictB.get).lower()
         
         return sentimentA, sentimentB
-    
-       
-    
+
+    def getSimilarityTableName(self):
+        return 'sentiment'
+
