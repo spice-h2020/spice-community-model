@@ -438,15 +438,24 @@ class SimilarityDAO:
         String
             Dominant key
         """
-        if (len(dictA) <= 0):
-            keyA = ""
-        else:
-            keyA = max(dictA, key=dictA.get).lower()
-            
-        if (len(dictB) <= 0):
-            keyB = ""
-        else:
-            keyB = max(dictB, key=dictB.get).lower()
+        keyA = ""
+        keyB = ""
+
+        if (isinstance(dictA, dict)):
+            if (len(dictA) <= 0):
+                keyA = ""
+            else:
+                keyA = max(dictA, key=dictA.get).lower()
+                
+            if (len(dictB) <= 0):
+                keyB = ""
+            else:
+                keyB = max(dictB, key=dictB.get).lower()
+        elif (isinstance(dictA, list)):
+            if (len(dictA) > 0):
+                keyA = dictA[0]
+            if (len(dictB) > 0):
+                keyA = dictB[0]
         
         return keyA, keyB
     
