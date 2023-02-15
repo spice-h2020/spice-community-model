@@ -32,7 +32,10 @@
         "Size_height": 50,
         "Size_width": 50,
         "Size_depth": "3,5",
-        "Materials": "resin, plexiglass",
+        "Materials": [
+            "resin",
+            "plexiglass"
+        ],
         "Iconclass_subjects_curators": "49D3 planimetry, geometry; 49D342 regular quadrilateral; 22C4(WHITE) colours, pigments, and paints: white; 22C4(BLACK) colours, pigments, and paints: black",
         "iconclassIDString": "49D3;49D342;22C4",
         "iconclassArrayIDs": [
@@ -40,6 +43,8 @@
             "49D342",
             "22C4"
         ],
+        "ApproxYear": 1965.0,
+        "Decade": 1960,
         "id": "39416"
     },
     {
@@ -75,7 +80,9 @@
         "Size_height": "",
         "Size_width": "",
         "Size_depth": "",
-        "Materials": "video",
+        "Materials": [
+            "video"
+        ],
         "Iconclass_subjects_curators": "31A72 female sex; woman; 31A141 nude with covered genitals; 31AA3191 blindfold - AA - female human figure; 31A22611 blood; 31A22611(+9) blood (+ expressive connotations)",
         "iconclassIDString": "31A72;31A141;31AA3191;31AA22611;31AA22611(+9)",
         "iconclassArrayIDs": [
@@ -85,6 +92,8 @@
             "31AA22611",
             "31AA22611(+9)"
         ],
+        "ApproxYear": 2001.0,
+        "Decade": 2000,
         "id": "41209"
     },
     {
@@ -125,7 +134,10 @@
         "Size_height": 38,
         "Size_width": "61,5",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas",
+            "paper"
+        ],
         "Iconclass_subjects_curators": "22C4 colours, pigments, and paints; 22C4(BLUE) colours, pigments, and paints: blue; 22C4(PURPLE) colours, pigments, and paints: purple; 22C4(WHITE) colours, pigments, and paints: white; 48C514(+6) picture, painting (+ materials ~ arts); 49D342(...) regular quadrilateral (with NAME)",
         "iconclassIDString": "22C4;22C4(BLUE);22C4(PURPLE);22C4(WHITE);48C515(+6);49D342",
         "iconclassArrayIDs": [
@@ -136,6 +148,8 @@
             "48C515(+6)",
             "49D342"
         ],
+        "ApproxYear": 1958.0,
+        "Decade": 1950,
         "id": "39352"
     },
     {
@@ -171,7 +185,9 @@
         "Size_height": 40,
         "Size_width": 44,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "paper"
+        ],
         "Iconclass_subjects_curators": "25H151 deciduous forest; 25I2 village; 25H114 low hill country",
         "iconclassIDString": "25H151;25I2;25H114",
         "iconclassArrayIDs": [
@@ -179,6 +195,8 @@
             "25I2",
             "25H114"
         ],
+        "ApproxYear": 1921.0,
+        "Decade": 1920,
         "id": "39648"
     },
     {
@@ -219,7 +237,9 @@
         "Size_height": 120,
         "Size_width": 113,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "31D15(+8) adult woman (+ sex and age (of human being)); 31A235 sitting figure; 41A2 interior of the house; 41A222 drawing-room, 'salon'; 41A673 potted plants; 41A722 couch, sofa, settee; 41A421 curtains; 41D443 (other forms of) needlework, e.g.: crocheting, knitting, embroidering",
         "iconclassIDString": "31D15(+8);31A235;41A2;41A222;41A673;41A722;41A421;41D443",
         "iconclassArrayIDs": [
@@ -232,6 +252,8 @@
             "41A421",
             "41D443"
         ],
+        "ApproxYear": 1893.0,
+        "Decade": 1890,
         "id": "39182"
     },
     {
@@ -277,7 +299,9 @@
         "Size_height": "199,5",
         "Size_width": 159,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "41C5 celebration meal, feast, banquet; 41C382(+53) banquet piece (+ round table); 41C38 laid table as still life; 41C7112 bottle of wine; 41C31 table-ware; 25G411 cut flowers; nosegay, bunch of flowers; 25G41(+1) flowers (+ plants used symbolically)",
         "iconclassIDString": "41C5;41C328(+53);31C38;41C7112;41C31;25G411;25G41(+1)",
         "iconclassArrayIDs": [
@@ -289,6 +313,8 @@
             "25G411",
             "25G41(+1)"
         ],
+        "ApproxYear": 1884.0,
+        "Decade": 1880,
         "id": "39175"
     },
     {
@@ -329,7 +355,10 @@
         "Size_height": 50,
         "Size_width": 70,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "plywood",
+            "paper"
+        ],
         "Iconclass_subjects_curators": "25F34 owls; 48B3 portrait, self-portrait of artist; 41D2121 coat; 13D21 metamorphosed human beings",
         "iconclassIDString": "25F34;48B3;41D2121;13D21",
         "iconclassArrayIDs": [
@@ -338,6 +367,8 @@
             "41D2121",
             "13D21"
         ],
+        "ApproxYear": 1936.0,
+        "Decade": 1930,
         "id": "35381"
     },
     {
@@ -375,7 +406,9 @@
         "Size_height": 92,
         "Size_width": 70,
         "Size_depth": 37,
-        "Materials": "none",
+        "Materials": [
+            "bronze"
+        ],
         "Iconclass_subjects_curators": "48C723(...) portrait of a musician (with NAME of profession); 48C722 musician in non-work situation; 31D12 youth, young man, adolescent",
         "iconclassIDString": "48C723;48C722;31D12",
         "iconclassArrayIDs": [
@@ -383,6 +416,8 @@
             "48C722",
             "31D12"
         ],
+        "ApproxYear": 1874.0,
+        "Decade": 1870,
         "id": "35465"
     },
     {
@@ -418,7 +453,10 @@
         "Size_height": 63,
         "Size_width": 44,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas",
+            "paper"
+        ],
         "Iconclass_subjects_curators": "25HH2322 sea - HH - ideal landscapes; 41A163 cottage; 41A16 rural housing, e.g. country-house, villa, cottage; 26A3 lower clouds; 71A11(+0) the earth formless and desolate (+ variant)",
         "iconclassIDString": "25HH2322;41A163;41A16;26A3;71A11(+0)",
         "iconclassArrayIDs": [
@@ -428,6 +466,8 @@
             "26A3",
             "71A11(+0)"
         ],
+        "ApproxYear": 1927.0,
+        "Decade": 1920,
         "id": "35362"
     },
     {
@@ -463,7 +503,9 @@
         "Size_height": "96,5",
         "Size_width": 146,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "48A986 fantasy ornament;  0 Abstract, Non-representational Art; 22C4(BLUE) colours, pigments, and paints: blue; 22C4(BROWN) colours, pigments, and paints: brown; 49D322 curved line; 49D3213 parallel lines; 49D321 straight line; 49D3211 intersecting lines",
         "iconclassIDString": "48A986;22C4(BLUE);22C4(BOWN);49D322;49D3213;49D321;49D3211",
         "iconclassArrayIDs": [
@@ -475,6 +517,8 @@
             "49D321",
             "49D3211"
         ],
+        "ApproxYear": 1950.0,
+        "Decade": 1940,
         "id": "35249"
     },
     {
@@ -515,7 +559,9 @@
         "Size_height": "182,3",
         "Size_width": "152,7",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "31A2351 sitting on the ground; 31AA2351 sitting on the ground - AA - female human figure; 31D14(+4) adult man (+ three-quarter view); 43B12 picnic, alfresco, 'd\u00e9jeuner sur l'herbe'; 25G3(PINE) trees: pine;",
         "iconclassIDString": "31A2351;31AA2351;31D14(+4);43B12;25G3(PINE)",
         "iconclassArrayIDs": [
@@ -525,6 +571,8 @@
             "43B12",
             "25G3(PINE)"
         ],
+        "ApproxYear": 1919.0,
+        "Decade": 1910,
         "id": "35227"
     },
     {
@@ -560,7 +608,10 @@
         "Size_height": "57,2",
         "Size_width": "49,7",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas",
+            "paper"
+        ],
         "Iconclass_subjects_curators": "25HH16 plain - HH - ideal landscapes; 23R141 night ~ landscape (sometimes titled 'Nox'); 33C231 arm in arm (lovers); 47I214 goat; 46C13141 horse; 24B2 full moon; 41A163 cottage;",
         "iconclassIDString": "25HH16;23R141;33C231;47I1215;46C13141;24B2;41A163",
         "iconclassArrayIDs": [
@@ -572,6 +623,8 @@
             "24B2",
             "41A163"
         ],
+        "ApproxYear": 1943.0,
+        "Decade": 1940,
         "id": "39347"
     },
     {
@@ -607,7 +660,9 @@
         "Size_height": 121,
         "Size_width": 151,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "plywood"
+        ],
         "Iconclass_subjects_curators": "31A235 sitting figure; 31AA26113 sitting or lying with both legs straight, side by side - AA - female human figure; 31B6217 eyes closed; 41D211(DAY DRESS) dress, gown: day dress; 41A3311 open window; 25H114 low hill country; 47I421 vineyard; 41A421 curtains; 31A51111 reflection (in a mirror)",
         "iconclassIDString": "31A235;31AA26113;31B217;41D211(DAY DRESS);41A3311;25H114;47I421;41A421;31A51111",
         "iconclassArrayIDs": [
@@ -621,6 +676,8 @@
             "41A421",
             "31A51111"
         ],
+        "ApproxYear": 1934.0,
+        "Decade": 1930,
         "id": "35323"
     },
     {
@@ -657,7 +714,9 @@
         "Size_height": "127,8",
         "Size_width": 128,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "paper"
+        ],
         "Iconclass_subjects_curators": "48B3 portrait, self-portrait of artist; 25HH2322(...) sea (with NAME) - HH - ideal landscapes; 49I1 exploration, expedition, voyage of discovery; 25M1 Egyptian pyramids (Wonder of the World); 46C21 ships (in general); 12R51 priest ~ American Indian religions; 25FF422 dragon (large fabulous serpent, sometimes with wings and legs); 25A1420 'Oriente' (Ripa)",
         "iconclassIDString": "48B3;25HH2322;49I1;25M1;46C21;12R51;25FF422;25A1420",
         "iconclassArrayIDs": [
@@ -670,6 +729,8 @@
             "25FF422",
             "25A1420"
         ],
+        "ApproxYear": 1919.0,
+        "Decade": 1910,
         "id": "35229"
     },
     {
@@ -705,7 +766,9 @@
         "Size_height": 162,
         "Size_width": 105,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "31D11221 boy (child between toddler and youth); 41A2 interior of the house; 47H6 textile fabric, cloth; 31A22611 blood; 45C13(SWORD) hacking and thrusting weapons: sword; 33B2 duelling; 31A461 pain",
         "iconclassIDString": "31D11221;41A2;47H6;31A22611;45C13(SWORD);33B2;31A461",
         "iconclassArrayIDs": [
@@ -717,6 +780,8 @@
             "33B2",
             "31A461"
         ],
+        "ApproxYear": 1872.0,
+        "Decade": 1870,
         "id": "35222"
     },
     {
@@ -752,15 +817,19 @@
         "Size_height": 133,
         "Size_width": "99,5",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "33C233 (lovers) embracing each other, 'symplegma'; 31D14 adult man; 31D15 adult woman; 25G4(IVY) plants and herbs: ivy;",
         "iconclassIDString": "33C233(lovers);31D14;31D15;25G4(IVY)",
         "iconclassArrayIDs": [
-            "33C233",
+            "33C233(lovers)",
             "31D14",
             "31D15",
             "25G4(IVY)"
         ],
+        "ApproxYear": 1878.0,
+        "Decade": 1870,
         "id": "35224"
     },
     {
@@ -796,7 +865,9 @@
         "Size_height": 130,
         "Size_width": 96,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "0 Abstract, Non-representational Art; 22C4(BLUE) colours, pigments, and paints: blue; 22C4(RED) colours, pigments, and paints: red; 22C4(GREEN) colours, pigments, and paints: green; 22C4(BLACK) colours, pigments, and paints: black",
         "iconclassIDString": "22C4(BLUE);22C4(RED);22C4(GREEN);22C4(BLACK)",
         "iconclassArrayIDs": [
@@ -805,6 +876,8 @@
             "22C4(GREEN)",
             "22C4(BLACK)"
         ],
+        "ApproxYear": 1958.0,
+        "Decade": 1950,
         "id": "35499"
     },
     {
@@ -847,7 +920,9 @@
         "Size_height": 150,
         "Size_width": "109,5",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "0 Abstract, Non-representational Art; 22C4(BLACK) colours, pigments, and paints: black; 22C4(WHITE) colours, pigments, and paints: white; 49D32 line (~ planimetry, geometry); 49D36 circle (~ planimetry, geometry); 49D35 polygon (~ planimetry, geometry)",
         "iconclassIDString": "22C4(BLACK);22C4(WHITE);48D32;49D36;49D35",
         "iconclassArrayIDs": [
@@ -857,6 +932,8 @@
             "49D36",
             "49D35"
         ],
+        "ApproxYear": 1950.0,
+        "Decade": 1940,
         "id": "39364"
     },
     {
@@ -892,7 +969,9 @@
         "Size_height": 242,
         "Size_width": 466,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "25H22 canal; 46C23231 gondola; 43A491 catafalque, 'castrum doloris' (~ public funeral); 43A49 public funeral; 42E22 cortege, funeral procession; 43AA49 public funeral - AA - festivities on the water",
         "iconclassIDString": "25H22;46C23231;43A491;43A49;42E22;43AA49",
         "iconclassArrayIDs": [
@@ -903,6 +982,8 @@
             "42E22",
             "43AA49"
         ],
+        "ApproxYear": 1855.0,
+        "Decade": 1850,
         "id": "35279"
     },
     {
@@ -938,7 +1019,9 @@
         "Size_height": 25,
         "Size_width": 15,
         "Size_depth": 18,
-        "Materials": "wax",
+        "Materials": [
+            "wax"
+        ],
         "Iconclass_subjects_curators": "31D112210 Boyhood (alleg.); 11Q329 (almost) naked ~ ascetic life; 43C12 fishing (sports); 41C68(...) fish (with NAME)",
         "iconclassIDString": "31D112210;11Q329;43C12;41C68",
         "iconclassArrayIDs": [
@@ -947,6 +1030,8 @@
             "43C12",
             "41C68"
         ],
+        "ApproxYear": 1870.0,
+        "Decade": 1860,
         "id": "39200"
     },
     {
@@ -982,7 +1067,9 @@
         "Size_height": "65,3",
         "Size_width": "80,2",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "25HH211 spring, source of river or stream - HH - ideal landscapes; 26D1 snow; 25H151 deciduous forest; 26A42 cumulonimbus, i.e. thunder clouds",
         "iconclassIDString": "25HH211;26D1;25H151;26A42",
         "iconclassArrayIDs": [
@@ -991,6 +1078,8 @@
             "25H151",
             "26A42"
         ],
+        "ApproxYear": 1910.0,
+        "Decade": 1900,
         "id": "35310"
     },
     {
@@ -1026,7 +1115,9 @@
         "Size_height": 201,
         "Size_width": 154,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "41A2 interior of the house; 33C44 fallen woman; 31D15 adult woman; 31A232 leaning figure; 41A722 couch, sofa, settee",
         "iconclassIDString": "41A2;33C44;31D15;31A232;41A722",
         "iconclassArrayIDs": [
@@ -1036,6 +1127,8 @@
             "31A232",
             "41A722"
         ],
+        "ApproxYear": 1877.0,
+        "Decade": 1870,
         "id": "35217"
     },
     {
@@ -1073,16 +1166,20 @@
         "Size_height": "25,5",
         "Size_width": "37,2",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "wood"
+        ],
         "Iconclass_subjects_curators": "25HH113 (high) hill - HH - ideal landscapes; 25H151 deciduous forest; 31D15 adult woman; 48C5112 working situations ~ painter; 48C5 painting, drawing and the graphic arts; 34B11 dog",
         "iconclassIDString": "25HH113(high);25H151;48C5112;48C5;34B11",
         "iconclassArrayIDs": [
-            "25HH113",
+            "25HH113(high)",
             "25H151",
             "48C5112",
             "48C5",
             "34B11"
         ],
+        "ApproxYear": 1881.0,
+        "Decade": 1880,
         "id": "35456"
     },
     {
@@ -1118,7 +1215,9 @@
         "Size_height": 35,
         "Size_width": 24,
         "Size_depth": "18,2",
-        "Materials": "none",
+        "Materials": [
+            "ceramics"
+        ],
         "Iconclass_subjects_curators": "23E42 spring ~ human activities (the four seasons of the year); 31D13 adolescent, young woman, maiden; 31A241 head in normal upright position; 25G41 flowers; 48AA9831 foliage, tendrils, branches ~ ornament - AA - stylized",
         "iconclassIDString": "23E42;31D13;31A241;25G41;48AA9831",
         "iconclassArrayIDs": [
@@ -1128,6 +1227,8 @@
             "25G41",
             "48AA9831"
         ],
+        "ApproxYear": 0.0,
+        "Decade": 0,
         "id": "35374"
     },
     {
@@ -1163,7 +1264,9 @@
         "Size_height": 46,
         "Size_width": 38,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "31A241 head in normal upright position; 31D15 adult woman; 41D2663 ear-rings; 31B6261 hair raised",
         "iconclassIDString": "31A241;31D15;41D2663;31B6261",
         "iconclassArrayIDs": [
@@ -1172,6 +1275,8 @@
             "41D2663",
             "31B6261"
         ],
+        "ApproxYear": 1915.0,
+        "Decade": 1910,
         "id": "35225"
     },
     {
@@ -1207,7 +1312,9 @@
         "Size_height": "172,5",
         "Size_width": "97,5",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "31D15 adult woman; 31A235 sitting figure; 11P31522 nun(s); 31D14 adult man; 31A5341 moustache; 41D221(HAT) head-gear: hat",
         "iconclassIDString": "31D15;31A235;11P31522;31D14;31A5341;41D221(HAT)",
         "iconclassArrayIDs": [
@@ -1218,6 +1325,8 @@
             "31A5341",
             "41D221(HAT)"
         ],
+        "ApproxYear": 0.0,
+        "Decade": 0,
         "id": "35287"
     },
     {
@@ -1255,16 +1364,21 @@
         "Size_height": 71,
         "Size_width": 142,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas",
+            "wood"
+        ],
         "Iconclass_subjects_curators": "25H2322 sea; 33C233 (lovers) embracing each other, 'symplegma'; 31D14 adult man; 31AA4561 merman - AA - mermaid, siren; 46C232 rowing-boat, canoe, etc.",
         "iconclassIDString": "25H2322;33C233(lovers);31D14;31AA4561;46C232",
         "iconclassArrayIDs": [
             "25H2322",
-            "33C233",
+            "33C233(lovers)",
             "31D14",
             "31AA4561",
             "46C232"
         ],
+        "ApproxYear": 1893.0,
+        "Decade": 1890,
         "id": "39138"
     },
     {
@@ -1300,17 +1414,21 @@
         "Size_height": 25,
         "Size_width": 37,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "wood"
+        ],
         "Iconclass_subjects_curators": "25HH113 (high) hill - HH - ideal landscapes; 25H151 deciduous forest; 48C5112 working situations ~ painter; 48C5 painting, drawing and the graphic arts; 31D13 adolescent, young woman, maiden; 49B24 teacher and pupil;",
         "iconclassIDString": "25HH113(high);25H151;48C5112;48C5;31D13;49B24",
         "iconclassArrayIDs": [
-            "25HH113",
+            "25HH113(high)",
             "25H151",
             "48C5112",
             "48C5",
             "31D13",
             "49B24"
         ],
+        "ApproxYear": 1885.0,
+        "Decade": 1880,
         "id": "35459"
     },
     {
@@ -1346,7 +1464,10 @@
         "Size_height": "68,5",
         "Size_width": 99,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas",
+            "paper"
+        ],
         "Iconclass_subjects_curators": "41A3311 open window; 25H114 low hill country; 47I421 vineyard; 41A421 curtains; 31A51111 reflection (in a mirror); 41A721 chair; 49L641 paper (writing material)",
         "iconclassIDString": "41A3311;25H114;47I421;41A421;31A51111;41A721;49L641",
         "iconclassArrayIDs": [
@@ -1358,6 +1479,8 @@
             "41A721",
             "49L641"
         ],
+        "ApproxYear": 1924.0,
+        "Decade": 1920,
         "id": "35330"
     },
     {
@@ -1393,15 +1516,19 @@
         "Size_height": 92,
         "Size_width": "73,8",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "33C232 (lovers) kissing each other; 33C233 (lovers) embracing each other, 'symplegma'; 31A4 disabilities, deformations and monstrosities; diseases; 41D213(...) ensembles of pieces of clothing (with NAME); 41D211(DAY DRESS) dress, gown: day dress",
         "iconclassIDString": "33C232(lovers);31A4;41D213;31D211(DAY DRESS)",
         "iconclassArrayIDs": [
-            "33C232",
+            "33C232(lovers)",
             "31A4",
             "41D213",
             "31D211(DAY DRESS)"
         ],
+        "ApproxYear": 1924.0,
+        "Decade": 1920,
         "id": "35230"
     },
     {
@@ -1437,7 +1564,9 @@
         "Size_height": 67,
         "Size_width": 45,
         "Size_depth": 42,
-        "Materials": "none",
+        "Materials": [
+            "bronze"
+        ],
         "Iconclass_subjects_curators": "31D14 adult man; 33A14 embracing each other; 34B12 cat",
         "iconclassIDString": "31D14;33A14;34B12",
         "iconclassArrayIDs": [
@@ -1445,6 +1574,8 @@
             "33A14",
             "34B12"
         ],
+        "ApproxYear": 1942.0,
+        "Decade": 1940,
         "id": "35246"
     },
     {
@@ -1481,7 +1612,9 @@
         "Size_height": 20,
         "Size_width": 30,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "paper"
+        ],
         "Iconclass_subjects_curators": "0 Abstract, Non-representational Art; 22C4(BLACK) colours, pigments, and paints: black; 22C4(BLUE) colours, pigments, and paints: blue; 22C4(GREEN) colours, pigments, and paints: green; 22C4(PURPLE) colours, pigments, and paints: purple; 22C4(RED) colours, pigments, and paints: red; 22C4(WHITE) colours, pigments, and paints: white; 22C4(YELLOW) colours, pigments, and paints: yellow; 49D33 triangle (~ planimetry, geometry); 49D32 line (~ planimetry, geometry); 25H2322 sea",
         "iconclassIDString": "22C4(BLACK);22C4(BLUE);22C4(GREEN);22C4(PURPLE);22C4(RED);22C4(WHITE);22C4(YELLOW);49D33;49D32;25H2322",
         "iconclassArrayIDs": [
@@ -1496,6 +1629,8 @@
             "49D32",
             "25H2322"
         ],
+        "ApproxYear": 1957.0,
+        "Decade": 1950,
         "id": "39384"
     },
     {
@@ -1536,7 +1671,9 @@
         "Size_height": 82,
         "Size_width": 227,
         "Size_depth": 78,
-        "Materials": "none",
+        "Materials": [
+            "wood"
+        ],
         "Iconclass_subjects_curators": "31D15 adult woman; 31AA571 'motherly care', delousing - AA - female human figure; 42B123 mother with son(s) and daughter(s) (mother-love)",
         "iconclassIDString": "31D15;31AA571;42B123",
         "iconclassArrayIDs": [
@@ -1544,6 +1681,8 @@
             "31AA571",
             "42B123"
         ],
+        "ApproxYear": 1929.0,
+        "Decade": 1920,
         "id": "35364"
     },
     {
@@ -1579,7 +1718,9 @@
         "Size_height": 92,
         "Size_width": "69,4",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "25I14 public road; 25I1411 lane, alley; 46B111 stall, booth (~ market); 41D2632 parasol, sunshade; 46A7 crowd, mob",
         "iconclassIDString": "25I14;25I1411;46B111;41D2632;46A7",
         "iconclassArrayIDs": [
@@ -1589,6 +1730,8 @@
             "41D2632",
             "46A7"
         ],
+        "ApproxYear": 1867.0,
+        "Decade": 1860,
         "id": "35288"
     },
     {
@@ -1629,7 +1772,9 @@
         "Size_height": 163,
         "Size_width": 280,
         "Size_depth": 125,
-        "Materials": "none",
+        "Materials": [
+            "wood"
+        ],
         "Iconclass_subjects_curators": "46C13141 horse; 31D14 adult man; 31A461 pain; 54DD42 Fatigue, Lassitude; 'Lassitudine o Languidezza estiva' (Ripa); 31BB181 fainting, swooning - BB - out of doors",
         "iconclassIDString": "41C13141;31D14;31A61;54DD42;31BB181",
         "iconclassArrayIDs": [
@@ -1639,6 +1784,8 @@
             "54DD42",
             "31BB181"
         ],
+        "ApproxYear": 1958.0,
+        "Decade": 1950,
         "id": "35412"
     },
     {
@@ -1674,7 +1821,9 @@
         "Size_height": 219,
         "Size_width": 209,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "31E22 death by accident (non-violent death); 46C(+9) traffic and transport (+ accident, collision, crash ~ traffic and transport); 43A322 collision cars, bumper cars; 31E3 the corpse; 22C4(...)(+0) colours, pigments, and paints (with NAME) (+ variant)",
         "iconclassIDString": "31E22;46C(+9);43A322;31E3;22C4(+0)",
         "iconclassArrayIDs": [
@@ -1684,6 +1833,8 @@
             "31E3",
             "22C4(+0)"
         ],
+        "ApproxYear": 1963.0,
+        "Decade": 1960,
         "id": "35567"
     },
     {
@@ -1723,7 +1874,9 @@
         "Size_height": 45,
         "Size_width": 45,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "0 Abstract, Non-representational Art; 22C4(...) colours, pigments, and paints (with NAME); 22C4(BLACK) colours, pigments, and paints: black; 22C4(RED) colours, pigments, and paints: red; 22C4(YELLOW) colours, pigments, and paints: yellow; 22C4(BROWN) colours, pigments, and paints: brown; 49D34 quadrilateral (~ planimetry, geometry); 49D33 triangle (~ planimetry, geometry)",
         "iconclassIDString": "22C4(BLACK);22C4(RED);22C4(YELLOW);22C4(BROWN);49D34;49D33",
         "iconclassArrayIDs": [
@@ -1734,6 +1887,8 @@
             "49D34",
             "49D33"
         ],
+        "ApproxYear": 1951.0,
+        "Decade": 1950,
         "id": "39426"
     },
     {
@@ -1769,7 +1924,9 @@
         "Size_height": 162,
         "Size_width": 60,
         "Size_depth": 47,
-        "Materials": "none",
+        "Materials": [
+            "bronze"
+        ],
         "Iconclass_subjects_curators": "31D12 youth, young man, adolescent; 31D12(+51) youth, young man, adolescent (+ standing); 43C391 boxing (sport)",
         "iconclassIDString": "31D12;31D12(+51);43C391",
         "iconclassArrayIDs": [
@@ -1777,6 +1934,8 @@
             "31D12(+51)",
             "43C391"
         ],
+        "ApproxYear": 1929.0,
+        "Decade": 1920,
         "id": "35245"
     },
     {
@@ -1813,7 +1972,9 @@
         "Size_height": 145,
         "Size_width": 114,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "31D13(+53) adolescent, young woman, maiden (+ sitting); 41C345 bowl; 41A2 interior of the house; 23R11 morning",
         "iconclassIDString": "31D13(+53);41C345;41A2;23R11",
         "iconclassArrayIDs": [
@@ -1822,6 +1983,8 @@
             "41A2",
             "23R11"
         ],
+        "ApproxYear": 1919.0,
+        "Decade": 1910,
         "id": "35321"
     },
     {
@@ -1862,7 +2025,9 @@
         "Size_height": "85,5",
         "Size_width": 115,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "41A161 country-house; 26B rain; 26A32 nimbus, i.e. rain clouds; 47I213 sheep; 47I2211 herd, flock; 47I22111 return to the fold, byre, stable ~ herd, herdsman; 47I221 herding, herdsman, herdswoman, shepherd, shepherdess, cowherd, etc.",
         "iconclassIDString": "41A161;26B;47I213;47I2211;47I22111;47I221",
         "iconclassArrayIDs": [
@@ -1873,6 +2038,8 @@
             "47I22111",
             "47I221"
         ],
+        "ApproxYear": 1866.0,
+        "Decade": 1860,
         "id": "35433"
     },
     {
@@ -1909,7 +2076,9 @@
         "Size_height": "37,5",
         "Size_width": "54,5",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "25HH16 plain - HH - ideal landscapes; 25H213 river; 25H217 river bank; 25HH2130(PO) personification of river Po; 'Po' (Ripa) - HH - ideal landscapes; 26A11 cirrus (high clouds); 25G3(BEECH) trees: beech; 31A231 standing figure; 31D14 adult man",
         "iconclassIDString": "25HH16;25H213;25H217;25HH2130(PO);26A11;25G3(BEECH);31A231;31D14",
         "iconclassArrayIDs": [
@@ -1922,6 +2091,8 @@
             "31A231",
             "31D14"
         ],
+        "ApproxYear": 1881.0,
+        "Decade": 1880,
         "id": "35445"
     },
     {
@@ -1958,7 +2129,9 @@
         "Size_height": 62,
         "Size_width": 114,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "0 Abstract, Non-representational Art; 22C4(BLACK) colours, pigments, and paints: black; 22C4(BLUE) colours, pigments, and paints: blue; 22C4(BROWN) colours, pigments, and paints: brown; 22C4(GREEN) colours, pigments, and paints: green; 22C4(PURPLE) colours, pigments, and paints: purple; 49D33 triangle (~ planimetry, geometry); 49D34 quadrilateral (~ planimetry, geometry); 49D36 circle (~ planimetry, geometry); 49D32 line (~ planimetry, geometry)",
         "iconclassIDString": "22C4(BLACK);22C4(BLUE);22C4(BROWN);22C4(GREEN);22C4(PURPLE);49D33;49D34;49D36;49D32",
         "iconclassArrayIDs": [
@@ -1972,6 +2145,8 @@
             "49D36",
             "49D32"
         ],
+        "ApproxYear": 1947.0,
+        "Decade": 1940,
         "id": "39425"
     },
     {
@@ -2007,7 +2182,9 @@
         "Size_height": 173,
         "Size_width": 76,
         "Size_depth": 52,
-        "Materials": "plaster",
+        "Materials": [
+            "plaster"
+        ],
         "Iconclass_subjects_curators": "31A231 standing figure; 31D14 adult man; 48C752 one person playing an instrument; 48C7324 cithern, mandolin, guitar, balalaika",
         "iconclassIDString": "31A231;31D14;48C752;48C7324",
         "iconclassArrayIDs": [
@@ -2016,6 +2193,8 @@
             "48C752",
             "48C7324"
         ],
+        "ApproxYear": 1925.0,
+        "Decade": 1920,
         "id": "39427"
     },
     {
@@ -2051,7 +2230,9 @@
         "Size_height": 99,
         "Size_width": "173,5",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "41A22 communal rooms; 11Q71459 communion-bench; 59AA1 Loneliness; 'Solitudine' (Ripa);",
         "iconclassIDString": "41A22;11Q71459;59AA1",
         "iconclassArrayIDs": [
@@ -2059,6 +2240,8 @@
             "11Q71459",
             "59AA1"
         ],
+        "ApproxYear": 1909.0,
+        "Decade": 1900,
         "id": "35308"
     },
     {
@@ -2094,7 +2277,9 @@
         "Size_height": 73,
         "Size_width": "53,9",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "25II141 street - II - ideal city; 25II14 public road - II - ideal city; 41A14 urban housing; 46B132 shop-window, show-window; 46B356 advertisement, notice; 46B353 poster; 31A27113 strolling; 25G3 trees",
         "iconclassIDString": "25II141;25II14;46B132;46B356;46B353;31A27113;25G3",
         "iconclassArrayIDs": [
@@ -2106,6 +2291,8 @@
             "31A27113",
             "25G3"
         ],
+        "ApproxYear": 1930.0,
+        "Decade": 1920,
         "id": "35360"
     },
     {
@@ -2141,7 +2328,9 @@
         "Size_height": 49,
         "Size_width": "24,5",
         "Size_depth": 27,
-        "Materials": "marble",
+        "Materials": [
+            "marble"
+        ],
         "Iconclass_subjects_curators": "25I152 monument, statue3; 1AA241 head in normal upright position - AA - female human figure; 98C(SAPPHO)3 (story of) Sappho, the poetess - representations to which the NAME of a person from classical history may be attached",
         "iconclassIDString": "25I152;1AA241;98C(SAPPHO)3",
         "iconclassArrayIDs": [
@@ -2149,6 +2338,8 @@
             "1AA241",
             "98C(SAPPHO)"
         ],
+        "ApproxYear": 1819.0,
+        "Decade": 1810,
         "id": "35208"
     },
     {
@@ -2185,7 +2376,9 @@
         "Size_height": "60,1",
         "Size_width": "49,4",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "31D15 adult woman; 31A2361 lying on the back with uplifted upper part of the body; 41D252(NIGHT-GOWN) nightwear: night-gown;  41A7221 cushion",
         "iconclassIDString": "31D15;31A2361;41D252;41A7221",
         "iconclassArrayIDs": [
@@ -2194,6 +2387,8 @@
             "41D252",
             "41A7221"
         ],
+        "ApproxYear": 1825.0,
+        "Decade": 1820,
         "id": "35209"
     },
     {
@@ -2229,7 +2424,9 @@
         "Size_height": "58,2",
         "Size_width": "90,2",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "paper"
+        ],
         "Iconclass_subjects_curators": "25H151 deciduous forest; 25HH216 waterfall - HH - ideal landscapes; 25H153 bush, shrubs ~ forest;",
         "iconclassIDString": "25H151;25HH261;25H153",
         "iconclassArrayIDs": [
@@ -2237,6 +2434,8 @@
             "25HH261",
             "25H153"
         ],
+        "ApproxYear": 0.0,
+        "Decade": 0,
         "id": "35210"
     },
     {
@@ -2273,7 +2472,9 @@
         "Size_height": 49,
         "Size_width": 91,
         "Size_depth": 49,
-        "Materials": "none",
+        "Materials": [
+            "marble"
+        ],
         "Iconclass_subjects_curators": "31D11222 girl (child between toddler and youth); 31AA236 lying figure - AA - female human figure; 31B1 sleeping; unconsciousness; 31B11 sleeping in bed",
         "iconclassIDString": "31D11222;31AA236;31B1;31B11",
         "iconclassArrayIDs": [
@@ -2282,6 +2483,8 @@
             "31B1",
             "31B11"
         ],
+        "ApproxYear": 1838.0,
+        "Decade": 1830,
         "id": "35211"
     },
     {
@@ -2317,7 +2520,9 @@
         "Size_height": 149,
         "Size_width": "202,4",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "25HH151 deciduous forest - HH - ideal landscapes; 25G3(PALM-TREE) trees: palm-tree; 25HH11 mountains - HH - ideal landscapes; 11P442 militant proselytizing: religious war, crusade, etc.; 61B113 anonymous historical persons portrayed in a group, in a group-portrait; 45M2 soldiers and civilians; 25HH216 waterfall - HH - ideal landscapes; 25HH213 river - HH - ideal landscapes; 31E144 death of an adult person",
         "iconclassIDString": "25HH151;25G3(PALM TREE);11P442;61B113;45M2;25HH216;25HH213;31E144",
         "iconclassArrayIDs": [
@@ -2330,6 +2535,8 @@
             "25HH213",
             "31E144"
         ],
+        "ApproxYear": 1825.0,
+        "Decade": 1820,
         "id": "35212"
     },
     {
@@ -2366,7 +2573,9 @@
         "Size_height": 222,
         "Size_width": "331,5",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "25HH156 forest path or lane - HH - ideal landscapes; 25H15 forest, wood; 47I213 sheep; 47I2211 herd, flock; 47I221 herding, herdsman, herdswoman, shepherd, shepherdess, cowherd, etc.",
         "iconclassIDString": "25HH156;25H15;47I2211;47I221",
         "iconclassArrayIDs": [
@@ -2375,6 +2584,8 @@
             "47I2211",
             "47I221"
         ],
+        "ApproxYear": 1856.0,
+        "Decade": 1850,
         "id": "35213"
     },
     {
@@ -2411,7 +2622,9 @@
         "Size_height": "30,8",
         "Size_width": "40,4",
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "41C38 laid table as still life; 41C31 table-ware; 41C311 table-knife; 41C341 dish, plate, saucer; 41C693 sausage",
         "iconclassIDString": "41C38;41C31;41C311;41C693",
         "iconclassArrayIDs": [
@@ -2420,6 +2633,8 @@
             "41C311",
             "41C693"
         ],
+        "ApproxYear": 1919.0,
+        "Decade": 1910,
         "id": "35232"
     },
     {
@@ -2456,7 +2671,9 @@
         "Size_height": 60,
         "Size_width": 71,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "25HH156 forest path or lane - HH - ideal landscapes; 41A163 cottage; 25G11 groups of trees",
         "iconclassIDString": "25HH156;41A163;25G11",
         "iconclassArrayIDs": [
@@ -2464,6 +2681,8 @@
             "41A163",
             "25G11"
         ],
+        "ApproxYear": 1935.0,
+        "Decade": 1930,
         "id": "35233"
     },
     {
@@ -2500,7 +2719,12 @@
         "Size_height": "99,6",
         "Size_width": "80,3",
         "Size_depth": "",
-        "Materials": "sponge, acrylic, cork",
+        "Materials": [
+            "sponge",
+            "acrylic",
+            "cork",
+            "wood"
+        ],
         "Iconclass_subjects_curators": "0 Abstract, Non-representational Art; 22C4(BROWN) colours, pigments, and paints: brown; 22C4(WHITE) colours, pigments, and paints: white; 22C4(BLACK) colours, pigments, and paints: black; 25D13(SILVER) minerals and metals: silver; 31A5462 brush, sponge, etc. (toilet articles)",
         "iconclassIDString": "22C4(BROWN);22C4(WHITE);22C4(BLACK);25D13(SILVER);31A5461",
         "iconclassArrayIDs": [
@@ -2510,6 +2734,8 @@
             "25D13(SILVER)",
             "31A5461"
         ],
+        "ApproxYear": 1930.0,
+        "Decade": 1920,
         "id": "35236"
     },
     {
@@ -2545,7 +2771,9 @@
         "Size_height": "87,5",
         "Size_width": 143,
         "Size_depth": "",
-        "Materials": "none",
+        "Materials": [
+            "canvas"
+        ],
         "Iconclass_subjects_curators": "25HH landscapes - HH - ideal landscapes; 25G3(PINE) trees: pine; 47I21111 ox; 47I131 sowing; 31D14 adult man; 25F31 groups of birds",
         "iconclassIDString": "25HH;25G3;47I21111;47I131;31D14;25F31",
         "iconclassArrayIDs": [
@@ -2556,6 +2784,8 @@
             "31D14",
             "25F31"
         ],
+        "ApproxYear": 1926.0,
+        "Decade": 1920,
         "id": "35237"
     },
     {
@@ -2591,7 +2821,10 @@
         "Size_height": "85,7",
         "Size_width": 100,
         "Size_depth": "",
-        "Materials": "burlap, resin",
+        "Materials": [
+            "burlap",
+            "resin"
+        ],
         "Iconclass_subjects_curators": "0 Abstract, Non-representational Art; 22C4(BLACK) colours, pigments, and paints: black; 22C4(BROWN) colours, pigments, and paints: brown; 47H6 textile fabric, cloth",
         "iconclassIDString": "22C4(BLACK);22C4(BROWN);27H6",
         "iconclassArrayIDs": [
@@ -2599,6 +2832,8 @@
             "22C4(BROWN)",
             "27H6"
         ],
+        "ApproxYear": 1953.0,
+        "Decade": 1950,
         "id": "35250"
     }
 ]
