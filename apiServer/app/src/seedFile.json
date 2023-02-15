@@ -1,684 +1,472 @@
 {
 	"user_attributes": [
-		{
-			"att_name": "demographics.Gender",
-			"att_type": "String"
-		},
-		{
-			"att_name": "demographics.Age",
-			"att_type": "String"
-		},
-		{
-			"att_name": "demographics.RelationshipWithArt",
-			"att_type": "String"
-		},
-		{
-			"att_name": "demographics.RelationshipWithMuseum",
-			"att_type": "String"
-		},
-		{
-			"att_name": "demographics.ContentInLIS",
-			"att_type": "String"
-		}
+	  {
+		"att_name": "demographics.explicit-community",
+		"att_type": "String"
+	  }
 	],
 	"interaction_similarity_functions": [
-		{
-			"sim_function": {
-				"name": "ExtendedPlutchikEmotionSimilarity",
-				"params": [],
-				"on_attribute": {
-					"att_name": "interest.itMakesMeThinkAbout.emotions",
-					"att_type": "dict"
-				},
-				"interaction_object": {
-					"att_name": "id",
-					"att_type": "String"
-				}
-			}
-		},
-		{
-			"sim_function": {
-				"name": "SentimentSimilarityDAO",
-				"params": [],
-				"on_attribute": {
-					"att_name": "interest.itMakesMeThinkAbout.sentiment",
-					"att_type": "dict"
-				},
-				"interaction_object": {
-					"att_name": "id",
-					"att_type": "String"
-				}
-			}
-		},
-    {
-			"sim_function": {
-				"name": "ValuesDictSimilarity",
-				"params": [],
-				"on_attribute": {
-					"att_name": "interest.itMakesMeThinkAbout.values",
-					"att_type": "dict"
-				},
-				"interaction_object": {
-					"att_name": "id",
-					"att_type": "String"
-				}
-			}
+	  {
+		"sim_function": {
+		  "name": "ExtendedPlutchikEmotionSimilarity",
+		  "params": [],
+		  "on_attribute": {
+			"att_name": "interest.emotions",
+			"att_type": "dict"
+		  },
+		  "interaction_object": {
+			"att_name": "id",
+			"att_type": "String"
+		  }
 		}
+	  },
+	  {
+		"sim_function": {
+		  "name": "SentimentSimilarityDAO",
+		  "params": [],
+		  "on_attribute": {
+			"att_name": "interest.sentiment",
+			"att_type": "dict"
+		  },
+		  "interaction_object": {
+			"att_name": "id",
+			"att_type": "String"
+		  }
+		}
+	  },
+	  {
+		"sim_function": {
+		  "name": "ValuesSimilarity",
+		  "params": [],
+		  "on_attribute": {
+			"att_name": "interest.MFT_Values",
+			"att_type": "List"
+		  },
+		  "interaction_object": {
+			"att_name": "id",
+			"att_type": "String"
+		  }
+		}
+	  }
 	],
 	"artwork_attributes": [
-		{
-			"on_attribute": {
-				"att_name": "Inventary",
-				"att_type": "String"
-			},
-			"sim_function": [
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": true
-				}
-			]
+	  {
+		"on_attribute": {
+		  "att_name": "author",
+		  "att_type": "String"
 		},
-		{
-			"on_attribute": {
-				"att_name": "Collection",
-				"att_type": "String"
-			},
-			"sim_function": [
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": true
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "author",
-				"att_type": "String"
-			},
-			"sim_function": [
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": true
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "year",
-				"att_type": "float"
-			},
-			"sim_function": [
-				{
-					"name": "NumberSimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Artwork_start_date",
-				"att_type": "float"
-			},
-			"sim_function": [
-				{
-					"name": "NumberSimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Artwork_end_date",
-				"att_type": "float"
-			},
-			"sim_function": [
-				{
-					"name": "NumberSimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Artist_birth_date",
-				"att_type": "float"
-			},
-			"sim_function": [
-				{
-					"name": "NumberSimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Artist_death_date",
-				"att_type": "float"
-			},
-			"sim_function": [
-				{
-					"name": "NumberSimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Gender",
-				"att_type": "String"
-			},
-			"sim_function": [
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": true
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Artist_country",
-				"att_type": "String"
-			},
-			"sim_function": [
-				{
-					"name": "TaxonomySimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Artist_secondary_country",
-				"att_type": "String"
-			},
-			"sim_function": [
-				{
-					"name": "TaxonomySimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Artwork_Artistic_Movement",
-				"att_type": "String"
-			},
-			"sim_function": [
-				{
-					"name": "TaxonomySimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Secondary_Artwork_Artistic_Movement",
-				"att_type": "String"
-			},
-			"sim_function": [
-				{
-					"name": "TaxonomySimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Technique",
-				"att_type": "String"
-			},
-			"sim_function": [
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": true
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Artwork_type",
-				"att_type": "String"
-			},
-			"sim_function": [
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": true
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Size_height",
-				"att_type": "float"
-			},
-			"sim_function": [
-				{
-					"name": "NumberSimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Size_width",
-				"att_type": "float"
-			},
-			"sim_function": [
-				{
-					"name": "NumberSimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Size_depth",
-				"att_type": "String"
-			},
-			"sim_function": [
-				{
-					"name": "NumberSimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "Materials",
-				"att_type": "String"
-			},
-			"sim_function": [
-        {
-					"name": "OntologySimilarity",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "TaxonomySimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		},
-		{
-			"on_attribute": {
-				"att_name": "iconclassArrayIDs",
-				"att_type": "List"
-			},
-			"sim_function": [
-				{
-					"name": "IconClassSimilarityDAO",
-					"params": [],
-					"default": true
-				},
-				{
-					"name": "EqualSimilarityDAO",
-					"params": [],
-					"default": false
-				}
-			]
-		}
-	],
-	"algorithm": [
-		{
-			"name": "kmedoids",
-			"params": [],
-			"default": false
-		},
-		{
-			"name": "agglomerative",
+		"sim_function": [
+		  {
+			"name": "EqualSimilarityDAO",
 			"params": [],
 			"default": true
+		  }
+		]
+	  },
+	  {
+		"on_attribute": {
+		  "att_name": "Production date",
+		  "att_type": "float"
 		},
-		{
-			"name": "affinityPropagation",
+		"sim_function": [
+		  {
+			"name": "NumberSimilarityDAO",
+			"params": [],
+			"default": true
+		  },
+		  {
+			"name": "EqualSimilarityDAO",
 			"params": [],
 			"default": false
+		  }
+		]
+	  },
+	  {
+		"on_attribute": {
+		  "att_name": "Collection",
+		  "att_type": "String"
 		},
-		{
-			"name": "birch",
+		"sim_function": [
+		  {
+			"name": "EqualSimilarityDAO",
+			"params": [],
+			"default": true
+		  }
+		]
+	  },
+	  {
+		"on_attribute": {
+		  "att_name": "Manufacturer",
+		  "att_type": "String"
+		},
+		"sim_function": [
+		  {
+			"name": "EqualSimilarityDAO",
+			"params": [],
+			"default": true
+		  }
+		]
+	  },
+	  {
+		"on_attribute": {
+		  "att_name": "Materials",
+		  "att_type": "List"
+		},
+		"sim_function": [
+		  {
+			"name": "OntologySimilarity",
+			"params": [],
+			"default": true
+		  },
+		  {
+			"name": "EqualSimilarityDAO",
 			"params": [],
 			"default": false
+		  }
+		]
+	  },
+	  {
+		"on_attribute": {
+		  "att_name": "Colour",
+		  "att_type": "List"
 		},
-		{
-			"name": "dbscan",
+		"sim_function": [
+		  {
+			"name": "EqualSimilarityDAO",
+			"params": [],
+			"default": true
+		  }
+		]
+	  },
+	  {
+		"on_attribute": {
+		  "att_name": "year",
+		  "att_type": "float"
+		},
+		"sim_function": [
+		  {
+			"name": "NumberSimilarityDAO",
+			"params": [],
+			"default": true
+		  },
+		  {
+			"name": "EqualSimilarityDAO",
 			"params": [],
 			"default": false
-		},
-		{
-			"name": "fuzzyCMeans",
-			"params": [],
-			"default": false
-		},
-		{
-			"name": "greedy",
-			"params": [],
-			"default": false
-		},
-		{
-			"name": "markov",
-			"params": [],
-			"default": false
-		},
-		{
-			"name": "optics",
-			"params": [],
-			"default": false
-		},
-		{
-			"name": "spectral",
-			"params": [],
-			"default": false
-		}
+		  }
+		]
+	  }
 	],
-	"artworks": [
-        {
-            "name": "03 - F",
-            "id": "39416"
-        },
-        {
-            "name": "107. Aktion (prima e seconda parte)",
-            "id": "41209"
-        },
-        {
-            "name": "Angles",
-            "id": "39352"
-        },
-        {
-            "name": "Anticoli sole a picco (Paesaggio di Anticoli)",
-            "id": "39648"
-        },
-        {
-            "name": "Aracne",
-            "id": "39182"
-        },
-        {
-            "name": "Asfissia! (parte sinistra)",
-            "id": "39175"
-        },
-        {
-            "name": "Autoritratto in forma di gufo",
-            "id": "35381"
-        },
-        {
-            "name": "Beethoven (Beethoven giovinetto)",
-            "id": "35465"
-        },
-        {
-            "name": "Capanni sul mare",
-            "id": "35362"
-        },
-        {
-            "name": "Composition T. 50 - 5",
-            "id": "35249"
-        },
-        {
-            "name": "Contadini al sole",
-            "id": "35227"
-        },
-        {
-            "name": "Dans mon pays",
-            "id": "39347"
-        },
-        {
-            "name": "Daphne (Daphne a Pavarolo)",
-            "id": "35323"
-        },
-        {
-            "name": "(Der) Matrose Fritz M\u00faller aus Pieschen",
-            "id": "35229"
-        },
-        {
-            "name": "Dopo il duello",
-            "id": "35222"
-        },
-        {
-            "name": "L'edera",
-            "id": "35224"
-        },
-        {
-            "name": "Estate",
-            "id": "35499"
-        },
-        {
-            "name": "I Santi Anargiri",
-            "id": "39364"
-        },
-        {
-            "name": "I funerali di Tiziano",
-            "id": "35279"
-        },
-        {
-            "name": "Il pescatorello",
-            "id": "39200"
-        },
-        {
-            "name": "Il torrente d'inverno",
-            "id": "35310"
-        },
-        {
-            "name": "La femme de Claude (L'adultera)",
-            "id": "35217"
-        },
-        {
-            "name": "La pittrice",
-            "id": "35456"
-        },
-        {
-            "name": "La primavera",
-            "id": "35374"
-        },
-        {
-            "name": "La ragazza rossa (Testa di donna dai capelli rossi)",
-            "id": "35225"
-        },
-        {
-            "name": "La Signora di Monza col ritratto dell'amante Egidio. a) La monaca di Monza; b) L'amante Egidio.",
-            "id": "35287"
-        },
-        {
-            "name": "La Sirena (Sirena) (Abisso verde)",
-            "id": "39138"
-        },
-        {
-            "name": "Le allieve",
-            "id": "35459"
-        },
-        {
-            "name": "Le tre finestre (La pianura della torre)",
-            "id": "35330"
-        },
-        {
-            "name": "Le baiser",
-            "id": "35230"
-        },
-        {
-            "name": "Mafai con il gatto",
-            "id": "35246"
-        },
-        {
-            "name": "Marina",
-            "id": "39384"
-        },
-        {
-            "name": "Maternit\u00e0",
-            "id": "35364"
-        },
-        {
-            "name": "Mercato Vecchio di Firenze",
-            "id": "35288"
-        },
-        {
-            "name": "Miracolo (Olocausto)",
-            "id": "35412"
-        },
-        {
-            "name": "Orange Car Crash (5 Deaths 11 Times in Orange) (Orange Disaster)",
-            "id": "35567"
-        },
-        {
-            "name": "Piccola composizione (Fantome incantato)",
-            "id": "39426"
-        },
-        {
-            "name": "Pugilatore",
-            "id": "35245"
-        },
-        {
-            "name": "Ragazza con scodella (Interno)  (Mattino)",
-            "id": "35321"
-        },
-        {
-            "name": "Ritorno alla stalla (La ritirata)",
-            "id": "35433"
-        },
-        {
-            "name": "Sponde del Po",
-            "id": "35445"
-        },
-        {
-            "name": "Strada laterale",
-            "id": "39425"
-        },
-        {
-            "name": "Suonatore di chitarra (Commedia)",
-            "id": "39427"
-        },
-        {
-            "name": "Un Natale! Al Pio Albergo Trivulzio",
-            "id": "35308"
-        },
-        {
-            "name": "Via a Parigi",
-            "id": "35360"
-        },
-        {
-            "name": "Saffo (Erma di Saffo)",
-            "id": "35208"
-        },
-        {
-            "name": "Ritratto di Carolina Zucchi, (La malata), (Carolina Zucchi a letto)",
-            "id": "35209"
-        },
-        {
-            "name": "Paesaggio con cascata (Sottobosco con monaco)",
-            "id": "35210"
-        },
-        {
-            "name": "Bimba dormente (Bimba addormentata)",
-            "id": "35211"
-        },
-        {
-            "name": "La morte del conte Josselin di Montmorency",
-            "id": "35212"
-        },
-        {
-            "name": "Il diradarsi di un temporale",
-            "id": "35213"
-        },
-        {
-            "name": "Natura morta con salame",
-            "id": "35232"
-        },
-        {
-            "name": "Paese",
-            "id": "35233"
-        },
-        {
-            "name": "Intervista con la materia",
-            "id": "35236"
-        },
-        {
-            "name": "L'aratura",
-            "id": "35237"
-        },
-        {
-            "name": "Abstraction with Brown Burlap (Sacco)",
-            "id": "35250"
-        }
-    ],
-  "HetchStructure": false
-}
+	  "artworks": [
+		  {
+			  "name": "1610",
+			  "id": "22769"
+		  },
+		  {
+			  "name": "1618",
+			  "id": "A652"
+		  },
+		  {
+			  "name": "1718",
+			  "id": "10026"
+		  },
+		  {
+			  "name": "2744 cocktail glass",
+			  "id": "12595"
+		  },
+		  {
+			  "name": "Asa Futura",
+			  "id": "20260"
+		  },
+		  {
+			  "name": "BAU, Muumi",
+			  "id": "44185"
+		  },
+		  {
+			  "name": "Block",
+			  "id": "38467"
+		  },
+		  {
+			  "name": "Bo boo",
+			  "id": "41581"
+		  },
+		  {
+			  "name": "C 1810 B",
+			  "id": "13154"
+		  },
+		  {
+			  "name": "DummyObject1",
+			  "id": "B561"
+		  },
+		  {
+			  "name": "DummyObject2",
+			  "id": "C370"
+		  },
+		  {
+			  "name": "DummyObject3",
+			  "id": "17248"
+		  },
+		  {
+			  "name": "DummyObject4",
+			  "id": "16101"
+		  },
+		  {
+			  "name": "Fasaani 939.015.91 (Pheasant)",
+			  "id": "13081"
+		  },
+		  {
+			  "name": "Fiskars scissors",
+			  "id": "44174"
+		  },
+		  {
+			  "name": "Flora (model S)",
+			  "id": "44181"
+		  },
+		  {
+			  "name": "Garbage Bin",
+			  "id": "44167"
+		  },
+		  {
+			  "name": "High chair 616",
+			  "id": "9226"
+		  },
+		  {
+			  "name": "I-lasi 2004",
+			  "id": "ILM7606"
+		  },
+		  {
+			  "name": "Iris (model U2)",
+			  "id": "44175"
+		  },
+		  {
+			  "name": "Jerry",
+			  "id": "32030"
+		  },
+		  {
+			  "name": "Jokapoika, fabric: Piccolo",
+			  "id": "41821"
+		  },
+		  {
+			  "name": "Jopo",
+			  "id": "11780"
+		  },
+		  {
+			  "name": "Katrilli",
+			  "id": "44180"
+		  },
+		  {
+			  "name": "Lappkojs",
+			  "id": "38518"
+		  },
+		  {
+			  "name": "Liekki (Flame)",
+			  "id": "17876"
+		  },
+		  {
+			  "name": "MK",
+			  "id": "AM1699"
+		  },
+		  {
+			  "name": "Mobira Talkman 450",
+			  "id": "41379"
+		  },
+		  {
+			  "name": "Model 4, fabric: Sormus",
+			  "id": "27303"
+		  },
+		  {
+			  "name": "Monrepos, fabric: Keidas",
+			  "id": "30074"
+		  },
+		  {
+			  "name": "Myrna (malli AX)",
+			  "id": "44176"
+		  },
+		  {
+			  "name": "Nelj\u00c3\u00a4 v\u00c3\u00a4ri\u00c3\u00a4 (Four Colours)",
+			  "id": "32628"
+		  },
+		  {
+			  "name": "Nokia 9210 Communicator",
+			  "id": "41377"
+		  },
+		  {
+			  "name": "Paimio / Armchair 41",
+			  "id": "9249"
+		  },
+		  {
+			  "name": "Pastille",
+			  "id": "44165"
+		  },
+		  {
+			  "name": "Pehtoori 2615",
+			  "id": "8182"
+		  },
+		  {
+			  "name": "Pirkka",
+			  "id": "44164"
+		  },
+		  {
+			  "name": "Planetaariset Laaksot (Planetary Valleys)",
+			  "id": "38267"
+		  },
+		  {
+			  "name": "P\u00c3\u00a4ssi (Ram)",
+			  "id": "41768"
+		  },
+		  {
+			  "name": "Raitakaita",
+			  "id": "44184"
+		  },
+		  {
+			  "name": "Rautaristi (Iron Cross)",
+			  "id": "16850"
+		  },
+		  {
+			  "name": "Rice porcelain cup (model FK/VA)",
+			  "id": "44177"
+		  },
+		  {
+			  "name": "Ruska (model S)",
+			  "id": "44179"
+		  },
+		  {
+			  "name": "Sauna stool",
+			  "id": "9321"
+		  },
+		  {
+			  "name": "Savonia",
+			  "id": "44168"
+		  },
+		  {
+			  "name": "Savoy vase",
+			  "id": "41793"
+		  },
+		  {
+			  "name": "Scandia",
+			  "id": "44171"
+		  },
+		  {
+			  "name": "Seebra (Zebra)",
+			  "id": "32627"
+		  },
+		  {
+			  "name": "Simpukka (Sea Shell)",
+			  "id": "33288"
+		  },
+		  {
+			  "name": "Solifer Export",
+			  "id": "32271"
+		  },
+		  {
+			  "name": "Stool 60",
+			  "id": "44163"
+		  },
+		  {
+			  "name": "Subway bench",
+			  "id": "41816"
+		  },
+		  {
+			  "name": "Suo (Marsh)",
+			  "id": "32361"
+		  },
+		  {
+			  "name": "Suopursuja (Marsh Tea)",
+			  "id": "16851"
+		  },
+		  {
+			  "name": "Teema (model BAU)",
+			  "id": "44178"
+		  },
+		  {
+			  "name": "Think and drink",
+			  "id": "44182"
+		  },
+		  {
+			  "name": "Ultima Thule (18 cl)",
+			  "id": "14218"
+		  },
+		  {
+			  "name": "Ultima Thule 2332",
+			  "id": "14219"
+		  },
+		  {
+			  "name": "Valkoiset hevoset (White Horses)",
+			  "id": "13906"
+		  },
+		  {
+			  "name": "Viimeinen ateria (The Last Meal)",
+			  "id": "35971"
+		  },
+		  {
+			  "name": "W19",
+			  "id": "B548"
+		  },
+		  {
+			  "name": "Warm",
+			  "id": "44183"
+		  },
+		  {
+			  "name": "Windbreaker",
+			  "id": "44166"
+		  },
+		  {
+			  "name": "i-102 (Aroma 2002)",
+			  "id": "7762"
+		  }
+	  ],
+  
+	"algorithm": [
+	  {
+		"name": "affinityPropagation",
+		"params": [],
+		"default": false
+	  },
+	  {
+		"name": "agglomerative",
+		"params": [],
+		"default": false
+	  },
+	  {
+		"name": "birch",
+		"params": [],
+		"default": false
+	  },
+	  {
+		"name": "dbscan",
+		"params": [],
+		"default": false
+	  },
+	  {
+		"name": "fuzzyCMeans",
+		"params": [],
+		"default": false
+	  },
+	  {
+		"name": "greedy",
+		"params": [],
+		"default": false
+	  },
+	  {
+		"name": "kmedoids",
+		"params": [],
+		"default": false
+	  },
+	  {
+		"name": "markov",
+		"params": [],
+		"default": false
+	  },
+	  {
+		"name": "optics",
+		"params": [],
+		"default": false
+	  },
+	  {
+		"name": "spectral",
+		"params": [],
+		"default": false
+	  }
+	],
+	"HetchStructure": false
+  }
