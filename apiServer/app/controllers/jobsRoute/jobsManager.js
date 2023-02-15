@@ -85,12 +85,18 @@ checkAndStartNewJob = function () {
                     var cmState = "idle";
                     var errorMsg = "";
                     flags.forEach(flag => {
+                        /*
                         if (!flag["needToProcess"])
                             cmState = "updating";
                         if (flag["error"] != "N/D") {
                             cmState = "error";
-                            errorMsg = flag["error"];
+                            //errorMsg = flag["error"];
+                            errorMsg = 'flag failed'
                         }
+                        */
+                        if (!flag["needToProcess"] && flag['error'] == "N/D")
+                            cmState = "updating";
+
                     });
                     if (cmState == "error") {
                         // If any job has an error state, then set all jobs to error state (jobManager stops)
