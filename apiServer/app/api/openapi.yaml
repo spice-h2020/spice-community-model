@@ -55,6 +55,44 @@ paths:
         "400":
           description: error
       x-swagger-router-controller: Logs
+  /logs/dateRange:
+    get:
+      tags:
+        - Community Model Logs
+      summary: Get logs between date range
+      description: Returns logs between date range
+      operationId: getLogsBetweenTwoDates
+      parameters:
+        - name: startDate
+          in: query
+          description: "Start date. ISO 8601 format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS"
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            format: date
+            example: '2017-07-21T17:32:28Z'
+        - name: endDate
+          in: query
+          description: "End date. The end date must be greater than the start date. ISO 8601 format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS"
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            format: date
+            example: '2016-03-04T03:00:00'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "./openapi_specs/logs.yaml#/log"
+        "400":
+          description: error
+      x-swagger-router-controller: Logs
   /seed:
     get:
       tags:

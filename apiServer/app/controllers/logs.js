@@ -1,11 +1,12 @@
 const idParam_nLogs = 'nLogs';
-const idParam_date1 = 'date1';
-const idParam_date2 = 'date2';
+const idParam_startDate = 'startDate';
+const idParam_endDate = 'endDate';
 const Logs = require('../service/LogsService.js');
 
 
 module.exports.getNLatestLogs = function getPerspectives(req, res, next) {
     const nLogs = parseInt(req.params[idParam_nLogs]);
+
     if (isNaN(nLogs)) {
         res.status(400).send("Parameter is NaN");
     }
@@ -25,14 +26,22 @@ module.exports.getNLatestLogs = function getPerspectives(req, res, next) {
 
 
 module.exports.getLogsBetweenTwoDates = function getPerspectives(req, res, next) {
-    const date1 = req.params[idParam_date1];
-    const date2 = req.params[idParam_date2];
+    const startDate = req.query[idParam_startDate];
+    const endDate = req.query[idParam_endDate];
 
-    Logs.getLogsBetweenTwoDates(date1, date2)
-        .then(function (response) {
-            res.send(response);
-        })
-        .catch(function (error) {
-            res.status(400).send(error);
-        });
+    if (isNaN(Date.parse(startDate)) || isNaN(Date.parse(endDate))) {
+        res.status(400).send("Parameters are NaN");
+    }
+    else if (new Date(startDate) >= new Date(endDate)) {
+        res.status(400).send("startDate is >= than endDate");
+    }
+    else {
+        Logs.getLogsBetweenTwoDates(new Date(startDate), new Date(endDate))
+            .then(function (response) {
+                res.send(response);
+            })
+            .catch(function (error) {
+                res.status(400).send(error);
+            });
+    }
 };

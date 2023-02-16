@@ -1,7 +1,7 @@
 'use strict';
 const db = require("../models");
 
-const logsDAO = db.logs;
+const LogsDAO = db.logs;
 
 /**
 * Logs
@@ -11,7 +11,7 @@ const logsDAO = db.logs;
 **/
 exports.getNLatestLogs = function (n) {
     return new Promise(function (resolve, reject) {
-        logsDAO.nLatestLogs(n,
+        LogsDAO.nLatestLogs(n,
             data => {
                 resolve(data)
             },
@@ -22,9 +22,9 @@ exports.getNLatestLogs = function (n) {
     });
 };
 
-exports.getLogsBetweenTwoDates = function (date1, date2) {
+exports.getLogsBetweenTwoDates = function (startDate, endDate) {
     return new Promise(function (resolve, reject) {
-        logsDAO.logsBetweenTwoDates(date1, date2,
+        LogsDAO.logsBetweenTwoDates(startDate, endDate,
             data => {
                 resolve(data)
             },

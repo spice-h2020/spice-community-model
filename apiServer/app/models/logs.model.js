@@ -100,7 +100,7 @@ module.exports = mongoose => {
         nLatestLogs: function (n, onSuccess, onError) {
             let items = [];
             Logs.find({}, { projection: { _id: 0 } }, function (error, data) {
-                if (error || data.length === 0) {
+                if (error) {
                     onError(error);
                 } else {
                     let i = 0;
@@ -113,21 +113,25 @@ module.exports = mongoose => {
             }).sort({ _id: -1 }).limit(n);
         },
 
-        logsBetweenTwoDates: function (date1, date2, onSuccess, onError) {
-            // let items = [];
-            // Logs.find({}, { projection: { _id: 0 } }, function (error, data) {
-            //     if (error || data.length === 0) {
-            //         onError(error);
-            //     } else {
-            //         let i = 0;
-            //         data.forEach(element => {
-            //             items[i] = element.toJSON();
-            //             i++;
-            //         });
-            //         onSuccess(items);
-            //     }
-            // });
-            onSuccess("WIP");
+        logsBetweenTwoDates: function (startDate, endDate, onSuccess, onError) {
+            let items = [];
+            Logs.find({
+                "time": {
+                    $gte: startDate,        //new Date(new Date(startDate).setHours(00, 00, 00)),
+                    $lte: endDate            //new Date(new Date(endDate).setHours(23, 59, 59))
+                }
+            }, { projection: { _id: 0 } }, function (error, data) {
+                if (error) {
+                    onError(error);
+                } else {
+                    let i = 0;
+                    data.forEach(element => {
+                        items[i] = element.toJSON();
+                        i++;
+                    });
+                    onSuccess(items);
+                }
+            }).sort({ _id: -1 });
         }
     };
 };
