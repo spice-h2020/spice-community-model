@@ -17,10 +17,9 @@ const apiSpec = path.resolve(__dirname, './api/openapi.yaml');
 
 async function initServer() {
   const app = express();
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json({ limit: 500 * 1024 * 1024 })); //500 Mb
+  app.use(bodyParser.urlencoded({limit: '500mb', extended: true, parameterLimit:50000}));
+  app.use(bodyParser.json({limit: '500mb'}));
   app.set("apiSpec", apiSpec);
-
 
   const cors = require('cors');
   app.use(cors());

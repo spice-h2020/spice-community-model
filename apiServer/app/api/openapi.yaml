@@ -25,7 +25,36 @@ tags:
     description: Operations about computing similarity among communities.
   - name: Jobs monitor
     description: Monitor the status of a job.
+  - name: Community Model Logs
+    description: Returns CM Logs
 paths:
+  /logs/nLatest/{nLogs}:
+    get:
+      tags:
+        - Community Model Logs
+      summary: Get n latest logs
+      description: Returns the last n documents
+      operationId: getNLatestLogs
+      parameters:
+        - name: nLogs
+          in: path
+          description: N latest logs
+          required: true
+          style: simple
+          explode: false
+          schema:
+            minimum: 0
+            type: integer
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "./openapi_specs/logs.yaml#/log"
+        "400":
+          description: error
+      x-swagger-router-controller: Logs
   /seed:
     get:
       tags:

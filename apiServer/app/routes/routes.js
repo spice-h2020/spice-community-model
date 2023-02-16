@@ -8,7 +8,8 @@ module.exports = app => {
         Similarity: require("../controllers/similarity.js"),
         Users: require("../controllers/users.js"),
         Perspectives: require("../controllers/perspectives.js"),
-        ConfigTool: require("../controllers/configTool.js")
+        ConfigTool: require("../controllers/configTool.js"),
+        Logs: require("../controllers/logs.js"),
     };
 
     function initRouters(router) {
@@ -57,6 +58,7 @@ module.exports = app => {
     const express = require("express");
 
     var router = express.Router();
+    // hidden API
     var visAPI = require("../controllers/communitiesVisualization.js")
     var jobsRouter = require("../controllers/jobsRoute/jobsRoute.js")
     var databaseContrl = require("../controllers/databaseController.js")
