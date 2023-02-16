@@ -98,16 +98,12 @@ module.exports.listPerspectiveCommunities = function listPerspectiveCommunities(
 // redirect post request to api_loader
 module.exports.PostPerspective = function PostPerspective(req, res, next) {
   try {
-    console.log("perspective.js - post perspective")
-    console.log(req)
-    console.log(res)
-    console.log("\n")
 
     Perspectives.getPerspectiveById(req.body.id)
       .then(function (response) { // Perspective with that id exists
         res.status(409).send({ insertedPerspectiveId: "-Error, perspective already exist-" });
       })
-      .catch(function (response) { // Perspective with that id doesnt exist (it can be inserted)
+      .catch(function (error) { // Perspective with that id doesnt exist (it can be inserted)
         Perspectives.PostPerspective(req.body)
           .then(function (perspectiveId) {
             var response = { insertedPerspectiveId: perspectiveId };

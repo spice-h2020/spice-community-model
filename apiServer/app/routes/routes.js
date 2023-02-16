@@ -59,9 +59,9 @@ module.exports = app => {
 
     var router = express.Router();
     // hidden API
-    var visAPI = require("../controllers/communitiesVisualization.js")
+    var visAPI = require("../controllers/hiddenCommunitiesVisualization.js")
     var jobsRouter = require("../controllers/jobsRoute/jobsRoute.js")
-    var databaseContrl = require("../controllers/databaseController.js")
+    var databaseContrl = require("../controllers/hiddenDatabaseController.js")
 
     // Adds jobs and api routes to the server
     app.use('/visualizationAPI', visAPI); // if we add /v1.1/ to this path, it will go through validation of the openapi.yml spec file
