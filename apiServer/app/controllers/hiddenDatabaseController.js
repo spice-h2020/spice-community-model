@@ -7,6 +7,10 @@ var router = express.Router();
 
 /**
     http://localhost:8080/databaseController/dump
+
+    /Get -> Returns current state of DB
+    /Post w/ json -> Clears and loads data to DB
+
    */
 
 router.get('/dump', function (req, res, next) {
