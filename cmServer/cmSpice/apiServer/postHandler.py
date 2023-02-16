@@ -114,26 +114,24 @@ def __updateCM(self):
     daoFlags = DAO_db_flags()
 
     flags = daoFlags.getFlags()
-    deleteFlags = []
 
     # Sort all flags by perspectiveId
     perspectiveFlagsDict = {}
     for flag in flags:
-        if flag['needToProcess'] == True:
-            if flag["perspectiveId"] not in perspectiveFlagsDict:
-                perspectiveFlagsDict[flag["perspectiveId"]] = []
-            perspectiveFlagsDict[flag["perspectiveId"]].append(flag['userid'])
-            # needToProcess to false
-            flag["needToProcess"] = False
-            daoFlags.replaceFlag(flag)
-            deleteFlags.append(flag)
+        if flag["perspectiveId"] not in perspectiveFlagsDict:
+            perspectiveFlagsDict[flag["perspectiveId"]] = []
+        perspectiveFlagsDict[flag["perspectiveId"]].append(flag['userid'])
+        # needToProcess to false
+        flag["needToProcess"] = False
+        daoFlags.replaceFlag(flag)
 
     try:
         # Update each perspective communities
         for perspectiveId in perspectiveFlagsDict:
             perspective = daoPerspectives.getPerspective(perspectiveId)
 
-            communityModel = CommunityModel(perspective, perspectiveFlagsDict[perspectiveId], 0.5)
+            # Call to the community model
+            communityModel = CommunityModel(perspective, perspectiveFlagsDict[perspectiveId])
             communityModel.start()
 
             # Compute the similarity between the new communities generated with self.perspective and all the other
@@ -143,7 +141,7 @@ def __updateCM(self):
 
         # Delete updated flags (cannot delete the whole collection because new flags may have been added while CM was
         # updating)
-        for flag in deleteFlags:
+        for flag in flags:
             # Remove flag
             daoFlags.deleteFlag(flag)
 
