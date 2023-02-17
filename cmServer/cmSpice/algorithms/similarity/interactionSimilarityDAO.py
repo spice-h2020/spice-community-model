@@ -55,6 +55,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
         self.interactionAttributeOrigin = self.interactionAttribute + "_origin"
         self.interactionAttributeText = self.interactionAttribute.rsplit(".",1)[0] + ".text"
 
+        # Fill na (interaction attributes)
+
+
         # Citizen attributes
         self.citizenAttributes = []
         for citizenAttribute in self.perspective['user_attributes']:
@@ -89,6 +92,16 @@ class InteractionSimilarityDAO(SimilarityDAO):
             df = self.data.copy()
 
             print("dsfdsfsdf")
+
+            # Check element count
+            print("\n")
+            print(df[[self.interactionAttribute]])
+            print("\n")
+            print(df[[self.interactionAttributeOrigin]])
+            print("\n")
+            print(df[[self.interactionAttributeText]])
+            print("\n")
+
 
             df2 = df.explode([self.interactionAttribute, self.interactionAttributeOrigin, self.interactionAttributeText])
 
@@ -338,13 +351,14 @@ class InteractionSimilarityDAO(SimilarityDAO):
                 print("similarThreshold: " + str(similarThreshold))
                 print("\n")
                 """
-
+            
+            distanceThreshold = 1 - similarThreshold
 
             #similarThreshold = 0.3
             #similarThreshold = 0.8
             #similarThreshold = 0.6
             #similarThreshold = 500.0
-            if (distanceMatrix_IOB_values[mostSimilarIOIndex] >= similarThreshold):
+            if (distanceMatrix_IOB_values[mostSimilarIOIndex] >= distanceThreshold):
                 mostSimilarIOIndex = -1
             """
             """
@@ -759,11 +773,18 @@ class InteractionSimilarityDAO(SimilarityDAO):
         artworkId = self.perspective['similarity_functions'][0]['sim_function']['params'][0]['artworkId']
         #logger.info("communityDetectionArtwork: " + str(artworkId))
 
+        # Get ids
+        artworkIds = []
+        for element in self.perspective['similarity_functions'][0]['sim_function']['params']:
+            artworkIds.append(element['artworkId'])
+
+        
         print("apply same artworks filter")
         print(df3[[self.interactionAttributeOrigin]])
         print("\n")
 
-        dfArtworkFlag = df3.loc[ df3[self.interactionAttributeOrigin] == artworkId ]
+        #dfArtworkFlag = df3.loc[ df3[self.interactionAttributeOrigin] == artworkId ]
+        dfArtworkFlag = df3.loc[ df3[self.interactionAttributeOrigin].isin(artworkIds) ] 
         if (dfArtworkFlag.empty):
             df3 = df3.head(1)
             #logger.info("There are not interactions with the artwork with id " + str(artworkId))
