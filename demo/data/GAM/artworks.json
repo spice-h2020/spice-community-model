@@ -303,11 +303,11 @@
             "canvas"
         ],
         "Iconclass_subjects_curators": "41C5 celebration meal, feast, banquet; 41C382(+53) banquet piece (+ round table); 41C38 laid table as still life; 41C7112 bottle of wine; 41C31 table-ware; 25G411 cut flowers; nosegay, bunch of flowers; 25G41(+1) flowers (+ plants used symbolically)",
-        "iconclassIDString": "41C5;41C328(+53);31C38;41C7112;41C31;25G411;25G41(+1)",
+        "iconclassIDString": "41C5;41C32;41C38;41C7112;41C31;25G411;25G41(+1)",
         "iconclassArrayIDs": [
             "41C5",
-            "41C328(+53)",
-            "31C38",
+            "41C382",
+            "41C38",
             "41C7112",
             "41C31",
             "25G411",
@@ -618,7 +618,7 @@
             "25HH16",
             "23R141",
             "33C231",
-            "47I1215",
+            "47I214",
             "46C13141",
             "24B2",
             "41A163"
@@ -664,11 +664,11 @@
             "plywood"
         ],
         "Iconclass_subjects_curators": "31A235 sitting figure; 31AA26113 sitting or lying with both legs straight, side by side - AA - female human figure; 31B6217 eyes closed; 41D211(DAY DRESS) dress, gown: day dress; 41A3311 open window; 25H114 low hill country; 47I421 vineyard; 41A421 curtains; 31A51111 reflection (in a mirror)",
-        "iconclassIDString": "31A235;31AA26113;31B217;41D211(DAY DRESS);41A3311;25H114;47I421;41A421;31A51111",
+        "iconclassIDString": "31A235;31AA26113;31B21;41D211(DAY DRESS);41A3311;25H114;47I421;41A421;31A51111",
         "iconclassArrayIDs": [
             "31A235",
             "31AA26113",
-            "31B217",
+            "31B6217",
             "41D211(DAY DRESS)",
             "41A3311",
             "25H114",
@@ -823,7 +823,7 @@
         "Iconclass_subjects_curators": "33C233 (lovers) embracing each other, 'symplegma'; 31D14 adult man; 31D15 adult woman; 25G4(IVY) plants and herbs: ivy;",
         "iconclassIDString": "33C233(lovers);31D14;31D15;25G4(IVY)",
         "iconclassArrayIDs": [
-            "33C233(lovers)",
+            "33C233",
             "31D14",
             "31D15",
             "25G4(IVY)"
@@ -924,11 +924,11 @@
             "canvas"
         ],
         "Iconclass_subjects_curators": "0 Abstract, Non-representational Art; 22C4(BLACK) colours, pigments, and paints: black; 22C4(WHITE) colours, pigments, and paints: white; 49D32 line (~ planimetry, geometry); 49D36 circle (~ planimetry, geometry); 49D35 polygon (~ planimetry, geometry)",
-        "iconclassIDString": "22C4(BLACK);22C4(WHITE);48D32;49D36;49D35",
+        "iconclassIDString": "22C4(BLACK);22C4(WHITE);49D32;49D36;49D35",
         "iconclassArrayIDs": [
             "22C4(BLACK)",
             "22C4(WHITE)",
-            "48D32",
+            "49D32",
             "49D36",
             "49D35"
         ],
@@ -1172,7 +1172,7 @@
         "Iconclass_subjects_curators": "25HH113 (high) hill - HH - ideal landscapes; 25H151 deciduous forest; 31D15 adult woman; 48C5112 working situations ~ painter; 48C5 painting, drawing and the graphic arts; 34B11 dog",
         "iconclassIDString": "25HH113(high);25H151;48C5112;48C5;34B11",
         "iconclassArrayIDs": [
-            "25HH113(high)",
+            "25HH113",
             "25H151",
             "48C5112",
             "48C5",
@@ -1372,7 +1372,7 @@
         "iconclassIDString": "25H2322;33C233(lovers);31D14;31AA4561;46C232",
         "iconclassArrayIDs": [
             "25H2322",
-            "33C233(lovers)",
+            "33C233",
             "31D14",
             "31AA4561",
             "46C232"
@@ -1420,7 +1420,7 @@
         "Iconclass_subjects_curators": "25HH113 (high) hill - HH - ideal landscapes; 25H151 deciduous forest; 48C5112 working situations ~ painter; 48C5 painting, drawing and the graphic arts; 31D13 adolescent, young woman, maiden; 49B24 teacher and pupil;",
         "iconclassIDString": "25HH113(high);25H151;48C5112;48C5;31D13;49B24",
         "iconclassArrayIDs": [
-            "25HH113(high)",
+            "25HH113",
             "25H151",
             "48C5112",
             "48C5",
@@ -1520,12 +1520,12 @@
             "canvas"
         ],
         "Iconclass_subjects_curators": "33C232 (lovers) kissing each other; 33C233 (lovers) embracing each other, 'symplegma'; 31A4 disabilities, deformations and monstrosities; diseases; 41D213(...) ensembles of pieces of clothing (with NAME); 41D211(DAY DRESS) dress, gown: day dress",
-        "iconclassIDString": "33C232(lovers);31A4;41D213;31D211(DAY DRESS)",
+        "iconclassIDString": "33C232(lovers);31A4;41D213;41D211(DAY DRESS)",
         "iconclassArrayIDs": [
-            "33C232(lovers)",
+            "33C232",
             "31A4",
             "41D213",
-            "31D211(DAY DRESS)"
+            "41D211(DAY DRESS)"
         ],
         "ApproxYear": 1924.0,
         "Decade": 1920,
@@ -1778,7 +1778,7 @@
         "Iconclass_subjects_curators": "46C13141 horse; 31D14 adult man; 31A461 pain; 54DD42 Fatigue, Lassitude; 'Lassitudine o Languidezza estiva' (Ripa); 31BB181 fainting, swooning - BB - out of doors",
         "iconclassIDString": "41C13141;31D14;31A61;54DD42;31BB181",
         "iconclassArrayIDs": [
-            "41C13141",
+            "46C13141",
             "31D14",
             "31A61",
             "54DD42",
@@ -2335,7 +2335,7 @@
         "iconclassIDString": "25I152;1AA241;98C(SAPPHO)3",
         "iconclassArrayIDs": [
             "25I152",
-            "1AA241",
+            "31AA241",
             "98C(SAPPHO)"
         ],
         "ApproxYear": 1819.0,
@@ -2431,7 +2431,7 @@
         "iconclassIDString": "25H151;25HH261;25H153",
         "iconclassArrayIDs": [
             "25H151",
-            "25HH261",
+            "25HH216",
             "25H153"
         ],
         "ApproxYear": 0.0,
@@ -2830,7 +2830,7 @@
         "iconclassArrayIDs": [
             "22C4(BLACK)",
             "22C4(BROWN)",
-            "27H6"
+            "47H6"
         ],
         "ApproxYear": 1953.0,
         "Decade": 1950,
