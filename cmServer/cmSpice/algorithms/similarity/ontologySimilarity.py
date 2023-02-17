@@ -38,9 +38,7 @@ class OntologySimilarity(SimilarityDAO):
         double
             Distance between the two elements.
         """
-
-        if (ontologyValueB != "none"):
-
+        if (self.validOntologyValue(ontologyValueA) and self.validOntologyValue(ontologyValueB)):
             # Get ancestors chosen values
             ancestorsA = self.onto[ontologyValueA.capitalize()].ancestors()
             ancestorsB = self.onto[ontologyValueB.capitalize()].ancestors()
@@ -57,73 +55,28 @@ class OntologySimilarity(SimilarityDAO):
 
         return distance
 
-    def distance(self,elemA, elemB):
-        """Method to obtain the distance between two element.
-
-        Parameters
-        ----------
-        elemA : int
-            Id of first element. This id should be in self.data.
-        elemB : int
-            Id of second element. This id should be in self.data.
-
-        Returns
-        -------
-        double
-            Distance between the two elements.
-        """
-        try:
-            valueA = self.data.loc[elemA][self.similarityColumn]
-            valueB = self.data.loc[elemB][self.similarityColumn]
-                    
-            return self.ontologyDistance(valueA,valueB)
-        except Exception as e:
-            print("exception materials ontology - distance")
-            print(e)
-            print("elemA: " + str(elemA))
-            print("elemB: " + str(elemB))
-            print("similarityColumn: " + self.similarityColumn)
-            print("materialA: " + str(valueA))
-            print("materialB: " + str(valueB))
-            print("\n")
-            return 1
-
     def distanceValues(self, valueA, valueB):
-        return self.ontologyDistance(self, valueA, valueB)
-
-    def ontologyDistance(self, valueA, valueB):
         """Method to obtain the distance between two taxonomy members.
 
         Parameters
         ----------
-        elemA : list
-            Id of first element. This id should be in self.data.
-        elemB : object
-            Id of second element. This id should be in self.data.
+        valueA : list
+            List of materials ontology ids
+        valueB : object
+            List of materials ontology ids
 
         Returns
         -------
         double
-            Similarity between the two taxonomy members.
+            Distance between the two ontology lists.
         """
         try:
-            
 
             # Some artworks have more than one material (separated by ,)
             ontologyValueListA, ontologyValueListB = self.getOntologyValueList(valueA, valueB)
+            distance = self.distanceBetweenLists(ontologyValueListA, ontologyValueListB)
+            return distance
 
-            
-
-            # Compare each of the ontologyValueListA with each of the ontologyValueListB and the other way around
-            distance1 = self.ontologyDistanceList(ontologyValueListA, ontologyValueListB)
-            
-            distance2 = self.ontologyDistanceList(ontologyValueListB, ontologyValueListA)
-            
-
-            
-
-            return (distance1 + distance2) / 2
-            
         # One of the elements is not in the taxonomy
         except Exception as e:
             print("exception ontologyDistance")
@@ -139,54 +92,58 @@ class OntologySimilarity(SimilarityDAO):
             print(ontologyValueListB)
             print("\n")
 
-            print("distance1: " + str(distance1))
-            print("distance2: " + str(distance2))
-
-
-            print("ontology distance")
-            print(distance1)
-            print(distance2)
+            print("distance1: " + str(distance))
             print("\n")
 
 
-            return 1
+            return 1.0
 
-    def ontologyDistanceList(self, ontologyValueListA, ontologyValueListB):
-        """Method to obtain the distance between two taxonomy members.
+    def distanceListElements(self, elementA, elementB):
+        """
+        Distance between two ontology values.
+        Specialization of the inherited function for calculating distance between list members
 
         Parameters
         ----------
-        ontologyValueListA : list
-            List 1 of ontology values
-        ontologyValueListB : list
-            List 2 of ontology values
+        elementA : Ontology class id
+            String
+        
+        elementB : Ontology class id
+            String
 
         Returns
         -------
         double
-            Similarity between the two taxonomy members.
+            Distance between the 2 ontology class labels
         """
-        distanceTotal = 0
-        valuesNumber = 0
+        return self.getDistanceBetweenItems(elementA, elementB)
 
-        for ontologyValueA in ontologyValueListA:
-            # Get most similar ontologyValueB in ontologyValueListB
-            print("before calling most similar")
-            ontologyValueB = self.mostSimilarOntologyValue(ontologyValueA, ontologyValueListB)
-            print("ontologyDistanceList function after calling most similar")
-            print("ontologyValueA: " + str(ontologyValueA))
-            print("ontologyValueB: " + str(ontologyValueB))
-            print("\n")
+#-------------------------------------------------------------------------------------------------------------------------------
+#   Auxiliar functions
+#-------------------------------------------------------------------------------------------------------------------------------
 
-            distance = self.getDistanceBetweenItems(ontologyValueA, ontologyValueB)
+    def validOntologyValue(self, value):
+        value = value.capitalize()
+        ontoValue = self.onto[value]
+        return ontoValue is not None
 
-            distanceTotal += distance
-            valuesNumber += 1
+    def getOntologyValueList(self, ontologyValueListA, ontologyValueListB):
+        """
+        ontologyValueListA = valueA.split(', ')
+        ontologyValueListB = valueB.split(', ')
+        if ('none' in ontologyValueListA):
+            ontologyValueListA.remove('none')
+        if ('none' in ontologyValueListB):
+            ontologyValueListB.remove('none')
+        
+        return ontologyValueListA, ontologyValueListB
+        """
 
-        if (valuesNumber > 0):
-            distanceTotal = distanceTotal / valuesNumber
+        # Remove labels that are not in the ontology
+        ontologyValueListA = [value for value in ontologyValueListA if self.validOntologyValue(value)]
+        ontologyValueListB = [value for value in ontologyValueListB if self.validOntologyValue(value)]
 
-        return distanceTotal
+        return ontologyValueListA, ontologyValueListB
 
     def getOntologyLowestCommonAncestor(self, commonAncestors):
         """
@@ -216,77 +173,6 @@ class OntologySimilarity(SimilarityDAO):
     def elemLayer(self,ancestors):
         return len(ancestors)
 
-    def getOntologyValueList(self, valueA, valueB):
-        """
-        ontologyValueListA = valueA.split(', ')
-        ontologyValueListB = valueB.split(', ')
-        if ('none' in ontologyValueListA):
-            ontologyValueListA.remove('none')
-        if ('none' in ontologyValueListB):
-            ontologyValueListB.remove('none')
-        
-        return ontologyValueListA, ontologyValueListB
-        """
-
-        ontologyValueListA = valueA
-        ontologyValueListB = valueB
-
-        if ('none' in ontologyValueListA):
-            ontologyValueListA.remove('none')
-        if ('none' in ontologyValueListB):
-            ontologyValueListB.remove('none')
-
-        return ontologyValueListA, ontologyValueListB
-        
-    def mostSimilarOntologyValue(self, ontologyValueA, ontologyValueListB):
-        chosenValue = "none"
-
-        try:
-            chosenLowestCommonAncestor = "none"
-            chosenLowestCommonAncestorLayer = -1
-            for ontologyValueB in ontologyValueListB:
-                """
-                print("most similar function")
-                print("ontologyValueA: " + str(ontologyValueA))
-                print("ontologyValueA 2: " + str(self.onto[ontologyValueA.capitalize()]))
-                print("ontologyValueB: " + str(ontologyValueB))
-                print("ontologyValueB 2: " + str(self.onto[ontologyValueB.capitalize()]))
-                print("\n")
-                """
-                
-                # Get ancestors chosen values
-                ancestorsA = self.onto[ontologyValueA.capitalize()].ancestors()
-                ancestorsB = self.onto[ontologyValueB.capitalize()].ancestors()
-
-                # Intersection ancestors (common ancestors)
-                commonAncestors = ancestorsA.intersection(ancestorsB)
-                """
-                print("common ancestors most similar")
-                print(commonAncestors)
-                print("\n")
-                """
-
-                lowestCommonAncestor, lowestCommonAncestorLayer = self.getOntologyLowestCommonAncestor(commonAncestors)
-
-                """
-                print("lowest common ancestor")
-                print(lowestCommonAncestor)
-                print(lowestCommonAncestorLayer)
-                print("\n")
-                """
-                
-                if (lowestCommonAncestorLayer > chosenLowestCommonAncestorLayer):
-                    chosenLowestCommonAncestor = lowestCommonAncestor
-                    chosenLowestCommonAncestorLayer = lowestCommonAncestorLayer
-                    chosenValue = ontologyValueB
-        
-        except Exception as e:
-            print("mostSimilarOntologyValue")
-            print(e)
-            print("\n")
-            return 1
-
-        return chosenValue
 
 #-------------------------------------------------------------------------------------------------------------------------------
 #   To calculate dominant value between two values (in order to explain communities)
@@ -300,8 +186,9 @@ class OntologySimilarity(SimilarityDAO):
 
             for ontologyValueA in ontologyValueListA:
                 # Get most similar ontologyValueB in ontologyValueListB
-                ontologyValueB = self.mostSimilarOntologyValue(ontologyValueA, ontologyValueListB)
-                if (ontologyValueB != "none"):
+                #ontologyValueB = self.mostSimilarOntologyValue(ontologyValueA, ontologyValueListB)
+                ontologyValueB = self.mostSimilarListElement(ontologyValueA, ontologyValueListB)
+                if (self.validOntologyValue(ontologyValueA) and self.validOntologyValue(ontologyValueB)):
                     # Get ancestors chosen values
                     ancestorsA = self.onto[ontologyValueA.capitalize()].ancestors()
                     ancestorsB = self.onto[ontologyValueB.capitalize()].ancestors()
@@ -332,20 +219,23 @@ class OntologySimilarity(SimilarityDAO):
             print("ontology B: " + str(ontologyValueB))
             print("checking test")
             print("\n")
+
+            raise Exception(e)
             
             """
-            print("longestPrefixElemB: " + str(longestPrefixElemB))
-            print("commonParent: " + str(commonParent))
-            print("maxLayer: " + str(maxLayer))
+            #print("longestPrefixElemB: " + str(longestPrefixElemB))
+            #print("commonParent: " + str(commonParent))
+            #print("maxLayer: " + str(maxLayer))
             """
 
         if (len(ontologyValueListA) > 0 and len(ontologyValueListB) > 0):
-            print("explanainable values")
-            print("valueA: " + str(ontologyValueListA))
-            print("valueB: " + str(ontologyValueListB))
-            print("\n")
-            print(explainableValues)
-            print("\n")    
+            pass
+            #print("explanainable values")
+            #print("valueA: " + str(ontologyValueListA))
+            #print("valueB: " + str(ontologyValueListB))
+            #print("\n")
+            #print(explainableValues)
+            #print("\n")    
         
         return explainableValues
     
