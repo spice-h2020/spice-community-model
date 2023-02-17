@@ -6,6 +6,8 @@ import pandas as pd
 
 import json
 
+from pandas.api.types import is_numeric_dtype
+
 
 from cmSpice.dao.dao_api_iconclass import DAO_api_iconclass
 
@@ -89,6 +91,8 @@ class ExplainedCommunitiesDetection:
         n_clusters = n_communities
         finish_search = False
 
+        print("search_all_communities")
+
         # Special case: not enough data (1 or less users)
         # This can happen if we filter by an artwork and only 1 or less users interacted with it.
         if (maxCommunities <= 1):
@@ -125,6 +129,65 @@ class ExplainedCommunitiesDetection:
             complete_data['community'] = result.values()
             self.complete_data = complete_data
 
+            
+            # # Clustering algorithms cause false positives while dealing with extreme similarity values (0).
+            # # Assign all these false positives (users with similarity 0 with all the other users in the community) to users without community
+            # uniqueLabels = set(result.values())      
+            # uniqueLabels = sorted(uniqueLabels)
+            # falsePositives = []
+            # for community in uniqueLabels:
+            #     falsePositives_df = self.complete_data.loc[ self.complete_data['community'] == community ]
+            #     print("falsePositives_df")
+            #     print(falsePositives_df[['real_index', 'community']])
+            #     print("\n")
+            #     falsePositives_index = falsePositives_df['real_index'].tolist()
+            #     print(falsePositives_index)
+            #     print("\n")
+
+            #     print("self.distanceMatrix")
+            #     print(self.distanceMatrix)
+            #     print("\n")
+
+            #     """
+            #     indexes = self.data.index
+            #     updateIndexes = self.data[self.data['userid'].isin(userIds)].index #.tolist()
+            #     pairs = product(indexes,updateIndexes)
+                
+            #     ##print(self.data)
+                
+                
+            #     matrix = np.zeros((len(indexes), len(indexes)))
+            #     matrix[0:distanceMatrix.shape[0],0:distanceMatrix.shape[1]] = distanceMatrix
+            #     """
+
+            #     ##print(matrix)
+
+            #     distanceMatrix_community = self.distanceMatrix[np.ix_(falsePositives_index,falsePositives_index)]
+        
+
+            #     #distanceMatrix_community = self.distanceMatrix[falsePositives_index, falsePositives_index]
+
+            #     print("self.distanceMatrix community")
+            #     print(distanceMatrix_community)
+            #     print("\n")
+
+            #     # Sum
+            #     distanceMatrix_community_sum = np.sum(distanceMatrix_community,axis=1).tolist()
+
+            #     print("self.distanceMatrix community sum")
+            #     print(distanceMatrix_community_sum)
+            #     print("\n")
+
+            #     # Get false positives
+            #     falsePositivesCommunity = [falsePositives_index[i] for i in len(distanceMatrix_community_sum) if distance_community_sum[i] == 0]
+            #     falsePositives.extend(falsePositivesCommunity)
+
+            # print("falsePositives final")
+            # print(falsePositives)
+
+
+
+
             # Try to simplifyInteractionAttributes directly in complete_data
             complete_data = self.simplifyInteractionAttributesCompleteData(complete_data, len(set(result2)), printing = False)
             
@@ -151,8 +214,8 @@ class ExplainedCommunitiesDetection:
             # Cannot be explained with implicit
             if (n_clusters < n_communities):
                 # Set n_communities = n_clusters (communities could not be explained)
-                #finish_search = True 
-                #n_communities = n_clusters
+                finish_search = True 
+                n_communities = n_clusters
 
                 """
                 print("n clusters is less than communities")
@@ -317,9 +380,11 @@ class ExplainedCommunitiesDetection:
             for attribute in self.dissimilar_attributes:
                 simplify_cols.append(attribute + "Distance")
 
+            """
             print("simplify_cols")
             print(simplify_cols)
             print("\n")
+            """
             for col in simplify_cols:  
                 col2 = col + 'DominantInteractionGenerated'
 
@@ -397,10 +462,12 @@ class ExplainedCommunitiesDetection:
         # Skip itself
         communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
         
+        """
         print("extract dominant interaction attribute")
         print("col2: " + str(col2))
         print("dominant artworks: " + str(row[col2]))
         print("\n")
+        """
 
 
         #if (row['userNameAuxiliar'] == 'e4aM9WL7' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 2):
@@ -1561,6 +1628,8 @@ class ExplainedCommunitiesDetection:
 
                             # Remove empty string
                             df = community.copy()
+                            if (is_numeric_dtype(df[col])):
+                                df[col] = df[col].astype(str)
                             df2 = df.loc[ df[col].str.len() != 0 ]
                             percentageColumn = df2[col].value_counts(normalize=True) * 100
                             percentageColumnDict = percentageColumn.to_dict()
