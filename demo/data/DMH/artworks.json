@@ -34,7 +34,7 @@
                 "120"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/Zqn1M35m/44171.png"
     },
     {
         "_id": "634f1908b7693f159a62e2f6",
@@ -71,7 +71,7 @@
                 "120"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/65NxpyYV/44168.png"
     },
     {
         "_id": "636bf322a8e46b2e35302848",
@@ -106,7 +106,7 @@
     },
     {
         "_id": "634f1907d8af1b50664089d0",
-        "tittle": "*",
+        "tittle": "Japanese teapot",
         "Object": "JUG",
         "Special name": "teapot",
         "id": "B561",
@@ -200,7 +200,7 @@
                 "203"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/bNHcDpB7/44166.jpg"
     },
     {
         "_id": "634f1912d8af1b50664089d6",
@@ -244,7 +244,7 @@
                 "0"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/ZqDhbHM0/16850.jpg"
     },
     {
         "_id": "634f1912e09bfd1d9a04b8f9",
@@ -294,7 +294,7 @@
                 "42"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/mgB48t9Z/13906.jpg"
     },
     {
         "_id": "634f1912d4227a56290cb6d2",
@@ -326,11 +326,11 @@
         "_updated": null,
         "year": 1899.0,
         "ColourRGB": [],
-        "image": ""
+        "image": "https://i.postimg.cc/fWdhsxjT/17876.jpg"
     },
     {
         "_id": "634f1911d28967637e31c912",
-        "tittle": "Nelj\u00c3\u00a4 v\u00c3\u00a4ri\u00c3\u00a4 (Four Colours)",
+        "tittle": "Nelj\u00e4 v\u00e4ri\u00e4 (Four Colours)",
         "Object": "WALL TEXTILE",
         "Special name": "ryijy rug",
         "id": "32628",
@@ -357,7 +357,7 @@
         "_updated": null,
         "year": 1958.0,
         "ColourRGB": [],
-        "image": ""
+        "image": "https://i.postimg.cc/d3GM9YtT/32628.jpg"
     },
     {
         "_id": "634f1911a45b33465c10ceba",
@@ -401,7 +401,7 @@
                 "255"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/GmL0v60H/32627.jpg"
     },
     {
         "_id": "634f19119d480d2bcc4ac7ac",
@@ -440,7 +440,7 @@
                 "42"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/rppk23gv/16851.jpg"
     },
     {
         "_id": "634f19106c70ef5cf152f23b",
@@ -483,7 +483,7 @@
                 "255"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/HLFPvhN0/44184.png"
     },
     {
         "_id": "634f19105350725cb83093c4",
@@ -520,7 +520,7 @@
                 "42"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/d0fzP1hy/32361.jpg"
     },
     {
         "_id": "634f191005fdc719f0345aef",
@@ -569,7 +569,7 @@
                 "0"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/zG0s7p5p/33288.jpg"
     },
     {
         "_id": "634f190fe09bfd1d9a04b8f7",
@@ -618,7 +618,7 @@
                 "255"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/kgXZ288S/44181.png"
     },
     {
         "_id": "634f190fd4227a56290cb6d0",
@@ -661,7 +661,7 @@
                 "255"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/nhRWBzYP/44182.png"
     },
     {
         "_id": "634f190fb7693f159a62e2fa",
@@ -705,7 +705,7 @@
                 "99"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/jjDFXbMd/44183.png"
     },
     {
         "_id": "634f190ea45b33465c10ceb8",
@@ -742,7 +742,7 @@
                 "255"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/XNdtmn4r/44178.png"
     },
     {
         "_id": "634f190e9d480d2bcc4ac7aa",
@@ -779,7 +779,7 @@
                 "42"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/CL09V9xm/44179.png"
     },
     {
         "_id": "634f190ed8af1b50664089d4",
@@ -816,7 +816,7 @@
                 "42"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/jdhmqvWK/44180.png"
     },
     {
         "_id": "634f190d5350725cb83093c2",
@@ -914,7 +914,7 @@
                 "0"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/2yQJZ72Q/44176.png"
     },
     {
         "_id": "634f190dd28967637e31c910",
@@ -951,7 +951,7 @@
                 "255"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/J0Vv02c7/44177.png"
     },
     {
         "_id": "634f190cd4227a56290cb6ce",
@@ -1383,7 +1383,7 @@
     },
     {
         "_id": "634f1908d4227a56290cb6cc",
-        "tittle": "*",
+        "tittle": "Cast Iron Pot",
         "Object": "CASSEROLE",
         "Special name": "cast iron casserole with a lid",
         "id": "C370",
@@ -2064,7 +2064,7 @@
         "Dimension in cm": "80 cm (length)",
         "Weight in kg": "*",
         "Materials": [
-            "printedcotton"
+            "cotton"
         ],
         "Colour": [
             "black",
@@ -2165,7 +2165,7 @@
     },
     {
         "_id": "634f1901d4227a56290cb6c8",
-        "tittle": "P\u00c3\u00a4ssi (Ram)",
+        "tittle": "P\u00e4ssi (Ram)",
         "Object": "DECORATIVE OBJECT",
         "Special name": "table decoration",
         "id": "41768",
@@ -2251,7 +2251,7 @@
     },
     {
         "_id": "634f19009d480d2bcc4ac7a2",
-        "tittle": "*",
+        "tittle": "Salmenhaara vase",
         "Object": "VASE",
         "Special name": "*",
         "id": "17248",
@@ -2364,7 +2364,7 @@
     },
     {
         "_id": "634f18ffd28967637e31c907",
-        "tittle": "*",
+        "tittle": "Finch vase",
         "Object": "VASE",
         "Special name": "*",
         "id": "16101",
@@ -2613,6 +2613,6 @@
                 "0"
             ]
         ],
-        "image": ""
+        "image": "https://i.postimg.cc/76F876Dk/44164.png"
     }
 ]
