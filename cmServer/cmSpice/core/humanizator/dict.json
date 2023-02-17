@@ -2,6 +2,7 @@
     "keys": {
             "Demographics.DemographicsReligous": "Religious demography",
             "Demographics.DemographicsPolitics": "Political demography",
+            "demographics.explicit-community": "Explicit community",
             "EReligousNeg": "Religious",
             "DExtremistNeg": "Extremist",
             "FRealisticNeg": "Realistic",
