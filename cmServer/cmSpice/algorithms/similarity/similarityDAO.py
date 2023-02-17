@@ -142,10 +142,10 @@ class SimilarityDAO:
 
         """
         """
-        print("checking most similar list element")
-        print(listElementA)
-        print(listB)
-        print("\n")
+        #print("checking most similar list element")
+        #print(listElementA)
+        #print(listB)
+        #print("\n")
         """
 
         listElementB = ""
@@ -170,10 +170,10 @@ class SimilarityDAO:
             similarityListA = listB
             similarityListB = listA
 
-        print("distance between lists")
-        print("similarityListA: " + str(similarityListA))
-        print("similarityListB: " + str(similarityListB))
-        print("\n")
+        #print("distance between lists")
+        #print("similarityListA: " + str(similarityListA))
+        #print("similarityListB: " + str(similarityListB))
+        #print("\n")
 
         # Store pair (elementA, elementB) with the most similarity to work as the dominantAttribute
         self.lowestDistancePair = ["",""]
@@ -181,21 +181,24 @@ class SimilarityDAO:
 
         # Calculate distance
         totalDistance = 0
-        for listElementA in similarityListA:
-            listElementB = self.mostSimilarListElement(listElementA, similarityListB)
-            distance = self.distanceListElements(listElementA,listElementB)
-            totalDistance += distance
+        if (len(similarityListB) > 0):
+            for listElementA in similarityListA:
+                listElementB = self.mostSimilarListElement(listElementA, similarityListB)
+                distance = self.distanceListElements(listElementA,listElementB)
+                totalDistance += distance
 
-            if (distance < self.lowestDistance):
-                self.lowestDistancePair = [listElementA, listElementB]
-                self.lowestDistance = distance
-            print("elementA: " + str(listElementA))
-            print("elementB: " + str(listElementB))
-            print("distance: " + str(distance))
-            print("\n")
-        totalDistance = totalDistance / len(similarityListA)
+                if (distance < self.lowestDistance):
+                    self.lowestDistancePair = [listElementA, listElementB]
+                    self.lowestDistance = distance
+                #print("elementA: " + str(listElementA))
+                #print("elementB: " + str(listElementB))
+                #print("distance: " + str(distance))
+                #print("\n")
+            totalDistance = totalDistance / len(similarityListA)
 
         if (similarityListA != listA):
+            listElementA = self.lowestDistancePair[0]
+            listElementB = self.lowestDistancePair[1]
             self.lowestDistancePair = [listElementB, listElementA]
 
         return totalDistance
@@ -225,20 +228,20 @@ class SimilarityDAO:
 
 
         """
-        print("dissimilar flag function")
-        print("distance")
-        print(distance)
-        print("self similarity function")
-        print(self.similarityFunction)
+        #print("dissimilar flag function")
+        #print("distance")
+        #print(distance)
+        #print("self similarity function")
+        #print(self.similarityFunction)
         """
 
         if ('dissimilar' in self.similarityFunction and self.similarityFunction['dissimilar'] == True):
-            #print("apply dissimilar to " + self.similarityFunction["on_attribute"]['att_name'])
+            ##print("apply dissimilar to " + self.similarityFunction["on_attribute"]['att_name'])
             distance = 1 - distance
         """
-        print("distance")
-        print(distance)
-        print("\n")
+        #print("distance")
+        #print(distance)
+        #print("\n")
         """
 
         return distance
@@ -281,9 +284,9 @@ class SimilarityDAO:
             dist = self.distance(users[p[0]], users[p[1]])
             matrix[p[0], p[1]] = dist
             """
-            print("user1: " + str(users[p[0]]))
-            print("user2: " + str(users[p[1]]))
-            print("distance: " + str(dist))
+            #print("user1: " + str(users[p[0]]))
+            #print("user2: " + str(users[p[1]]))
+            #print("distance: " + str(dist))
             """
 
 
@@ -310,7 +313,7 @@ class SimilarityDAO:
             np.ndarray
                 Matrix that contains all distance values.
         """
-        print("update distance matrix")
+        #print("update distance matrix")
         # https://www.geeksforgeeks.org/python-make-pair-from-two-list-such-that-elements-are-not-same-in-pairs/
         # https://www.statology.org/numpy-add-column/
         # https://stackoverflow.com/questions/8486294/how-do-i-add-an-extra-column-to-a-numpy-array
@@ -320,20 +323,20 @@ class SimilarityDAO:
         updateIndexes = self.data[self.data['userid'].isin(userIds)].index #.tolist()
         pairs = product(indexes,updateIndexes)
         
-        #print(self.data)
+        ##print(self.data)
         
         matrix = np.zeros((len(indexes), len(indexes)))
         matrix[0:distanceMatrix.shape[0],0:distanceMatrix.shape[1]] = distanceMatrix
         
-        #print(matrix)
+        ##print(matrix)
         
         for p in pairs:
             """
-            print("\n")
-            print("pairs")
-            print(p[0])
-            print(p[1])
-            print("\n")
+            #print("\n")
+            #print("pairs")
+            #print(p[0])
+            #print(p[1])
+            #print("\n")
             """
             dist = self.distance(p[0],p[1])
             matrix[p[0], p[1]] = dist
@@ -345,7 +348,7 @@ class SimilarityDAO:
         matrix = np.round(matrix,2)
         self.distanceMatrix = matrix
         
-        print(matrix)
+        #print(matrix)
         
         return matrix
 
