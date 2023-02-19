@@ -73,6 +73,167 @@ class ExplainedCommunitiesDetection:
                     self.dissimilar_atributes_dict[similarityFunction['sim_function']['on_attribute']['att_name']] = similarityFunction
         
 
+
+    def filterFalsePositives(self, userCommunityLabels):
+        """
+        Rearranges false positives (users without community interactions) inside a community into users without community
+
+        Args:
+            userCommunityLabels: List of community labels associated to the users of self.data
+                List 
+
+        Returns:
+
+        """
+        # Clustering algorithms cause false positives while dealing with extreme similarity values (0).
+        # Assign all these false positives (users with similarity 0 (distance 1) with all the other users in the community) to users without community
+        #uniqueLabels = set(ids_communities.values())      
+        uniqueLabels = set(userCommunityLabels)
+        uniqueLabels = sorted(uniqueLabels)
+        falsePositives = []
+        for community in uniqueLabels:
+            falsePositives_df = self.complete_data.loc[ self.complete_data['community'] == community ]
+            if (len(falsePositives_df) > 1):
+            
+                print("falsePositives_df")
+                print(falsePositives_df[['real_index', 'community']])
+                print("\n")
+                falsePositives_index = falsePositives_df['real_index'].tolist()
+                
+                print("false positives index")
+                print(falsePositives_index)
+                print("\n")
+
+                falsePositives_userid = falsePositives_df.index.values.tolist()
+
+                print("false positives userid")
+                print(falsePositives_userid)
+                print("\n")
+
+                print("self.distanceMatrix")
+                print(self.distanceMatrix)
+                print("\n")
+
+                """
+                indexes = self.data.index
+                updateIndexes = self.data[self.data['userid'].isin(userIds)].index #.tolist()
+                pairs = product(indexes,updateIndexes)
+                
+                ##print(self.data)
+                
+                
+                matrix = np.zeros((len(indexes), len(indexes)))
+                matrix[0:distanceMatrix.shape[0],0:distanceMatrix.shape[1]] = distanceMatrix
+                """
+
+                ##print(matrix)
+
+                distanceMatrix_community = self.distanceMatrix[np.ix_(falsePositives_index,falsePositives_index)]
+        
+
+                #distanceMatrix_community = self.distanceMatrix[falsePositives_index, falsePositives_index]
+
+                print("self.distanceMatrix community")
+                print(distanceMatrix_community)
+                print("\n")
+
+                # Sum
+                distanceMatrix_community_sum = np.sum(distanceMatrix_community,axis=1).tolist()
+
+                print("self.distanceMatrix community sum")
+                print(distanceMatrix_community_sum)
+                print("\n")
+
+                # Get false positives (distance 1 to all other users in the community (vs itself it is 0))
+                falsePositiveDistance = len(falsePositives_df) - 1
+                #falsePositivesCommunity = [falsePositives_userid[i] for i in range(len(distanceMatrix_community_sum)) if distanceMatrix_community_sum[i] == falsePositiveDistance]
+                falsePositivesCommunity = [falsePositives_index[i] for i in range(len(distanceMatrix_community_sum)) if distanceMatrix_community_sum[i] == falsePositiveDistance]
+                falsePositives.extend(falsePositivesCommunity)
+
+                print("false positives community")
+                print(falsePositivesCommunity)
+                print("\n")
+
+
+
+        print("falsePositives final")
+        print(falsePositives)
+        print("\n")
+
+        """
+        print("ids_communities")
+        print(ids_communities)
+        print("\n")
+        """
+
+        print("community labels")
+        print(userCommunityLabels)
+        print("\n")
+
+        print("original community Labels")
+        print(uniqueLabels)
+        print("\n")
+
+        falsePositiveCommunity = uniqueLabels[-1] + 1
+        for key in falsePositives:
+            userCommunityLabels[key] = falsePositiveCommunity
+            falsePositiveCommunity += 1
+            """
+            if key in ids_communities:
+                ids_communities[key] = falsePositiveCommunity
+                falsePositiveCommunity += 1
+            else:
+                print("false positive " + str(key) + " is not in ids_communities")
+            """
+
+        
+        # falsePositiveCommunity = uniqueLabels[-1] + 1
+        # for key in falsePositives:
+        #     if key in ids_communities:
+        #         ids_communities[key] = falsePositiveCommunity
+        #         falsePositiveCommunity += 1
+        #     else:
+        #         print("false positive " + str(key) + " is not in ids_communities")
+
+        # Reset community id (to start from 0)
+        #uniqueLabels = set(ids_communities.values())      
+        uniqueLabels = set(userCommunityLabels)      
+        uniqueLabels = sorted(uniqueLabels)
+        # for key in ids_communities:
+        #     ids_communities[key] = uniqueLabels.index(ids_communities[key])
+        userCommunityLabels = [uniqueLabels.index(x) for x in userCommunityLabels]
+
+        """
+        print("ids_communities falsePositive")
+        print(ids_communities)
+        print("\n")
+        """
+
+        print("community labels falsePositive")
+        print(userCommunityLabels)
+        print("\n")
+
+        print("complete data communities before correction")
+        print(self.complete_data[['community']])
+        print("\n")
+
+        #complete_data['community'] = ids_communities.values()
+        self.complete_data['community'] = userCommunityLabels
+
+        print("complete data communities after correction")
+        print(self.complete_data[['community']])
+        print("\n")
+
+        """
+        result2 = result
+        result = ids_communities
+        self.resultAlgorithm = result2
+        self.idsCommunities = result
+        """
+
+        return userCommunityLabels
+
+
     def search_all_communities(self, answer_binary=False, percentage=1.0):
         """Method to search all explainable communities.
 
@@ -112,78 +273,27 @@ class ExplainedCommunitiesDetection:
 
         while not finish_search:
             community_detection = self.algorithm(self.data)
-            result = community_detection.calculate_communities(distanceMatrix = self.distanceMatrix, n_clusters=n_communities)
-            
-            # Asignamos a cada elemento su cluster/comunidad correspondiente (fix this later)
-            ids_communities = {}
-            for i in range(len(self.data.index)):
-                ids_communities[self.data.index[i]] = result[i]
-                
-            result2 = result
-            result = ids_communities
-            self.resultAlgorithm = result2
-            self.idsCommunities = result
+            userCommunityLabels = community_detection.calculate_communities(distanceMatrix = self.distanceMatrix, n_clusters=n_communities)
+            result = userCommunityLabels
 
             # Process community data (explanation)
             complete_data = self.data.copy()
-            complete_data['community'] = result.values()
+            complete_data['community'] = userCommunityLabels
             self.complete_data = complete_data
 
+            # Filter false positives
+            userCommunityLabels = self.filterFalsePositives(userCommunityLabels)
+
+            # Associate each element with its cluster/community
+            ids_communities = {}
+            for i in range(len(self.data.index)):
+                ids_communities[self.data.index[i]] = userCommunityLabels[i]
             
-            # # Clustering algorithms cause false positives while dealing with extreme similarity values (0).
-            # # Assign all these false positives (users with similarity 0 with all the other users in the community) to users without community
-            # uniqueLabels = set(result.values())      
-            # uniqueLabels = sorted(uniqueLabels)
-            # falsePositives = []
-            # for community in uniqueLabels:
-            #     falsePositives_df = self.complete_data.loc[ self.complete_data['community'] == community ]
-            #     print("falsePositives_df")
-            #     print(falsePositives_df[['real_index', 'community']])
-            #     print("\n")
-            #     falsePositives_index = falsePositives_df['real_index'].tolist()
-            #     print(falsePositives_index)
-            #     print("\n")
 
-            #     print("self.distanceMatrix")
-            #     print(self.distanceMatrix)
-            #     print("\n")
-
-            #     """
-            #     indexes = self.data.index
-            #     updateIndexes = self.data[self.data['userid'].isin(userIds)].index #.tolist()
-            #     pairs = product(indexes,updateIndexes)
-                
-            #     ##print(self.data)
-                
-                
-            #     matrix = np.zeros((len(indexes), len(indexes)))
-            #     matrix[0:distanceMatrix.shape[0],0:distanceMatrix.shape[1]] = distanceMatrix
-            #     """
-
-            #     ##print(matrix)
-
-            #     distanceMatrix_community = self.distanceMatrix[np.ix_(falsePositives_index,falsePositives_index)]
-        
-
-            #     #distanceMatrix_community = self.distanceMatrix[falsePositives_index, falsePositives_index]
-
-            #     print("self.distanceMatrix community")
-            #     print(distanceMatrix_community)
-            #     print("\n")
-
-            #     # Sum
-            #     distanceMatrix_community_sum = np.sum(distanceMatrix_community,axis=1).tolist()
-
-            #     print("self.distanceMatrix community sum")
-            #     print(distanceMatrix_community_sum)
-            #     print("\n")
-
-            #     # Get false positives
-            #     falsePositivesCommunity = [falsePositives_index[i] for i in len(distanceMatrix_community_sum) if distance_community_sum[i] == 0]
-            #     falsePositives.extend(falsePositivesCommunity)
-
-            # print("falsePositives final")
-            # print(falsePositives)
+            result2 = list(ids_communities.values())
+            result = ids_communities
+            self.resultAlgorithm = result2
+            self.idsCommunities = result
 
 
 
