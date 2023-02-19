@@ -354,36 +354,7 @@ class CommunityJsonGenerator:
                 medoidJson = {'explanation_type': 'medoid', 'explanation_data': {'id': self.communityDict['medoids'][c]}, 'visible': True}
                 communityDictionary['explanations'].append(medoidJson)
 
-                # Artworks the users interacted with that are relevant for the community
-                communityMembers_df = self.json_df.loc[ self.json_df['userid'].isin(community_data['members']) ] 
-                # communityInteractedArtworks = self.json_df['community_interactions'].to_list()
-                # communityInteractedArtworks = communityMembers_df['community_interactions'].to_list()
-                communityInteractedArtworks = communityMembers_df['community_interactions'].to_list()
-
-                # communityInteractedArtworks_id = [ interaction['artwork_id'] for userInteractedArtworks in communityInteractedArtworks if len(interaction) > 0 ]
-                # communityInteractedArtworks_id=sorted(communityInteractedArtworks_id,key=lambda x:communityInteractedArtworks_id.count(x))
-                communityInteractedArtworks_id = [interaction['artwork_id'] for userInteractedArtworks in communityInteractedArtworks for interaction in userInteractedArtworks]
                 
-                # [ [ interaction ]  for userInteractedArtworks in communityInteractedArtworks]
-                
-                
-                # communityInteractedArtworks_id=sorted(communityInteractedArtworks_id,key=communityInteractedArtworks_id.count)
-                # communityInteractedArtworks_id = list(set(communityInteractedArtworks_id))
-                # Slower than list(set()), but it preserves the order.
-                communityInteractedArtworks_id = list(dict.fromkeys(communityInteractedArtworks_id))
-
-
-                """
-                np_array = np.asarray(communityInteractedArtworks_id, dtype=object)
-                communityInteractedArtworks_id = list(np.hstack(np_array))
-                print("communityInteractedArtworks_id")
-                print(communityInteractedArtworks_id)
-                print("\n")
-                """
-
-                
-                communityInteractedArtworksJson = {'explanation_type': 'implicit_attributes', 'explanation_data': {'label': 'Artworks interacted with by the users that influenced their inclusion in this community', 'data': {'Artworks': communityInteractedArtworks_id}, 'accordionMode': True}, 'visible': True}
-                communityDictionary['explanations'].append(communityInteractedArtworksJson)
 
 
                 # Implicit community explanation
