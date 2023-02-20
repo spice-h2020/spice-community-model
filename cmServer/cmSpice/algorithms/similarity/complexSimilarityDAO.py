@@ -15,10 +15,37 @@ class ComplexSimilarityDAO(SimilarityDAO):
         """
         super().__init__(dao)
         
+        # self.similarityDict = {}
+        # for similarityFunction in similarityDict:
+        #     similarityMeasure = self.initializeFromPerspective(dao,similarityFunction)
+        #     self.similarityDict[similarityMeasure] = similarityFunction['sim_function']
+
         self.similarityDict = {}
-        for similarityFunction in similarityDict:
+        self.similarityMeasureDict = {}
+        for similarityFunction in similarityDict:        
             similarityMeasure = self.initializeFromPerspective(dao,similarityFunction)
             self.similarityDict[similarityMeasure] = similarityFunction['sim_function']
+
+            attributeName = similarityFunction['sim_function']['on_attribute']['att_name']
+            self.similarityMeasureDict[attributeName] = similarityMeasure
+        
+
+    def getSimilarityMeasuresDict(self):
+        """
+        Get similarity measures used by this one
+
+        Parameters
+        ----------
+
+
+        Returns
+        -------
+
+
+
+        """
+        return self.similarityMeasureDict
+
 
     def distance(self,elemA, elemB):
         """Method to obtain the distance between two element.

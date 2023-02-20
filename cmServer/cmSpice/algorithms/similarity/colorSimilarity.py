@@ -153,5 +153,30 @@ class ColorSimilarity(SimilarityDAO):
         else:
             return 1.0
 
+#-------------------------------------------------------------------------------------------------------------------------------
+#   To calculate dominant value
+#-------------------------------------------------------------------------------------------------------------------------------
+       
+    def dominantValue(self, valueA, valueB):
+        dominantList = []
+        for valueElement in valueA:
+            value = valueElement.upper().replace(" ", "")
+            element = {value: self.artworkA['id'].to_list()[0]}
+            
+            valueDict = {}
+            valueDict[value] = {}
+            valueDict[value][value] = [ self.artworkA['id'].to_list()[0] ]
+
+            dominantList.append(valueDict)
+
+        return dominantList
+
+        """
+        return valueA
+
+        distance = self.distanceValues(valueA, valueB)
+        return {self.lowestDistancePair[0]: self.artworkA['id'].to_list()[0]}
+        """
+
 
 

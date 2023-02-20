@@ -34,17 +34,17 @@ class InteractionSimilarityDAO(SimilarityDAO):
         """
         super().__init__(dao)
         self.perspective = perspective
+
+        self.initializeArtworkDistanceMatrix()
         
-        # Interaction object data
-        self.IO_dao = self.getInteractionObjectDAO()
-        self.IO_data = self.getInteractionObjectData()
-        
+        """
         self.dominantAttributes = {}
         #for similarityFunction in self.perspective["interaction_similarity_functions"] + self.perspective["similarity_functions"]:
         for similarityFunction in self.perspective["similarity_functions"]:
             similarityFeature = similarityFunction['sim_function']['on_attribute']['att_name']
             similarityMeasure = similarityFunction['sim_function']['name']
             self.dominantAttributes[similarityFeature] = self.initializeFromPerspective(self.IO_dao, similarityFunction)
+        """
         
         # Interaction similarity function
         self.similarityFunction = self.perspective["interaction_similarity_functions"][0]
@@ -173,6 +173,13 @@ class InteractionSimilarityDAO(SimilarityDAO):
             
             self.data = df4.copy()
         
+
+    def initializeArtworkDistanceMatrix(self):
+
+        # Interaction object data
+        self.IO_dao = self.getInteractionObjectDAO()
+        self.IO_data = self.getInteractionObjectData()
+
         # Get IO distance matrix
         file = self.interactionObjectDistanceMatrixRoute()
         if (os.path.exists(file) and 1 == 2):
@@ -194,6 +201,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
         
         # Get the two artworks with the highest similarity (In order to get high similarity artworks in iconclass)
         ind = np.unravel_index(np.argmin(matrix, axis=None), matrix.shape)
+        
     
     def interactionObjectDistanceMatrixRoute(self):
         abspath = os.path.dirname(__file__)
@@ -249,6 +257,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
         daoJson = self.getInteractionObjectDAO()
         IO_similarityMeasure = ComplexSimilarityDAO(daoJson,similarity_functions)        
         IO_distanceMatrix = IO_similarityMeasure.matrix_distance()
+
+        # To get self.dominantAttributes
+        self.dominantAttributes = IO_similarityMeasure.getSimilarityMeasuresDict()
         
         # Export _id (id artefact) and distance matrix to json file
         IO_distanceDict = {}
