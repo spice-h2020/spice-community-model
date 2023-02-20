@@ -345,7 +345,7 @@ class ExplainedCommunitiesDetection:
             # Cannot be explained with implicit
             if (n_clusters < n_communities):
                 # Set n_communities = n_clusters (communities could not be explained)
-                #finish_search = True 
+                finish_search = True 
                 n_communities = n_clusters
 
                 """
@@ -511,13 +511,14 @@ class ExplainedCommunitiesDetection:
             for attribute in self.dissimilar_attributes:
                 simplify_cols.append(attribute + "Distance")
 
+            """
             print("simplify community")
             print(df)
             print("\n")
             print(df.columns)
             print("\n")
 
-            """
+            
             print("simplify_cols")
             print(simplify_cols)
             print("\n")
@@ -1422,10 +1423,11 @@ class ExplainedCommunitiesDetection:
                                     #iconclassChildren = {}
 
 
-
+                                """
                                 print("iconclass children combined")
                                 print(iconclassChildrenCombinedDictionary)
                                 print("\n")
+                                """
                                 
                                 
                                 

@@ -465,8 +465,10 @@ class CommunityJsonGenerator:
                     if (len(values) > 0 and isinstance(values[0],list)):
                         explanationJson['explanation_data']['accordionMode'] = True
                     
-
-                    explanationJson['visible'] = True
+                    if (implicitAttribute == 'community_' + 'id'):
+                        explanationJson['visible'] = False
+                    else:
+                        explanationJson['visible'] = True
                     
                     communityDictionary['explanations'].append(explanationJson)
                 
