@@ -320,6 +320,7 @@ class CommunityJsonGenerator:
 
         extraStr = " (" + str(self.percentageExplainability) + ")" + " " + self.perspective['algorithm']['name']
         extraStr = ""
+        #extraStr = " (" + str(self.percentageExplainability) + ", " + str(self.perspective['algorithm']["weightArtworks"]) + ")" + " " + self.perspective['algorithm']['name']
         self.communityJson['name'] = self.communityDict['perspective']['name'] + extraStr
         self.communityJson['perspectiveId'] = self.communityDict['perspective']['id'] + extraStr
 
@@ -535,7 +536,8 @@ class CommunityJsonGenerator:
             communityJson['users'] = usersWithoutCommunity
             
             # medoid (set first one for now since it is not a real community)
-            medoidJson = {'explanation_type': 'medoid', 'explanation_data': {'id': usersWithoutCommunity[0]}, 'visible': True}
+            # Hide medoid of users without community
+            medoidJson = {'explanation_type': 'medoid', 'explanation_data': {'id': usersWithoutCommunity[0]}, 'visible': False}
             communityJson['explanations'].append(medoidJson)
             
             self.communityJson['communities'].append(communityJson)
@@ -631,60 +633,61 @@ class CommunityJsonGenerator:
         centroids = []
 
         for community in visualization['communities']:
-            community_explicitAttributes = {}
+            if ('(Users without community)' not in community['name']):
+                community_explicitAttributes = {}
 
-            centroid = 'centroid' + community['name'].replace("Community ","")
-            centroids.append(centroid)
+                centroid = 'centroid' + community['name'].replace("Community ","")
+                centroids.append(centroid)
 
-            # Replace medoid with centroid in explanation
-            for explanation in community['explanations']:
-                if (explanation['explanation_type'] == 'medoid'):
-                    medoid = explanation['explanation_data']['id']
-                    medoids.append(medoid)
-                    # Replace with centroid
-                    explanation['explanation_data']['id'] = centroid
+                # Replace medoid with centroid in explanation
+                for explanation in community['explanations']:
+                    if (explanation['explanation_type'] == 'medoid'):
+                        medoid = explanation['explanation_data']['id']
+                        medoids.append(medoid)
+                        # Replace with centroid
+                        explanation['explanation_data']['id'] = centroid
 
-            # Add centroid to users
-            community['users'].append(centroid)
+                # Add centroid to users
+                community['users'].append(centroid)
 
-            # Add centroid information to user data
-            centroidData = {}
-            for userData in visualization['users']:
-                if (userData['id'] in community['users']):
-                    for explicitAttribute in userData['explicit_community']:
-                        if (explicitAttribute not in community_explicitAttributes):
-                            community_explicitAttributes[explicitAttribute] = []
-                        community_explicitAttributes[explicitAttribute].append(userData['explicit_community'][explicitAttribute])
+                # Add centroid information to user data
+                centroidData = {}
+                for userData in visualization['users']:
+                    if (userData['id'] in community['users']):
+                        for explicitAttribute in userData['explicit_community']:
+                            if (explicitAttribute not in community_explicitAttributes):
+                                community_explicitAttributes[explicitAttribute] = []
+                            community_explicitAttributes[explicitAttribute].append(userData['explicit_community'][explicitAttribute])
 
-                    if (userData['id'] == medoid):
-                        centroidData = userData.copy()
+                        if (userData['id'] == medoid):
+                            centroidData = userData.copy()
 
-            centroidData['id'] = centroid
-            centroidData['label'] = centroid
-            centroidData['explicit_community'] = {}
+                centroidData['id'] = centroid
+                centroidData['label'] = centroid
+                centroidData['explicit_community'] = {}
 
-            for explicitAttribute in community_explicitAttributes:
+                for explicitAttribute in community_explicitAttributes:
 
-                centroidData['explicit_community'][explicitAttribute] = statistics.mode(community_explicitAttributes[explicitAttribute])
-            
-            visualization['users'].append(centroidData)
+                    centroidData['explicit_community'][explicitAttribute] = statistics.mode(community_explicitAttributes[explicitAttribute])
+                
+                visualization['users'].append(centroidData)
 
-            # Update similarity
-            centroidSimilarity = []
-            for similarity in visualization['similarity']:
-                if (similarity['u1'] == medoid):
-                    similarity2 = similarity.copy()
-                    similarity2['u1'] = centroid
-                    centroidSimilarity.append(similarity2)
-                elif (similarity['u2'] == medoid):
-                    similarity2 = similarity.copy()
-                    similarity2['u2'] = centroid
-                    centroidSimilarity.append(similarity2)
+                # Update similarity
+                centroidSimilarity = []
+                for similarity in visualization['similarity']:
+                    if (similarity['u1'] == medoid):
+                        similarity2 = similarity.copy()
+                        similarity2['u1'] = centroid
+                        centroidSimilarity.append(similarity2)
+                    elif (similarity['u2'] == medoid):
+                        similarity2 = similarity.copy()
+                        similarity2['u2'] = centroid
+                        centroidSimilarity.append(similarity2)
 
-            centroidMedoidSimilarity = {'u1': centroid, 'u2': medoid, 'value': 1}
-            centroidSimilarity.append(centroidMedoidSimilarity)
+                centroidMedoidSimilarity = {'u1': centroid, 'u2': medoid, 'value': 1}
+                centroidSimilarity.append(centroidMedoidSimilarity)
 
-            visualization['similarity'].extend(centroidSimilarity)
+                visualization['similarity'].extend(centroidSimilarity)
 
 
         # Update similarity between centroids
