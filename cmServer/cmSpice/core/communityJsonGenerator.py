@@ -319,7 +319,7 @@ class CommunityJsonGenerator:
         self.communityJson['perspectiveId'] = self.communityDict['perspective']['id']
 
         extraStr = " (" + str(self.percentageExplainability) + ")" + " " + self.perspective['algorithm']['name']
-        #extraStr = ""
+        extraStr = ""
         self.communityJson['name'] = self.communityDict['perspective']['name'] + extraStr
         self.communityJson['perspectiveId'] = self.communityDict['perspective']['id'] + extraStr
 
