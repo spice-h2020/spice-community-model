@@ -16,10 +16,6 @@ class ValuesSimilarity(TableSimilarityDAO):
         """
         super().__init__(dao, similarityFunction)
 
-        print("values similarity initialization")
-        print(similarityFunction)
-        print("\n")
-
     def getSimilarityTableName(self):
         return "mftHaidt"
 
@@ -75,10 +71,10 @@ class ValuesSimilarity(TableSimilarityDAO):
         mftValueA = elementA.lower().replace(" ", "")
         mftValueB = elementB.lower().replace(" ", "")
 
-        print("distance between elements values")
-        print("mftvalueA: " + str(mftValueA))
-        print("mftvalueB: " + str(mftValueB))
-        print("\n")
+        #print("distance between elements values")
+        #print("mftvalueA: " + str(mftValueA))
+        #print("mftvalueB: " + str(mftValueB))
+        #print("\n")
 
         return self.getDistanceBetweenItems(mftValueA, mftValueB)
 
