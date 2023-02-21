@@ -30,7 +30,7 @@ module.exports = mongoose => {
       });
     },
     checkFlags: function (onSuccess, onError) {
-      Flags.find({}, function (error, data) {
+      Flags.find({'needToProcess': true}, function (error, data) {
         // var res = JSON.stringify(data)
         if (error) {
           console.error("checkFlags: error");
