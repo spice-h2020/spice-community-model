@@ -30,6 +30,9 @@ class SimilarityDAO:
         # To explain communities (dominant values in list attributes)
         self.lowestDistancePair = ["",""]
 
+        self.elemA = ""
+        self.elemB = ""
+
     """
     Distance functions:
 
@@ -120,6 +123,9 @@ class SimilarityDAO:
         """
         valueA = self.data.loc[elemA][self.similarityColumn]
         valueB = self.data.loc[elemB][self.similarityColumn]
+
+        self.elemA = elemA
+        self.elemB = elemB
         
         return self.distanceValues(valueA, valueB)
     
@@ -169,6 +175,10 @@ class SimilarityDAO:
         if (len(listB) > len(listA)):
             similarityListA = listB
             similarityListB = listA
+        elif (len(listA) == len(listB) and self.elemA > self.elemB):
+            similarityListA = listB
+            similarityListB = listA
+
 
         #print("distance between lists")
         #print("similarityListA: " + str(similarityListA))

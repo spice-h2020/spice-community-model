@@ -369,7 +369,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
             #similarThreshold = 0.8
             #similarThreshold = 0.6
             #similarThreshold = 500.0
-            if (distanceMatrix_IOB_values[mostSimilarIOIndex] >= distanceThreshold):
+            if (distanceMatrix_IOB_values[mostSimilarIOIndex] > distanceThreshold):
                 mostSimilarIOIndex = -1
             """
             """
