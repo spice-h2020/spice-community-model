@@ -205,6 +205,8 @@ class SimilarityDAO:
                 #print("distance: " + str(distance))
                 #print("\n")
             totalDistance = totalDistance / len(similarityListA)
+        else:
+            totalDistance = 1.0
 
         if (similarityListA != listA):
             listElementA = self.lowestDistancePair[0]
