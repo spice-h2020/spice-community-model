@@ -48,7 +48,7 @@ var jobCompleted = {
  * @returns Completed response
  */
 function generateCompletedResponse(job, data) {
-    // jobManager.advanceState(job);
+    jobManager.advanceState(job);
 
     var response = jobCompleted;
     var timeLeft = -1;
