@@ -48,7 +48,7 @@ var jobCompleted = {
  * @returns Completed response
  */
 function generateCompletedResponse(job, data) {
-    jobManager.advanceState(job);
+    // jobManager.advanceState(job);
 
     var response = jobCompleted;
     var timeLeft = -1;
@@ -111,7 +111,7 @@ router.get('/:job_id', function (req, res, next) {
         //     checkState = Flags.getFlags();
         // }
         // else {
-        //     checkState = Flags.getFlagsById(param);
+        //     checkState = Flags.getFlagById(param);
         // }
 
         // Checks for specific flag
@@ -143,7 +143,7 @@ router.get('/:job_id', function (req, res, next) {
                 });
         }
         else {
-            Flags.getFlagsById(param)
+            Flags.getFlagById(param)
                 .then(function (data) {
                     if (data == null) {
                         data = {};

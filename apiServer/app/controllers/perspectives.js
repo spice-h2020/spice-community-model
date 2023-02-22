@@ -38,7 +38,7 @@ module.exports.getPerspectives = function getPerspectives(req, res, next) {
 // if !exist then access DB
 module.exports.getPerspectiveById = function getPerspectiveById(req, res, next) {
   const perspectiveId = req.params[idParam];
-  Flags.getFlagsById(perspectiveId)
+  Flags.getFlagById(perspectiveId)
     .then(function (response) {
       if (response == null) {
         Perspectives.getPerspectiveById(perspectiveId)
@@ -60,7 +60,7 @@ module.exports.getPerspectiveById = function getPerspectiveById(req, res, next) 
       }
     })
     .catch(function (response) {
-      console.error("Perspectives.getPerspectiveById -> Flags.getFlagsById: error: " + response)
+      console.error("Perspectives.getPerspectiveById -> Flags.getFlagById: error: " + response)
     });
 };
 
@@ -69,7 +69,7 @@ module.exports.listPerspectiveCommunities = function listPerspectiveCommunities(
 
   // Check flag, if exist then access mongodb and return data
   // if false then check if perspetive exist, create new job and return 202, and a link to that job
-  Flags.getFlagsById(perspectiveId)
+  Flags.getFlagById(perspectiveId)
     .then(function (response) {
       if (response == null) { // flag does not exist => no update needed
         Perspectives.listPerspectiveCommunities(perspectiveId)
@@ -91,7 +91,7 @@ module.exports.listPerspectiveCommunities = function listPerspectiveCommunities(
       }
     })
     .catch(function (response) {
-      console.error("Perspectives.listPerspectiveCommunities -> Flags.getFlagsById: error: " + response)
+      console.error("Perspectives.listPerspectiveCommunities -> Flags.getFlagById: error: " + response)
     });
 };
 

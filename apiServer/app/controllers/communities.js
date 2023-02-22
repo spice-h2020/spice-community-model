@@ -35,7 +35,7 @@ module.exports.getCommunityById = function getCommunityById(req, res, next) {
   Communities.getCommunityById(communityId)
     .then(function (response) {
       var community = response
-      Flags.getFlagsById(community.perspectiveId)
+      Flags.getFlagById(community.perspectiveId)
         .then(function (flag) {
           if (flag == null) { // flag does not exist => no update needed
             res.status(200).send(community);
@@ -51,7 +51,7 @@ module.exports.getCommunityById = function getCommunityById(req, res, next) {
           }
         })
         .catch(function (response) {
-          console.error("Communities.getCommunityById -> Flags.getFlagsById: error: " + response)
+          console.error("Communities.getCommunityById -> Flags.getFlagById: error: " + response)
         });
     })
     .catch(function (response) {
@@ -69,7 +69,7 @@ module.exports.listCommunityUsers = function listCommunityUsers(req, res, next) 
       Communities.getCommunityById(communityId)
         .then(function (response) {
           var community = response;
-          Flags.getFlagsById(community.perspectiveId)
+          Flags.getFlagById(community.perspectiveId)
             .then(function (flag) {
               if (flag == null) { // flag does not exist => no update needed
                 res.status(200).send(users);
@@ -85,7 +85,7 @@ module.exports.listCommunityUsers = function listCommunityUsers(req, res, next) 
               }
             })
             .catch(function (response) {
-              console.error("Communities.listCommunityUsers -> Flags.getFlagsById: error: " + response)
+              console.error("Communities.listCommunityUsers -> Flags.getFlagById: error: " + response)
             });
         })
     })

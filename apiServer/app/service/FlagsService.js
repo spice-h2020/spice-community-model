@@ -6,12 +6,40 @@ const FlagDAO = db.flag;
 /**
 * Flags
 * Access to specific flag to check it
-*
-* returns flag document
+* @param {String} type type of flags (default="withoutErrors")
+* @returns flag document
 **/
-exports.getFlags = function () {
+exports.getFlags = function (type = "withoutErrors") {
+    if (type == "withoutErrors") {
+        return new Promise(function (resolve, reject) {
+            FlagDAO.checkFlagsWithoutErrors(
+                data => {
+                    resolve(data)
+                },
+                error => {
+                    console.log("flagService error: " + error);
+                    reject(error)
+                })
+        });
+    }
+    else {
+        return new Promise(function (resolve, reject) {
+            FlagDAO.checkFlags(
+                data => {
+                    resolve(data)
+                },
+                error => {
+                    console.log("flagService error: " + error);
+                    reject(error)
+                })
+        });
+    }
+
+};
+
+exports.getFlagById = function (perspectiveId) {
     return new Promise(function (resolve, reject) {
-        FlagDAO.checkFlags(
+        FlagDAO.checkFlagById(perspectiveId,
             data => {
                 resolve(data)
             },
@@ -22,9 +50,9 @@ exports.getFlags = function () {
     });
 };
 
-exports.getFlagsById = function (perspectiveId) {
+exports.removeFlag = function (flagId) {
     return new Promise(function (resolve, reject) {
-        FlagDAO.checkFlagById(perspectiveId,
+        FlagDAO.removeFlagById(flagId,
             data => {
                 resolve(data)
             },

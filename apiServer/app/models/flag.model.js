@@ -29,8 +29,9 @@ module.exports = mongoose => {
         }
       });
     },
+
     checkFlags: function (onSuccess, onError) {
-      Flags.find({'error': 'N/D'}, function (error, data) {
+      Flags.find({}, function (error, data) {
         // var res = JSON.stringify(data)
         if (error) {
           console.error("checkFlags: error");
@@ -45,6 +46,23 @@ module.exports = mongoose => {
         }
       }).lean();
     },
+
+    checkFlagsWithoutErrors: function (onSuccess, onError) {
+      Flags.find({ 'error': 'N/D' }, function (error, data) {
+        if (error) {
+          console.error("checkFlagsWithoutErrors: error");
+          onError("checkFlagsWithoutErrors:" + error);
+        } else {
+          if (Object.keys(data).length > 0) {
+            onSuccess(data);
+          }
+          else {
+            onSuccess(null);
+          }
+        }
+      }).lean();
+    },
+
     checkFlagById: function (id, onSuccess, onError) {
       Flags.findOne({ "perspectiveId": id }, { projection: { _id: 0 } }, function (error, data) {
         if (error) {
@@ -57,6 +75,17 @@ module.exports = mongoose => {
           else {
             onSuccess(null);
           }
+        }
+      });
+    },
+
+    removeFlagById: function (id, onSuccess, onError) {
+      Flags.deleteOne({ "_id": id }, function (error, data) {
+        if (error) {
+          console.error("removeFlagById: error");
+          onError("removeFlagById:" + error);
+        } else {
+          onSuccess(null);
         }
       });
     }

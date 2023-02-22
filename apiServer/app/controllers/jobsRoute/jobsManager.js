@@ -42,11 +42,12 @@ startJobManager = function () {
     setInterval(function () {
         checkAndStartNewJob();
         autoremoveJobs();
-    }, 2000);
+    }, 1000);
 };
 
 /**
  * Advance state of the job
+ * @param {object} job job
  * {job-state} -> {job-state}
  * INQUEUE,    -> STARTED,
  * STARTED,    -> COMPLETED 
@@ -63,12 +64,28 @@ advanceState = function (job) {
     //     throw 'Incorrect use of "advanceState()" function';
     // }
 }
+/**
+ * Set job to error state and remove the flag with error from mongoDB
+ * @param {JSON} flag flag that contains the error
+ * @param {String} errorMsg error message
+ */
+function setJobToErrorState(flag, errorMsg) {
+    // create copy of the flag and preprocess the flag before comparing 
+    var flagWithError = JSON.parse(JSON.stringify(flag));
+    delete flagWithError.needToProcess
+    flagWithError["error"] = "N/D";
 
-setAllJobsToErrorState = function (errorMsg) {
+    // find the failed job and set the state to ERROR. remove flag that contains the error 
     jobsList.forEach(elem => {
-        elem["job-state"] = jobStates.ERROR;
-        elem["request"] = "error";
-        elem["param"] = errorMsg;
+        elem["flags_id"].forEach(elemFlag => {
+            if ((JSON.stringify(elemFlag) == JSON.stringify(flagWithError))) {
+                elem["job-state"] = jobStates.ERROR;
+                elem["request"] = "error";
+                elem["param"] = errorMsg;
+                elem["time-completed"] = new Date();
+                Flags.removeFlag(flag["_id"]);
+            }
+        })
     });
 }
 
@@ -78,38 +95,35 @@ setAllJobsToErrorState = function (errorMsg) {
 checkAndStartNewJob = function () {
     return new Promise(function (resolve, reject) {
         // Check flags
-        Flags.getFlags()
+        Flags.getFlags("withErrors")
             .then(function (flags) {
                 if (flags != null) {
                     // Check if CM is updating
                     var cmState = "idle";
                     var errorMsg = "";
+
                     flags.forEach(flag => {
-                        /*
-                        if (!flag["needToProcess"])
-                            cmState = "updating";
+
                         if (flag["error"] != "N/D") {
-                            cmState = "error";
+                            // cmState = "error";
                             errorMsg = flag["error"];
+                            setJobToErrorState(flag, errorMsg)
                         }
-                        */
-                        if (!flag["needToProcess"] && flag['error'] == "N/D")
+
+                        if (!flag["needToProcess"] && flag["error"] == "N/D")
                             cmState = "updating";
+
                     });
-                    if (cmState == "error") {
-                        // If any job has an error state, then set all jobs to error state (jobManager stops)
-                        setAllJobsToErrorState(errorMsg)
-                    }
-                    else {
-                        // Find first job that need an update
-                        var jobToUpdate = jobsList.find(job => (job["job-state"] == jobStates.INQUEUE));
-                        // 
-                        if (cmState == "idle" && jobToUpdate != undefined) {
-                            // update CM
-                            redirect.postData(jobToUpdate["param"], "/update_CM")
-                            // advance job state from queue to started
-                            advanceState(jobToUpdate);
-                        }
+
+                    console.log(cmState)
+
+                    // Find first job that need an update
+                    var jobToUpdate = jobsList.find(job => (job["job-state"] == jobStates.INQUEUE));
+
+                    // If cm is not updating and there are jobs to update, then update cm and advance that job state from queue to started
+                    if (cmState == "idle" && jobToUpdate != undefined) {
+                        redirect.postData(jobToUpdate["param"], "/update_CM")
+                        advanceState(jobToUpdate);
                     }
                 }
                 resolve();
@@ -129,7 +143,7 @@ autoremoveJobs = function () {
     // if actualtime > timeCompleted+livetime => then remove job
     var actualTime = new Date().getTime();
     jobsList.forEach(job => {
-        if (job["job-state"] == jobStates.COMPLETED) {
+        if (job["job-state"] == jobStates.COMPLETED || job["job-state"] == jobStates.ERROR) {
             var timeRemove = job["time-completed"].getTime() + timeoutAfterCompletion;
             if (actualTime > timeRemove) {
                 removeJob(job["jobId"]);
@@ -199,7 +213,7 @@ findExistingJob = function (param, requestTypeName) {
                 resolve(job);
             })
             .catch(function (error) {
-                console.log("<JobsQueue> ERROR addJob.Flags.getFlags: " + error);
+                console.log("<JobsQueue> ERROR findExistingJob.Flags.getFlags: " + error);
                 reject(error);
             });
     });

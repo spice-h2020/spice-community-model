@@ -58,7 +58,7 @@ router.get('/index', function (req, res, next) {
 router.get('/file/:fileId', function (req, res, next) {
     var fileId = req.params.fileId
 
-    Flags.getFlagsById(fileId)
+    Flags.getFlagById(fileId)
         .then(function (flag) {
             if (flag == null) { // flag does not exist => no update needed
                 CommunitiesVis.getById(fileId)
@@ -80,7 +80,7 @@ router.get('/file/:fileId', function (req, res, next) {
             }
         })
         .catch(function (response) {
-            console.error("Communities.getCommunityById -> Flags.getFlagsById: error: " + response)
+            console.error("Communities.getCommunityById -> Flags.getFlagById: error: " + response)
         })
         .catch(function (response) {
             res.status(400).send("invalid file id");
