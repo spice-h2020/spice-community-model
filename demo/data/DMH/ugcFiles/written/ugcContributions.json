@@ -12328,7 +12328,8 @@
         "source": "fake",
         "pname": "MFT_Values",
         "pvalue": [
-          "care, loyalty"
+          "care",
+          "loyalty"
         ],
         "context": "application",
         "datapoints": 0,
