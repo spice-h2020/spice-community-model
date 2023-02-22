@@ -42,7 +42,7 @@ export function startJobManager() {
     setInterval(function () {
         checkAndStartNewJob();
         autoremoveJobs();
-    }, 1000);
+    }, 2000);
 };
 
 /**
@@ -52,7 +52,7 @@ export function startJobManager() {
  * INQUEUE,    -> STARTED,
  * STARTED,    -> COMPLETED 
  */
-export function advanceState(job) {
+function advanceState(job) {
     if (job["job-state"] == jobStates.INQUEUE) {
         job["job-state"] = jobStates.STARTED;
     }
@@ -71,9 +71,7 @@ export function advanceState(job) {
  */
 function setJobToErrorState(flag, errorMsg) {
     // create copy of the flag and preprocess the flag before comparing 
-    var flagWithError = JSON.parse(JSON.stringify(flag));
-    delete flagWithError.needToProcess
-    flagWithError["error"] = "N/D";
+    var flagWithError = JSON.parse(JSON.stringify(flag["_id"]));
 
     // find the failed job and set the state to ERROR. remove flag that contains the error 
     jobsList.forEach(elem => {
@@ -100,13 +98,12 @@ function checkAndStartNewJob() {
                 if (flags != null) {
                     // Check if CM is updating
                     var cmState = "idle";
-                    var errorMsg = "";
 
                     flags.forEach(flag => {
-
+                        //check for jobs with errors
                         if (flag["error"] != "N/D") {
                             // cmState = "error";
-                            errorMsg = flag["error"];
+                            var errorMsg = flag["error"];
                             setJobToErrorState(flag, errorMsg)
                         }
 
@@ -114,8 +111,31 @@ function checkAndStartNewJob() {
                             cmState = "updating";
 
                     });
+                    // console.log(flags)
+                    // console.log(jobsList)
 
-                    console.log(cmState)
+                    // check for finished jobs
+                    jobsList.forEach(job => {
+                        if (job["job-state"] == jobStates.STARTED) {
+                            var finished = true;
+                            for (let jobflag of job["flags_id"]) {
+                                for (let flag of flags) {
+                                    if (JSON.stringify(jobflag) == JSON.stringify(flag["_id"])) {
+                                        finished = false;
+                                    }
+                                    if (!finished)
+                                        break;
+                                }
+                                if (!finished)
+                                    break;
+                            }
+                            if (finished) {
+                                advanceState(job);
+                            }
+                        }
+                    });
+
+                    // console.log(jobsList)
 
                     // Find first job that need an update
                     var jobToUpdate = jobsList.find(job => (job["job-state"] == jobStates.INQUEUE));
@@ -125,6 +145,8 @@ function checkAndStartNewJob() {
                         redirect.postData(jobToUpdate["param"], "/update_CM")
                         advanceState(jobToUpdate);
                     }
+
+                    console.log(cmState)
                 }
                 resolve();
             })
@@ -165,6 +187,7 @@ export function createJob(param, requestTypeName) {
             .then(function (existingJob) {
                 if (existingJob == null) {
                     var jobId = generateId()
+                    console.log("<JobsQueue> created new job")
                     console.log("<JobsQueue> generateId: " + jobId)
                     console.log("<JobsQueue> param: " + param)
                     addJob(jobId, requestTypeName, param);
@@ -202,10 +225,12 @@ function findExistingJob(param, requestTypeName) {
             .then(function (flags) {
                 var job = null;
                 // remove needToProcess field to compare even if the job has started
-                flags.forEach(function (v) { delete v.needToProcess });
+
+                let flags_id = flags.map(a => a._id);
+
                 jobsList.forEach(elem => {
                     if (elem["request"] == requestTypeName && elem["param"] == param) {
-                        if (JSON.stringify(elem["flags_id"]) == JSON.stringify(flags)) {
+                        if (JSON.stringify(elem["flags_id"]) == JSON.stringify(flags_id)) {
                             job = elem;
                         }
                     }
@@ -242,11 +267,12 @@ export function getJobs() {
  * @param {string} request request type
  * @param {string} param param
  */
-export function addJob(jobId, request, param) {
+function addJob(jobId, request, param) {
     Flags.getFlags()
         .then(function (flags) {
-            // remove needToProcess field, so later we can compare jobs (and if the job started it will have this field modified so new job will be creted for the same task)
-            flags.forEach(function (v) { delete v.needToProcess });
+
+            var flags_id = flags.map(a => a._id);
+
             var job = {
                 path: "",
                 jobId: jobId,
@@ -258,7 +284,7 @@ export function addJob(jobId, request, param) {
                 request: request,
                 param: param,
                 autoremove: false,
-                flags_id: flags
+                flags_id: flags_id
             }
             jobsList.push(job);
         })
@@ -270,7 +296,7 @@ export function addJob(jobId, request, param) {
 /**
  * Removes job by id
  */
-export function removeJob(jobId) {
+function removeJob(jobId) {
     var job = jobsList.find(element => element.jobId == jobId);
     if (job != undefined) { //if still not removed removed by timeout
         console.log(`<JobsQueue> removing job => ${jobId}`);
@@ -281,27 +307,12 @@ export function removeJob(jobId) {
     }
 };
 
-// removeJobWithTimeout = removeTimeout = function (jobId, seconds) {
-//     // if (!getJob(jobId).autoremove) {
-//     // getJob(jobId).autoremove = true;
-//     // setTimeout(() => {
-//     //     // console.log(`<JobsQueue> auto-removing job => ${jobId}`);
-//     //     try {
-//     //         removeJob(jobId)
-//     //     } catch (error) {
-//     //         console.log(error)
-//     //     }
-//     // }, seconds * 1000, jobId, jobsList);
-//     // }
-
-// }
-
 
 /**
  * Generates non-repeating random 4-digit job id
  * @returns id
  */
-export function generateId(jobId) {
+function generateId(jobId) {
     var id = 0;
     var ok = false;
     while (!ok) {

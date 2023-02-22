@@ -48,8 +48,6 @@ var jobCompleted = {
  * @returns Completed response
  */
 function generateCompletedResponse(job, data) {
-    jobManager.advanceState(job);
-
     var response = jobCompleted;
     var timeLeft = -1;
     if (job["job-state"] != jobManager.jobStates.ERROR) {
@@ -94,7 +92,6 @@ router.get('/:job_id', function (req, res, next) {
     // console.log("List of current jobs: ");
     // console.log(JSON.stringify(jobManager.getJobs(), null, " "));
 
-    var jobId = req.params.job_id;
     var job = jobManager.getJob(req.params.job_id);
 
     if (job == null) {
@@ -105,68 +102,71 @@ router.get('/:job_id', function (req, res, next) {
         var request = job.request;
 
         // console.log("Monitoring Job: <" + jobId + ">, from request: <" + request + ">, with param: <" + param + ">");
+        
+        if (job["job-state"] == jobManager.jobStates.INQUEUE || job["job-state"] == jobManager.jobStates.STARTED) {
+            res.send(generateProgressResponse(job));
+        }
+        else if (job["job-state"] == jobManager.jobStates.COMPLETED || job["job-state"] == jobManager.jobStates.ERROR) {
+            jobsHandler.getData(request, param)
+                .then(function (data) {
+                    res.status(200).send(generateCompletedResponse(job, data));
+                })
+                .catch(function (error) {
+                    res.status(404).send("JobsManager: getData exception: " + error);
+                });
+        }
 
-        // var checkState;
-        // if (request == "getPerspectives" || request == "getCommunities" || ...) {
-        //     checkState = Flags.getFlags();
+
+        // if (param == 0) {
+        //     Flags.getFlags()
+        //         .then(function (data) {
+        //             if (data == null) {
+        //                 data = {};
+        //                 // Get data from mongodb if flag is positive
+        //                 jobsHandler.getData(request, param)
+        //                     .then(function (data) {
+        //                         // if (!job.autoremove) {
+        //                         //     jobManager.removeJobWithTimeout(jobId, 60 * 5); // 5 min = 60 * 5
+        //                         // }
+        //                         res.status(200).send(generateCompletedResponse(job, data));
+        //                     })
+        //                     .catch(function (error) {
+        //                         res.status(404).send("JobsManager: getData exception: " + error);
+        //                     });
+        //             }
+        //             else {
+        //                 res.send(generateProgressResponse(job));
+        //             }
+        //         })
+        //         .catch(function (error) {
+        //             res.status(404).send("JobsManager: flag not found: " + error);
+        //         });
         // }
         // else {
-        //     checkState = Flags.getFlagById(param);
+        //     Flags.getFlagById(param)
+        //         .then(function (data) {
+        //             if (data == null) {
+        //                 data = {};
+        //                 // Get data from mongodb if flag is positive
+        //                 jobsHandler.getData(request, param)
+        //                     .then(function (data) {
+        //                         // if (!job.autoremove) {
+        //                         //     jobManager.removeJobWithTimeout(jobId, 60 * 5); // 5 min
+        //                         // }
+        //                         res.status(200).send(generateCompletedResponse(job, data));
+        //                     })
+        //                     .catch(function (error) {
+        //                         res.status(404).send("JobsManager: getData error: " + error);
+        //                     });
+        //             }
+        //             else {
+        //                 res.send(generateProgressResponse(job));
+        //             }
+        //         })
+        //         .catch(function (error) {
+        //             res.status(404).send("JobsManager: flag not found: " + error);
+        //         });
         // }
-
-        // Checks for specific flag
-        // let filter = ["getPerspectives", "getCommunities", "getFilesIndex"]
-        // if (filter.includes(request)) {
-        if (param == 0) {
-            Flags.getFlags()
-                .then(function (data) {
-                    if (data == null) {
-                        data = {};
-                        // Get data from mongodb if flag is positive
-                        jobsHandler.getData(request, param)
-                            .then(function (data) {
-                                // if (!job.autoremove) {
-                                //     jobManager.removeJobWithTimeout(jobId, 60 * 5); // 5 min = 60 * 5
-                                // }
-                                res.status(200).send(generateCompletedResponse(job, data));
-                            })
-                            .catch(function (error) {
-                                res.status(404).send("JobsManager: getData exception: " + error);
-                            });
-                    }
-                    else {
-                        res.send(generateProgressResponse(job));
-                    }
-                })
-                .catch(function (error) {
-                    res.status(404).send("JobsManager: flag not found: " + error);
-                });
-        }
-        else {
-            Flags.getFlagById(param)
-                .then(function (data) {
-                    if (data == null) {
-                        data = {};
-                        // Get data from mongodb if flag is positive
-                        jobsHandler.getData(request, param)
-                            .then(function (data) {
-                                // if (!job.autoremove) {
-                                //     jobManager.removeJobWithTimeout(jobId, 60 * 5); // 5 min
-                                // }
-                                res.status(200).send(generateCompletedResponse(job, data));
-                            })
-                            .catch(function (error) {
-                                res.status(404).send("JobsManager: getData error: " + error);
-                            });
-                    }
-                    else {
-                        res.send(generateProgressResponse(job));
-                    }
-                })
-                .catch(function (error) {
-                    res.status(404).send("JobsManager: flag not found: " + error);
-                });
-        }
 
     }
 });
