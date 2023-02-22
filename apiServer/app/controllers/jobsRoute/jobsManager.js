@@ -92,62 +92,62 @@ function setJobToErrorState(flag, errorMsg) {
  */
 function checkAndStartNewJob() {
     return new Promise(function (resolve, reject) {
+        var cmState = "idle";
+
         // Check flags
         Flags.getFlags("withErrors")
             .then(function (flags) {
-                if (flags != null) {
-                    // Check if CM is updating
-                    var cmState = "idle";
+                if (flags == null) {
+                    flags = []
+                }
 
-                    flags.forEach(flag => {
-                        //check for jobs with errors
-                        if (flag["error"] != "N/D") {
-                            // cmState = "error";
-                            var errorMsg = flag["error"];
-                            setJobToErrorState(flag, errorMsg)
-                        }
+                // Iterate flags, check if CM is updating and if there are flags with errors
+                flags.forEach(flag => {
+                    //check for jobs with errors
+                    if (flag["error"] != "N/D") {
+                        // cmState = "error";
+                        var errorMsg = flag["error"];
+                        setJobToErrorState(flag, errorMsg)
+                    }
 
-                        if (!flag["needToProcess"] && flag["error"] == "N/D")
-                            cmState = "updating";
+                    if (!flag["needToProcess"] && flag["error"] == "N/D")
+                        cmState = "updating";
 
-                    });
-                    // console.log(flags)
-                    // console.log(jobsList)
+                });
 
-                    // check for finished jobs
-                    jobsList.forEach(job => {
-                        if (job["job-state"] == jobStates.STARTED) {
-                            var finished = true;
-                            for (let jobflag of job["flags_id"]) {
-                                for (let flag of flags) {
-                                    if (JSON.stringify(jobflag) == JSON.stringify(flag["_id"])) {
-                                        finished = false;
-                                    }
-                                    if (!finished)
-                                        break;
+                // check for finished jobs. checking for flags from certain jobs in mongodb  
+                jobsList.forEach(job => {
+                    if (job["job-state"] == jobStates.STARTED) {
+                        var finished = true;
+                        for (let jobflag of job["flags_id"]) {
+                            for (let flag of flags) {
+                                if (JSON.stringify(jobflag) == JSON.stringify(flag["_id"])) {
+                                    finished = false;
                                 }
                                 if (!finished)
                                     break;
                             }
-                            if (finished) {
-                                advanceState(job);
-                            }
+                            if (!finished)
+                                break;
                         }
-                    });
-
-                    // console.log(jobsList)
-
-                    // Find first job that need an update
-                    var jobToUpdate = jobsList.find(job => (job["job-state"] == jobStates.INQUEUE));
-
-                    // If cm is not updating and there are jobs to update, then update cm and advance that job state from queue to started
-                    if (cmState == "idle" && jobToUpdate != undefined) {
-                        redirect.postData(jobToUpdate["param"], "/update_CM")
-                        advanceState(jobToUpdate);
+                        if (finished) {
+                            advanceState(job);
+                        }
                     }
+                });
+                // console.log(jobsList)
 
-                    console.log(cmState)
+                // Find first job that need an update
+                var jobToUpdate = jobsList.find(job => (job["job-state"] == jobStates.INQUEUE));
+
+                // If cm is not updating and there are jobs to update, then update cm and advance that job state from queue to started
+                if (cmState == "idle" && jobToUpdate != undefined) {
+                    redirect.postData(jobToUpdate["param"], "/update_CM")
+                    advanceState(jobToUpdate);
                 }
+
+                console.log("CM State: " + cmState);
+
                 resolve();
             })
             .catch(function (error) {
