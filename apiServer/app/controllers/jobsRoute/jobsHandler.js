@@ -8,7 +8,7 @@ const CommunitiesVis = require('../../service/CommunitiesVisualizationService.js
  * @param {string} param parameters
  * @returns requested data
  */
-exports.getData = function(request, param) {
+export function getData(request, param) {
     switch (request) {
         case "getPerspectives":
             return Perspectives.getPerspectives();

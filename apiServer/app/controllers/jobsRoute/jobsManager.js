@@ -11,10 +11,10 @@ var jobsList = []
 var jobPrefix = "/v1.1/jobs/";
 
 // time: minutes*60*1000=ms
-var timeoutAfterCompletion = 30 * 60 * 1000;
+export var timeoutAfterCompletion = 30 * 60 * 1000;
 
 // job states
-const jobStates = {
+export const jobStates = {
     INQUEUE: "INQUEUE",
     STARTED: "STARTED",
     COMPLETED: "COMPLETED",
@@ -37,7 +37,7 @@ const jobStates = {
 /**
  * Main loop. Executes every 2 seconds
  */
-startJobManager = function () {
+export function startJobManager() {
     // repeat 
     setInterval(function () {
         checkAndStartNewJob();
@@ -52,7 +52,7 @@ startJobManager = function () {
  * INQUEUE,    -> STARTED,
  * STARTED,    -> COMPLETED 
  */
-advanceState = function (job) {
+export function advanceState(job) {
     if (job["job-state"] == jobStates.INQUEUE) {
         job["job-state"] = jobStates.STARTED;
     }
@@ -92,7 +92,7 @@ function setJobToErrorState(flag, errorMsg) {
 /**
  * Check flags and if CM is not updating then find the first job in the queue. Update CM with that job and advance the state of the job.
  */
-checkAndStartNewJob = function () {
+function checkAndStartNewJob() {
     return new Promise(function (resolve, reject) {
         // Check flags
         Flags.getFlags("withErrors")
@@ -138,7 +138,7 @@ checkAndStartNewJob = function () {
 /**
  * 
  */
-autoremoveJobs = function () {
+function autoremoveJobs() {
     // for in jobs
     // if actualtime > timeCompleted+livetime => then remove job
     var actualTime = new Date().getTime();
@@ -159,7 +159,7 @@ autoremoveJobs = function () {
  * @param {string} requestTypeName request type (getCommunities, getPerspectiveById, etc)
  * @returns jobPath
  */
-createJob = function (param, requestTypeName) {
+export function createJob(param, requestTypeName) {
     return new Promise(function (resolve, reject) {
         findExistingJob(param, requestTypeName)
             .then(function (existingJob) {
@@ -196,7 +196,7 @@ createJob = function (param, requestTypeName) {
  * @param {string} requestTypeName request type
  * @returns promise that resolves with existing job or null if does not exist
  */
-findExistingJob = function (param, requestTypeName) {
+function findExistingJob(param, requestTypeName) {
     return new Promise(function (resolve, reject) {
         Flags.getFlags()
             .then(function (flags) {
@@ -224,7 +224,7 @@ findExistingJob = function (param, requestTypeName) {
  * @param {integer} jobId job Id
  * @returns job object
  */
-getJob = function (jobId) {
+export function getJob(jobId) {
     return jobsList.find(element => element.jobId == jobId);
 };
 
@@ -232,7 +232,7 @@ getJob = function (jobId) {
  * Returns jobs
  * @returns List with all jobs
  */
-getJobs = function () {
+export function getJobs() {
     return jobsList;
 };
 
@@ -242,7 +242,7 @@ getJobs = function () {
  * @param {string} request request type
  * @param {string} param param
  */
-addJob = function (jobId, request, param) {
+export function addJob(jobId, request, param) {
     Flags.getFlags()
         .then(function (flags) {
             // remove needToProcess field, so later we can compare jobs (and if the job started it will have this field modified so new job will be creted for the same task)
@@ -270,7 +270,7 @@ addJob = function (jobId, request, param) {
 /**
  * Removes job by id
  */
-removeJob = function (jobId) {
+export function removeJob(jobId) {
     var job = jobsList.find(element => element.jobId == jobId);
     if (job != undefined) { //if still not removed removed by timeout
         console.log(`<JobsQueue> removing job => ${jobId}`);
@@ -301,7 +301,7 @@ removeJob = function (jobId) {
  * Generates non-repeating random 4-digit job id
  * @returns id
  */
-generateId = function (jobId) {
+export function generateId(jobId) {
     var id = 0;
     var ok = false;
     while (!ok) {
@@ -314,16 +314,7 @@ generateId = function (jobId) {
     return id;
 };
 
-exports.jobStates = jobStates;
-exports.timeoutAfterCompletion = timeoutAfterCompletion;
-exports.advanceState = advanceState;
-exports.startJobManager = startJobManager;
-exports.createJob = createJob;
-// exports.findExistingJob = findExistingJob;
-exports.getJob = getJob;
-exports.getJobs = getJobs
-exports.addJob = addJob;
-exports.removeJob = removeJob;
-exports.generateId = generateId;
+
+
 
 
