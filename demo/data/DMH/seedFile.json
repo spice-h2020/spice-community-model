@@ -52,6 +52,19 @@
 	"artwork_attributes": [
 	  {
 		"on_attribute": {
+		  "att_name": "Object",
+		  "att_type": "String"
+		},
+		"sim_function": [
+		  {
+			"name": "EqualSimilarityDAO",
+			"params": [],
+			"default": true
+		  }
+		]
+	  },
+	  {
+		"on_attribute": {
 		  "att_name": "author",
 		  "att_type": "String"
 		},
@@ -150,9 +163,14 @@
 		},
 		"sim_function": [
 		  {
-			"name": "NumberSimilarityDAO",
+			"name": "DecadeSimilarityDAO",
 			"params": [],
 			"default": true
+		  },
+		  {
+			"name": "NumberSimilarityDAO",
+			"params": [],
+			"default": false
 		  },
 		  {
 			"name": "EqualSimilarityDAO",
@@ -432,7 +450,7 @@
 	  {
 		"name": "agglomerative",
 		"params": [],
-		"default": false
+		"default": true
 	  },
 	  {
 		"name": "birch",

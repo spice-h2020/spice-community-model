@@ -212,7 +212,7 @@
     {
       "name": "agglomerative",
       "params": [],
-      "default": false
+      "default": true
     },
     {
       "name": "birch",
