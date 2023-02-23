@@ -45,6 +45,7 @@ class ExtendedPlutchikEmotionSimilarity(ExtendedPlutchikEmotionSimilarityDAO):
             sorted_emotionsDictB = {k: v for k, v in sorted(emotionsDictB.items(), key=lambda item: item[1], reverse=True)}
         
             numValues = 3
+            numValues = 1
             emotionsListA = list(dict(itertools.islice(sorted_emotionsDictA.items(),numValues)).keys())
             emotionsListB = list(dict(itertools.islice(sorted_emotionsDictB.items(),numValues)).keys())
 
