@@ -233,6 +233,32 @@ class ExplainedCommunitiesDetection:
 
         return userCommunityLabels
 
+    def correctCommunityCheck(self, community):
+        """
+        Checks if the community includes citizens that are unrelated to 1+ other members
+        If it does, the community cannot be explained
+
+        Args:
+            community: pd.DataFrame
+
+        Returns:
+            isExplainable: True/False
+
+        """
+        falsePositives_index = community['real_index'].tolist()
+        distanceMatrix_community = self.distanceMatrix[np.ix_(falsePositives_index,falsePositives_index)]
+
+        isExplainable = True
+        rows = distanceMatrix_community.shape[0]
+        rowIndex = 0
+        while isExplainable and rowIndex < rows:
+            if (1.0 in distanceMatrix_community[rowIndex]):
+                isExplainable = False
+            rowIndex += 1
+
+        return isExplainable
+
+
 
     def search_all_communities(self, answer_binary=False, percentage=1.0):
         """Method to search all explainable communities.
@@ -248,7 +274,7 @@ class ExplainedCommunitiesDetection:
             dict: Dictionary where each user is assigned to a community.
         """
         maxCommunities = len(self.data)
-        n_communities = min(2, maxCommunities)
+        n_communities = min(1, maxCommunities)
         n_clusters = n_communities
         finish_search = False
 
@@ -345,8 +371,8 @@ class ExplainedCommunitiesDetection:
             # Cannot be explained with implicit
             if (n_clusters < n_communities):
                 # Set n_communities = n_clusters (communities could not be explained)
-                finish_search = True 
-                n_communities = n_clusters
+                #finish_search = True 
+                #n_communities = n_clusters
 
                 """
                 print("n clusters is less than communities")
@@ -362,6 +388,8 @@ class ExplainedCommunitiesDetection:
                 print(str(sum(explainables)))
                 print("\n")
                 """
+
+
 
             else:
                 
@@ -601,8 +629,6 @@ class ExplainedCommunitiesDetection:
         communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
         validCommunityIndexes = [i for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
 
-
-
         #if (row['userNameAuxiliar'] == 'e4aM9WL7' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 2):
         if (row['userNameAuxiliar'] == 'x2AUnHqw' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 1):
          
@@ -621,7 +647,7 @@ class ExplainedCommunitiesDetection:
             """
                     
         if (len(communityMembers_interactionAttributeList) > 0):
-            communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
+            communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == True or isinstance(x,list) == True) and len(x) > 0]
 
             if col2 == 'dominantArtworksDominantInteractionGenerated':
                 communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
@@ -630,47 +656,6 @@ class ExplainedCommunitiesDetection:
                     array2 = list(np.hstack(np_array)) #if (len(np_array) > 0)
                 else:
                     array2 = communityMembers_validInteractionAttributeList
-                
-                
-                #if (row['userNameAuxiliar'] == 'e4aM9WL7' and 1 == 2):
-                if (row['userNameAuxiliar'] == 'x2AUnHqw' and 1 == 2):
-                    print("username: " + row['userNameAuxiliar'])
-                    print("community: " + str(row['community']))
-                    print("community member indexes: " + str(communityMemberIndexes))
-                    print("dominantArtworks: " + str(communityMembers_interactionAttributeList))
-                    print("community dominantArtworks: " + str(communityMembers_validInteractionAttributeList))
-                    print("community dominantArtworks flatten: " + str(array2))
-                    print("result: " + str(list(set(array2))))
-                    print("\n")
-                    
-                    """
-                    print("username: " + str(row['userNameAuxiliar']))
-                    print("community: " + str(row['community']))
-                    print("\n")
-                    """
-                    
-                    """
-                    print("dominantArtworks")
-                    print("username: " + str(row['userNameAuxiliar']))
-                    print("community: " + str(row['community']))
-                    print(communityMembers_interactionAttributeList)
-                    print("\n")
-                    """
-
-                # Print
-                """
-                print("dominant artworks explanation")
-                print("username: " + row['userNameAuxiliar'])
-                print("index: " + str(row['real_index']))
-                print("community: " + str(row['community']))
-                print("dominant artworks: " + str(row[col2]))
-                print("communityMemberIndexes: " + str(communityMemberIndexes))
-                print("communityMembers_interactionAttributeList")
-                print(communityMembers_interactionAttributeList)
-                print("result: ")
-                print(list(set(array2)))
-                print("\n")
-                """
                     
                 return list(set(array2))
             
@@ -985,107 +970,109 @@ class ExplainedCommunitiesDetection:
         
     def is_explainable(self, community, answer_binary=False, percentage=1.0):
         explainable_community = False
+
+        if (self.correctCommunityCheck(community)):
         
-        """
-        print("is_explainable")
-        print(community)
-        print("\n")
-        print("self.explanaible_attributes: " + str(self.explanaible_attributes))
-        print("\n")
-        """
-        
-        #for col in community.columns.values:
-        for col2 in self.explanaible_attributes:
-            if col2 != 'community':
-                if (self.explainInteractionAttributes()):
-                    col = "community_" + col2
-                else:
-                    col = col2
-                    
-                 
-                print("is_explainable")
-                print("col: " + str(col))
-                print("community " + str(community['community'].to_list()[0]))
-                print(community[col])
-                print("dissimilar attributes")
-                print(self.dissimilar_attributes)
-                print("\n")
-                """   
-                """
-
-                
-                # https://www.alphacodingskills.com/python/notes/python-operator-bitwise-or-assignment.php
-                # (x |= y) is equivalent to (x = x | y)
-                explainableAttribute = False
-                if answer_binary:
-                    explainableAttribute = (len(community[col]) * percentage)  <= community[col].sum()
-                else:
-                    explainableAttribute = (len(community[col]) * percentage) <= community[col].value_counts().max()
-
-                # Apply dissimilar
-                # First approximation (most frequent value appears below the community similarity percentage)
-                
-                if (col2 in self.dissimilar_attributes):
-                    
-
-                    explainableAttribute = not explainableAttribute
-
-                    print("apply dissimilar explanation")
-                    print(explainableAttribute)
-                    print("(len(community[col]) * percentage)")
-                    print(str((len(community[col]) * percentage)))
-                    print("community[col].value_counts().max()")
-                    print(str(community[col].value_counts().max()))
-                    print("\n")
-
-
-                    # Second approximation
-                    # Calculate the similarity average of the community members based on [col2] attribute. 
-                    # If it is higher or equal to percentage, the community can be explained
-                    print("checking distance")
-                    print(list(community.columns))
-                    print(community[[col + 'Distance']])
-                    print("\n")
-
-                    # Now filter distance column using the community 
-                    #distanceList = community[col2 + 'DistanceDominantInteractionGenerated'].to_list()
-                    distanceList = community[col + 'Distance'].to_list()
-                    # Community only has one user (users without community)
-                    if (len(distanceList) <= 1):
-                        explainableAttribute = True
+            """
+            print("is_explainable")
+            print(community)
+            print("\n")
+            print("self.explanaible_attributes: " + str(self.explanaible_attributes))
+            print("\n")
+            """
+            
+            #for col in community.columns.values:
+            for col2 in self.explanaible_attributes:
+                if col2 != 'community':
+                    if (self.explainInteractionAttributes()):
+                        col = "community_" + col2
                     else:
+                        col = col2
+                        
+                    
+                    print("is_explainable")
+                    print("col: " + str(col))
+                    print("community " + str(community['community'].to_list()[0]))
+                    print(community[col])
+                    print("dissimilar attributes")
+                    print(self.dissimilar_attributes)
+                    print("\n")
+                    """   
+                    """
 
-                        print("distanceList")
-                        print(distanceList)
-                        print(str(len(distanceList)))
-                        print(str(len(distanceList[0])))
-                        print(str(len(community)))
+                    
+                    # https://www.alphacodingskills.com/python/notes/python-operator-bitwise-or-assignment.php
+                    # (x |= y) is equivalent to (x = x | y)
+                    explainableAttribute = False
+                    if answer_binary:
+                        explainableAttribute = (len(community[col]) * percentage)  <= community[col].sum()
+                    else:
+                        explainableAttribute = (len(community[col]) * percentage) <= community[col].value_counts().max()
+
+                    # Apply dissimilar
+                    # First approximation (most frequent value appears below the community similarity percentage)
+                    
+                    if (col2 in self.dissimilar_attributes):
+                        
+
+                        explainableAttribute = not explainableAttribute
+
+                        print("apply dissimilar explanation")
+                        print(explainableAttribute)
+                        print("(len(community[col]) * percentage)")
+                        print(str((len(community[col]) * percentage)))
+                        print("community[col].value_counts().max()")
+                        print(str(community[col].value_counts().max()))
                         print("\n")
 
-                        np_array = np.asarray(distanceList, dtype=object)
-                        distanceList_flatten = list(np.hstack(np_array)) #if (len(np_array) > 0)
-                        print("distanceList_flatten")
-                        print(distanceList_flatten)
-                        print(str(len(distanceList_flatten)))
+
+                        # Second approximation
+                        # Calculate the similarity average of the community members based on [col2] attribute. 
+                        # If it is higher or equal to percentage, the community can be explained
+                        print("checking distance")
+                        print(list(community.columns))
+                        print(community[[col + 'Distance']])
                         print("\n")
 
-                        distanceCommunity = sum(distanceList_flatten)
-                        print("distance comunity")
-                        print(str(distanceCommunity))
-                        print("\n")
-
-                        distanceCommunity = distanceCommunity / len(distanceList_flatten)
-                        print("distance comunity final")
-                        print(str(distanceCommunity))
-                        print("\n")
-
-                        self.distanceCommunity = distanceCommunity
-
-                        if (distanceCommunity <= percentage):
-                            print("less percentage")
+                        # Now filter distance column using the community 
+                        #distanceList = community[col2 + 'DistanceDominantInteractionGenerated'].to_list()
+                        distanceList = community[col + 'Distance'].to_list()
+                        # Community only has one user (users without community)
+                        if (len(distanceList) <= 1):
                             explainableAttribute = True
                         else:
-                            explainableAttribute = False
+
+                            print("distanceList")
+                            print(distanceList)
+                            print(str(len(distanceList)))
+                            print(str(len(distanceList[0])))
+                            print(str(len(community)))
+                            print("\n")
+
+                            np_array = np.asarray(distanceList, dtype=object)
+                            distanceList_flatten = list(np.hstack(np_array)) #if (len(np_array) > 0)
+                            print("distanceList_flatten")
+                            print(distanceList_flatten)
+                            print(str(len(distanceList_flatten)))
+                            print("\n")
+
+                            distanceCommunity = sum(distanceList_flatten)
+                            print("distance comunity")
+                            print(str(distanceCommunity))
+                            print("\n")
+
+                            distanceCommunity = distanceCommunity / len(distanceList_flatten)
+                            print("distance comunity final")
+                            print(str(distanceCommunity))
+                            print("\n")
+
+                            self.distanceCommunity = distanceCommunity
+
+                            if (distanceCommunity <= percentage):
+                                print("less percentage")
+                                explainableAttribute = True
+                            else:
+                                explainableAttribute = False
 
 
 
@@ -1093,22 +1080,22 @@ class ExplainedCommunitiesDetection:
 
 
 
-                """
-                # Second approximation (better, not yet implemented)
-                # Maximize a distance function between the different values of the attribute.
-                if (col2 in self.dissimilar_attributes):
-                    # Perfect case example (emotions): community with only two opposite emotions (joy, sadness)
-                    # Distance value: 1.0
-                    # If there are equal number of joy and sadness, the distance is 0.5
+                    """
+                    # Second approximation (better, not yet implemented)
+                    # Maximize a distance function between the different values of the attribute.
+                    if (col2 in self.dissimilar_attributes):
+                        # Perfect case example (emotions): community with only two opposite emotions (joy, sadness)
+                        # Distance value: 1.0
+                        # If there are equal number of joy and sadness, the distance is 0.5
 
 
 
 
-                    # Pick an emotion, value (compute the dissimilarity between all of them)
-                """
+                        # Pick an emotion, value (compute the dissimilarity between all of them)
+                    """
 
 
-                explainable_community |= explainableAttribute
+                    explainable_community |= explainableAttribute
 
         return explainable_community
     
@@ -1375,8 +1362,21 @@ class ExplainedCommunitiesDetection:
                                             iconclassChildrenCombinedDictionary[key].extend(value)
                                             iconclassChildrenCombinedDictionary[key] = list(set(iconclassChildrenCombinedDictionary[key]))
 
+                                    """
+                                    Same as artworksExplanation
+                                    Remove redundant code later
+                                    """
+                                    artworks_iconclassID = []
+                                    for iconclassChild in iconclassChildrenCombinedDictionary:
+                                        artworks_iconclassID.extend(iconclassChildrenCombinedDictionary[iconclassChild])
+                                    artworks_iconclassID = set(artworks_iconclassID)
+
+
                                     if (iconclassID in iconclassChildrenCombinedDictionary):
-                                        iconclassExplanation += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassID]) + ")"
+                                        # Instead of showing list artworks, just the number of them
+                                        #iconclassExplanation += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassID]) + ")"
+                                        iconclassExplanation += " - Artworks: " + str(len(artworks_iconclassID))
+
                                         artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassID])
                                     iconclassChildrenText = []
                                     if (len(iconclassChildrenCombinedDictionary) > 1):
@@ -1391,7 +1391,10 @@ class ExplainedCommunitiesDetection:
                                             # Iconclass: Get description of the iconclassID through the Iconclass API
                                             if (col == "community_" + "iconclassArrayIDs"):
                                                 iconclassChildText = self.daoAPI_iconclass.getIconclassText(iconclassChild)
+                                            # Instead of showing list artworks, just the number of them
                                             iconclassChildText += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassChild]) + ")"
+                                            #iconclassChildText += " - Artworks: " + str(len(iconclassChildrenCombinedDictionary[iconclassChild]))
+
                                             artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassChild])
                                             #iconclassChildrenText.append(str(iconclassChild) + " " + iconclassChildText)
                                             iconclassChildrenText.append(iconclassChildText + " " + "[" + str(iconclassChild) + "]")
