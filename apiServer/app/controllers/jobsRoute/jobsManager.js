@@ -3,23 +3,18 @@
  * Contains a list with jobs, and basic CRUD operations. Used to add, remove and read for specific job
  */
 
+const Job = require("./job.js");
 const Flags = require('../../service/FlagsService.js');
 var redirect = require('../../service/redirectRequest.js');
 
+
 var jobsList = []
 
-var jobPrefix = "/v1.1/jobs/";
 
 // time: minutes*60*1000=ms
 export var timeoutAfterCompletion = 30 * 60 * 1000;
 
-// job states
-export const jobStates = {
-    INQUEUE: "INQUEUE",
-    STARTED: "STARTED",
-    COMPLETED: "COMPLETED",
-    ERROR: "ERROR"
-}
+
 
 // path: "",
 // jobId: jobId,
@@ -39,31 +34,17 @@ export const jobStates = {
  */
 export function startJobManager() {
     // repeat 
-    setInterval(function () {
-        checkAndStartNewJob();
-        autoremoveJobs();
-    }, 2000);
+    try {
+        setInterval(function () {
+            checkAndStartNewJob();
+            autoremoveJobs();
+        }, 2000);
+    } catch (error) {
+        console.error(error)
+    }
 };
 
-/**
- * Advance state of the job
- * @param {object} job job
- * {job-state} -> {job-state}
- * INQUEUE,    -> STARTED,
- * STARTED,    -> COMPLETED 
- */
-function advanceState(job) {
-    if (job["job-state"] == jobStates.INQUEUE) {
-        job["job-state"] = jobStates.STARTED;
-    }
-    else if (job["job-state"] == jobStates.STARTED) {
-        job["job-state"] = jobStates.COMPLETED;
-        job["time-completed"] = new Date();
-    }
-    // else {
-    //     throw 'Incorrect use of "advanceState()" function';
-    // }
-}
+
 /**
  * Set job to error state and remove the flag with error from mongoDB
  * @param {JSON} flag flag that contains the error
@@ -75,12 +56,12 @@ function setJobToErrorState(flag, errorMsg) {
 
     // find the failed job and set the state to ERROR. remove flag that contains the error 
     jobsList.forEach(elem => {
-        elem["flags_id"].forEach(elemFlag => {
+        elem.flags_id.forEach(elemFlag => {
             if ((JSON.stringify(elemFlag) == JSON.stringify(flagWithError))) {
-                elem["job-state"] = jobStates.ERROR;
-                elem["request"] = "error";
-                elem["param"] = errorMsg;
-                elem["time-completed"] = new Date();
+                elem.jobState = Job.jobStates.ERROR;
+                elem.request = "error";
+                elem.param = errorMsg;
+                elem.timeCompleted = new Date();
                 Flags.removeFlag(flag["_id"]);
             }
         })
@@ -117,9 +98,9 @@ function checkAndStartNewJob() {
 
                 // check for finished jobs. checking for flags from certain jobs in mongodb  
                 jobsList.forEach(job => {
-                    if (job["job-state"] == jobStates.STARTED) {
+                    if (job.jobState == Job.jobStates.STARTED) {
                         var finished = true;
-                        for (let jobflag of job["flags_id"]) {
+                        for (let jobflag of job.flags_id) {
                             for (let flag of flags) {
                                 if (JSON.stringify(jobflag) == JSON.stringify(flag["_id"])) {
                                     finished = false;
@@ -131,23 +112,22 @@ function checkAndStartNewJob() {
                                 break;
                         }
                         if (finished) {
-                            advanceState(job);
+                            job.advanceState();
                         }
                     }
                 });
-                // console.log(jobsList)
+
 
                 // Find first job that need an update
-                var jobToUpdate = jobsList.find(job => (job["job-state"] == jobStates.INQUEUE));
+                var jobToUpdate = jobsList.find(job => (job.jobState == Job.jobStates.INQUEUE));
 
                 // If cm is not updating and there are jobs to update, then update cm and advance that job state from queue to started
                 if (cmState == "idle" && jobToUpdate != undefined) {
-                    redirect.postData(jobToUpdate["param"], "/update_CM")
-                    advanceState(jobToUpdate);
+                    redirect.postData(jobToUpdate.param, "/update_CM")
+                    jobToUpdate.advanceState();
                 }
 
                 console.log("CM State: " + cmState);
-
                 resolve();
             })
             .catch(function (error) {
@@ -158,17 +138,17 @@ function checkAndStartNewJob() {
 };
 
 /**
- * 
+ * Checks if there are any jobs to remove and removes them
  */
 function autoremoveJobs() {
     // for in jobs
     // if actualtime > timeCompleted+livetime => then remove job
     var actualTime = new Date().getTime();
     jobsList.forEach(job => {
-        if (job["job-state"] == jobStates.COMPLETED || job["job-state"] == jobStates.ERROR) {
-            var timeRemove = job["time-completed"].getTime() + timeoutAfterCompletion;
+        if (job.jobState == Job.jobStates.COMPLETED || job.jobState == Job.jobStates.ERROR) {
+            var timeRemove = job.timeCompleted.getTime() + timeoutAfterCompletion;
             if (actualTime > timeRemove) {
-                removeJob(job["jobId"]);
+                removeJob(job.jobId);
             }
         }
     });
@@ -187,20 +167,30 @@ export function createJob(param, requestTypeName) {
             .then(function (existingJob) {
                 if (existingJob == null) {
                     var jobId = generateId()
-                    console.log("<JobsQueue> created new job")
-                    console.log("<JobsQueue> generateId: " + jobId)
-                    console.log("<JobsQueue> param: " + param)
-                    addJob(jobId, requestTypeName, param);
-                    var path = jobPrefix + jobId
-                    var data = {
-                        "path": path
-                    }
-                    resolve(data);
+                    console.log("<JobsQueue> Created new job")
+                    console.log("<JobsQueue> GeneratedId: " + jobId)
+                    console.log("<JobsQueue> Param: " + param)
+
+                    // Add job to jobList
+                    Flags.getFlags()
+                        .then(function (flags) {
+                            var job;
+                            var name = "CM Update";
+                            var flags_id = flags.map(a => a._id);
+                            job = new Job.Job(jobId, name, requestTypeName, param, flags_id)
+                            jobsList.push(job);
+                            var data = {
+                                "path": job.path
+                            }
+                            resolve(data);
+                        })
+                        .catch(function (error) {
+                            console.log("<JobsQueue> ERROR createJob.Flags.getFlags: " + error)
+                        });
                 }
                 else {
-                    var path = jobPrefix + existingJob["jobId"]
                     var data = {
-                        "path": path
+                        "path": existingJob.path
                     }
                     resolve(data);
                 }
@@ -229,8 +219,8 @@ function findExistingJob(param, requestTypeName) {
                 let flags_id = flags.map(a => a._id);
 
                 jobsList.forEach(elem => {
-                    if (elem["request"] == requestTypeName && elem["param"] == param) {
-                        if (JSON.stringify(elem["flags_id"]) == JSON.stringify(flags_id)) {
+                    if (elem.request == requestTypeName && elem.param == param) {
+                        if (JSON.stringify(elem.flags_id) == JSON.stringify(flags_id)) {
                             job = elem;
                         }
                     }
@@ -250,7 +240,7 @@ function findExistingJob(param, requestTypeName) {
  * @returns job object
  */
 export function getJob(jobId) {
-    return jobsList.find(element => element.jobId == jobId);
+    return jobsList.find(elem => elem.jobId == jobId);
 };
 
 /**
@@ -262,44 +252,12 @@ export function getJobs() {
 };
 
 /**
- * Adds new job to the job list
- * @param {integer} jobId job Id
- * @param {string} request request type
- * @param {string} param param
- */
-function addJob(jobId, request, param) {
-    Flags.getFlags()
-        .then(function (flags) {
-
-            var flags_id = flags.map(a => a._id);
-
-            var job = {
-                path: "",
-                jobId: jobId,
-                name: "CM Update",
-                "job-state": jobStates.INQUEUE,
-                "time-created": new Date(),
-                "time-completed": -1,
-                "time-to-autoremove-job": -1,
-                request: request,
-                param: param,
-                autoremove: false,
-                flags_id: flags_id
-            }
-            jobsList.push(job);
-        })
-        .catch(function (error) {
-            console.log("<JobsQueue> ERROR addJob.Flags.getFlags: " + error)
-        });
-};
-
-/**
  * Removes job by id
  */
 function removeJob(jobId) {
-    var job = jobsList.find(element => element.jobId == jobId);
+    var job = jobsList.find(elem => elem.jobId == jobId);
     if (job != undefined) { //if still not removed removed by timeout
-        console.log(`<JobsQueue> removing job => ${jobId}`);
+        console.log("<JobsQueue> removing job => jobId: " + jobId);
         const index = jobsList.indexOf(job);
         if (index > -1) { // only splice array when item is found
             jobsList.splice(index, 1); // 2nd parameter means remove one item only
@@ -319,7 +277,7 @@ function generateId(jobId) {
         id = Math.floor(
             Math.random() * (9999 - 1000) + 1000
         );
-        if (jobsList.find(element => element.jobId == jobId) == null)
+        if (jobsList.find(elem => elem.jobId == jobId) == null)
             ok = true;
     }
     return id;
