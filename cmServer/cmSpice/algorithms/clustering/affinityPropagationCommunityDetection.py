@@ -100,7 +100,7 @@ class AffinityPropagationCommunityDetection:
         best = [-1]
         while len(set(clusters)) != n_clusters and parameter < 1:
             # run dbscan
-            model = AffinityPropagation(max_iter=500, damping=parameter)
+            model = AffinityPropagation(max_iter=500, damping=parameter, preference = -0.1)
             model.fit(distanceMatrix)
 
             # Get clusters
