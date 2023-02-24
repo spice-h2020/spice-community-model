@@ -34,6 +34,17 @@ router.post('/dump', function (req, res, next) {
         });
 });
 
+router.get('/reset', function (req, res, next) {
+    const empty = {};
+    DatabaseContrl.postLoad(empty)
+        .then(function (response) {
+            res.status(200).send(response);
+        })
+        .catch(function (response) {
+            res.status(400).send(response);
+        });
+});
+
 
 
 module.exports = router;
