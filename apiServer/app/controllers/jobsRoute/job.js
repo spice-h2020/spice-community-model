@@ -14,7 +14,6 @@ export const jobStates = {
 
 export class Job {
 
-
     // path: "",
     // jobId: jobId,
     // name: "CM Update",
@@ -28,7 +27,7 @@ export class Job {
     // flags_id: data
 
     constructor(jobId, name, request, param, flags_id) {
-        this.jobId = jobId;
+        this.jobId = String(jobId);
         this.name = name;
         this.jobState = jobStates.INQUEUE;
         this.timeCreated = new Date();
@@ -40,11 +39,31 @@ export class Job {
         this.path = jobPrefix + jobId;
     }
 
+    /**
+     * Advance state of the job
+     * {job-state} -> {job-state}
+     * INQUEUE,    -> STARTED,
+     * STARTED,    -> COMPLETED
+     */
+    advanceState() {
+        if (this.jobState === jobStates.INQUEUE) {
+            this.jobState = jobStates.STARTED;
+        }
+        else if (this.jobState === jobStates.STARTED) {
+            this.jobState = jobStates.COMPLETED;
+            this.timeCompleted = new Date();
+        }
+    }
+
+    /*
+    * Getters & Setters
+    */
+
     get jobId() {
         return this._jobId;
     }
     set jobId(jobId) {
-        this._jobId = jobId;
+        this._jobId = String(jobId);
     }
 
     get name() {
@@ -109,24 +128,5 @@ export class Job {
     set path(path) {
         this._path = path;
     }
-
-    /**
-     * Advance state of the job
-     * @param {object} job job
-     * {job-state} -> {job-state}
-     * INQUEUE,    -> STARTED,
-     * STARTED,    -> COMPLETED 
-     */
-    advanceState() {
-        if (this.jobState == jobStates.INQUEUE) {
-            this.jobState = jobStates.STARTED;
-        }
-        else if (this.jobState == jobStates.STARTED) {
-            this.jobState = jobStates.COMPLETED;
-            this.timeCompleted = new Date();
-        }
-    }
-
-
 
 }

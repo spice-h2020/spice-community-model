@@ -5,7 +5,7 @@
 
 const Job = require("./job.js");
 const Flags = require('../../service/FlagsService.js');
-var redirect = require('../../service/redirectRequest.js');
+const redirect = require('../../service/redirectRequest.js');
 
 
 var jobsList = []
@@ -70,7 +70,7 @@ function checkAndStartNewJob() {
                 // Iterate flags, check if CM is updating and if there are flags with errors
                 flags.forEach(flag => {
                     //check for jobs with errors
-                    if (flag["error"] != "N/D") {
+                    if (flag["error"] !== "N/D") {
                         // cmState = "error";
                         var errorMsg = flag["error"];
                         setJobToErrorState(flag, errorMsg)
@@ -107,7 +107,7 @@ function checkAndStartNewJob() {
                 var jobToUpdate = jobsList.find(job => (job.jobState == Job.jobStates.INQUEUE));
 
                 // If cm is not updating and there are jobs to update, then update cm and advance that job state from queue to started
-                if (cmState == "idle" && jobToUpdate != undefined) {
+                if (cmState == "idle" && jobToUpdate !== undefined) {
                     redirect.postData(jobToUpdate.param, "/update_CM")
                     jobToUpdate.advanceState();
                 }
@@ -137,12 +137,12 @@ function autoremoveJobs() {
             }
         }
     });
-};
+}
 
 
 /**
  * Returns a path for an existing or a new job.
- * @param {string or integer} param param (if no params then set it to integer zero '0')
+ * @param {string} param param (if no params then set it to integer zero '0')
  * @param {string} requestTypeName request type (getCommunities, getPerspectiveById, etc)
  * @returns jobPath
  */
@@ -172,8 +172,7 @@ export function createJob(param, requestTypeName) {
                         .catch(function (error) {
                             console.log("<JobsQueue> ERROR createJob.Flags.getFlags: " + error)
                         });
-                }
-                else {
+                } else {
                     var data = {
                         "path": existingJob.path
                     }
@@ -221,12 +220,12 @@ function findExistingJob(param, requestTypeName) {
 
 /**
  * Returns requested job by id
- * @param {integer} jobId job Id
+ * @param {String} jobId job Id
  * @returns job object
  */
 export function getJob(jobId) {
-    return jobsList.find(elem => elem.jobId == jobId);
-};
+    return jobsList.find(elem => elem.jobId === String(jobId));
+}
 
 /**
  * Returns jobs
@@ -234,39 +233,39 @@ export function getJob(jobId) {
  */
 export function getJobs() {
     return jobsList;
-};
+}
 
 /**
  * Removes job by id
  */
 function removeJob(jobId) {
-    var job = jobsList.find(elem => elem.jobId == jobId);
-    if (job != undefined) { //if still not removed removed by timeout
+    var job = jobsList.find(elem => elem.jobId === String(jobId));
+    if (job !== undefined) { //if still not removed by timeout
         console.log("<JobsQueue> removing job => jobId: " + jobId);
         const index = jobsList.indexOf(job);
         if (index > -1) { // only splice array when item is found
             jobsList.splice(index, 1); // 2nd parameter means remove one item only
         }
     }
-};
+}
 
 
 /**
  * Generates non-repeating random 4-digit job id
- * @returns id
+ * @returns {Integer} id
  */
 function generateId(jobId) {
-    var id = 0;
+    let id = 0;
     var ok = false;
     while (!ok) {
         id = Math.floor(
             Math.random() * (9999 - 1000) + 1000
         );
-        if (jobsList.find(elem => elem.jobId == jobId) == null)
+        if (jobsList.find(elem => elem.jobId === String(id)) == null)
             ok = true;
     }
     return id;
-};
+}
 
 
 

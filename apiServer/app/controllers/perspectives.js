@@ -1,7 +1,7 @@
 const idParam = 'perspectiveId';
 const Perspectives = require('../service/PerspectivesService.js');
 const Flags = require('../service/FlagsService.js');
-var jobManager = require('./jobsRoute/jobsManager.js');
+const JobManager = require('./jobsRoute/jobsManager.js');
 
 // check if flag exist
 // if exist then update CM
@@ -19,7 +19,7 @@ module.exports.getPerspectives = function getPerspectives(req, res, next) {
           });
       }
       else {
-        jobManager.createJob(0, "getPerspectives")
+        JobManager.createJob(0, "getPerspectives")
           .then(function (path) {
             res.status(202).send(path);
           })
@@ -50,7 +50,7 @@ module.exports.getPerspectiveById = function getPerspectiveById(req, res, next) 
           });
       }
       else {
-        jobManager.createJob(perspectiveId, "getPerspectiveById")
+        JobManager.createJob(perspectiveId, "getPerspectiveById")
           .then(function (path) {
             res.status(202).send(path);
           })
@@ -68,7 +68,7 @@ module.exports.listPerspectiveCommunities = function listPerspectiveCommunities(
   const perspectiveId = req.params[idParam];
 
   // Check flag, if exist then access mongodb and return data
-  // if false then check if perspetive exist, create new job and return 202, and a link to that job
+  // if false then check if perspective exist, create new job and return 202, and a link to that job
   Flags.getFlagById(perspectiveId)
     .then(function (response) {
       if (response == null) { // flag does not exist => no update needed
@@ -81,7 +81,7 @@ module.exports.listPerspectiveCommunities = function listPerspectiveCommunities(
           });
       }
       else { //flag exist
-        jobManager.createJob(perspectiveId, "listPerspectiveCommunities")
+        JobManager.createJob(perspectiveId, "listPerspectiveCommunities")
           .then(function (path) {
             res.status(202).send(path);
           })

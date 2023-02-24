@@ -44,14 +44,15 @@ var jobCompleted = {
 
 
 /**
- * Returns filled response template 
- * @param {Job id} jobId 
+ * Returns filled response template
+ * @param {Job} job
+ * @param {String} data
  * @returns Completed response
  */
 function generateCompletedResponse(job, data) {
     var response = jobCompleted;
     var timeLeft = -1;
-    if (job.jobState != Job.jobStates.ERROR) {
+    if (job.jobState !== Job.jobStates.ERROR) {
         var msLeft = job.timeCompleted.getTime() + jobManager.timeoutAfterCompletion - (new Date().getTime());
         var dateLeft = new Date(msLeft);
         timeLeft = dateLeft.getMinutes() + ":" + dateLeft.getSeconds();
@@ -67,8 +68,8 @@ function generateCompletedResponse(job, data) {
 }
 
 /**
- * Returns filled response template 
- * @param {string} jobId 
+ * Returns filled response template
+ * @param {Job} job
  * @returns Progress response
  */
 function generateProgressResponse(job) {
@@ -87,7 +88,7 @@ function generateProgressResponse(job) {
 /**
  * /jobs/:job_id GET request
  * Allows to monitor job status and get data if CM update is finished.
- * 
+ *
  */
 router.get('/:job_id', function (req, res, next) {
     try {
@@ -102,10 +103,10 @@ router.get('/:job_id', function (req, res, next) {
         else {
             console.log("Monitoring Job: <" + job.jobId + ">");
 
-            if (job.jobState == Job.jobStates.INQUEUE || job.jobState == Job.jobStates.STARTED) {
+            if (job.jobState === Job.jobStates.INQUEUE || job.jobState === Job.jobStates.STARTED) {
                 res.send(generateProgressResponse(job));
             }
-            else if (job.jobState == Job.jobStates.COMPLETED || job.jobState == Job.jobStates.ERROR) {
+            else if (job.jobState === Job.jobStates.COMPLETED || job.jobState === Job.jobStates.ERROR) {
                 jobsHandler.getData(job.request, job.param)
                     .then(function (data) {
                         res.status(200).send(generateCompletedResponse(job, data));
