@@ -65,6 +65,19 @@
 	  },
 	  {
 		"on_attribute": {
+		  "att_name": "Object group",
+		  "att_type": "String"
+		},
+		"sim_function": [
+		  {
+			"name": "EqualSimilarityDAO",
+			"params": [],
+			"default": true
+		  }
+		]
+	  },
+	  {
+		"on_attribute": {
 		  "att_name": "author",
 		  "att_type": "String"
 		},
