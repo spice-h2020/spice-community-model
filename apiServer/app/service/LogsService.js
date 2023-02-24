@@ -4,14 +4,29 @@ const db = require("../models");
 const LogsDAO = db.logs;
 
 /**
-* Logs
-* Access to CM logs
-*
-* returns logs documents
-**/
-exports.getNLatestLogs = function (n) {
+ * Logs
+ * Access to CM logs
+ *
+ * returns logs documents
+ **/
+
+exports.getAllLogs = function (logsType) {
     return new Promise(function (resolve, reject) {
-        LogsDAO.nLatestLogs(n,
+        LogsDAO.allLogs(logsType,
+        data => {
+            resolve(data)
+        },
+            error => {
+                console.log("LogsService error: " + error);
+                reject(error)
+            }
+    )
+    });
+};
+
+exports.getNLatestLogs = function (n, logsType) {
+    return new Promise(function (resolve, reject) {
+        LogsDAO.nLatestLogs(n, logsType,
             data => {
                 resolve(data)
             },
@@ -22,9 +37,9 @@ exports.getNLatestLogs = function (n) {
     });
 };
 
-exports.getLogsBetweenTwoDates = function (startDate, endDate) {
+exports.getLogsBetweenTwoDates = function (startDate, endDate, logsType) {
     return new Promise(function (resolve, reject) {
-        LogsDAO.logsBetweenTwoDates(startDate, endDate,
+        LogsDAO.logsBetweenTwoDates(startDate, endDate, logsType,
             data => {
                 resolve(data)
             },

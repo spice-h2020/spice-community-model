@@ -28,7 +28,7 @@ tags:
   - name: Community Model Logs
     description: Returns CM Logs
 paths:
-  /logs/nLatest/{nLogs}:
+  /logs:
     get:
       tags:
         - Community Model Logs
@@ -37,14 +37,24 @@ paths:
       operationId: getNLatestLogs
       parameters:
         - name: nLogs
-          in: path
-          description: N latest logs
+          in: query
+          description: N latest logs. Use '0' to get all logs
           required: true
-          style: simple
-          explode: false
+          style: form
+          explode: true
           schema:
             minimum: 0
             type: integer
+        - name: logsType
+          in: query
+          description: Type of logs
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+            enum: [ALL, DEBUG, INFO, WARNING, ERROR, CRITICAL]
+            default: ALL
       responses:
         "200":
           description: successful operation
@@ -83,6 +93,16 @@ paths:
             type: string
             format: date
             example: '2016-03-04T03:00:00'
+        - name: logsType
+          in: query
+          description: Type of logs
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+            enum: [ALL, DEBUG, INFO, WARNING, ERROR, CRITICAL]
+            default: ALL
       responses:
         "200":
           description: successful operation

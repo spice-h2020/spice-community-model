@@ -88,7 +88,7 @@ module.exports = mongoose => {
     );
 
     schema.method("toJSON", function () {
-        const { __v, _id, ...object } = this.toObject();
+        const {__v, _id, ...object} = this.toObject();
         // object.id = _id.toString();
         return object;
     });
@@ -97,41 +97,109 @@ module.exports = mongoose => {
 
     // Access mongobd and retrieve requested flag
     return {
-        nLatestLogs: function (n, onSuccess, onError) {
+        allLogs: function (logsType, onSuccess, onError) {
             let items = [];
-            Logs.find({}, { projection: { _id: 0 } }, function (error, data) {
-                if (error) {
-                    onError(error);
-                } else {
-                    let i = 0;
-                    data.forEach(element => {
-                        items[i] = element.toJSON();
-                        i++;
-                    });
-                    onSuccess(items);
-                }
-            }).sort({ _id: -1 }).limit(n);
+            if (logsType === "ALL") {
+                Logs.find({}, {projection: {_id: 0}}, function (error, data) {
+                    if (error) {
+                        onError(error);
+                    } else {
+                        let i = 0;
+                        data.forEach(element => {
+                            items[i] = element.toJSON();
+                            i++;
+                        });
+                        onSuccess(items);
+                    }
+                }).sort({_id: -1});
+            } else {
+                Logs.find({"levelname": logsType}, {projection: {_id: 0}}, function (error, data) {
+                    if (error) {
+                        onError(error);
+                    } else {
+                        let i = 0;
+                        data.forEach(element => {
+                            items[i] = element.toJSON();
+                            i++;
+                        });
+                        onSuccess(items);
+                    }
+                }).sort({_id: -1});
+            }
         },
 
-        logsBetweenTwoDates: function (startDate, endDate, onSuccess, onError) {
+        nLatestLogs: function (n, logsType, onSuccess, onError) {
             let items = [];
-            Logs.find({
-                "time": {
-                    $gte: startDate,        //new Date(new Date(startDate).setHours(00, 00, 00)),
-                    $lte: endDate            //new Date(new Date(endDate).setHours(23, 59, 59))
-                }
-            }, { projection: { _id: 0 } }, function (error, data) {
-                if (error) {
-                    onError(error);
-                } else {
-                    let i = 0;
-                    data.forEach(element => {
-                        items[i] = element.toJSON();
-                        i++;
-                    });
-                    onSuccess(items);
-                }
-            }).sort({ _id: -1 });
+            if (logsType === "ALL") {
+                Logs.find({}, {projection: {_id: 0}}, function (error, data) {
+                    if (error) {
+                        onError(error);
+                    } else {
+                        let i = 0;
+                        data.forEach(element => {
+                            items[i] = element.toJSON();
+                            i++;
+                        });
+                        onSuccess(items);
+                    }
+                }).sort({_id: -1}).limit(n);
+            } else {
+                Logs.find({"levelname": logsType}, {projection: {_id: 0}}, function (error, data) {
+                    if (error) {
+                        onError(error);
+                    } else {
+                        let i = 0;
+                        data.forEach(element => {
+                            items[i] = element.toJSON();
+                            i++;
+                        });
+                        onSuccess(items);
+                    }
+                }).sort({_id: -1}).limit(n);
+            }
+        },
+
+        logsBetweenTwoDates: function (startDate, endDate, logsType, onSuccess, onError) {
+            let items = [];
+            if (logsType === "ALL") {
+                Logs.find({
+                    "time": {
+                        $gte: startDate,        //new Date(new Date(startDate).setHours(00, 00, 00)),
+                        $lte: endDate            //new Date(new Date(endDate).setHours(23, 59, 59))
+                    },
+                }, {projection: {_id: 0}}, function (error, data) {
+                    if (error) {
+                        onError(error);
+                    } else {
+                        let i = 0;
+                        data.forEach(element => {
+                            items[i] = element.toJSON();
+                            i++;
+                        });
+                        onSuccess(items);
+                    }
+                }).sort({_id: -1});
+            } else {
+                Logs.find({
+                    "time": {
+                        $gte: startDate,        //new Date(new Date(startDate).setHours(00, 00, 00)),
+                        $lte: endDate            //new Date(new Date(endDate).setHours(23, 59, 59))
+                    },
+                    "levelname": logsType
+                }, {projection: {_id: 0}}, function (error, data) {
+                    if (error) {
+                        onError(error);
+                    } else {
+                        let i = 0;
+                        data.forEach(element => {
+                            items[i] = element.toJSON();
+                            i++;
+                        });
+                        onSuccess(items);
+                    }
+                }).sort({_id: -1});
+            }
+
         }
     };
 };
