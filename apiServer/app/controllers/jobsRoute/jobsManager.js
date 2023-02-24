@@ -14,21 +14,6 @@ var jobsList = []
 // time: minutes*60*1000=ms
 export var timeoutAfterCompletion = 30 * 60 * 1000;
 
-
-
-// path: "",
-// jobId: jobId,
-// name: "CM Update",
-// "job-state": jobStates.INQUEUE,
-// "time-created": new Date(),
-// "time-completed": new Date(),
-// "time-to-autoremove-job": "",
-// request: request,
-// param: param,
-// autoremove: false,
-// flags_id: data
-
-
 /**
  * Main loop. Executes every 2 seconds
  */

@@ -24,7 +24,10 @@ from cmSpice.dao.dao_json import DAO_json
 from cmSpice.core.communityModel import CommunityModel
 from cmSpice.core.communitiesSimilarityModel import CommunitiesSimilarityModel
 
+import logging
+from cmSpice.logger.logger import getLogger
 
+logger = getLogger(__name__)
 
 def post(self):
     # _post handler_
@@ -34,11 +37,11 @@ def post(self):
     # Gets the data itself
     post_data = self.rfile.read(content_length)
     post_data = post_data.decode('utf-8')
-    logging.info("POST request,\nPath: %s\nHeaders:\n%s\n\nBody:\n%s\n",
+    logger.info("POST request,\nPath: %s\nHeaders:\n%s\n\nBody:\n%s\n",
                  str(self.path), str(self.headers), post_data)
     # Gets the request
     request = self.path.split("/")
-    # logging.info("Request POST: %s", str(request[1]))
+    # logger.info("Request POST: %s", str(request[1]))
     first_arg = request[1]
     ok = False
 
@@ -150,4 +153,4 @@ def __updateCM(self):
     except Exception as e:
         flag["error"] = traceback.format_exc()
         daoFlags.replaceFlag(flag)
-        logging.error(traceback.format_exc())
+        logger.error(traceback.format_exc())

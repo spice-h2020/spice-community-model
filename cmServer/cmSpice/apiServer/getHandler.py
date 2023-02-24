@@ -1,7 +1,11 @@
 # python modules
 from bson.json_util import dumps, loads
 from bson.objectid import ObjectId
+
+# logger
 import logging
+from cmSpice.logger.logger import getLogger
+logger = getLogger(__name__)
 
 # local modules
 from cmSpice.dao.dao_db import DAO_db
@@ -10,11 +14,11 @@ from cmSpice.dao.dao_db import DAO_db
 def get(self):
     # _get handler_
 
-    logging.info("GET request,\nPath: %s\nHeaders:\n%s\n",
+    logger.info("GET request,\nPath: %s\nHeaders:\n%s\n",
                  str(self.path), str(self.headers))
     # Gets the request
     request = self.path.split("/")
-    # logging.info("Request GET: %s", str(request[1]))
+    # logger.info("Request GET: %s", str(request[1]))
     first_arg = request[1]
 
     if first_arg == "dump":
