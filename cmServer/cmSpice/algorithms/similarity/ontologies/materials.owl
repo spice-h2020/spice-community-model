@@ -344,6 +344,14 @@
     <owl:Class rdf:about="http://www.semanticweb.org/guille/ontologies/2022/12/materials#Wool">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/guille/ontologies/2022/12/materials#Organic"/>
     </owl:Class>
+
+
+    <!-- http://www.semanticweb.org/guille/ontologies/2022/12/materials#Redclay -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/guille/ontologies/2022/12/materials#Redclay">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/guille/ontologies/2022/12/materials#NonOrganic"/>
+    </owl:Class>
+
 </rdf:RDF>
 
 
