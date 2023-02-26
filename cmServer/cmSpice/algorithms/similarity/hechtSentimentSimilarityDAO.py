@@ -42,6 +42,34 @@ class HechtSentimentSimilarityDAO(TableSimilarityDAO):
         emotionB = emotionsB.split(";")[0].lower()
         
         return super().distanceValues(emotionA, emotionB)
+
+    def dominantInteractionAttribute(self, emotionsA, emotionsB):
+        """
+        Method to obtain the dominant value in each combination of emotions
+        
+        Parameters
+        ----------
+        emotionsDictA : dict
+            Dict of Plutchik emotions (key: emotion; value: confidence level)
+        emotionsDictB : dict
+            Dict of Plutchik emotions (key: emotion; value: confidence level)
+
+        Returns
+        -------
+        String
+            Dominant emotion for A and B
+        """
+
+        if (isinstance(emotionsA, str) == False or isinstance(emotionsB, str) == False):
+            return "", ""
+
+        emotionA = emotionsA.split(";")[0].lower()
+        emotionB = emotionsB.split(";")[0].lower()
+
+        return emotionA, emotionB
+
+    def dominantValue(self, emotionsA, emotionsB):     
+        return self.dominantInteractionAttribute(emotionsA, emotionsB) 
         
 
             

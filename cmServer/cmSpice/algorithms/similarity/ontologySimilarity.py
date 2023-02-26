@@ -180,58 +180,28 @@ class OntologySimilarity(SimilarityDAO):
     
     def dominantValue(self, valueA, valueB):
         explainableValues = []
+        
+        """
+        print("dominant value ontology similarity")
+        print(self.artworkA)
+        print("\n")
+        print(self.artworkB)
+        print("\n")
+        """
 
         try:
             ontologyValueListA, ontologyValueListB = self.getOntologyValueList(valueA, valueB)
 
-            for ontologyValueA in ontologyValueListA:
-                # Get most similar ontologyValueB in ontologyValueListB
-                #ontologyValueB = self.mostSimilarOntologyValue(ontologyValueA, ontologyValueListB)
-                ontologyValueB = self.mostSimilarListElement(ontologyValueA, ontologyValueListB)
-                if (self.validOntologyValue(ontologyValueA) and self.validOntologyValue(ontologyValueB)):
-                    # Get ancestors chosen values
-                    ancestorsA = self.onto[ontologyValueA.capitalize()].ancestors()
-                    ancestorsB = self.onto[ontologyValueB.capitalize()].ancestors()
-
-                    # Intersection ancestors (common ancestors)
-                    commonAncestors = ancestorsA.intersection(ancestorsB)
-                    lowestCommonAncestor, lowestCommonAncestorLayer = self.getOntologyLowestCommonAncestor(commonAncestors)
-                    
-                    layerA = self.elemLayer(ancestorsA)
-                    layerB = self.elemLayer(ancestorsB)
-                    maxLayer = max(layerA, layerB)
-                    if (abs(lowestCommonAncestorLayer - maxLayer) <= 1 and lowestCommonAncestorLayer > 0):
-                        # Explanation requires string (not Thing.class)
-                        commonParent = lowestCommonAncestor.name.lower()
-                        if (commonParent == "material"):
-                            print("common parent root")
-                            print("ontologyValueA: " + str(ontologyValueA))
-                            print("ontologyValueB: " + str(ontologyValueB))
-                            print("layerA: " + str(layerA))
-                            print("maxLayer: " + str(maxLayer))
-                            print("lowestCommonAncestorLayer: " + str(lowestCommonAncestorLayer))
-                            print("abs: " + str(abs(lowestCommonAncestorLayer - maxLayer)))
-                            print("ancestorsA: " + str(ancestorsA))
-                            print("ancestorsB: " + str(ancestorsB))
-                            print("\n")
-                        commonParentDict = {}
-                        commonParentDict[commonParent] = {}
-                        commonParentDict[commonParent][ontologyValueA] = [ self.artworkA['id'].to_list()[0] ]
-                        #commonParentDict[commonParent][ontologyValueA] = { "id": [self.artworkA['id'].to_list()[0]], "tittle": [self.artworkA['tittle'].to_list()[0]] }
-                        if (ontologyValueB not in commonParentDict[commonParent]):
-                            commonParentDict[commonParent][ontologyValueB] = []
-                            #commonParentDict[commonParent][ontologyValueB] = {"id": [], "tittle": []}
-                        commonParentDict[commonParent][ontologyValueB].append( self.artworkB['id'].to_list()[0] )
-                        #commonParentDict[commonParent][ontologyValueB]['id'].append( self.artworkB['id'].to_list()[0] )
-                        #commonParentDict[commonParent][ontologyValueB]['tittle'].append( self.artworkB['tittle'].to_list()[0] )
-
-                        explainableValues.append(commonParentDict)
+            explainableValues.append(self.extractDominantValue(ontologyValueListA, ontologyValueListB, self.artworkA, self.artworkB))
+            explainableValues.append(self.extractDominantValue(ontologyValueListB, ontologyValueListA, self.artworkB, self.artworkA))
 
         except Exception as e:
             print("exception")
             print(e)
+            """
             print("ontology A: " + str(valueA))
             print("ontology B: " + str(ontologyValueB))
+            """
             print("checking test")
             print("\n")
 
@@ -253,8 +223,62 @@ class OntologySimilarity(SimilarityDAO):
             #print("\n")    
         
         return explainableValues
+
+    def extractDominantValue(self, ontologyValueListA, ontologyValueListB, artworkA, artworkB):
+        explainableValues = []
+
+        for ontologyValueA in ontologyValueListA:
+            # Get most similar ontologyValueB in ontologyValueListB
+            #ontologyValueB = self.mostSimilarOntologyValue(ontologyValueA, ontologyValueListB)
+            ontologyValueB = self.mostSimilarListElement(ontologyValueA, ontologyValueListB)
+            if (self.validOntologyValue(ontologyValueA) and self.validOntologyValue(ontologyValueB)):
+                # Get ancestors chosen values
+                ancestorsA = self.onto[ontologyValueA.capitalize()].ancestors()
+                ancestorsB = self.onto[ontologyValueB.capitalize()].ancestors()
+
+                # Intersection ancestors (common ancestors)
+                commonAncestors = ancestorsA.intersection(ancestorsB)
+                lowestCommonAncestor, lowestCommonAncestorLayer = self.getOntologyLowestCommonAncestor(commonAncestors)
+                
+                layerA = self.elemLayer(ancestorsA)
+                layerB = self.elemLayer(ancestorsB)
+                maxLayer = max(layerA, layerB)
+                if (abs(lowestCommonAncestorLayer - maxLayer) <= 1 and lowestCommonAncestorLayer > 0):
+                    # Explanation requires string (not Thing.class)
+                    commonParent = lowestCommonAncestor.name.lower()
+                    if (commonParent == "material"):
+                        print("common parent root")
+                        print("ontologyValueA: " + str(ontologyValueA))
+                        print("ontologyValueB: " + str(ontologyValueB))
+                        print("layerA: " + str(layerA))
+                        print("maxLayer: " + str(maxLayer))
+                        print("lowestCommonAncestorLayer: " + str(lowestCommonAncestorLayer))
+                        print("abs: " + str(abs(lowestCommonAncestorLayer - maxLayer)))
+                        print("ancestorsA: " + str(ancestorsA))
+                        print("ancestorsB: " + str(ancestorsB))
+                        print("\n")
+                    commonParentDict = {}
+                    commonParentDict[commonParent] = {}
+                    # to_list is required when it is a dataframe
+                    #commonParentDict[commonParent][ontologyValueA] = [ self.artworkA['id'].to_list()[0] ]
+                    commonParentDict[commonParent][ontologyValueA] = [ artworkA['id'] ]
+
+                    #commonParentDict[commonParent][ontologyValueA] = { "id": [self.artworkA['id'].to_list()[0]], "tittle": [self.artworkA['tittle'].to_list()[0]] }
+                    if (ontologyValueB not in commonParentDict[commonParent]):
+                        commonParentDict[commonParent][ontologyValueB] = []
+                        #commonParentDict[commonParent][ontologyValueB] = {"id": [], "tittle": []}
+                    
+                    # to_list is required when it is a dataframe
+                    #commonParentDict[commonParent][ontologyValueB].append( self.artworkB['id'].to_list()[0] )
+                    commonParentDict[commonParent][ontologyValueB].append( artworkB['id'] )
+                    
+                    #commonParentDict[commonParent][ontologyValueB]['id'].append( self.artworkB['id'].to_list()[0] )
+                    #commonParentDict[commonParent][ontologyValueB]['tittle'].append( self.artworkB['tittle'].to_list()[0] )
+
+                    explainableValues.append(commonParentDict)
+
     
-    
+        return explainableValues
     
     
     

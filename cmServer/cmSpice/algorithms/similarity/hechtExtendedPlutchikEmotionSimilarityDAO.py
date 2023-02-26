@@ -30,4 +30,37 @@ class HechtExtendedPlutchikEmotionSimilarityDAO(ExtendedPlutchikEmotionSimilarit
         
         return self.getDistanceBetweenItems(emotionA,emotionB)
 
-            
+    def dominantInteractionAttribute(self, emotionsA, emotionsB):
+        """
+        Method to obtain the dominant value in each combination of emotions
+        
+        Parameters
+        ----------
+        emotionsDictA : dict
+            Dict of Plutchik emotions (key: emotion; value: confidence level)
+        emotionsDictB : dict
+            Dict of Plutchik emotions (key: emotion; value: confidence level)
+
+        Returns
+        -------
+        String
+            Dominant emotion for A and B
+        """
+        emotionA = ""
+        emotionB = ""
+
+        if (isinstance(emotionsA, str) == True):
+            emotionA = emotionsA.split(";")[0].lower()
+        if (isinstance(emotionsB, str) == True):
+            emotionB = emotionsB.split(";")[0].lower()   
+
+        print("dominant interaction attribute")
+        print(emotionsA)
+        print(emotionA)
+        print("\n")
+
+        return emotionA, emotionB
+
+    def dominantValue(self, emotionsA, emotionsB):  
+        print("dominantValue")   
+        return self.dominantInteractionAttribute(emotionsA, emotionsB) 
