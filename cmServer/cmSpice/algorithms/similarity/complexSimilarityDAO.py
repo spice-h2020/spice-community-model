@@ -1,6 +1,9 @@
 # Authors: José Ángel Sánchez Martín
 from cmSpice.algorithms.similarity.similarityDAO import SimilarityDAO
 
+import numpy as np
+from cmSpice.dao.dao_db_artworkDistanceMatrixes import DAO_db_artworkDistanceMatrixes
+
 class ComplexSimilarityDAO(SimilarityDAO):
 
     def __init__(self,dao,similarityDict):
@@ -68,6 +71,22 @@ class ComplexSimilarityDAO(SimilarityDAO):
             weight = similarityFunction.get('weight',0.5)
             
             simDistance = similarity.distance(elemA,elemB)
+
+            print("similarity")
+            print(similarity)
+            print("elemA")
+            print(elemA)
+            print("elemB")
+            print(elemB)
+            
+            """
+            # Create a column in self.data with the dominant value
+            dominantValue = similarity.dominantElemValue(elemA, elemB, idColumn = 'index')
+            
+            print("dominant value")
+            print(dominantValue)
+            print("\n")
+            """
             
             """
             print("similarity: " + str(similarity))
@@ -94,3 +113,114 @@ class ComplexSimilarityDAO(SimilarityDAO):
         # print("\n")
         
         return complexDistance
+
+#-------------------------------------------------------------------------------------------------------------------------------
+#   Optimize calculations
+#-------------------------------------------------------------------------------------------------------------------------------
+    
+    def matrix_distance(self):
+        return self.matrix_distance_explanation()
+
+    def matrix_distance_explanation(self):
+        #print("matrix distance explanation complexSimilarity")
+
+        # Calculate final distanceMatrix
+        users = self.data.index
+        complexWeight = 0
+        complexDistanceMatrix = np.zeros((len(users), len(users)))
+
+        """
+        print("complexDistanceMatrix")
+        print(complexDistanceMatrix)
+        print("\n")
+        """
+
+        # For each similarity measure, get distanceMatrix and dominantValues associated
+        for similarity, similarityFunction in self.similarityDict.items():
+            # Import distance matrix, dominantValueMatrix
+            distanceMatrix, dominantValueMatrix = self.computeSimilarityMatrixes(similarityFunction)
+
+            """
+            print(distanceMatrix)
+            print(dominantValueMatrix)
+            print("\n")
+            """
+
+            # Save distanceMatrix, dominantValueMatrix in the database
+            self.saveDatabaseDistanceMatrix(similarityFunction, distanceMatrix, dominantValueMatrix)
+
+            # Update complex distance matrix
+            weight = similarityFunction.get('weight',0.5)
+            complexWeight = complexWeight + weight 
+            complexDistanceMatrix += (distanceMatrix * weight)
+
+            """
+            print("complexDistanceMatrix")
+            print(complexDistanceMatrix)
+            print("\n")
+            """
+
+            # Update self.data with the information from dominantValueMatrix
+            dominantValueColumn = similarity.dominantValueColumn()
+            self.data[ dominantValueColumn ] = dominantValueMatrix
+
+            print("check dominant value column")
+            print(self.data[['userid', dominantValueColumn]])
+            print("\n")
+
+
+        complexDistanceMatrix /= complexWeight
+
+        """
+        print("final complexDistanceMatrix")
+        print(complexDistanceMatrix)
+        print("\n")
+        """
+
+        self.distanceMatrix = complexDistanceMatrix
+
+        return complexDistanceMatrix
+
+    def saveDatabaseDistanceMatrix(self, similarity, distanceMatrix, dominantValueMatrix):
+        print("save database matrix")
+        databaseObject = {}
+        databaseObject['attribute'] = similarity['on_attribute']['att_name']
+        databaseObject['similarity'] = similarity['name']
+        if ('Beliefs.beliefJ' in self.data.columns):
+            databaseObject['index'] = self.data['userid'].tolist()
+        else:
+            databaseObject['index'] = self.data['id'].tolist()
+        databaseObject['distanceMatrix'] = distanceMatrix.tolist()
+        databaseObject['dominantValueMatrix'] = dominantValueMatrix
+
+        print("save it")
+
+        daoArtworkDistanceMatrixes = DAO_db_artworkDistanceMatrixes()
+        daoArtworkDistanceMatrixes.updateDistanceMatrix(databaseObject)
+
+
+        print("end save database matrix")
+        print("\n")
+
+    def computeSimilarityMatrixes(self, similarity):
+        attribute = similarity['on_attribute']['att_name']
+        similarityName = similarity['name']
+
+        daoArtworkDistanceMatrixes = DAO_db_artworkDistanceMatrixes()
+        databaseObject = daoArtworkDistanceMatrixes.getArtworkDistanceMatrix(attribute, similarityName)
+        print("compute similarity matrixes")
+        print(len(databaseObject))
+        print("\n")
+        print(attribute)
+        print(similarityName)
+        print("end compute similarity matrixes")
+        print("\n")
+        
+        if (len(databaseObject) > 0):
+            print("load precomputed distance matrix")
+            distanceMatrix = np.asarray(databaseObject['distanceMatrix'])
+            dominantValueMatrix = databaseObject['dominantValueMatrix']
+        else:
+            distanceMatrix, dominantValueMatrix = similarity.matrix_distance_explanation()
+
+        return distanceMatrix, dominantValueMatrix

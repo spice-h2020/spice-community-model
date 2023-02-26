@@ -4,6 +4,11 @@ import numpy as np
 import importlib
 import json
 
+from itertools import combinations
+from itertools import combinations_with_replacement
+
+
+
 class SimilarityDAO:
     """Class to define the functions to be implemented to calculate
     the similarity between elements.
@@ -308,6 +313,8 @@ class SimilarityDAO:
         self.distanceMatrix = matrix
 
         return matrix
+
+    
         
     def updateDistanceMatrix(self, userIds, distanceMatrix):
         """
@@ -478,20 +485,58 @@ class SimilarityDAO:
 #   To calculate dominant value between two values (in order to explain communities)
 #-------------------------------------------------------------------------------------------------------------------------------
     
-    def dominantElemValue(self, elemA, elemB):
+    def dominantElemValue(self, elemA, elemB, idColumn = 'id'):
         # Get artwork information
-        self.artworkA = self.data.loc[ self.data['id'] == elemA ]
-        self.artworkB = self.data.loc[ self.data['id'] == elemB ]
+        if (idColumn != 'index'):
+            #print("dominant elem value " + str(idColumn))
+            self.artworkA = self.data.loc[ self.data[idColumn] == elemA ]
+            self.artworkB = self.data.loc[ self.data[idColumn] == elemB ]
 
-        #valueA = self.data.loc[elemA][self.similarityColumn].to_list()[0]
-        #valueB = self.data.loc[elemB][self.similarityColumn].to_list()[0]
-        valueA = self.artworkA[self.similarityColumn].to_list()[0]
-        valueB = self.artworkB[self.similarityColumn].to_list()[0]
+            #valueA = self.data.loc[elemA][self.similarityColumn].to_list()[0]
+            #valueB = self.data.loc[elemB][self.similarityColumn].to_list()[0]
+            valueA = self.artworkA[self.similarityColumn].to_list()[0]
+            valueB = self.artworkB[self.similarityColumn].to_list()[0]
+        else:
+            #print("dominant elem value 2 " + str(idColumn))
+            self.artworkA = self.data.loc[elemA]
+            self.artworkB = self.data.loc[elemB]
+
+            valueA = self.artworkA[self.similarityColumn]
+            valueB = self.artworkB[self.similarityColumn]
+
+            """
+            print("artworkA: " + str(self.artworkA))
+            print("artworkB: " + str(self.artworkB))
+            print("valueA: " + str(valueA))
+            print("valueB: " + str(valueB))
+            print("\n")
+            """
+
+        
         
         return self.dominantValue(valueA,valueB)
         
     def dominantValue(self, valueA, valueB):
-        return valueA
+        return [valueA, valueB]
+
+    def dominantValueColumn(self, name = ""):
+        """
+        Column name associated to dominant values
+
+        Parameters
+        ----------
+        name: String
+            Suffix of the column name
+
+        Returns
+        -------
+        String
+            Column name
+        """
+        if (name == ""):
+            name = self.similarityColumn
+        return name + 'DominantInteractionGenerated'
+        return "dominantValue_" + name
 
 
     def dominantDistance(self, dominantItemA, dominantItemB):
@@ -513,4 +558,77 @@ class SimilarityDAO:
             Distance
         """
         return 1.0
-         
+
+
+#-------------------------------------------------------------------------------------------------------------------------------
+#   Optimize calculations
+#-------------------------------------------------------------------------------------------------------------------------------
+    
+    def matrix_distance_explanation(self):
+        """
+        Method to calculate the matrix of distance and dominant values (for explanations) between all element included in data.
+
+        Returns
+        -------
+        distanceMatrix: np.array
+            Matrix that contains all similarity values.
+        dominantValueMatrix: np.array
+            Matrix that contains all dominant values used for community explanation
+        
+        """
+        print("matrix distance explanation")
+        users = self.data.index
+        pairs = combinations_with_replacement(range(len(users)), r=2)
+
+        # This checks 0,1 and 1,0
+        # Change it to only check 0,1 and assign the same to 1,0
+        distanceMatrix = np.zeros((len(users), len(users)))
+        dominantValueMatrix = np.zeros((len(users), len(users))).tolist()
+        """
+        print("dominantValueMatrix")
+        print(type(dominantValueMatrix))
+        print(dominantValueMatrix)
+        print("\n")
+        """
+
+        for p in pairs:
+            print("elems")
+            print(p[0])
+            print(p[1])
+            print("\n")
+            #dist = self.distance(users[p[0]], users[p[1]])
+            dist = self.distance(p[0], p[1])
+
+            distanceMatrix[p[0], p[1]] = dist
+            distanceMatrix[p[1], p[0]] = dist
+
+            #dominantValues = self.dominantElemValue(users[p[0]], users[p[1]])
+            dominantValues = self.dominantElemValue(p[0], p[1], idColumn = 'index')
+
+            dominantValueMatrix[p[0]][p[1]] = dominantValues[0]
+            dominantValueMatrix[p[1]][p[0]] = dominantValues[1]
+
+
+            """
+            #print("user1: " + str(users[p[0]]))
+            #print("user2: " + str(users[p[1]]))
+            #print("distance: " + str(dist))
+            """
+
+
+        print("distance matrix")
+        print(distanceMatrix)
+        print("\n")
+        print("dominantValueMatrix")
+        print(dominantValueMatrix)
+        print("\n")
+
+
+        # Reduce the distanceMatrix to 2 decimals
+        distanceMatrix = np.round(distanceMatrix,2)
+        
+        self.distancedistanceMatrix = distanceMatrix
+        self.dominantValueMatrix = dominantValueMatrix
+
+        return distanceMatrix, dominantValueMatrix
+
