@@ -72,12 +72,14 @@ class ComplexSimilarityDAO(SimilarityDAO):
             
             simDistance = similarity.distance(elemA,elemB)
 
+            """
             print("similarity")
             print(similarity)
             print("elemA")
             print(elemA)
             print("elemB")
             print(elemB)
+            """
             
             """
             # Create a column in self.data with the dominant value
@@ -138,7 +140,7 @@ class ComplexSimilarityDAO(SimilarityDAO):
         # For each similarity measure, get distanceMatrix and dominantValues associated
         for similarity, similarityFunction in self.similarityDict.items():
             # Import distance matrix, dominantValueMatrix
-            distanceMatrix, dominantValueMatrix = self.computeSimilarityMatrixes(similarityFunction)
+            distanceMatrix, dominantValueMatrix = self.computeSimilarityMatrixes(similarity, similarityFunction)
 
             """
             print(distanceMatrix)
@@ -164,9 +166,11 @@ class ComplexSimilarityDAO(SimilarityDAO):
             dominantValueColumn = similarity.dominantValueColumn()
             self.data[ dominantValueColumn ] = dominantValueMatrix
 
+            """
             print("check dominant value column")
             print(self.data[['userid', dominantValueColumn]])
             print("\n")
+            """
 
 
         complexDistanceMatrix /= complexWeight
@@ -202,9 +206,9 @@ class ComplexSimilarityDAO(SimilarityDAO):
         print("end save database matrix")
         print("\n")
 
-    def computeSimilarityMatrixes(self, similarity):
-        attribute = similarity['on_attribute']['att_name']
-        similarityName = similarity['name']
+    def computeSimilarityMatrixes(self, similarity, similarityFunction):
+        attribute = similarityFunction['on_attribute']['att_name']
+        similarityName = similarityFunction['name']
 
         daoArtworkDistanceMatrixes = DAO_db_artworkDistanceMatrixes()
         databaseObject = daoArtworkDistanceMatrixes.getArtworkDistanceMatrix(attribute, similarityName)
@@ -221,6 +225,10 @@ class ComplexSimilarityDAO(SimilarityDAO):
             distanceMatrix = np.asarray(databaseObject['distanceMatrix'])
             dominantValueMatrix = databaseObject['dominantValueMatrix']
         else:
+            print("similarity measure is not in database")
+            print(similarity)
+            print("\n")
+
             distanceMatrix, dominantValueMatrix = similarity.matrix_distance_explanation()
 
         return distanceMatrix, dominantValueMatrix

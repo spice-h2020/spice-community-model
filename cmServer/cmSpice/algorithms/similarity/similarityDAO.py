@@ -592,10 +592,13 @@ class SimilarityDAO:
         """
 
         for p in pairs:
+            """
             print("elems")
             print(p[0])
             print(p[1])
             print("\n")
+            """
+            
             #dist = self.distance(users[p[0]], users[p[1]])
             dist = self.distance(p[0], p[1])
 

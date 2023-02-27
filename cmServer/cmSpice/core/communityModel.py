@@ -185,8 +185,11 @@ class CommunityModel():
             distanceMatrix = self.similarityMeasure.matrix_distance()
         # Update distance matrix for a user
         else:
+            distanceMatrix = self.similarityMeasure.matrix_distance()
+            """
             distanceMatrix = self.similarityMeasure.updateDistanceMatrix(
                 self.updateUsers, distanceMatrix)
+            """
 
         print(distanceMatrix)
 
