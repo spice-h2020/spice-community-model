@@ -120,31 +120,7 @@ class ExtendedPlutchikEmotionSimilarity(ExtendedPlutchikEmotionSimilarityDAO):
         emotionsDictA = dict([(x.replace("emotion:",""), y) for x, y in emotionsDictA.items() if x.startswith('emotion:')])
         emotionsDictB = dict([(x.replace("emotion:",""), y) for x, y in emotionsDictB.items() if x.startswith('emotion:')])
         """
-        return self.lowestDistancePair[0], self.lowestDistancePair[1]
-
-    
-    def dominantInteractionAttribute(self, emotionsDictA, emotionsDictB):
-        """
-        Method to obtain the dominant value in each combination of emotions
-        
-        Parameters
-        ----------
-        emotionsDictA : dict
-            Dict of Plutchik emotions (key: emotion; value: confidence level)
-        emotionsDictB : dict
-            Dict of Plutchik emotions (key: emotion; value: confidence level)
-
-        Returns
-        -------
-        String
-            Dominant emotion for A and B
-        """
-        
-        """
-        emotionsDictA = dict([(x.replace("emotion:",""), y) for x, y in emotionsDictA.items() if x.startswith('emotion:')])
-        emotionsDictB = dict([(x.replace("emotion:",""), y) for x, y in emotionsDictB.items() if x.startswith('emotion:')])
-        """
-        return self.lowestDistancePair[0], self.lowestDistancePair[1]
+        return [self.lowestDistancePair[0], self.lowestDistancePair[1]]
 
     
     

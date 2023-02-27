@@ -39,9 +39,9 @@ class EqualSimilarityDAO(SimilarityDAO):
     def dominantValue(self, valueA, valueB):
         #return valueA
         if self.similarityColumn == 'id':
-            return {valueA: self.artworkA['id'].to_list()[0]}
+            return [{valueA: self.artworkA['id'].to_list()[0]}, {valueB: self.artworkB['id'].to_list()[0]}]
         else:
-            return valueA
+            return [valueA, valueB]
         
         
     

@@ -68,7 +68,7 @@ class SameValuesDictSimilarity(ValuesSimilarity):
 
         return self.getDistanceBetweenItems(valuesListA, valuesListB)
 
-    def dominantInteractionAttribute(self, mftValuesListA, mftValuesListB):
+    def dominantValue(self, mftValuesListA, mftValuesListB):
         """
         Method to obtain the dominant value for A and B
         Parameters

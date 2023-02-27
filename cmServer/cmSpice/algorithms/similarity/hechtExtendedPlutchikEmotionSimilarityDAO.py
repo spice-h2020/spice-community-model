@@ -59,7 +59,7 @@ class HechtExtendedPlutchikEmotionSimilarityDAO(ExtendedPlutchikEmotionSimilarit
         print(emotionA)
         print("\n")
 
-        return emotionA, emotionB
+        return [emotionA, emotionB]
 
     def dominantValue(self, emotionsA, emotionsB):  
         print("dominantValue")   

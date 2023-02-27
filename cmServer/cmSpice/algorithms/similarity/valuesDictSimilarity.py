@@ -53,7 +53,7 @@ class ValuesDictSimilarity(ValuesSimilarity):
 
         return super().distanceValues(valuesListA, valuesListB)
 
-    def dominantInteractionAttribute(self, mftValuesListA, mftValuesListB):
+    def dominantValue(self, mftValuesListA, mftValuesListB):
         """
         Method to obtain the dominant value for A and B
         Parameters
@@ -67,5 +67,5 @@ class ValuesDictSimilarity(ValuesSimilarity):
         String, String
             Predominant valueA, Predominant valueB (pair of most similar ones)
         """
-        return self.lowestDistancePair[0], self.lowestDistancePair[1]
+        return [self.lowestDistancePair[0], self.lowestDistancePair[1]]
         

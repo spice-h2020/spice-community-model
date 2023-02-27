@@ -66,7 +66,7 @@ class HechtSentimentSimilarityDAO(TableSimilarityDAO):
         emotionA = emotionsA.split(";")[0].lower()
         emotionB = emotionsB.split(";")[0].lower()
 
-        return emotionA, emotionB
+        return [emotionA, emotionB]
 
     def dominantValue(self, emotionsA, emotionsB):     
         return self.dominantInteractionAttribute(emotionsA, emotionsB) 
