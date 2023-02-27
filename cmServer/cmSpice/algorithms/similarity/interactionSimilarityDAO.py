@@ -520,7 +520,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     dominantInteractionAttributeA = dominantInteractionAttributesList[0]
                     dominantInteractionAttributeB = dominantInteractionAttributesList[1]
 
-                    dominantInteractionAttributeDistance = self.interactionSimilarityMeasure.dominantDistance(interactionFeatureA, interactionFeatureB)
+                    #dominantInteractionAttributeDistance = self.interactionSimilarityMeasure.dominantDistance(interactionFeatureA, interactionFeatureB)
+                    dominantInteractionAttributeDistance = self.interactionSimilarityMeasure.getDistanceBetweenItems(dominantInteractionAttributeA, dominantInteractionAttributeB)
+
 
                     # Get dominant value (for each similarity measure attribute) associated to the 2 artworks: objectA and objectB
                     indexA = self.IO_data.loc[ self.IO_data['id'] == objectA ].index.values.astype(int)[0]
