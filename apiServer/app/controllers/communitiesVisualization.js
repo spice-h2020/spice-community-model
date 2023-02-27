@@ -1,11 +1,15 @@
 'use strict';
+
+const idParam_fileId = 'fileId';
+
 // const Perspectives = require('../../service/PerspectivesService.js');
 const CommunitiesVis = require('../service/CommunitiesVisualizationService.js');
 const Flags = require('../service/FlagsService.js');
 const JobManager = require('./jobsRoute/jobsManager.js');
 
-var express = require('express');
-var router = express.Router();
+
+// var express = require('express');
+// var router = express.Router();
 
 
 /**
@@ -14,8 +18,8 @@ var router = express.Router();
     http://localhost:8080/visualizationAPI/index                    -> return json files index (returns only perspectievId and name) -- list[JSON]
  */
 
-router.get('/index', function (req, res, next) {
-
+// router.get('/index', function (req, res, next) {
+module.exports.getIndex = function getIndex(req, res, next) {
     Flags.getFlags()
         .then(function (response) {
             if (response == null) {
@@ -53,10 +57,12 @@ router.get('/index', function (req, res, next) {
     //     .catch(function (response) {
     //         res.status(400).send(response);
     //     });
-});
+// });
+};
 
-router.get('/file/:fileId', function (req, res, next) {
-    var fileId = req.params.fileId
+// router.get('/file/:fileId', function (req, res, next) {
+module.exports.getFile = function getFile(req, res, next) {
+    const fileId = req.params[idParam_fileId];
 
     Flags.getFlagById(fileId)
         .then(function (flag) {
@@ -94,8 +100,8 @@ router.get('/file/:fileId', function (req, res, next) {
     //         res.status(400).send(response);
     //     });
     // }
-});
+// });
+};
 
 
-
-module.exports = router;
+// module.exports = router;

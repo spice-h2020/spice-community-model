@@ -1,5 +1,7 @@
 'use strict';
 
+const idParam_jobId = 'jobId';
+
 const Job = require("./job.js");
 const Flags = require('../../service/FlagsService.js');
 const jobsHandler = require("./jobsHandler.js");
@@ -90,12 +92,15 @@ function generateProgressResponse(job) {
  * Allows to monitor job status and get data if CM update is finished.
  *
  */
-router.get('/:job_id', function (req, res, next) {
+// router.get('/:job_id', function (req, res, next) {
+module.exports.getJob = function getJob(req, res, next) {
+    const jobId = req.params[idParam_jobId]
+
     try {
         // console.log("List of current jobs: ");
         // console.log(JSON.stringify(jobManager.getJobs(), null, " "));
 
-        var job = jobManager.getJob(req.params.job_id);
+        var job = jobManager.getJob(jobId);
 
         if (job == null) {
             res.status(404).send("JobsManager: Job not found");
@@ -119,6 +124,7 @@ router.get('/:job_id', function (req, res, next) {
     } catch (error) {
         console.error("<JobsRoute> ERROR get: " + error);
     }
-});
+// });
+};
 
-module.exports = router;
+// module.exports = router;
