@@ -352,6 +352,13 @@
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/guille/ontologies/2022/12/materials#NonOrganic"/>
     </owl:Class>
 
+    <!-- http://www.semanticweb.org/guille/ontologies/2022/12/materials#Polyesterivanu -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/guille/ontologies/2022/12/materials#Polyesterivanu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/guille/ontologies/2022/12/materials#Fabric"/>
+    </owl:Class>
+
+
 </rdf:RDF>
 
 
