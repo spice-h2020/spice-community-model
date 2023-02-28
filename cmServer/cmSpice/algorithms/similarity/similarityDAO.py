@@ -85,10 +85,13 @@ class SimilarityDAO:
         double
             Distance between the two values.
         """
-        distance = self.distanceItems(itemA, itemB)
-        distance = self.dissimilarFlag(distance)
+        if (self.isNaN(itemA) or self.isNaN(itemB)):
+            return 1.0
+        else:
+            distance = self.distanceItems(itemA, itemB)
+            distance = self.dissimilarFlag(distance)
 
-        return distance
+            return distance
 
     def distanceValues(self, valueA, valueB):
         """
@@ -134,7 +137,7 @@ class SimilarityDAO:
         self.elemA = elemA
         self.elemB = elemB
 
-        if (math.isnan(valueA) or math.isnan(valueB)):
+        if (self.isNaN(valueA) or self.isNaN(valueB)):
             return 1.0
         else:
             return self.distanceValues(valueA, valueB)
@@ -144,6 +147,10 @@ class SimilarityDAO:
 
     Distance between lists
     """
+
+    def isNaN(self, value):
+        #return isinstance(value, float) and math.isnan(value)
+        return value != value
 
 #-------------------------------------------------------------------------------------------------------------------------------
 #   To calculate similarity between two lists of different length
