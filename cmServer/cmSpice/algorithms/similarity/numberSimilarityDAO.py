@@ -47,3 +47,8 @@ class NumberSimilarityDAO (SimilarityDAO):
             print(str(e))
             print("number similarity error: valueA: " + str(valueA) + ", valueB: " + str(valueB))
             return 1.0
+
+    # Year: nulls (example: fourth artwork must be considered 0.0)
+
+    def dominantValue(self, valueA, valueB):
+        return [str(valueA), str(valueB)]
