@@ -220,7 +220,9 @@ class ComplexSimilarityDAO(SimilarityDAO):
         print("end compute similarity matrixes")
         print("\n")
         
-        if (len(databaseObject) > 0):
+        # For now, if self.data has more/less artworks than the cached version, recompute it.
+        # Later, an update will be done to just recompute the differences between the new data and the cached version
+        if (len(databaseObject) > 0 and len(self.data) == len(databaseObject['distanceMatrix'])):
             print("load precomputed distance matrix")
             distanceMatrix = np.asarray(databaseObject['distanceMatrix'])
             dominantValueMatrix = databaseObject['dominantValueMatrix']
