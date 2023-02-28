@@ -1871,7 +1871,7 @@ class ExplainedCommunitiesDetection:
 
                             print("is explainable get community")
 
-                            explainableAttribute = self.is_explainable(community, answer_binary, percentage)
+                            #explainableAttribute = self.is_explainable(community, answer_binary, percentage)
 
                             """
 
@@ -1888,7 +1888,9 @@ class ExplainedCommunitiesDetection:
                             df = community.copy()
                             if (is_numeric_dtype(df[col])):
                                 df[col] = df[col].astype(str)
-                            df2 = df.loc[ df[col].str.len() != 0 ]
+                            #df2 = df.loc[ df[col].str.len() != 0 ]
+                            df[col] = df[col].replace(['', 'unknown'], 'unknown')
+                            df2 = df.copy()
                             percentageColumn = df2[col].value_counts(normalize=True) * 100
                             percentageColumnDict = percentageColumn.to_dict()
 
@@ -1915,7 +1917,6 @@ class ExplainedCommunitiesDetection:
                             #explainedCommunityProperties[col]["label"] += "distanceCommunity: " + str(self.distanceCommunity)
                             explainedCommunityProperties[col]["explanation"] = percentageColumnDict
 
-                        
                             
                             """
                             
