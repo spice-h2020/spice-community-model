@@ -64,7 +64,7 @@
   "interaction_similarity_functions": [
     {
       "sim_function": {
-        "name": "HechtExtendedPlutchikEmotionSimilarityDAO",
+        "name": "ExtendedPlutchikEmotionSimilarity",
         "params": [],
         "on_attribute": {
           "att_name": "emotion.Galillee_Rebellion",
@@ -78,7 +78,7 @@
     },
     {
       "sim_function": {
-        "name": "HechtExtendedPlutchikEmotionSimilarityDAO",
+        "name": "ExtendedPlutchikEmotionSimilarity",
         "params": [],
         "on_attribute": {
           "att_name": "emotion.Joseph_Flavius",
@@ -92,7 +92,7 @@
     },
     {
       "sim_function": {
-        "name": "HechtExtendedPlutchikEmotionSimilarityDAO",
+        "name": "ExtendedPlutchikEmotionSimilarity",
         "params": [],
         "on_attribute": {
           "att_name": "emotion._Exhibition_Curation",
@@ -106,7 +106,7 @@
     },
     {
       "sim_function": {
-        "name": "HechtSentimentSimilarityDAO",
+        "name": "SentimentSimilarityDAO",
         "params": [],
         "on_attribute": {
           "att_name": "sentiment.Galillee_Rebellion",
@@ -120,7 +120,7 @@
     },
     {
       "sim_function": {
-        "name": "HechtSentimentSimilarityDAO",
+        "name": "SentimentSimilarityDAO",
         "params": [],
         "on_attribute": {
           "att_name": "sentiment.Joseph_Flavius",
@@ -134,7 +134,7 @@
     },
     {
       "sim_function": {
-        "name": "HechtSentimentSimilarityDAO",
+        "name": "SentimentSimilarityDAO",
         "params": [],
         "on_attribute": {
           "att_name": "sentiment._Exhibition_Curation",
