@@ -160,19 +160,18 @@ class ColorSimilarity(SimilarityDAO):
     def dominantValue(self, valueA, valueB):
         distance = self.distanceValues(valueA, valueB)
 
-        dominantList = []
-        value = self.lowestDistancePair[0]
-        valueDict = {}
-        valueDict[value] = {}
-        valueDict[value][value] = [ self.artworkA['id'].to_list()[0] ]
+        dominantValues = []
+        dominantValues.append(self.getDominantList(self.lowestDistancePair[0], self.artworkA))
+        dominantValues.append(self.getDominantList(self.lowestDistancePair[1], self.artworkB))
 
-
-        dominantList.append(valueDict)
+        return dominantValues
         
-        value = self.lowestDistancePair[1]
+        
+        """
+        value = self.lowestDistancePair[1].upper().replace(" ", "")
         valueDict = {}
         valueDict[value] = {}
-        valueDict[value][value] = [ self.artworkB['id'].to_list()[0] ]
+        valueDict[value][value] = [ self.artworkB['id'] ]
 
 
         dominantList.append(valueDict)
@@ -183,15 +182,16 @@ class ColorSimilarity(SimilarityDAO):
         dominantList = []
         for valueElement in valueA:
             value = valueElement.upper().replace(" ", "")
-            element = {value: self.artworkA['id'].to_list()[0]}
+            element = {value: self.artworkA['id']}
             
             valueDict = {}
             valueDict[value] = {}
-            valueDict[value][value] = [ self.artworkA['id'].to_list()[0] ]
+            valueDict[value][value] = [ self.artworkA['id'] ]
 
             dominantList.append(valueDict)
 
         return dominantList
+        """
 
         """
         return valueA
@@ -199,6 +199,17 @@ class ColorSimilarity(SimilarityDAO):
         distance = self.distanceValues(valueA, valueB)
         return {self.lowestDistancePair[0]: self.artworkA['id'].to_list()[0]}
         """
+
+    def getDominantList(self, value, artwork):
+        dominantList = []
+        value = value.upper().replace(" ", "")
+        valueDict = {}
+        valueDict[value] = {}
+        valueDict[value][value] = [ artwork['id'] ]
+
+        dominantList.append(valueDict)
+
+        return dominantList
 
 
 
