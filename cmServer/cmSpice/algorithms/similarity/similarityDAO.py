@@ -524,9 +524,11 @@ class SimilarityDAO:
             print("\n")
             """
 
-        
-        
-        return self.dominantValue(valueA,valueB)
+        # Check NaN
+        if (self.isNaN(valueA) or self.isNaN(valueB)):
+            return ['','']
+        else
+            return self.dominantValue(valueA,valueB)
         
     def dominantValue(self, valueA, valueB):
         return [valueA, valueB]
