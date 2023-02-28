@@ -17,6 +17,8 @@ from cmSpice.dao.dao_db_similarities import DAO_db_similarity
 from cmSpice.dao.dao_db_perspectives import DAO_db_perspectives
 from cmSpice.dao.dao_db_flags import DAO_db_flags
 from cmSpice.dao.dao_db_distanceMatrixes import DAO_db_distanceMatrixes
+from cmSpice.dao.dao_db_artworkDistanceMatrixes import DAO_db_artworkDistanceMatrixes
+from cmSpice.dao.dao_db_interactionDistances import DAO_db_interactionDistances
 
 from cmSpice.dao.dao_json import DAO_json
 
@@ -69,6 +71,12 @@ def clearDatabase():
     print("4")
     daoDistanceMatrixes = DAO_db_distanceMatrixes()
     daoDistanceMatrixes.drop()
+
+    daoArtworkDistanceMatrixes = DAO_db_artworkDistanceMatrixes()
+    daoArtworkDistanceMatrixes.drop()
+
+    daoInteractionDistances = DAO_db_interactionDistances()
+    daoInteractionDistances.drop()
 
     print("5")
     daoSimilarities = DAO_db_similarity()
