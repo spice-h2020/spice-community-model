@@ -7,6 +7,8 @@ import json
 from itertools import combinations
 from itertools import combinations_with_replacement
 
+import math
+
 
 
 class SimilarityDAO:
@@ -131,8 +133,11 @@ class SimilarityDAO:
 
         self.elemA = elemA
         self.elemB = elemB
-        
-        return self.distanceValues(valueA, valueB)
+
+        if (math.isnan(valueA) or math.isnan(valueB)):
+            return 1.0
+        else:
+            return self.distanceValues(valueA, valueB)
     
     """
     Distance functions:
