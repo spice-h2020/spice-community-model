@@ -670,8 +670,322 @@ class InteractionSimilarityDAO(SimilarityDAO):
             
             
         return distanceTotal
+
+
+#-------------------------------------------------------------------------------------------------------------------------------
+#   Optimize distance
+#-------------------------------------------------------------------------------------------------------------------------------
+
+    def distanceOptimized(self,elemA, elemB):
+        """
+        Method to obtain the distance between two element.
+
+        Parameters
+        ----------
+        elemA : int
+            Id of first element. This id should be in self.data.
+        elemB : int
+            Id of second element. This id should be in self.data.
+
+        Returns
+        -------
+        double
+            Distance between the two elements.
+        """
+        userInteractionA = self.data.loc[elemA]
+        userInteractionB = self.data.loc[elemB]
+                
+        """
+        print(userInteractionA['userid'])
+        print(userInteractionB['userid'])
+        """
+
+        # Get interaction objects (IO) the user interacted with
+        # print(self.similarityFunction)
+        
+        # Get ids of artworks the user interacted with
+        IOColumn = self.interactionAttribute + "_origin"
+        #IOColumn = self.similarityFunction['sim_function']['interaction_object']['att_name']
+        IOA = userInteractionA[IOColumn]
+        IOB = userInteractionB[IOColumn]
+        
+        IOA = list(map(str, IOA))
+        IOB = list(map(str, IOB))
+        
+        """
+        print("IO Columns")
+        print(IOColumn)
+        print(IOA)
+        print(IOB)
+        print("\n\n\n")
+        """
+        
+        """
+        """
         
         
+        self.exchanged = False
+        
+        if (len(IOB) > len(IOA)):
+            self.exchanged = True
+            IOA, IOB = self.exchangeElements(IOA,IOB)
+            userInteractionA, userInteractionB = self.exchangeElements(userInteractionA, userInteractionB)
+        """
+        """
+
+        return self.distanceInteractionOptimized(elemA, elemB, userInteractionA, userInteractionB, IOA, IOB)
+        
+        
+    
+    def distanceInteractionOptimized(self, elemA, elemB, userInteractionA, userInteractionB, IOA, IOB):
+        # Set largest list to be A and the other B
+        #self.exchanged = False
+        
+        # Initialize distance
+        distanceTotal = 0
+
+        # Dominant interaction attribute value
+        dominantInteractionAttribute = ""
+        dominantInteractionAttributeDistance = 1.0
+
+        dominantInteractionAttributes = []
+        dominantInteractionAttributeDistances = {}
+        
+        # Artwork implicit attributes
+        dominantValues = {}
+        for dominantAttribute in self.dominantAttributes:
+            dominantValues[dominantAttribute] = ""
+            if (self.dominantAttributes[dominantAttribute].dominantValueType() == "list"):
+                dominantValues[dominantAttribute] = []
+        # Similar artworks users are compared with
+        dominantArtworks = []
+
+        try:
+        
+            # For each IO in A, get most similar IO in B
+            for objectIndexA in range(len(IOA)):
+                objectA = IOA[objectIndexA]
+                objectIndexB = self.getSimilarIOIndex(objectA, IOB)
+                objectB = IOB[objectIndexB]
+
+                # A MATCHING SIMILAR ARTWORK WAS FOUND
+                if (objectIndexB != -1):
+
+                    # Retrieve the data from the database (if it exists)
+                    getDatabaseConditions = {}
+                    getDatabaseConditions['attribute'] = self.similarityColumn
+                    getDatabaseConditions['similarity'] = self.similarityFunction['sim_function']['name']
+                    getDatabaseConditions['citizen1'] = userInteractionA['userid']
+                    getDatabaseConditions['artwork1'] = objectA
+                    getDatabaseConditions['citizen2'] = userInteractionB['userid']
+                    getDatabaseConditions['artwork2'] = objectB
+
+                    daoInteractionDistances = DAO_db_interactionDistances()
+                    databaseObject = daoInteractionDistances.getInteractionDistance(getDatabaseConditions)
+
+                    # Get interaction similarity feature associated to IO A and IO B
+                    interactionFeatureA = userInteractionA[self.similarityColumn][objectIndexA]
+                    interactionFeatureB = userInteractionB[self.similarityColumn][objectIndexB]
+                    
+                    if (len(databaseObject) > 0):
+                        distance = databaseObject['distance']
+                        dominantInteractionAttributesList = databaseObject['dominantValue']
+                    else:
+                        
+                        # Calculate distance between them
+                        distance = self.interactionSimilarityMeasure.distanceValues(interactionFeatureA, interactionFeatureB)
+
+                        # Add dominant interaction value to list (e.g., emotions = {joy: 3, sadness: 4, trust: 1} -> sadness
+                        dominantInteractionAttributesList = self.interactionSimilarityMeasure.dominantValue(interactionFeatureA, interactionFeatureB)
+
+                        
+                    dominantInteractionAttributeA = dominantInteractionAttributesList[0]
+                    dominantInteractionAttributeB = dominantInteractionAttributesList[1]
+
+                    #dominantInteractionAttributeDistance = self.interactionSimilarityMeasure.dominantDistance(interactionFeatureA, interactionFeatureB)
+                    dominantInteractionAttributeDistance = self.interactionSimilarityMeasure.getDistanceBetweenItems(dominantInteractionAttributeA, dominantInteractionAttributeB)
+
+
+                    # Get dominant value (for each similarity measure attribute) associated to the 2 artworks: objectA and objectB
+                    indexA = self.IO_data.loc[ self.IO_data['id'] == objectA ].index.values.astype(int)[0]
+                    indexB = self.IO_data.loc[ self.IO_data['id'] == objectB ].index.values.astype(int)[0]
+
+                    for dominantAttribute in self.dominantAttributes:
+                        column = self.dominantValueColumn(name = dominantAttribute)
+                        dominantValueMatrix = self.IO_data[column].tolist()
+
+                        dominantValueA = dominantValueMatrix[indexA][indexB]
+                        dominantValueB = dominantValueMatrix[indexB][indexA]
+
+                        dominantValues[dominantAttribute] = dominantValueA
+
+                        """
+                        print("dominant attribute")
+                        print(dominantAttribute)
+                        print("dominant value - artworks")
+                        print(dominantValueMatrix)
+                        print("\n")
+                        print(dominantValueMatrix[objectIndexA])
+                        print("\n")
+                        print("\n")
+                        print("dominant value A")
+                        print(dominantValueA)
+                        print("dominant value B")
+                        print(dominantValueB)
+                        print("\n")
+                        
+                        """
+                    
+                    # Correct if exchanged
+                    if (self.exchanged):
+                        dominantArtworks.append(objectB)
+                        dominantInteractionAttribute = dominantInteractionAttributeB
+                    else:
+                        dominantArtworks.append(objectA)
+                        dominantInteractionAttribute = dominantInteractionAttributeA
+                        
+                    # Add dominant interaction attributes
+                    dominantInteractionAttributes.append(dominantInteractionAttribute)
+                    #dominantInteractionAttributeDistances.append(dominantInteractionAttributeDistance)
+                    if dominantInteractionAttribute not in dominantInteractionAttributeDistances:
+                        dominantInteractionAttributeDistances[dominantInteractionAttribute] = []
+                    dominantInteractionAttributeDistances[dominantInteractionAttribute].append(dominantInteractionAttributeDistance)
+
+                    # Save data in database
+                    getDatabaseConditions['objectA'] = self.IO_data.loc[ self.IO_data['id'] == objectA ]['tittle'].to_list()[0]
+                    getDatabaseConditions['indexA'] = str(indexA)
+                    getDatabaseConditions['dominantValueA'] = dominantValueA
+                    getDatabaseConditions['objectB'] = self.IO_data.loc[ self.IO_data['id'] == objectB ]['tittle'].to_list()[0]
+                    getDatabaseConditions['indexB'] = str(indexB)
+                    getDatabaseConditions['dominantValueB'] = dominantValueB
+
+                    getDatabaseConditions['distance'] = distance
+                    getDatabaseConditions['dominantValue'] = dominantInteractionAttributesList
+
+                    daoInteractionDistances.updateInteractionDistance(getDatabaseConditions)
+
+
+
+                # NO SIMILAR ARTWORK    
+                else:
+                    distance = 1
+                
+
+                distanceTotal += distance
+                
+            # Mean average        
+            distanceTotal /= len(IOA)
+            
+        except Exception as e:
+            print("\n\n\n")
+            print("Exception dominant attribute")
+            print(str(e))
+            """
+            print("elemA: " + str(elemA))
+            print("elemB: " + str(elemB))
+            """
+            print("userA: " + str(userInteractionA['userid']))
+            print("userB: " + str(userInteractionB['userid']))
+            print("IOA: " + str(IOA))
+            print("IOB: " + str(IOB))
+            print("interactionsA: " + str(userInteractionA[self.similarityColumn]))
+            print("interactionsB: " + str(userInteractionB[self.similarityColumn]))
+            print("objectIndexA: " + str(objectIndexA))
+            print("len IOA: " + str(len(IOA)))
+            print("IOA: " + str(IOA))
+            print(userInteractionA['userid'])
+
+            raise Exception(e)
+            
+            # Get interaction similarity feature associated to IO A and IO B
+            interactionFeatureA = userInteractionA[self.similarityColumn][objectIndexA]
+            interactionFeatureB = userInteractionB[self.similarityColumn][objectIndexB]
+            
+            """
+            print("interactionFeatureA: " + str(interactionFeatureA))
+            print("interactionFeatureB: " + str(interactionFeatureB))
+                    
+            print("\n\n\n")
+            """
+
+
+        # Get most frequent element in dominantInteractionAttributes
+        """
+        print("dominant interaction attributes")
+        print(dominantInteractionAttributes)
+        """
+        if (len(dominantInteractionAttributes) > 0):
+            dominantInteractionAttribute = mode(dominantInteractionAttributes)
+            distances = dominantInteractionAttributeDistances[dominantInteractionAttribute]
+            dominantInteractionAttributeDistance = (sum(distances)) / (len(distances))
+        
+        else:
+            dominantInteractionAttribute = ""
+            dominantInteractionAttributeDistance = 1.0
+            
+            
+             
+        # Set dominant interaction attribute list
+        dominantInteractionAttributeList = self.data.loc[elemA][self.similarityColumn + 'DominantInteractionGenerated']
+        dominantInteractionAttributeList.append(dominantInteractionAttribute)
+        # Use all the emotions
+        #dominantInteractionAttributeList.append(dominantInteractionAttributes)
+        self.data.at[elemA, self.similarityColumn + 'DominantInteractionGenerated'] = dominantInteractionAttributeList
+
+        # Add dominant distance
+        dominantInteractionAttributeDistanceList = self.data.loc[elemA][self.similarityColumn + 'DistanceDominantInteractionGenerated']
+        dominantInteractionAttributeDistanceList.append(dominantInteractionAttributeDistance)
+        self.data.at[elemA, self.similarityColumn + 'DistanceDominantInteractionGenerated'] = dominantInteractionAttributeDistanceList
+
+        # Set dominant implicit attribute (artworks)
+        # I have to put it here because maybe it didnt find any similar artwork
+        for dominantAttribute in self.dominantAttributes:
+            dominantValue = dominantValues[dominantAttribute]
+            dominantValueList = self.data.loc[elemA][dominantAttribute + 'DominantInteractionGenerated']
+            dominantValueList.append(dominantValue)
+            self.data.at[elemA, dominantAttribute + 'DominantInteractionGenerated'] = dominantValueList
+            
+        # Set artwork ID we successfully found a match for
+        dominantArtworksList = self.data.loc[elemA]['dominantArtworksDominantInteractionGenerated']
+        dominantArtworksList.append(dominantArtworks)
+        self.data.at[elemA, 'dominantArtworksDominantInteractionGenerated'] = dominantArtworksList
+            
+            
+        return distanceTotal
+
+#-------------------------------------------------------------------------------------------------------------------------------
+#   Optimize matrix_distance
+#-------------------------------------------------------------------------------------------------------------------------------
+    
+    def matrix_distance(self):
+        #return self.matrix_distance_explanation()
+        return super().matrix_distance()
+
+    def matrix_distance_explanation(self):
+        #super().matrix_distance_explanation()
+
+        users = self.data.index
+        pairs = combinations_with_replacement(range(len(users)), r=2)
+
+        distanceMatrix = np.zeros((len(users), len(users)))
+
+        for p in pairs:
+            # Dominant Values: dict of list
+            # key: attribute
+            # value: list with 2 elements (0: dominantValue for user p[0], 1: dominantValue for user p[1])
+            distance, dominantValues = self.distanceOptimized(p[0], p[1])
+
+            # Distance ,matrix
+            distanceMatrix[p[0], p[1]] = distance
+            distanceMatrix[p[1], p[0]] = distance
+
+            # Dominant values
+            for attribute in dominantValues:
+
+
+
+
+
 #-------------------------------------------------------------------------------------------------------------------------------
 #   Filter (SAME ARTWORKS)
 #-------------------------------------------------------------------------------------------------------------------------------
