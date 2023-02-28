@@ -13,6 +13,8 @@ info:
 servers:
   - url: /v1.1/
 tags:
+  - name: Config Tool
+    description: Configuration Tool App
   - name: Perspectives
     description: Operations related to computing perspectives among communities.
   - name: Communities
@@ -21,78 +23,16 @@ tags:
     description: Operations related to users in communities.
   - name: Similarity
     description: Operations about computing similarity among communities.
-  - name: "[DEV] Community Model Logs"
-    description: Operations related to CM Logs.
-  - name: "[DEV] Jobs monitor"
+  - name: Jobs monitor
     description: Monitor the status of a job.
-  - name: "[DEV] VISIR"
-    description: Operations related to VISIR application.
-  - name: "[DEV] Database controller"
-    description: Operations related to database.
+  - name: Community Model Logs
+    description: Returns CM Logs
 paths:
-  /databaseController/dump:
-    get:
-      tags:
-        - "[DEV] Database controller"
-      summary: Get current database state
-      security:
-        - basicAuth: [ ]
-      description: Returns collections stored in database
-      operationId: getDump
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "./openapi_specs/seedFile.yaml#/seedFile"
-        "400":
-          description: invalid seed id
-      x-swagger-router-controller: DatabaseController
-    post:
-      tags:
-        - "[DEV] Database controller"
-      summary: Load data into database state
-      security:
-        - basicAuth: [ ]
-      description: Resets and loads sent data into database
-      operationId: postDump
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "./openapi_specs/seedFile.yaml#/seedFile"
-        "400":
-          description: error
-      x-swagger-router-controller: DatabaseController
-  /databaseController/reset:
-    get:
-      tags:
-        - "[DEV] Database controller"
-      summary: Reset database
-      security:
-        - basicAuth: [ ]
-      description: Returns collections stored in database
-      operationId: getReset
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "./openapi_specs/seedFile.yaml#/seedFile"
-        "400":
-          description: error
-      x-swagger-router-controller: DatabaseController
   /logs:
     get:
       tags:
-        - "[DEV] Community Model Logs"
+        - Community Model Logs
       summary: Get n latest logs
-      security:
-        - basicAuth: [ ]
       description: Returns the last n documents
       operationId: getNLatestLogs
       parameters:
@@ -128,10 +68,8 @@ paths:
   /logs/dateRange:
     get:
       tags:
-        - "[DEV] Community Model Logs"
+        - Community Model Logs
       summary: Get logs between date range
-      security:
-        - basicAuth: [ ]
       description: Returns logs between date range
       operationId: getLogsBetweenTwoDates
       parameters:
@@ -175,14 +113,12 @@ paths:
         "400":
           description: error
       x-swagger-router-controller: Logs
-  /visir/seed:
+  /seed:
     get:
       tags:
-        - "[DEV] VISIR"
-      summary: Get seed file
-      security:
-        - basicAuth: [ ]
-      description: Returns seed config file used by VISIR application.
+        - Config Tool
+      summary: Get seed
+      description: Returns seed config file used by Configuration Tool.
       operationId: getSeed
       responses:
         "200":
@@ -193,67 +129,18 @@ paths:
                 $ref: "./openapi_specs/seedFile.yaml#/seedFile"
         "400":
           description: invalid seed id
-      x-swagger-router-controller: Visir
-  /visir/index:
-    get:
-      tags:
-        - "[DEV] VISIR"
-      summary: List of all available files
-      security:
-        - basicAuth: [ ]
-      description: Returns index
-      operationId: getIndex
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "./openapi_specs/seedFile.yaml#/seedFile"
-        "400":
-          description: invalid seed id
-      x-swagger-router-controller: Visir
-  /visir/file/{fileId}:
-    get:
-      tags:
-        - "[DEV] VISIR"
-      summary: Return the specified file
-      security:
-        - basicAuth: [ ]
-      description: Returns requested file
-      operationId: getFile
-      parameters:
-        - name: fileId
-          in: path
-          description: Id of the file
-          required: true
-          style: simple
-          explode: false
-          schema:
-            $ref: "./openapi_specs/jobs.yaml#/jobId"
-      responses:
-        "200":
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "./openapi_specs/seedFile.yaml#/seedFile"
-        "400":
-          description: invalid seed id
-      x-swagger-router-controller: Visir
+      x-swagger-router-controller: ConfigTool
   /jobs/{jobId}:
     get:
       tags:
-        - "[DEV] Jobs monitor"
+        - Jobs monitor
       summary: Job status
-      security:
-        - basicAuth: [ ]
       description: Monitor the status of a job. Shows if the status of the job is finished or in progress, and returns data if it is finished. User agent should send periodically /Get requests to check the completion status of the job.
-      operationId: getJob
+      operationId: none
       parameters:
         - name: jobId
           in: path
-          description: Id of the job to monitor
+          description: ID of the job to monitor
           required: true
           style: simple
           explode: false
@@ -271,7 +158,6 @@ paths:
         "400":
           description: Job does not exist
       x-content-type: application/json
-      x-swagger-router-controller: JobsRouter
   /perspectives:
     get:
       tags:
@@ -688,8 +574,3 @@ paths:
 components:
   schemas:
     $ref: "./openapi_specs/schemas.yaml"
-  securitySchemes:
-    basicAuth:
-      type: http
-      scheme: basic
-      description: Use `user` / `pass` as the test credentials

@@ -1,6 +1,4 @@
 // Adds rest actions defined in openapi.yaml and jobs managet to the router
-const basicAuth = require("../controllers/helpers/basic-auth");
-const jobsRouter = require("../controllers/jobsRoute/jobsRoute");
 module.exports = app => {
     const yaml = require('js-yaml');
     const fs = require('fs');
@@ -10,10 +8,8 @@ module.exports = app => {
         Similarity: require("../controllers/similarity.js"),
         Users: require("../controllers/users.js"),
         Perspectives: require("../controllers/perspectives.js"),
-        Visir: require("../controllers/visir.js"),
+        ConfigTool: require("../controllers/configTool.js"),
         Logs: require("../controllers/logs.js"),
-        DatabaseController: require("../controllers/databaseController.js"),
-        JobsRouter: require("../controllers/jobsRoute/jobsRoute.js")
     };
 
     function initRouters(router) {
@@ -62,21 +58,15 @@ module.exports = app => {
     const express = require("express");
 
     var router = express.Router();
-
-
-    // basic auth
-    const basicAuth = require("../controllers/helpers/basic-auth.js")
-
     // hidden API
-    const jobsRouter = require("../controllers/jobsRoute/jobsRoute.js")
-    const databaseContrl = require("../controllers/databaseController.js")
+    var visAPI = require("../controllers/hiddenCommunitiesVisualization.js")
+    var jobsRouter = require("../controllers/jobsRoute/jobsRoute.js")
+    var databaseContrl = require("../controllers/hiddenDatabaseController.js")
 
-    // To use auth add basicAuth before initRouters()
-    app.use('/v1.1/visir', basicAuth);
-    app.use('/v1.1/databaseController', basicAuth);
-    app.use('/v1.1/logs', basicAuth);
-    app.use('/v1.1/jobs', basicAuth);
-
+    // Adds jobs and api routes to the server
+    app.use('/visualizationAPI', visAPI); // if we add /v1.1/ to this path, it will go through validation of the openapi.yml spec file
+    app.use('/databaseController', databaseContrl); // if we add /v1.1/ to this path, it will go through validation of the openapi.yml spec file
+    app.use('/v1.1/jobs', jobsRouter);
     initRouters(router);
     app.use('/', express.static('api'));
     app.use(router.path, router);
