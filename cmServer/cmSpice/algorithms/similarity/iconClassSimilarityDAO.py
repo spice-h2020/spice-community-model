@@ -177,6 +177,15 @@ class IconClassSimilarityDAO(SimilarityDAO):
 #-------------------------------------------------------------------------------------------------------------------------------
     
     def dominantValue(self, iconClassListA, iconClassListB):
+        dominantValues = []
+
+        dominantValues.append(self.extractDominantValue(iconClassListA, iconClassListB, self.artworkA, self.artworkB) )
+        dominantValues.append(self.extractDominantValue(iconClassListB, iconClassListA, self.artworkB, self.artworkA) )
+
+        return dominantValues
+
+
+    def extractDominantValue(self, iconClassListA, iconClassListB, artworkA, artworkB):
         explainable_iconclassValues = []
         
         """
@@ -197,10 +206,10 @@ class IconClassSimilarityDAO(SimilarityDAO):
                     # New explanation: add information about the iconclassIDs (children) from which this new one (parent) is derived 
                     commonParentDict = {}
                     commonParentDict[commonParent] = {}
-                    commonParentDict[commonParent][elemA] = [ self.artworkA['id'].to_list()[0] ]
+                    commonParentDict[commonParent][elemA] = [ artworkA['id'] ]
                     if (longestPrefixElemB not in commonParentDict[commonParent]):
                         commonParentDict[commonParent][longestPrefixElemB] = []
-                    commonParentDict[commonParent][longestPrefixElemB].append( self.artworkB['id'].to_list()[0] )
+                    commonParentDict[commonParent][longestPrefixElemB].append( artworkB['id'] )
 
                     explainable_iconclassValues.append(commonParentDict)
 
