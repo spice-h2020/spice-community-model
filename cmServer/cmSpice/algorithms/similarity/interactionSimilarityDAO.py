@@ -394,6 +394,10 @@ class InteractionSimilarityDAO(SimilarityDAO):
             
             self.data = df4.copy()
 
+            # If self.data only has one user, throw exception
+            if (len(self.data) <= 1):
+                raise ValueError('Less than 2 interactions were found for the provided parameters. Clustering is impossible')
+
     def distance(self,elemA, elemB):
         """
         Method to obtain the distance between two element.
