@@ -534,7 +534,9 @@ class SimilarityDAO:
         keyA = ""
         keyB = ""
 
-        if (isinstance(valueA, dict)):
+        if self.similarityColumn == 'id':
+            return [{valueA: self.artworkA['id']}, {valueB: self.artworkB['id']}]
+        elif (isinstance(valueA, dict)):
             if (len(valueA) <= 0):
                 keyA = ""
             else:
