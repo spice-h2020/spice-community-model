@@ -706,7 +706,6 @@ class ExplainedCommunitiesDetection:
                     """
 
                     #print("simplify iconclassArrayIDs")
-
                     # First, create a combined dictionary containing all the arrays of pairs each iconclassIDs originates from
                     iconclassDictionary = {}
                     for interactionAttribute in communityMembers_validInteractionAttributeList:
@@ -723,6 +722,8 @@ class ExplainedCommunitiesDetection:
                     print("communityMemberIndexes: " + str(communityMemberIndexes))
                     print("communityMembers_interactionAttributeList")
                     print(communityMembers_interactionAttributeList)
+                    print("communityMembers_validInteractionAttributeList")
+                    print(communityMembers_validInteractionAttributeList)
                     print("\n")
                     """
                     
@@ -890,24 +891,59 @@ class ExplainedCommunitiesDetection:
 
             #elif (isinstance(communityMembers_interactionAttributeList[0],str)):
             elif (isinstance(communityMembers_interactionAttributeList[0],list) == False):
-                if (row['userNameAuxiliar'] == '111222' and col2 == 'ColourDominantInteractionGenerated' and 1 == 1):
-                    print("wrong colour dominant value")
-                    print(row['userNameAuxiliar'])
-                    print("\n")
-                    print(row[[col2]])
-                    print("\n")
-                    print("community members interaction attribute list")
-                    print(communityMembers_interactionAttributeList)
-                    print("\n")
-                    print("community member indexes")
-                    print(communityMemberIndexes)
-                    print("\n")
-         
-                
+
+                """
                 if ('Distance' in col2):
                     print("extract dominant distance dissimilar")
                     print(communityMembers_interactionAttributeList)
                     print("\n")
+                    return communityMembers_interactionAttributeList
+                else:
+                    return statistics.mode(communityMembers_interactionAttributeList)
+                """
+
+                """
+
+                print("year explanation")
+                print(col2)
+                print("username: " + row['userNameAuxiliar'])
+                print("index: " + str(row['real_index']))
+                print("community: " + str(row['community']))
+                print("dominant artworks: " + str(row[col2]))
+                print("communityMemberIndexes: " + str(communityMemberIndexes))
+                print("communityMembers_interactionAttributeList")
+                print(communityMembers_interactionAttributeList)
+                print("communityMembers_validInteractionAttributeList")
+                print(communityMembers_validInteractionAttributeList)
+                print("\n")
+
+                """
+
+                # print("year explanation")
+                # print(col2)
+                # print("username: " + row['userNameAuxiliar'])
+                # print("index: " + str(row['real_index']))
+                # print("community: " + str(row['community']))
+                # print("dominant artworks: " + str(row[col2]))
+                # print("communityMemberIndexes: " + str(communityMemberIndexes))
+                # print("communityMembers_interactionAttributeList")
+                # print(communityMembers_interactionAttributeList)
+                # print("communityMembers_validInteractionAttributeList")
+                # print(communityMembers_validInteractionAttributeList)
+                # print("\n")
+
+                # Flatten
+                np_array = np.asarray(communityMembers_interactionAttributeList, dtype=object)
+                communityMembers_interactionAttributeList = list(np.hstack(np_array))
+
+                # print("communityMembers_validInteractionAttributeList")
+                # print(communityMembers_validInteractionAttributeList)
+                # print("\n")
+
+                if ('Distance' in col2):
+                    # print("extract dominant distance dissimilar")
+                    # print(communityMembers_interactionAttributeList)
+                    # print("\n")
                     return communityMembers_interactionAttributeList
                 else:
                     return statistics.mode(communityMembers_interactionAttributeList)
@@ -916,25 +952,25 @@ class ExplainedCommunitiesDetection:
 
 
 
+
+
             # iconclass attribute (OLD) Not used anymore
             else:
-                if (row['userNameAuxiliar'] == '111222' and col2 == 'ColourDominantInteractionGenerated' and 1 == 1):
-                    print("wrong colour dominant value")
-                    print(row['userNameAuxiliar'])
-                    print("\n")
-                    print(row[[col2]])
-                    print("\n")
-                    print("community members interaction attribute list")
-                    print(communityMembers_interactionAttributeList)
-                    print("\n")
-                    print("community valid interaction attribute list")
-                    print(communityMembers_validInteractionAttributeList)
-                    print("\n")
-                    print("community member indexes")
-                    print(communityMemberIndexes)
-                    print("\n")
 
-                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
+                # print("else explanation")
+                # print(col2)
+                # print("username: " + row['userNameAuxiliar'])
+                # print("index: " + str(row['real_index']))
+                # print("community: " + str(row['community']))
+                # print("dominant artworks: " + str(row[col2]))
+                # print("communityMemberIndexes: " + str(communityMemberIndexes))
+                # print("communityMembers_interactionAttributeList")
+                # print(communityMembers_interactionAttributeList)
+                # print("communityMembers_validInteractionAttributeList")
+                # print(communityMembers_validInteractionAttributeList)
+                # print("\n")
+
+                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == True or isinstance(x,list) == True) and len(x) > 0]
                 #intersection = communityMembers_validInteractionAttributeList[0]
                 result = []
                 for interactionAttribute in communityMembers_validInteractionAttributeList:
