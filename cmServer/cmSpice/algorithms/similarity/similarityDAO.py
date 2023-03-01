@@ -531,7 +531,32 @@ class SimilarityDAO:
             return self.dominantValue(valueA,valueB)
         
     def dominantValue(self, valueA, valueB):
-        return [valueA, valueB]
+        keyA = ""
+        keyB = ""
+
+        if (isinstance(valueA, dict)):
+            if (len(valueA) <= 0):
+                keyA = ""
+            else:
+                keyA = max(valueA, key=valueA.get).lower()
+                
+            if (len(valueB) <= 0):
+                keyB = ""
+            else:
+                keyB = max(valueB, key=valueB.get).lower()
+
+            return [keyA, keyB]
+        elif (isinstance(valueA, list)):
+            if (len(valueA) > 0):
+                keyA = valueA[0]
+            if (len(valueB) > 0):
+                keyA = valueB[0]
+
+            return [keyA, keyB]
+
+        else:
+
+            return [str(valueA), str(valueB)]
 
     def dominantValueColumn(self, name = ""):
         """
