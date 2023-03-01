@@ -112,9 +112,14 @@
 			},
 			"sim_function": [
 				{
-					"name": "NumberSimilarityDAO",
+					"name": "DecadeSimilarityDAO",
 					"params": [],
 					"default": true
+				},
+				{
+					"name": "NumberSimilarityDAO",
+					"params": [],
+					"default": false
 				},
 				{
 					"name": "EqualSimilarityDAO",
