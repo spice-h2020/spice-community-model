@@ -54,7 +54,7 @@ class OpticsCommunityDetection:
             # print("clusters:")
             # print(clusters)
             print("\n")
-            parameter -= 0.01
+            parameter -= 0.05
 
             comp = abs(n_clusters-len(set(clusters)))
             if comp < bestResult:

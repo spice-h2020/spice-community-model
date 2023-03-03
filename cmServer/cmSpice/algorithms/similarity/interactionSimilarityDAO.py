@@ -394,6 +394,10 @@ class InteractionSimilarityDAO(SimilarityDAO):
             
             self.data = df4.copy()
 
+            # If self.data only has one user, throw exception
+            if (len(self.data) <= 1):
+                raise ValueError('Less than 2 interactions were found for the provided parameters. Clustering is impossible')
+
     def distance(self,elemA, elemB):
         """
         Method to obtain the distance between two element.
@@ -952,38 +956,6 @@ class InteractionSimilarityDAO(SimilarityDAO):
             
             
         return distanceTotal
-
-#-------------------------------------------------------------------------------------------------------------------------------
-#   Optimize matrix_distance
-#-------------------------------------------------------------------------------------------------------------------------------
-    
-    def matrix_distance(self):
-        #return self.matrix_distance_explanation()
-        return super().matrix_distance()
-
-    def matrix_distance_explanation(self):
-        #super().matrix_distance_explanation()
-
-        users = self.data.index
-        pairs = combinations_with_replacement(range(len(users)), r=2)
-
-        distanceMatrix = np.zeros((len(users), len(users)))
-
-        for p in pairs:
-            # Dominant Values: dict of list
-            # key: attribute
-            # value: list with 2 elements (0: dominantValue for user p[0], 1: dominantValue for user p[1])
-            distance, dominantValues = self.distanceOptimized(p[0], p[1])
-
-            # Distance ,matrix
-            distanceMatrix[p[0], p[1]] = distance
-            distanceMatrix[p[1], p[0]] = distance
-
-            # Dominant values
-            for attribute in dominantValues:
-
-
-
 
 
 #-------------------------------------------------------------------------------------------------------------------------------
