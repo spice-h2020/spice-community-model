@@ -23,12 +23,14 @@ class KmedoidsCommunityDetection:
             Square matrix encoding the distance between datapoints
         n_clusters : int, optional
             Number of clusters (communities) to search, by default 2
+            Must be 2 or more. If it is lower, the algorithm doesn't work.
 
         Returns
         -------
         dict
             Dictionary with all elements and its corresponding community.
         """
+        n_clusters = max(2, n_clusters)
         kmedoids = KMedoids(metric='precomputed',method='pam', n_clusters=n_clusters, init='k-medoids++')
         kmedoids.fit(distanceMatrix)
         
