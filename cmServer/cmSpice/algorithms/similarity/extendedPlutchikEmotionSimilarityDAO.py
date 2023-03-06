@@ -8,9 +8,10 @@ Extension of the Plutchik wheel of emotions to include the second level of emoti
 """
 
 PLUTCHIK_EMOTIONS = ['anger', 'anticipation', 'joy', 'trust', 'fear', 'surprise', 'sadness', 'disgust']
-PLUTCHIK_EMOTIONS_SECOND_LEVEL = ['annoyance','interest', 'serenity','acceptance','apprehension','distraction','pensiveness','boredom']
-PLUTCHIK_EMOTIONS_INTERMEDIATE_LEVEL = ['agressiveness', 'optimism', 'love', 'submission', 'awe', 'disapproval', 'remorse', 'contempt']
+PLUTCHIK_EMOTIONS_TOP_LEVEL = ['annoyance','interest', 'serenity','acceptance','apprehension','distraction','pensiveness','boredom']
+PLUTCHIK_EMOTIONS_BOTTOM_LEVEL = ['rage', 'vigilance', 'ecstacy', 'admiration', 'terror', 'amazement', 'grief', 'loathing']
 
+PLUTCHIK_EMOTIONS_INTERMEDIATE_LEVEL = ['aggressiveness', 'optimism', 'love', 'submission', 'awe', 'disapproval', 'remorse', 'contempt']
 
 class ExtendedPlutchikEmotionSimilarityDAO(SimilarityDAO):
     
@@ -27,8 +28,9 @@ class ExtendedPlutchikEmotionSimilarityDAO(SimilarityDAO):
         
         # Combine the 3 emotions list
         plutchikEmotions = []
+        plutchikEmotions.extend(PLUTCHIK_EMOTIONS_TOP_LEVEL)
         plutchikEmotions.extend(PLUTCHIK_EMOTIONS)
-        plutchikEmotions.extend(PLUTCHIK_EMOTIONS_SECOND_LEVEL)
+        plutchikEmotions.extend(PLUTCHIK_EMOTIONS_BOTTOM_LEVEL)
         plutchikEmotions.extend(PLUTCHIK_EMOTIONS_INTERMEDIATE_LEVEL)
 
         self.plutchikEmotions = plutchikEmotions
@@ -73,52 +75,39 @@ class ExtendedPlutchikEmotionSimilarityDAO(SimilarityDAO):
             # Update it based on the difference of emotion list
             listA = realIndexA // 8
             listB = realIndexB // 8
-            
-            # First and second list of emotions
-            # Decrease distance by 0.075 (it is less similar)
-            if (listA + listB == 1):
-                result -= 0.075
-                
-            # First or second AND third list of emotions (increase by 0.125 - half 0.25 between emotions
-            # In the extreme values, increase/decrease by a little
-            elif (listA != listB):
-                """
-                print("emotions are in the same spoke")
-                print(emotionA)
-                print(emotionB)
-                print(result)
-                """
 
-                if (result == 1.0):
-                    #print("change 1.0")
-                    result -= 0.125
-                    """
-                    print(result)
-                    print("\n")
-                    """
-                elif (result == 0.0):
-                    #print("change 0.0")
-                    result += 0.125
-                elif ( (indexA - indexB) / 4 < (indexB - indexA + 8) / 4 ):
-                    result -= 0.125
+            # Level corrections
+            levelDistance = 0.01
+            intermediateDistance = 0.125
+
+            indexA = realIndexA % 8
+            indexB = realIndexB % 8
+
+            # Unless it is in the intermediate level, increase distance by levelDistance for each level.
+            # Example: First level vs third level: 0.1
+            if (listA != 3 and listB != 3):
+                result += ( levelDistance * (abs(listA - listB)) )
+            # Intermediate level
+            elif (listA + listB != 6):
+
+                if (listB != 3):
+                    indexA, indexB = indexB, indexA
+
+                if (indexA <= indexB and indexB - indexA < 4):
+                    result += intermediateDistance
+                elif (indexA <= indexB and indexB - indexA >= 4):
+                    result -= intermediateDistance
+                elif (indexA > indexB and indexA - indexB <= 4):
+                    result -= intermediateDistance
                 else:
-                    result += 0.125
-            
-            
-            #print("result emotions (" + str(emotionA) + ", " + str(emotionB) + ") = " + str(result))
-            
+                    result += intermediateDistance
+
             # Correction: If lower than 0 or higher than 1, correct it
             result = min(result, 1.0)
             result = max(result, 0.0)
 
-            """
-            print("distanceItems emotion")
-            print(emotionA)
-            print(emotionB)
-            print(result)
-            print("\n")
-            """
-            
+            #print("distance emotions (" + str(emotionA) + ", " + str(emotionB) + ") = " + str(result))
+
             return result
             
         # We don't have a Plutchick emotion for that user and artwork
