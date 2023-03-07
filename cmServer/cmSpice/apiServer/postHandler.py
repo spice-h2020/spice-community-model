@@ -142,7 +142,8 @@ def __updateCM(self):
             # Compute the similarity between the new communities generated with self.perspective and all the other
             # communities
             data = communityModel.getData()
-            communitiesSimilarityModel = CommunitiesSimilarityModel(perspectiveId, data)
+            distanceMatrix = communityModel.getDistanceMatrix()
+            communitiesSimilarityModel = CommunitiesSimilarityModel(perspectiveId, data, distanceMatrix)
 
         # Delete updated flags (cannot delete the whole collection because new flags may have been added while CM was
         # updating)

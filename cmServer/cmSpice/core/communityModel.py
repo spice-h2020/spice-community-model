@@ -117,6 +117,9 @@ class CommunityModel():
     def getData(self):
         return self.similarityMeasure.data
 
+    def getDistanceMatrix(self):
+        return self.distanceMatrix
+
     def initializeComplexSimilarityMeasure(self):
         """
         Initializes the complex similarity measure associated to the given perspective

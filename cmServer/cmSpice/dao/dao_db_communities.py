@@ -108,7 +108,7 @@ class DAO_db_community(DAO_db):
         :Return:
             Communities, Type: List[<class 'dict'>]
         """
-        data = self.db_communities.find({"perspectiveId": perspectiveId}, {"_id": 0})
+        data = self.db_communities.find({"perspectiveId": perspectiveId, "community-type": "implicit"}, {"_id": 0})
         return loads(dumps(list(data)))
         
     def getCommunity(self, communityId):

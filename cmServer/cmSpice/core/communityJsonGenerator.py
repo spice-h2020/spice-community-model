@@ -646,6 +646,8 @@ class CommunityJsonGenerator:
                         medoids.append(medoid)
                         # Replace with centroid
                         explanation['explanation_data']['id'] = centroid
+                        community['medoid'] = medoid
+                        community['centroid'] = centroid
 
                 # Add centroid to users
                 community['users'].append(centroid)
