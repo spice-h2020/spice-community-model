@@ -671,7 +671,7 @@ class SimilarityDAO:
         # Reduce the distanceMatrix to 2 decimals
         distanceMatrix = np.round(distanceMatrix,2)
         
-        self.distancedistanceMatrix = distanceMatrix
+        self.distanceMatrix = distanceMatrix
         self.dominantValueMatrix = dominantValueMatrix
 
         return distanceMatrix, dominantValueMatrix
