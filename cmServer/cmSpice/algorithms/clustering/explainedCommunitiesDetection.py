@@ -508,6 +508,11 @@ class ExplainedCommunitiesDetection:
         communityDict['medoids'] = medoids_communities
         communityDict['percentage'] = percentage
         communityDict['userAttributes'] = self.user_attributes
+        # For HECHT
+        if ('Beliefs.beliefJ' in self.data.columns):
+            communityDict['implicitAttributes'] = self.explanaible_attributes
+        else:
+            communityDict['implicitAttributes'] = []
         
         return complete_data, communityDict
     

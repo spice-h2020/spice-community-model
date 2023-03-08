@@ -46,11 +46,17 @@ class CommunityJsonGenerator:
         
         # Adapt self.json_df
         #print(self.json_df)
+        # User information
         self.json_df['userid'] = self.json_df['userid']
         self.json_df['label'] = self.json_df['userid']
         self.json_df['group'] = communityDict['users'].values()
         self.json_df['explicit_community'] = self.json_df[communityDict['userAttributes']].to_dict(orient='records')
-        
+        if (len(communityDict['implicitAttributes']) > 0):
+            self.json_df['implicit_community'] = self.json_df[communityDict['implicitAttributes']].to_dict(orient='records')
+        else:
+            self.json_df['implicit_community'] = [{} for _ in range(len(self.json_df))]
+
+
         if 'community_dominantArtworks' not in self.json_df.columns:
             self.json_df['community_dominantArtworks'] = [[] for _ in range(len(self.json_df))]
         
@@ -564,7 +570,8 @@ class CommunityJsonGenerator:
         df['id'] = df['userid']
         
         #self.communityJson['users'] = df[['id','label','group','explicit_community','interactions', 'community_interactions', 'no_community_interactions']].to_dict('records')
-        self.communityJson['users'] = df[['id','label','group','explicit_community', 'community_interactions', 'no_community_interactions']].to_dict('records')
+        # self.communityJson['users'] = df[['id','label','group','explicit_community', 'community_interactions', 'no_community_interactions']].to_dict('records')
+        self.communityJson['users'] = df[['id','label','group','explicit_community', 'implicit_community', 'community_interactions', 'no_community_interactions']].to_dict('records')
         
 
         #self.communityJson

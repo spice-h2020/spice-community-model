@@ -28,6 +28,17 @@
                 "R": "Religious",
                 "M": "Moderated"
             }
+        },
+        {
+            "users implicit_community Beliefs.beliefR": {
+                "ANatPridePro": "Supports Roman Rebellion because of pride.",
+                "BReligousPro": "Supports Roman Rebellion because of religion.",
+                "CRealisticPro": "Supports Roman Rebellion because of realistic reasons.",
+                "EReligousNeg": "Against the Roman Rebellion because of religion.",
+                "DExtremistNeg": "Against the Roman Rebellion because of the dangers of turning to extremism.",
+                "FRealisticNeg": "Against the Roman Rebellion because of realistic reasons.",
+                "NoOpinion": "No opinion"
+            }
         }
     ]
 }
