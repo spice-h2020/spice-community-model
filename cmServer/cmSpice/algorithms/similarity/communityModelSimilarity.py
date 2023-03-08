@@ -27,6 +27,10 @@ class CommunityModelSimilarity(SimilarityDAO):
 
     def initializeComplexSimilarityMeasure(self):
         if ('Beliefs.beliefJ' in self.data.columns):
+            # Remove artwork id similarity (from HECHT)
+            similarityFunctions = [x for x in self.perspective['similarity_functions'] if x['sim_function']["on_attribute"]["att_name"] != "id" ]
+            self.perspective['similarity_functions'] = similarityFunctions
+
             self.perspective['similarity_functions'].extend(self.perspective["interaction_similarity_functions"])
             self.perspective["interaction_similarity_functions"] = []
 
