@@ -37,6 +37,9 @@ from cmSpice.dao.dao_db_similarities import DAO_db_similarity
 from itertools import combinations_with_replacement
 from itertools import combinations
 
+from cmSpice.utils.dataLoader import DataLoader
+from cmSpice.utils.npEncoder import NpEncoder
+import json
 
 #--------------------------------------------------------------------------------------------------------------------------
 #    Class
@@ -44,7 +47,7 @@ from itertools import combinations
 
 class CommunitiesSimilarityModel():
 
-    def __init__(self,perspectiveId, data, distanceMatrix):
+    def __init__(self,perspectiveId, communityModel):
         """
         Construct of Community Model objects.
 
@@ -54,8 +57,16 @@ class CommunitiesSimilarityModel():
                 id of the perspective to which the communities we want to calculate similarity on belong
         """
         self.perspectiveId = perspectiveId
-        self.data = data
-        self.distanceMatrix = distanceMatrix
+        self.data = communityModel.getData()
+        self.distanceMatrix = communityModel.getDistanceMatrix()
+        # Remove last community (users without community)
+        self.communities = communityModel.getCommunityVisualizationJSON()['communities'].copy()
+        self.communities.pop(-1)
+
+        print("last communities")
+        print(communityModel.getCommunityVisualizationJSON()['communities'])
+        print(self.communities)
+        print("\n")
 
         self.updateCommunitiesSimilarityCollection()
         
@@ -67,10 +78,11 @@ class CommunitiesSimilarityModel():
     
     def updateCommunitiesSimilarityCollection(self):
         daoSimilarities = DAO_db_similarity()
-        daoCommunities = DAO_db_community()
+        # daoCommunities = DAO_db_community()
         
-        # Get all the communities associated to the new perspective
-        communitiesA = daoCommunities.getCommunitiesPerspective(self.perspectiveId)
+        # # Get all the communities associated to the new perspective
+        # communitiesA = daoCommunities.getCommunitiesPerspective(self.perspectiveId)
+        communitiesA = self.communities
 
         # Get index of the medoid explanation
         # indexMedoidExplanation = self.getIndexMedoidExplanation(communitiesA)
@@ -88,6 +100,7 @@ class CommunitiesSimilarityModel():
             communityB = communitiesA[p[1]]
 
             similarity = self.similarityCommunities(communityA, communityB)
+            # similarity = self.similarityCommunitiesAllAttributes(communityA, communityB)
 
             # Insert it in the two different orders
             similarityJson = {
@@ -97,7 +110,10 @@ class CommunitiesSimilarityModel():
             daoSimilarities.updateSimilarity(communityA['id'], communityB['id'], similarityJson)
             daoSimilarities.updateSimilarity(communityB['id'], communityA['id'], similarityJson)
 
-
+#--------------------------------------------------------------------------------------------------------------------------
+#   Distance between communities (medoid implicit attributes)
+#--------------------------------------------------------------------------------------------------------------------------
+    
     def distanceCommunities(self, communityA, communityB):
         # Get medoids (dm: distance matrix)
         # medoidA = communityA['explanations'][indexMedoidExplanation]['explanation_data']['id']
@@ -132,3 +148,109 @@ class CommunitiesSimilarityModel():
     def similarityCommunities(self, communityA, communityB):
         return 1 - self.distanceCommunities(communityA, communityB)
     
+#--------------------------------------------------------------------------------------------------------------------------
+#   Distance between communities (centroid implicit and explicit attributes)
+#--------------------------------------------------------------------------------------------------------------------------
+    
+    def distanceCommunitiesAllAttributes(self, communityA, communityB):
+        # Get medoids (dm: distance matrix)
+        # medoidA = communityA['explanations'][indexMedoidExplanation]['explanation_data']['id']
+        # medoidB = communityB['explanations'][indexMedoidExplanation]['explanation_data']['id']
+
+        distance = 1.0
+
+        try:
+
+            # Get distance based on implicit attributes
+            distanceImplicit = self.distanceCommunities(communityA, communityB)
+
+            # Get distance based on explicit attributes
+            distanceExplicit = 0.0
+            numberExplicitAttributes = 0
+            attributesDict = self.explicitAttributesDict()
+
+            centroidDataA = communityA['centroid']
+            centroidDataB = communityB['centroid']
+
+            print("centroids")
+            print(centroidDataA)
+            print(centroidDataB)
+            print("\n")
+
+            for explicitAttribute in centroidDataA["explicit_community"]:
+                if explicitAttribute in attributesDict:
+                    numberExplicitAttributes += 1
+
+                    attributeValueA = centroidDataA["explicit_community"][explicitAttribute]
+                    attributeValueB = centroidDataB["explicit_community"][explicitAttribute]
+                    print("distance between explicit attribute values")
+                    print(explicitAttribute)
+                    distanceExplicit += self.distanceExplicitAttribute(attributesDict[explicitAttribute], attributeValueA, attributeValueB)
+                    
+            distanceExplicit /= max(numberExplicitAttributes, 1)
+
+            # Final distance: Same weight (implicit/explicit)
+            distance = (distanceImplicit + distanceExplicit) / 2
+
+        except Exception as e:
+
+            print("Error calculating similarities between communities")
+            raise Exception(e)
+
+        return distance
+
+    def similarityCommunitiesAllAttributes(self, communityA, communityB):
+        return 1 - self.distanceCommunitiesAllAttributes(communityA, communityB)
+
+#--------------------------------------------------------------------------------------------------------------------------
+#   Explicit attributes order (similarity between them is calculated based on the position in the list)
+#   If it is not in the dict, similarity is calculated using EqualSimilarity (equal: 0, any different value: 1)
+#--------------------------------------------------------------------------------------------------------------------------
+    
+    def explicitAttributesDict(self):
+        explicitDict =  {
+            "Demographics.DemographicsEducationType": [],
+            "Demographics.DemographicsGender": [],
+            "Demographics.DemographicsGrade": [],
+            "Demographics.DemographicsIdentity": [],
+            "Demographics.DemographicsPolitics": ['VL', 'L', 'C', 'R', 'VR'],
+            "Demographics.DemographicsReligous": ['S', 'M', 'R', 'VR', 'H'],
+            "Demographics.DemographicsPrepDuration": [],
+            "Demographics.School": [],
+            "Demographics.ParticipantType": [],
+            "Beliefs.RHMSChange": ["high", "medium", "low"],
+            "Beliefs.RHMSPrep": ["high", "medium", "low"],
+            "Beliefs.RHMSPost": ["high", "medium", "low"],
+            "Beliefs.AOTChange": ["high", "medium", "low"],
+            "Beliefs.AOTPrep": ["high", "medium", "low"],
+            "Beliefs.AOTPost": ["high", "medium", "low"],
+
+            "demographics.Gender": [],
+            "demographics.Age": [],
+            "demographics.RelationshipWithArt": [],
+            "demographics.RelationshipWithMuseum": [],
+            "demographics.ContentInLIS": [],
+
+            "demographics.explicit-community": []
+        }
+
+        return explicitDict
+
+    def distanceExplicitAttribute(self, explicitAttributeList, attributeValueA, attributeValueB):
+        if (attributeValueA in explicitAttributeList and attributeValueB in explicitAttributeList):
+            indexA = explicitAttributeList.index(attributeValueA)
+            indexB = explicitAttributeList.index(attributeValueB)
+
+            result = (abs(indexA - indexB)) / len(explicitAttributeList)
+        else:
+            result = float(attributeValueA != attributeValueB)
+
+        return result
+
+    def similarityExplicitAttribute(self, explicitAttributeList, attributeValueA, attributeValueB):
+        return 1 - self.distanceExplicitAttribute(explicitAttributeList, attributeValueA, attributeValueB)
+
+        
+
+
+        

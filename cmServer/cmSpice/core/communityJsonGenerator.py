@@ -681,6 +681,9 @@ class CommunityJsonGenerator:
                 
                 visualization['users'].append(centroidData)
 
+                # Add centroid data to community so it can be easily and quickly accessed for the community similarity computation
+                community['centroid'] = centroidData.copy()
+
                 # Update similarity
                 centroidSimilarity = []
                 for similarity in visualization['similarity']:

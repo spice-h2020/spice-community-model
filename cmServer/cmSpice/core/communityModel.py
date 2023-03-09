@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import importlib
 import json
+import copy
 
 from inspect import getsourcefile
 from os.path import abspath
@@ -119,6 +120,9 @@ class CommunityModel():
 
     def getDistanceMatrix(self):
         return self.distanceMatrix
+
+    def getCommunityVisualizationJSON(self):
+        return self.jsonCommunity
 
     def initializeComplexSimilarityMeasure(self):
         """
@@ -247,6 +251,10 @@ class CommunityModel():
         algorithm = self.initializeAlgorithm()
         data = self.similarityMeasure.data
 
+        # Fill nan values (causes error in the visualization)
+        data = data.fillna("")
+
+
         print("perform clustering data")
         print("data columns:")
         print(list(data.columns))
@@ -328,6 +336,7 @@ class CommunityModel():
         # daoCommunityModelCommunity.dropFullList()
 
         # humanize some keys and values
+        self.jsonCommunity = copy.deepcopy(jsonCommunity)
         humanizedJsonCommunity = self.humanizator(jsonCommunity)
         # add new data
         daoCommunityModelCommunity.insertFileList("", humanizedJsonCommunity)
