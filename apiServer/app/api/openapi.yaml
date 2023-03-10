@@ -45,7 +45,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/seedFile.yaml#/seedFile"
+                $ref: "#/components/schemas/seedFile"
         "400":
           description: invalid seed id
       x-swagger-router-controller: DatabaseController
@@ -63,7 +63,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/seedFile.yaml#/seedFile"
+                $ref: "#/components/schemas/seedFile"
         "400":
           description: error
       x-swagger-router-controller: DatabaseController
@@ -82,7 +82,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/seedFile.yaml#/seedFile"
+                $ref: "#/components/schemas/seedFile"
         "400":
           description: error
       x-swagger-router-controller: DatabaseController
@@ -121,7 +121,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/logs.yaml#/log"
+                $ref: "#/components/schemas/log"
         "400":
           description: error
       x-swagger-router-controller: Logs
@@ -171,7 +171,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/logs.yaml#/log"
+                $ref: "#/components/schemas/log"
         "400":
           description: error
       x-swagger-router-controller: Logs
@@ -190,7 +190,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/seedFile.yaml#/seedFile"
+                $ref: "#/components/schemas/seedFile"
         "400":
           description: invalid seed id
       x-swagger-router-controller: Visir
@@ -209,7 +209,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/seedFile.yaml#/seedFile"
+                $ref: "#/components/schemas/seedFile"
         "400":
           description: invalid seed id
       x-swagger-router-controller: Visir
@@ -230,14 +230,14 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/jobs.yaml#/jobId"
+            $ref: "#/components/schemas/jobId"
       responses:
         "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/seedFile.yaml#/seedFile"
+                $ref: "#/components/schemas/seedFile"
         "400":
           description: invalid seed id
       x-swagger-router-controller: Visir
@@ -258,7 +258,7 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/jobs.yaml#/jobId"
+            $ref: "#/components/schemas/jobId"
       responses:
         "200":
           description: Job status
@@ -266,8 +266,8 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "./openapi_specs/jobs.yaml#/jobStarted"
-                  - $ref: "./openapi_specs/jobs.yaml#/jobCompleted"
+                  - $ref: "#/components/schemas/jobStarted"
+                  - $ref: "#/components/schemas/jobCompleted"
         "400":
           description: Job does not exist
       x-content-type: application/json
@@ -277,6 +277,8 @@ paths:
       tags:
         - Perspectives
       summary: Get all perspectives in the model.
+      security:
+        - basicAuth: [ ]
       description: Returns a list of the perspectives in the community model. If the CM update is necessary returns a job.
       operationId: getPerspectives
       responses:
@@ -287,14 +289,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./openapi_specs/perspective.yaml#/perspective"
+                  $ref: "#/components/schemas/perspective"
                 x-content-type: application/json
         "202":
           description: Job accepted. Updating CM before returning requested data. Redirecting to jobs monitor
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/jobs.yaml#/job"
+                $ref: "#/components/schemas/job"
         "400":
           description: Community model does not exist
       x-swagger-router-controller: Perspectives
@@ -303,6 +305,8 @@ paths:
       tags:
         - Perspectives
       summary: Get one perspective
+      security:
+        - basicAuth: [ ]
       description: Returns Information about a perspective. If the CM update is necessary returns a job.
       operationId: getPerspectiveById
       parameters:
@@ -313,20 +317,20 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/schemas.yaml#/id"
+            $ref: "#/components/schemas/id"
       responses:
         "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/perspective.yaml#/perspective"
+                $ref: "#/components/schemas/perspective"
         "202":
           description: Job accepted. Updating CM before returning requested data. Redirecting to jobs monitor
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/jobs.yaml#/job"
+                $ref: "#/components/schemas/job"
         "400":
           description: invalid perspective id
       x-swagger-router-controller: Perspectives
@@ -335,6 +339,8 @@ paths:
       tags:
         - Perspectives
       summary: Communities with the same perspective
+      security:
+        - basicAuth: [ ]
       description: Returns a list with the communities. If the CM update is necessary returns a job.
       operationId: listPerspectiveCommunities
       parameters:
@@ -345,7 +351,7 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/jobs.yaml#/job"
+            $ref: "#/components/schemas/job"
       responses:
         "200":
           description: successful operation
@@ -354,14 +360,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./openapi_specs/community.yaml#/community"
+                  $ref: "#/components/schemas/community"
                 x-content-type: application/json
         "202":
           description: Job accepted. Updating CM before returning requested data. Redirecting to jobs monitor
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/jobs.yaml#/job"
+                $ref: "#/components/schemas/job"
         "400":
           description: invalid community id
       x-swagger-router-controller: Perspectives
@@ -370,6 +376,8 @@ paths:
       tags:
         - Perspectives
       summary: Add perspective
+      security:
+        - basicAuth: [ ]
       description: Injects new perspectives in the CM. Checks if perspectives with the same id already exist. Creates the need to update the CM.
       operationId: PostPerspective
       requestBody:
@@ -377,7 +385,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./openapi_specs/perspective.yaml#/perspective"
+              $ref: "#/components/schemas/perspective"
         required: true
       responses:
         "204":
@@ -390,6 +398,8 @@ paths:
       tags:
         - Communities
       summary: Get all communities in the model
+      security:
+        - basicAuth: [ ]
       description: Access to a list of the communities in the community model. If the CM update is necessary returns a job.
       operationId: getCommunities
       responses:
@@ -400,14 +410,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./openapi_specs/community.yaml#/community"
+                  $ref: "#/components/schemas/community"
                 x-content-type: application/json
         "202":
           description: Job accepted. Updating CM before returning requested data. Redirecting to jobs monitor
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/jobs.yaml#/job"
+                $ref: "#/components/schemas/job"
         "400":
           description: Community model does not exist
       x-swagger-router-controller: Communities
@@ -416,6 +426,8 @@ paths:
       tags:
         - Communities
       summary: Get community description and explanation
+      security:
+        - basicAuth: [ ]
       description: Returns information about a community. If the CM update is necessary returns a job.
       operationId: getCommunityById
       parameters:
@@ -426,20 +438,20 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/schemas.yaml#/id"
+            $ref: "#/components/schemas/id"
       responses:
         "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/community.yaml#/community"
+                $ref: "#/components/schemas/community"
         "202":
           description: Job accepted. Updating CM before returning requested data. Redirecting to jobs monitor
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/jobs.yaml#/job"
+                $ref: "#/components/schemas/job"
         "400":
           description: invalid community id
       x-swagger-router-controller: Communities
@@ -448,6 +460,8 @@ paths:
       tags:
         - Communities
       summary: Users who belong to a community
+      security:
+        - basicAuth: [ ]
       description: Returns a list with the ids of the users who belong to a community. If the CM update is necessary returns a job.
       operationId: listCommunityUsers
       parameters:
@@ -458,7 +472,7 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/schemas.yaml#/id"
+            $ref: "#/components/schemas/id"
       responses:
         "200":
           description: successful operation
@@ -467,14 +481,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./openapi_specs/schemas.yaml#/id"
+                  $ref: "#/components/schemas/id"
                 x-content-type: application/json
         "202":
           description: Job accepted. Updating CM before returning requested data. Redirecting to jobs monitor
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/jobs.yaml#/job"
+                $ref: "#/components/schemas/job"
         "400":
           description: invalid community id
       x-swagger-router-controller: Communities
@@ -483,6 +497,8 @@ paths:
       tags:
         - Users
       summary: Communities that a user belongs
+      security:
+        - basicAuth: [ ]
       description: Returns a list with the ids of the communities that the user belongs to.
       operationId: listUserCommunities
       parameters:
@@ -493,7 +509,7 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/schemas.yaml#/id"
+            $ref: "#/components/schemas/id"
       responses:
         "200":
           description: successful operation
@@ -502,7 +518,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./openapi_specs/schemas.yaml#/id"
+                  $ref: "#/components/schemas/id"
                 x-content-type: application/json
         "400":
           description: invalid user id
@@ -512,6 +528,8 @@ paths:
       tags:
         - Users
       summary: Update community model with new user generated content
+      security:
+        - basicAuth: [ ]
       description: This service is employed to inform the CM the users who were created/updated in the User Model.
       operationId: updateUsers
       parameters:
@@ -522,7 +540,7 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/schemas.yaml#/id"
+            $ref: "#/components/schemas/id"
       requestBody:
         description: A list with objects that represent the information about the user that will be added to the community model
         content:
@@ -533,7 +551,7 @@ paths:
                 A list of user generated content objects for the Community
                 Model
               items:
-                $ref: "./openapi_specs/user-generated-content.yaml#/user-generated-content"
+                $ref: "#/components/schemas/user-generated-content"
         required: true
       responses:
         "204":
@@ -546,6 +564,8 @@ paths:
       tags:
         - Similarity
       summary: K-most similar communities
+      security:
+        - basicAuth: [ ]
       description: Returns a list with the k most similar communities to the chosen one in the model.
       operationId: computeKmostSimilar
       parameters:
@@ -556,7 +576,7 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/schemas.yaml#/id"
+            $ref: "#/components/schemas/id"
         - name: k
           in: query
           description: Size of the result (k most similar communities)
@@ -574,7 +594,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./openapi_specs/similarityScore.yaml#/similarityScore"
+                  $ref: "#/components/schemas/similarityScore"
                 x-content-type: application/json
         "400":
           description: Invalid communityId or query parameters
@@ -584,6 +604,8 @@ paths:
       tags:
         - Similarity
       summary: Similarity between two communities
+      security:
+        - basicAuth: [ ]
       description: Returns a similarity score between two communities.
       operationId: computeSimilarity
       parameters:
@@ -594,7 +616,7 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/schemas.yaml#/id"
+            $ref: "#/components/schemas/id"
         - name: otherCommunityId
           in: path
           description: ID of the other community to compute similarity
@@ -602,14 +624,14 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/schemas.yaml#/id"
+            $ref: "#/components/schemas/id"
       responses:
         "200":
           description: A similarity score object between targetCommunity and otherCommunity
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/similarityScore.yaml#/similarityScore"
+                $ref: "#/components/schemas/similarityScore"
         "400":
           description: Invalid communityIds (target or other)
       x-swagger-router-controller: Similarity
@@ -618,6 +640,8 @@ paths:
       tags:
         - Similarity
       summary: K-most dissimilar communities
+      security:
+        - basicAuth: [ ]
       description: Returns a list with the k most dissimilar communities to the chosen one in the model.
       operationId: computeKmostDissimilar
       parameters:
@@ -628,7 +652,7 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/schemas.yaml#/id"
+            $ref: "#/components/schemas/id"
         - name: k
           in: query
           description: Size of the result (k most dissimilar communities)
@@ -646,7 +670,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./openapi_specs/similarityScore.yaml#/similarityScore"
+                  $ref: "#/components/schemas/similarityScore"
                 x-content-type: application/json
         "400":
           description: Invalid community-id or query parameters
@@ -656,6 +680,8 @@ paths:
       tags:
         - Similarity
       summary: Dissimilarity between two communities
+      security:
+        - basicAuth: [ ]
       description: Returns the dissimilarity score between two communities
       operationId: computeDissimilarity
       parameters:
@@ -666,7 +692,7 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/schemas.yaml#/id"
+            $ref: "#/components/schemas/id"
         - name: otherCommunityId
           in: path
           description: ID of the other community to compute dissimilarity
@@ -674,20 +700,479 @@ paths:
           style: simple
           explode: false
           schema:
-            $ref: "./openapi_specs/schemas.yaml#/id"
+            $ref: "#/components/schemas/id"
       responses:
         "200":
           description: The dissimilarity score object between targetCommunity and otherCommunity
           content:
             application/json:
               schema:
-                $ref: "./openapi_specs/similarityScore.yaml#/similarityScore"
+                $ref: "#/components/schemas/similarityScore"
         "400":
           description: Invalid community-ids (target or other)
       x-swagger-router-controller: Similarity
 components:
   schemas:
-    $ref: "./openapi_specs/schemas.yaml"
+    id:
+      type: string
+      description: Unique id
+      example: d290f1ee-6c54-4b01-90e6-d701748f0851
+    perspectiveId:
+      type: string
+      description: Unique perspective id
+      example: d290f1ee-6c54-4b01-90e6-d701748f0851
+    param:
+      type: string
+      description: Param
+      example: param
+    community:
+      required:
+        - id
+        - name
+        - perspectiveId
+        - users
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+        name:
+          type: string
+          description: Community name
+          example: elderly
+        perspectiveId:
+          type: string
+          description: perspectiveId
+          example: perspectiveId
+        explanations:
+          type: array
+          description: a list of community descriptions (maybe empty). It can be computed by the explanation module
+          example: People whose age is above 65
+        users:
+          type: array
+          description: A list with the users who belong to the community
+          example:
+            - "23"
+            - "24"
+          items:
+            $ref: '#/components/schemas/id'
+      example:
+        name: elderly
+        id: d290f1ee-6c54-4b01-90e6-d701748f0851
+        explanation: People whose age is above 65
+        perspectiveId: "101"
+        users:
+          - "23"
+          - "24"
+    jobId:
+      type: string
+      description: Unique job id
+      example: 4351
+    jobStarted:
+      type: object
+      title: jobStarted
+      properties:
+        job:
+          type: object
+          title: job
+          properties:
+            path:
+              type: string
+              description: path
+              example: /v1.1/jobs/4351
+            jobId:
+              $ref: '#/components/schemas/jobId'
+            name:
+              type: string
+              description: name
+              example: CM Update
+            job-state:
+              type: string
+              description: job state
+              example: STARTED
+            job-status:
+              type: string
+              description: job status
+              example: INPROGRESS
+            start-time:
+              type: string
+              description: job start time
+              example: INPROGRESS
+            time-to-autoremove-job:
+              type: string
+              description: time left for autoremove the job
+              example: INPROGRESS
+            data:
+              type: object
+              description: The job is not done yet
+    jobCompleted:
+      type: object
+      title: jobCompleted
+      properties:
+        job:
+          type: object
+          title: job
+          properties:
+            path:
+              type: string
+              description: path
+              example: /v1.1/jobs/4351
+            jobId:
+              $ref: '#/components/schemas/jobId'
+            name:
+              type: string
+              description: name
+              example: CM Update
+            job-state:
+              type: string
+              description: job state
+              example: COMPLETED
+            job-status:
+              type: string
+              description: job status
+              example: SUCCESS
+            start-time:
+              type: string
+              description: job start time
+              example: INPROGRESS
+            time-to-autoremove-job:
+              type: string
+              description: time left for autoremove the job
+              example: INPROGRESS
+            data:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/perspective'
+                - $ref: '#/components/schemas/community'
+                - $ref: '#/components/schemas/listPerspectives'
+                - $ref: '#/components/schemas/listCommunities'
+                - $ref: '#/components/schemas/perspectiveId'
+                - type: string
+                  description: perspectiveId perspectiveId
+                - type: string
+                  description: Visfile
+    listPerspectives:
+      type: array
+      description: List of perspectives
+      items:
+        $ref: '#/components/schemas/perspective'
+    listCommunities:
+      type: array
+      description: List of communities
+      items:
+        $ref: '#/components/schemas/community'
+    job:
+      required:
+        - path
+      type: object
+      properties:
+        path:
+          type: string
+          description: job
+          example: /v1.1/jobs/{jobId}
+    log:
+      type: object
+      title: log
+      properties:
+        name:
+          type: string
+        msg:
+          type: string
+        args:
+          type: array
+        levelname:
+          type: string
+        levelno:
+          type: integer
+        pathname:
+          type: string
+        filename:
+          type: string
+        module:
+          type: string
+        exc_info:
+          type: string
+          nullable: true
+        exc_text:
+          type: string
+          nullable: true
+        stack_info:
+          type: string
+          nullable: true
+        lineno:
+          type: integer
+        funcName:
+          type: string
+        created:
+          type: number
+        msecs:
+          type: integer
+        relativeCreated:
+          type: number
+        thread:
+          type: integer
+        threadName:
+          type: string
+        processName:
+          type: string
+        process:
+          type: integer
+        username:
+          type: string
+        time:
+          type: string
+          format: date
+        host:
+          type: string
+        message:
+          type: string
+    perspective:
+      required:
+        - id
+        - name
+        - algorithm
+        - similarity_functions
+        - user_attributes
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+        name:
+          type: string
+          description: Perspective name
+          example: name
+        algorithm:
+          type: object
+          title: Algorithm used for this perspective
+          properties:
+            name:
+              type: string
+              description: The name of the algorithm
+              example: optics
+            params:
+              type: array
+              description: Params
+              items:
+                $ref: '#/components/schemas/param'
+              example:
+                - "paramA"
+                - "paramB"
+        similarity_functions:
+          type: array
+          description: similarity_functions
+          items:
+            $ref: '#/components/schemas/sim_function'
+        user_attributes:
+          type: array
+          items:
+            type: object
+            title: user_attributes
+            properties:
+              att_name:
+                type: string
+                description: att_name
+                example: att_name
+              att_type:
+                type: string
+                description: att_type
+                example: att_type
+    seedFile:
+      required:
+        - artwork_attributes
+        - user_attributes
+        - interaction_similarity_functions
+      type: object
+      properties:
+        artwork_attributes:
+          type: array
+          items:
+            type: object
+            properties:
+              sim_function:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: IconClassSimilarityDAO
+                  params:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        att_name:
+                          type: string
+                          example: Iconclass_subjects_curators
+                        att_type:
+                          type: string
+                          example: String
+                  on_attribute:
+                    type: object
+                    properties:
+                      att_name:
+                        type: string
+                        example: Iconclass_subjects_curators
+                      att_type:
+                        type: string
+                        example: String
+        user_attributes:
+          type: array
+          items:
+            type: object
+            properties:
+              att_name:
+                type: string
+                example: Age
+              att_type:
+                type: string
+                example: String
+        interaction_similarity_functions:
+          type: array
+          items:
+            type: object
+            properties:
+              sim_function:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: ExtendedPlutchikEmotionSimilarityDAO
+                  params:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        att_name:
+                          type: string
+                          example: Iconclass_subjects_curators
+                        att_type:
+                          type: string
+                          example: String
+                  on_attribute:
+                    type: object
+                    properties:
+                      att_name:
+                        type: string
+                        example: emotions
+                      att_type:
+                        type: string
+                        example: String
+                  interaction_object:
+                    type: object
+                    properties:
+                      att_name:
+                        type: string
+                        example: artworkId
+                      att_type:
+                        type: string
+                        example: String
+    attributes:
+      type: object
+      title: attributes
+      properties:
+        att_name:
+          type: string
+          description: att_name
+          example: att_name
+        att_type:
+          type: string
+          description: att_type
+          example: att_type
+    sim_function:
+      type: object
+      title: similarity_function
+      properties:
+        name:
+          type: string
+          description: name
+          example: name
+        weight:
+          type: number
+          description: weight
+          example: 2
+        params:
+          type: array
+          description: Params
+          items:
+            $ref: '#/components/schemas/param'
+          example:
+            - "paramA"
+            - "paramB"
+        on_attribute:
+          type: object
+          title: on_attribute
+          properties:
+            att_name:
+              type: string
+              description: att_name
+              example: att_name
+            att_type:
+              type: string
+              description: att_type
+              example: att_type
+    similarityScore:
+      type: object
+      description: Schema for results that compute similarity values
+      properties:
+        target-community-id:
+          $ref: '#/components/schemas/id'
+        other-community-id:
+          $ref: '#/components/schemas/id'
+        value:
+          type: number
+          description: Similarity/dissimilarity value between the specified communities
+        similarity-function:
+          type: string
+          description: Similarity function employed to compute this similarity score
+      example:
+        target-community-id: d290f1ee-6c54-4b01-90e6-d701748f0851
+        other-community-id: d290f1ee-6c54-4b01-90e6-d701748f0853
+        similarity-function: similarity-function
+        value: 0.80082819046101150206595775671303272247314453125
+    user-generated-content:
+      required:
+        - id
+        - origin
+        - pname
+        - pvalue
+        - source_id
+        - userid
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique id (generated by the User Model) for the user generated content (UGC).
+          example: "11541"
+        userid:
+          type: string
+          description: Unique user id
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        origin:
+          type: string
+          description: Unique id for the item or concept in the museum that this user generated content refers to.
+          example: 90e6d701748f08514b01
+        source_id:
+          type: string
+          description: Unique id for the UGC that this content is derived from
+          example: 90e6d701748f08514b01
+        source:
+          type: string
+          description: Description about the UGC that this content is derived from
+          example: Content description
+        pname:
+          type: string
+          description: Name of the property included in this UGC
+          example: DemographicGender
+        pvalue:
+          type: string
+          description: Value of the property included in this UGC
+          example: F (for Female value)
+        context:
+          type: string
+          description: Context of the property included in this UGC
+          example: application P:DemographicsPrep
+        datapoints:
+          type: number
+          description: Number of datapoint used to generate this UGC
+          example: 0
   securitySchemes:
     basicAuth:
       type: http

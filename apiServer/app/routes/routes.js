@@ -1,9 +1,14 @@
 // Adds rest actions defined in openapi.yaml and jobs managet to the router
 const basicAuth = require("../controllers/helpers/basic-auth");
 const jobsRouter = require("../controllers/jobsRoute/jobsRoute");
+
+const swaggerUI = require("swagger-ui-express");
+const YAML = require('yaml')
+const yaml = require('js-yaml');
+const fs = require('fs');
+
 module.exports = app => {
-    const yaml = require('js-yaml');
-    const fs = require('fs');
+
 
     const customControllers = {
         Communities: require("../controllers/communities.js"),
@@ -71,11 +76,75 @@ module.exports = app => {
     const jobsRouter = require("../controllers/jobsRoute/jobsRoute.js")
     const databaseContrl = require("../controllers/databaseController.js")
 
+
+    // interactive API
+    const file = fs.readFileSync(app.get("apiSpec"), 'utf8')
+    const swaggerDocument = YAML.parse(file)
+
+    // console.log(fs.readdirSync(__dirname))
+    console.log(fs.readdirSync(__dirname + "/api"))
+    console.log(fs.readdirSync("./api"))
+
+    // var options = {
+    //     customCss: '.swagger-ui .topbar { display: none }',
+    //     customSiteTitle: "New Title",
+    //     customfavIcon: __dirname+"/api/img/favicon.png",
+    //     explorer: true
+    // };
+
+    var options = {
+        customSiteTitle: "SPICE - Interactive API",
+        customfavIcon: "./api/img/favicon.png",
+        customCss: `
+        .topbar-wrapper img {
+            content: url("./api/img/favicon.png");
+            max-width : 90px ;
+        }
+        .topbar-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        
+        .topbar-wrapper a {
+            max-width: 90px ;
+        }
+        
+        .topbar {        
+            padding: 15px 0 !important;
+            background: red ;
+        }
+        
+        .spice {
+            width: 100%;
+            background-color: #E4D7C8;
+            padding: 3.5em;
+        }
+        .spice h1 {
+            color: #935D55;
+        }
+        .spice a {
+            color: #F57D0B;
+            text-decoration: none;
+        }
+    `
+
+    };
+
+    app.use(
+        '/api-docs',
+        express.static("./api/swagger-ui-dist/", {index: false}),
+        swaggerUI.serve,
+        swaggerUI.setup(swaggerDocument, options)
+    );
+
     // To use auth add basicAuth before initRouters()
-    app.use('/v1.1/visir', basicAuth);
-    app.use('/v1.1/databaseController', basicAuth);
-    app.use('/v1.1/logs', basicAuth);
-    app.use('/v1.1/jobs', basicAuth);
+    // app.use('/v1.1/visir', basicAuth);
+    // app.use('/v1.1/databaseController', basicAuth);
+    // app.use('/v1.1/logs', basicAuth);
+    // app.use('/v1.1/jobs', basicAuth);
+
+    app.use('/v1.1', basicAuth);
 
     initRouters(router);
     app.use('/', express.static('api'));
