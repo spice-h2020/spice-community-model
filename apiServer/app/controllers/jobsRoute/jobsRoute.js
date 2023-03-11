@@ -9,10 +9,9 @@ const jobsHandler = require("./jobsHandler.js");
 var jobManager = require('./jobsManager.js');
 
 
-
 var express = require('express');
-const { response } = require("express");
-const { communities } = require('../../models/index.js');
+const {response} = require("express");
+const {communities} = require('../../models/index.js');
 var router = express.Router();
 
 
@@ -104,20 +103,18 @@ module.exports.getJob = function getJob(req, res, next) {
 
         if (job == null) {
             res.status(404).send("JobsManager: Job not found");
-        }
-        else {
+        } else {
             console.log("Monitoring Job: <" + job.jobId + ">");
 
             if (job.jobState === Job.jobStates.INQUEUE || job.jobState === Job.jobStates.STARTED) {
                 res.send(generateProgressResponse(job));
-            }
-            else if (job.jobState === Job.jobStates.COMPLETED || job.jobState === Job.jobStates.ERROR) {
+            } else if (job.jobState === Job.jobStates.COMPLETED || job.jobState === Job.jobStates.ERROR) {
                 jobsHandler.getData(job.request, job.param)
                     .then(function (data) {
                         res.status(200).send(generateCompletedResponse(job, data));
                     })
                     .catch(function (error) {
-                        res.status(404).send("JobsManager: getData exception: " + error);
+                        res.status(404).send("JobsManager: getJob.getData exception: " + error);
                     });
             }
         }
@@ -128,11 +125,38 @@ module.exports.getJob = function getJob(req, res, next) {
 };
 
 
-module.exports.getJobs = function getJob(req, res, next){
+module.exports.getJobs = function getJob(req, res, next) {
+    let jobs = jobManager.getJobs();
+    let response = [];
+    let error = null;
+
+    for (let i = 0; i < jobs.length; i++) {
+        if (jobs[i].jobState === Job.jobStates.COMPLETED || jobs[i].jobState === Job.jobStates.ERROR) {
+            jobsHandler.getData(jobs[i].request, jobs[i].param)
+                .then(function (data) {
+                    response[i] = generateCompletedResponse(jobs[i], data);
+                })
+                .catch(function (err) {
+                    error = "JobsManager: getJobs.getData exception: " + err;
+                    break;
+                });
+            response[i] = jobs[i].toJSON();
+        } else {
+            response[i] = generateProgressResponse(jobs[i]);
+        }
+        i++;
+    }
+
+    if (error === null) {
+        res.status(200).send(response);
+    } else {
+        res.status(404).send(error);
+    }
+
 
 }
 
-module.exports.deleteJobs = function getJob(req, res, next){
+module.exports.deleteJobs = function getJob(req, res, next) {
 
 }
 // module.exports = router;
