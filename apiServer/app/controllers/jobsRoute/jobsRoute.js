@@ -140,17 +140,17 @@ module.exports.getJobs = function getJobs(req, res, next) {
         //             error = "JobsManager: getJobs.getData exception: " + err
         //         });
         // } else {
-            response[i] = jobs[i];
+        response[i] = jobs[i];
         // }
         // if (error != null)
         //     break;
     }
 
-    if (error === null) {
-        res.status(200).send(response);
-    } else {
-        res.status(404).send(error);
-    }
+    // if (error === null) {
+    res.status(200).send(response);
+    // } else {
+    //     res.status(404).send(error);
+    // }
 
 
 }
