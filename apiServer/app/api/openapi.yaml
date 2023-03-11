@@ -15,6 +15,25 @@ info:
     url: ''
 servers:
   - url: /v1.1/
+security:
+  - basicAuth: []
+tags:
+  - name: Perspectives
+    description: Operations related to computing perspectives among communities.
+  - name: Communities
+    description: Operations related to information about communities.
+  - name: Users
+    description: Operations related to users in communities.
+  - name: Similarity
+    description: Operations about computing similarity among communities.
+  - name: '[DEV] Community Model Logs'
+    description: Operations related to CM Logs.
+  - name: '[DEV] Jobs monitor'
+    description: Monitor the status of a job.
+  - name: '[DEV] VISIR'
+    description: Operations related to VISIR application.
+  - name: '[DEV] Database controller'
+    description: Operations related to database.
 paths:
   /logs:
     get:
@@ -55,6 +74,8 @@ paths:
           description: successful operation
         '400':
           description: error
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getNLatestLogs
@@ -113,6 +134,8 @@ paths:
           description: successful operation
         '400':
           description: error
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getLogsBetweenTwoDates
@@ -132,6 +155,8 @@ paths:
           description: successful operation
         '400':
           description: invalid seed id
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getSeed
@@ -151,6 +176,8 @@ paths:
           description: successful operation
         '400':
           description: invalid seed id
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getIndex
@@ -181,6 +208,8 @@ paths:
             Redirecting to jobs monitor
         '400':
           description: Community model does not exist
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getPerspectives
@@ -190,23 +219,25 @@ paths:
         update is necessary returns a job.
       x-swagger-router-controller: Perspectives
     post:
-      tags:
-        - 'Perspectives'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/perspective'
         required: true
+      tags:
+        - Perspectives
       responses:
         '204':
           description: Added
         '400':
           description: error
+        '401':
+          $ref: '#/components/responses/401'
       operationId: postPerspective
       summary: Inserts perspective to the Community Model
-      x-swagger-router-controller: Perspectives
       description: ''
+      x-swagger-router-controller: Perspectives
   /perspectives/{perspectiveId}:
     get:
       tags:
@@ -237,6 +268,8 @@ paths:
             Redirecting to jobs monitor
         '400':
           description: invalid perspective id
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getPerspectiveById
@@ -278,6 +311,8 @@ paths:
             Redirecting to jobs monitor
         '400':
           description: invalid community id
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: listPerspectiveCommunities
@@ -317,6 +352,8 @@ paths:
             Redirecting to jobs monitor
         '400':
           description: Community model does not exist
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getCommunities
@@ -355,6 +392,8 @@ paths:
             Redirecting to jobs monitor
         '400':
           description: invalid community id
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getCommunityById
@@ -396,6 +435,8 @@ paths:
             Redirecting to jobs monitor
         '400':
           description: invalid community id
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: listCommunityUsers
@@ -429,6 +470,8 @@ paths:
           description: successful operation
         '400':
           description: invalid user id
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: listUserCommunities
@@ -467,6 +510,8 @@ paths:
           description: >-
             Invalid userId userId in the URL differs form the userid in the body
             request
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: updateUsers
@@ -511,6 +556,8 @@ paths:
             and the k-most similar communities, in descending order
         '400':
           description: Invalid communityId or query parameters
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: computeKmostSimilar
@@ -549,6 +596,8 @@ paths:
           description: A similarity score object between targetCommunity and otherCommunity
         '400':
           description: Invalid communityIds (target or other)
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: computeSimilarity
@@ -591,6 +640,8 @@ paths:
             and the k-most dissimilar communities, in descending order
         '400':
           description: Invalid community-id or query parameters
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: computeKmostDissimilar
@@ -631,6 +682,8 @@ paths:
             otherCommunity
         '400':
           description: Invalid community-ids (target or other)
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: computeDissimilarity
@@ -650,6 +703,8 @@ paths:
           description: successful operation
         '400':
           description: invalid seed id
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getDump
@@ -668,6 +723,8 @@ paths:
           description: successful operation
         '400':
           description: error
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: postDump
@@ -697,6 +754,8 @@ paths:
           description: successful operation
         '400':
           description: invalid seed id
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getFile
@@ -728,6 +787,8 @@ paths:
           description: Job status
         '400':
           description: Job does not exist
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getJob
@@ -755,6 +816,8 @@ paths:
           description: Job status
         '400':
           description: Job does not exist
+        '401':
+          $ref: '#/components/responses/401'
       security:
         - basicAuth: []
       operationId: getJobs
@@ -762,13 +825,9 @@ paths:
       description: Returns all current jobs.
       x-content-type: application/json
       x-swagger-router-controller: JobsRouter
-    x-last-modified: 1678486719020
     delete:
       tags:
         - '[DEV] Jobs monitor'
-      description: Delete all current jobs.
-      operationId: deleteJobs
-      summary: Delete all current jobs
       responses:
         '200':
           content:
@@ -780,7 +839,13 @@ paths:
           description: Job status
         '400':
           description: Job does not exist
+        '401':
+          $ref: '#/components/responses/401'
+      operationId: deleteJobs
+      summary: Delete all current jobs
+      description: Delete all current jobs.
       x-swagger-router-controller: JobsRouter
+    x-last-modified: 1678486719020
 components:
   schemas:
     id:
@@ -1254,42 +1319,29 @@ components:
           type: number
           example: 0
     UnauthorizedError:
-      type: object
       required:
         - message
         - code
+      type: object
       properties:
         message:
           type: string
         code:
-          type: integer
-          minimum: 401
           maximum: 401
-      x-last-modified: 1678487151598
+          minimum: 401
+          type: integer
+      x-last-modified: 1678572397915
+  responses:
+    '401':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnauthorizedError'
+      description: Unauthorized access.
   securitySchemes:
     basicAuth:
       scheme: basic
       type: http
       description: Use `user` / `pass` as the test credentials
   headers: {}
-  responses: {}
   parameters: {}
-tags:
-  - name: Perspectives
-    description: Operations related to computing perspectives among communities.
-  - name: Communities
-    description: Operations related to information about communities.
-  - name: Users
-    description: Operations related to users in communities.
-  - name: Similarity
-    description: Operations about computing similarity among communities.
-  - name: '[DEV] Community Model Logs'
-    description: Operations related to CM Logs.
-  - name: '[DEV] Jobs monitor'
-    description: Monitor the status of a job.
-  - name: '[DEV] VISIR'
-    description: Operations related to VISIR application.
-  - name: '[DEV] Database controller'
-    description: Operations related to database.
-security:
-  - basicAuth: []
