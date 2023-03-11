@@ -15,7 +15,7 @@ const {communities} = require('../../models/index.js');
 var router = express.Router();
 
 
-var jobPrefix = "/v1.1/jobs/";
+var jobPrefix = "/v1.1/jobs-manager/jobs/";
 
 /**Response templates */
 var jobStarted = {
@@ -125,26 +125,25 @@ module.exports.getJob = function getJob(req, res, next) {
 };
 
 
-module.exports.getJobs = function getJob(req, res, next) {
+module.exports.getJobs = function getJobs(req, res, next) {
     let jobs = jobManager.getJobs();
     let response = [];
     let error = null;
 
     for (let i = 0; i < jobs.length; i++) {
-        if (jobs[i].jobState === Job.jobStates.COMPLETED || jobs[i].jobState === Job.jobStates.ERROR) {
-            jobsHandler.getData(jobs[i].request, jobs[i].param)
-                .then(function (data) {
-                    response[i] = generateCompletedResponse(jobs[i], data);
-                })
-                .catch(function (err) {
-                    error = "JobsManager: getJobs.getData exception: " + err;
-                    break;
-                });
-            response[i] = jobs[i].toJSON();
-        } else {
-            response[i] = generateProgressResponse(jobs[i]);
-        }
-        i++;
+        // if (jobs[i].jobState === Job.jobStates.COMPLETED || jobs[i].jobState === Job.jobStates.ERROR) {
+        //     jobsHandler.getData(jobs[i].request, jobs[i].param)
+        //         .then(function (data) {
+        //             response[i] = generateCompletedResponse(jobs[i], data);
+        //         })
+        //         .catch(function (err) {
+        //             error = "JobsManager: getJobs.getData exception: " + err
+        //         });
+        // } else {
+            response[i] = jobs[i];
+        // }
+        // if (error != null)
+        //     break;
     }
 
     if (error === null) {
@@ -156,7 +155,7 @@ module.exports.getJobs = function getJob(req, res, next) {
 
 }
 
-module.exports.deleteJobs = function getJob(req, res, next) {
-
+module.exports.deleteJobs = function deleteJobs(req, res, next) {
+    res.status(200).send("WIP");
 }
 // module.exports = router;

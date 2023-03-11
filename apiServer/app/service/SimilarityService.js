@@ -14,19 +14,9 @@ const SimilarityDAO = db.similarities;
 exports.computeDissimilarity = function (targetCommunityId, otherCommunityId) {
   return new Promise(function (resolve, reject) {
     let result = {};
-    // if (targetCommunityId === otherCommunityId) {
-    //   result['application/json'] = {
-    //     "target-community-id": targetCommunityId,
-    //     "other-community-id": targetCommunityId,
-    //     "similarity-function": "any",
-    //     value: 0.0
-    //   };
-    //   if (Object.keys(result).length > 0) {
-    //     resolve(result[Object.keys(result)[0]]);
-    //   } else {
-    //     resolve();
-    //   }
-    // }
+    if (targetCommunityId === otherCommunityId) {
+        reject("targetCommunityId === otherCommunityId");
+    }
     SimilarityDAO.getByIds(targetCommunityId, otherCommunityId,
       data => {
         // TODO: Dissimilarity must be computed in Community Model
@@ -140,19 +130,9 @@ exports.computeKmostSimilar = function (communityId, k) {
 exports.computeSimilarity = function (targetCommunityId, otherCommunityId) {
   return new Promise(function (resolve, reject) {
     let result = {};
-    // if (targetCommunityId === otherCommunityId) {
-    //   result['application/json'] = {
-    //     "target-community-id": targetCommunityId,
-    //     "other-community-id": targetCommunityId,
-    //     "similarity-function": "any",
-    //     value: 1.0
-    //   };
-    //   if (Object.keys(result).length > 0) {
-    //     resolve(result[Object.keys(result)[0]]);
-    //   } else {
-    //     resolve();
-    //   }
-    // }
+      if (targetCommunityId === otherCommunityId) {
+          reject("targetCommunityId === otherCommunityId");
+      }
     SimilarityDAO.getByIds(targetCommunityId, otherCommunityId,
       data => {
         result['application/json'] = data;
