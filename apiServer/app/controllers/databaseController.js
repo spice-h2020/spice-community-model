@@ -1,5 +1,5 @@
 'use strict';
-const DatabaseContrl = require('../service/DatabaseControllerService');
+const DatabaseContrl = require('../service/databaseControllerService');
 
 // var express = require('express');
 // var router = express.Router();

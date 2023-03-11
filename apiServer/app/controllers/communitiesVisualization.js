@@ -2,9 +2,9 @@
 
 const idParam_fileId = 'fileId';
 
-// const Perspectives = require('../../service/PerspectivesService.js');
-const CommunitiesVis = require('../service/CommunitiesVisualizationService.js');
-const Flags = require('../service/FlagsService.js');
+// const Perspectives = require('../../service/perspectivesService.js');
+const CommunitiesVis = require('../service/communitiesVisualizationService.js');
+const Flags = require('../service/flagsService.js');
 const JobManager = require('./jobsRoute/jobsManager.js');
 
 

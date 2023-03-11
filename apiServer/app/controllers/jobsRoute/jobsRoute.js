@@ -3,7 +3,7 @@
 const idParam_jobId = 'jobId';
 
 const Job = require("./job.js");
-const Flags = require('../../service/FlagsService.js');
+const Flags = require('../../service/flagsService.js');
 const jobsHandler = require("./jobsHandler.js");
 
 var jobManager = require('./jobsManager.js');
@@ -156,6 +156,6 @@ module.exports.getJobs = function getJobs(req, res, next) {
 }
 
 module.exports.deleteJobs = function deleteJobs(req, res, next) {
-    res.status(200).send("WIP");
+    res.status(200).send("Work In Progress");
 }
 // module.exports = router;

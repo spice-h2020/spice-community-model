@@ -1,6 +1,6 @@
-const Perspectives = require('../../service/PerspectivesService.js');
-const Communities = require('../../service/CommunitiesService');
-const CommunitiesVis = require('../../service/CommunitiesVisualizationService.js');
+const Perspectives = require('../../service/perspectivesService.js');
+const Communities = require('../../service/communitiesService');
+const CommunitiesVis = require('../../service/communitiesVisualizationService.js');
 
 /**
  * Get specified promises that return requested data.

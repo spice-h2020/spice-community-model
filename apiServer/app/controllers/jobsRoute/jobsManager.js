@@ -4,7 +4,7 @@
  */
 
 const Job = require("./job.js");
-const Flags = require('../../service/FlagsService.js');
+const Flags = require('../../service/flagsService.js');
 const redirect = require('../../service/redirectRequest.js');
 
 

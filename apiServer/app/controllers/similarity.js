@@ -1,4 +1,4 @@
-const Similarity = require('../service/SimilarityService.js');
+const Similarity = require('../service/similarityService.js');
 
 const idParam = 'communityId';
 const otherIdParam = 'otherCommunityId';

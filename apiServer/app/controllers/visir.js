@@ -3,8 +3,8 @@
 const idParam_fileId = 'fileId';
 
 const SeedFileConfig = require("../config/seedFile.config.js");
-const Flags = require("../service/FlagsService");
-const CommunitiesVis = require("../service/CommunitiesVisualizationService");
+const Flags = require("../service/flagsService");
+const CommunitiesVis = require("../service/communitiesVisualizationService");
 const JobManager = require("./jobsRoute/jobsManager");
 
 
