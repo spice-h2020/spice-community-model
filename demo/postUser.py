@@ -2,6 +2,7 @@ import requests
 import json
 import sys
 from config import configDict
+from requests.auth import HTTPBasicAuth
 
 #--------------------------------------------------------------------------------------------------------------------------
 #    Used to post demographic data (dict userid)
@@ -25,6 +26,7 @@ def main():
     server = configData["server"]
     museum = configData["museum"]
     filename = 'ugcUsers.json'
+    auth = HTTPBasicAuth(configData['user'], configData['pass'])
     
     #--------------------------------------------------------------------------------------------------------------------------
     #    Read data
@@ -50,7 +52,7 @@ def main():
         print("userid: " + str(userid))
         print("value: " + str(userArray))
         print("\n")
-        response=requests.post(f'{server}/v1.1/users/{userid}/update-generated-content', json = userArray)
+        response=requests.post(f'{server}/v1.1/users/{userid}/update-generated-content', json = userArray, auth=auth)
         print(response)
         print("\n\n")
             
