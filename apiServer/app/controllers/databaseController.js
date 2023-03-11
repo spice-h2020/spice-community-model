@@ -6,7 +6,7 @@ const DatabaseContrl = require('../service/DatabaseControllerService');
 
 
 /**
- http://localhost:8080/databaseController/dump
+ http://localhost:8080/database-controller/dump
 
  /Get -> Returns current state of DB
  /Post w/ json -> Clears and loads data to DB
@@ -38,18 +38,18 @@ module.exports.postDump = function postDump(req, res, next) {
 };
 
 
-// router.get('/reset', function (req, res, next) {
-module.exports.getReset = function getReset(req, res, next) {
-    const empty = {};
-    DatabaseContrl.postLoad(empty)
-        .then(function (response) {
-            res.status(200).send(response);
-        })
-        .catch(function (response) {
-            res.status(400).send(response);
-        });
-// });
-};
+// // router.get('/reset', function (req, res, next) {
+// module.exports.getReset = function getReset(req, res, next) {
+//     const empty = {};
+//     DatabaseContrl.postLoad(empty)
+//         .then(function (response) {
+//             res.status(200).send(response);
+//         })
+//         .catch(function (response) {
+//             res.status(400).send(response);
+//         });
+// // });
+// };
 
 
 // module.exports = router;

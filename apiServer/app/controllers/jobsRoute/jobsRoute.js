@@ -127,4 +127,12 @@ module.exports.getJob = function getJob(req, res, next) {
 // });
 };
 
+
+module.exports.getJobs = function getJob(req, res, next){
+
+}
+
+module.exports.deleteJobs = function getJob(req, res, next){
+
+}
 // module.exports = router;

@@ -96,7 +96,7 @@ module.exports.listPerspectiveCommunities = function listPerspectiveCommunities(
 };
 
 // redirect post request to api_loader
-module.exports.PostPerspective = function PostPerspective(req, res, next) {
+module.exports.postPerspective = function postPerspective(req, res, next) {
   try {
 
     Perspectives.getPerspectiveById(req.body.id)
