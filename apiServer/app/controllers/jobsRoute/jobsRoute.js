@@ -155,7 +155,10 @@ module.exports.getJobs = function getJobs(req, res, next) {
 
 }
 
-module.exports.deleteJobs = function deleteJobs(req, res, next) {
-    res.status(200).send("Work In Progress");
-}
+// module.exports.deleteJobs = function deleteJobs(req, res, next) {
+//     res.status(200).send("Work In Progress");
+// }
+
+
+
 // module.exports = router;
