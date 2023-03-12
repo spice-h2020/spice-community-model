@@ -2,7 +2,7 @@
 const basicAuth = require("../controllers/helpers/basic-auth");
 const jobsRouter = require("../controllers/jobsRoute/jobsRoute");
 
-const swaggerUI = require("swagger-ui-express");
+const swaggerUI = require("../api/swagger-ui-express");
 const YAML = require('yaml')
 const yaml = require('js-yaml');
 const fs = require('fs');
@@ -93,9 +93,10 @@ module.exports = app => {
     // };
 
     var options = {
-        customSiteTitle: "SPICE - Interactive API",
+        customSiteTitle: "SPICE Community Model - Interactive API",
         customfavIcon: "./api/img/favicon.png",
         customCss: `
+        .swagger-ui .topbar { display: none }
         .topbar-wrapper img {
             content: url("./api/img/favicon.png");
             max-width : 90px ;
@@ -105,11 +106,11 @@ module.exports = app => {
             align-items: center;
             justify-content: flex-start;
         }
-        
+
         .topbar-wrapper a {
             max-width: 90px ;
         }
-        
+
         .topbar {        
             padding: 15px 0 !important;
             background: red ;
