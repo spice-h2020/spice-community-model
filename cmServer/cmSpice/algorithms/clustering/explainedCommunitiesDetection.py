@@ -664,6 +664,10 @@ class ExplainedCommunitiesDetection:
         communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
         validCommunityIndexes = [i for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
 
+        # print("extract dominant interaction attribute")
+        # print(col2)
+        # print("\n")
+
         #if (row['userNameAuxiliar'] == 'e4aM9WL7' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 2):
         if (row['userNameAuxiliar'] == 'x2AUnHqw' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 1):
          
@@ -684,6 +688,9 @@ class ExplainedCommunitiesDetection:
         if (len(communityMembers_interactionAttributeList) > 0):
             communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == True or isinstance(x,list) == True) and len(x) > 0]
 
+            # print(communityMembers_validInteractionAttributeList)
+            # print("\n")
+
             if col2 == 'dominantArtworksDominantInteractionGenerated':
                 communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
                 if (len(communityMembers_validInteractionAttributeList) > 0):
@@ -697,133 +704,13 @@ class ExplainedCommunitiesDetection:
 
             # Testing new iconclass attribute
             # Now, we get dictionaries with keys (iconclassIDs) and values (arrays indicating the [iconclassIDs artworkA, artworkB] they originate from)
-            elif ('iconclassArrayIDs' in col2 or 'Materials' in col2 or 'Colour' in col2):
+            # elif ('iconclassArrayIDs' in col2 or 'Materials' in col2 or 'Colour' in col2):
+            elif ('iconclassArrayIDs' in col2):
                 communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
 
                 if (len(communityMembers_validInteractionAttributeList) > 0):
                     
-                    print("new iconclass generation")
-                    print(col2)
-                    print(communityMembers_validInteractionAttributeList)
-                    print("\n")
-                    
-                    """
-                    """
-
-                    #print("simplify iconclassArrayIDs")
-                    # First, create a combined dictionary containing all the arrays of pairs each iconclassIDs originates from
-                    iconclassDictionary = {}
-                    for interactionAttribute in communityMembers_validInteractionAttributeList:
-                        for interactionAttributeDict in interactionAttribute:
-                            for interactionAttributeKey in interactionAttributeDict:
-                                if (interactionAttributeKey not in iconclassDictionary):
-                                    iconclassDictionary[interactionAttributeKey] = []
-                                iconclassDictionary[interactionAttributeKey].append(interactionAttributeDict[interactionAttributeKey])
-                    """
-                    print("username: " + row['userNameAuxiliar'])
-                    print("index: " + str(row['real_index']))
-                    print("community: " + str(row['community']))
-                    print("dominant artworks: " + str(row[col2]))
-                    print("communityMemberIndexes: " + str(communityMemberIndexes))
-                    print("communityMembers_interactionAttributeList")
-                    print(communityMembers_interactionAttributeList)
-                    print("communityMembers_validInteractionAttributeList")
-                    print(communityMembers_validInteractionAttributeList)
-                    print("\n")
-                    """
-                    
-                    """
-                    print("new iconclass generation 2")
-                    print(iconclassDictionary)
-                    print("\n")
-                    """
-                    
-                    # Up to now, it also takes the number of times the artwork appears. 
-                    # For example, a iconclassID (lovers) may only be linked to La Sirena, but La Sirena is interacted 
-                    # with more times than any other artwork.
-
-                    # Now, consider the number of different artworks linked to the iconclass ID
-
-                    
-                    for iconclassID in iconclassDictionary:
-                        """
-                        print("iconclassDictionary " + "(" + str(iconclassID) + ")" )
-                        print(iconclassDictionary[iconclassID])
-                        """
-                        #iconclassDictionary[iconclassID]= list(set(iconclassDictionary[iconclassID]))
-
-                        set_of_jsons = {json.dumps(d, sort_keys=True) for d in iconclassDictionary[iconclassID]}
-                        iconclassDictionary[iconclassID] = [json.loads(t) for t in set_of_jsons]
-
-                        #iconclassDictionary[iconclassID] = [dict(t) for t in {tuple(d.items()) for d in iconclassDictionary[iconclassID]}]
-
-                        """
-                        print(iconclassDictionary[iconclassID])
-                        print("\n")
-                    
-                        """
-                    
-
-                    # Select x (5) keys with the highest number of results
-                    # using sorted() + join() + lambda
-                    # Sort dictionary by value list length
-                    sorted_iconclassDictionary = sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key]))
-                    """
-                    print("sorted iconclass dictionary")
-                    print(sorted_iconclassDictionary)
-                    print("\n")
-                    """
-
-
-
-                    res = '#separator#'.join(sorted_iconclassDictionary)
-
-                    # From most frequent to less frequent
-                    result = res.split('#separator#')
-                    """
-                    print("iconclass")
-                    print("iconclass chosen")
-                    print(result)
-                    """
-
-                    result.reverse()
-
-                    """
-                    print(result)
-                    print("\n")
-                    """
-
-                    
-                    """
-                    print("result")
-                    print(result)
-                    print("\n")
-                    """
-
-                    # Get children associated to the keys 
-                    result2 = []
-                    result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
-
-                    """
-                    print("community: " + str(row['community']))
-                    print("iconclassDictionary")
-                    print(iconclassDictionary)
-                    print("\n")
-                    print("result2")
-                    print(result2)
-                    print("\n")
-                    """
-
-
-                    # Next work: include the artworks these iconclass IDs originate from in the explanations
-
-                    """
-                    print("final result (simplify iconclass)")
-                    print(result2)
-                    print("\n")
-                    """
-
-                    return result2
+                    return self.extractDominantAttributeDictExplanation(communityMembers_validInteractionAttributeList)
 
                 else:
                     return {}
@@ -832,12 +719,21 @@ class ExplainedCommunitiesDetection:
             # dict: key (attribute); value (list of artwork(s) id(s) they reference)
             # Example: SAME ARTWORKS 
             # key: artwork id; value: [artwork id]
-            elif (len(communityMembers_validInteractionAttributeList) > 0 and isinstance(communityMembers_validInteractionAttributeList[0],dict) == True):
+            elif (self.checkDictExplanation(communityMembers_validInteractionAttributeList)):
+            
                 # return statistics.mode(communityMembers_interactionAttributeList)
                 # Sort key by length of the array
                 #communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
 
+                # print ("function return")
+                # print(col2)
+                # print(communityMembers_validInteractionAttributeList)
+                # print("\n")
+
                 # Print
+                return self.extractDominantAttributeDictExplanation(communityMembers_validInteractionAttributeList)
+
+
                 
                 """
                 print("new dict explanation")
@@ -1040,6 +936,134 @@ class ExplainedCommunitiesDetection:
             return ''
         
     
+    def checkDictExplanation(self, communityMembers_validInteractionAttributeList):
+        return len(communityMembers_validInteractionAttributeList) > 0 and isinstance(communityMembers_validInteractionAttributeList[0],list) == True and isinstance(communityMembers_validInteractionAttributeList[0][0],dict) == True
+
+    def extractDominantAttributeDictExplanation(self, communityMembers_validInteractionAttributeList):
+        # print("new iconclass generation")
+        # # print(col2)
+        # print(communityMembers_validInteractionAttributeList)
+        # print("\n")
+        
+        """
+        """
+
+        #print("simplify iconclassArrayIDs")
+        # First, create a combined dictionary containing all the arrays of pairs each iconclassIDs originates from
+        iconclassDictionary = {}
+        for interactionAttribute in communityMembers_validInteractionAttributeList:
+            for interactionAttributeDict in interactionAttribute:
+                for interactionAttributeKey in interactionAttributeDict:
+                    if (interactionAttributeKey not in iconclassDictionary):
+                        iconclassDictionary[interactionAttributeKey] = []
+                    iconclassDictionary[interactionAttributeKey].append(interactionAttributeDict[interactionAttributeKey])
+        """
+        print("username: " + row['userNameAuxiliar'])
+        print("index: " + str(row['real_index']))
+        print("community: " + str(row['community']))
+        print("dominant artworks: " + str(row[col2]))
+        print("communityMemberIndexes: " + str(communityMemberIndexes))
+        print("communityMembers_interactionAttributeList")
+        print(communityMembers_interactionAttributeList)
+        print("communityMembers_validInteractionAttributeList")
+        print(communityMembers_validInteractionAttributeList)
+        print("\n")
+        """
+        
+        """
+        print("new iconclass generation 2")
+        print(iconclassDictionary)
+        print("\n")
+        """
+        
+        # Up to now, it also takes the number of times the artwork appears. 
+        # For example, a iconclassID (lovers) may only be linked to La Sirena, but La Sirena is interacted 
+        # with more times than any other artwork.
+
+        # Now, consider the number of different artworks linked to the iconclass ID
+
+        
+        for iconclassID in iconclassDictionary:
+            """
+            print("iconclassDictionary " + "(" + str(iconclassID) + ")" )
+            print(iconclassDictionary[iconclassID])
+            """
+            #iconclassDictionary[iconclassID]= list(set(iconclassDictionary[iconclassID]))
+
+            set_of_jsons = {json.dumps(d, sort_keys=True) for d in iconclassDictionary[iconclassID]}
+            iconclassDictionary[iconclassID] = [json.loads(t) for t in set_of_jsons]
+
+            #iconclassDictionary[iconclassID] = [dict(t) for t in {tuple(d.items()) for d in iconclassDictionary[iconclassID]}]
+
+            """
+            print(iconclassDictionary[iconclassID])
+            print("\n")
+        
+            """
+        
+
+        # Select x (5) keys with the highest number of results
+        # using sorted() + join() + lambda
+        # Sort dictionary by value list length
+        sorted_iconclassDictionary = sorted(iconclassDictionary, key = lambda key: len(iconclassDictionary[key]))
+        """
+        print("sorted iconclass dictionary")
+        print(sorted_iconclassDictionary)
+        print("\n")
+        """
+
+
+
+        res = '#separator#'.join(sorted_iconclassDictionary)
+
+        # From most frequent to less frequent
+        result = res.split('#separator#')
+        """
+        print("iconclass")
+        print("iconclass chosen")
+        print(result)
+        """
+
+        result.reverse()
+
+        """
+        print(result)
+        print("\n")
+        """
+
+        
+        """
+        print("result")
+        print(result)
+        print("\n")
+        """
+
+        # Get children associated to the keys 
+        result2 = []
+        result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
+
+        """
+        print("community: " + str(row['community']))
+        print("iconclassDictionary")
+        print(iconclassDictionary)
+        print("\n")
+        print("result2")
+        print(result2)
+        print("\n")
+        """
+
+
+        # Next work: include the artworks these iconclass IDs originate from in the explanations
+
+        """
+        print("final result (simplify iconclass)")
+        print(result2)
+        print("\n")
+        """
+
+        return result2
+
+
         
     def is_explainable(self, community, answer_binary=False, percentage=1.0):
         explainable_community = False
@@ -1640,7 +1664,7 @@ class ExplainedCommunitiesDetection:
                             explainedCommunityProperties[col]["explanation"] = result3
 
                         # For materials ontology
-                        elif (col == "community_" + "Materials" and 1 == 1):
+                        elif (col == "community_" + "Materials" and 1 == 2):
                             print("improved explanation for materials")
                             print("\n")
 
