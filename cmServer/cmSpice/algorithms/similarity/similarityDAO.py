@@ -9,7 +9,8 @@ from itertools import combinations_with_replacement
 
 import math
 
-
+import traceback
+from cmSpice.logger.logger import getLogger
 
 class SimilarityDAO:
     """Class to define the functions to be implemented to calculate
@@ -131,16 +132,26 @@ class SimilarityDAO:
         double
             Distance between the two elements.
         """
-        valueA = self.data.loc[elemA][self.similarityColumn]
-        valueB = self.data.loc[elemB][self.similarityColumn]
+        try:
 
-        self.elemA = elemA
-        self.elemB = elemB
+            valueA = self.data.loc[elemA][self.similarityColumn]
+            valueB = self.data.loc[elemB][self.similarityColumn]
 
-        if (self.isNaN(valueA) or self.isNaN(valueB)):
+            self.elemA = elemA
+            self.elemB = elemB
+
+            if (self.isNaN(valueA) or self.isNaN(valueB)):
+                return 1.0
+            else:
+                return self.distanceValues(valueA, valueB)
+
+        
+        except Exception as e:
+
+            logger = getLogger(__name__)
+            logger.error(traceback.format_exc())
+
             return 1.0
-        else:
-            return self.distanceValues(valueA, valueB)
     
     """
     Distance functions:
