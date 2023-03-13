@@ -309,10 +309,10 @@ class CommunityJsonGenerator:
         print("\n\n")
         
         
-        with open(filename, "w") as outfile:
-            json.dump(self.communityJson, outfile, indent=4)
-        """
-        """
+        # with open(filename, "w") as outfile:
+        #     json.dump(self.communityJson, outfile, indent=4)
+        # """
+        # """
         
         return self.communityJson
         
