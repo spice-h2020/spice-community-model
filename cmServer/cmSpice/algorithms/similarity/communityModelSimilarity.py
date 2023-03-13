@@ -37,6 +37,29 @@ class CommunityModelSimilarity(SimilarityDAO):
             similarityDict = self.perspective['similarity_functions']
             similarityMeasure = ComplexSimilarityDAO(
                 self.dao, similarityDict)
+        elif ('demographics.food' in self.data.columns):
+            # Remove artwork id similarity (from HECHT)
+            similarityFunctions = [x for x in self.perspective['similarity_functions'] if x['sim_function']["on_attribute"]["att_name"] != "id" ]
+            self.perspective['similarity_functions'] = similarityFunctions
+            self.perspective["interaction_similarity_functions"] = []
+            
+            if (len(self.perspective['similarity_functions']) <= 0):
+                self.perspective['similarity_functions'] = [
+                    {
+                        "sim_function": {
+                            "name": "DiscreteDistributionSimilarity",
+                            "params": [],
+                            "on_attribute": {
+                                "att_name": "demographics.food",
+                                "att_type": "String"
+                            },
+                            "dissimilar": False
+                        }
+                    }
+                ]
+            similarityDict = self.perspective['similarity_functions']
+            similarityMeasure = ComplexSimilarityDAO(
+                self.dao, similarityDict)
         else:
             similarityMeasure = InteractionSimilarityDAO(
                 self.dao, self.perspective)

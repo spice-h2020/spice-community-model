@@ -10,5 +10,9 @@ configDict = dict(
     HECHT =  {
         "server": "http://localhost:7070",
         "museum": "HECHT"
+    },
+    MNCN =  {
+        "server": "http://localhost:8080",
+        "museum": "MNCN"
     }
 )
