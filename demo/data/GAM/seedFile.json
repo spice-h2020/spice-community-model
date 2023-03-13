@@ -379,7 +379,7 @@
 				{
 					"name": "TaxonomySimilarityDAO",
 					"params": [],
-					"default": true
+					"default": false
 				},
 				{
 					"name": "EqualSimilarityDAO",
