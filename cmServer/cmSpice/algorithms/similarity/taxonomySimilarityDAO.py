@@ -55,8 +55,11 @@ class TaxonomySimilarityDAO(SimilarityDAO):
 #-------------------------------------------------------------------------------------------------------------------------------
     
     def dominantValue(self, valueA, valueB):
-        commonAncestor = nx.lowest_common_ancestor(self.taxonomy.getGraph(), valueA, valueB)
-        return [commonAncestor, commonAncestor]
+        try:
+            commonAncestor = nx.lowest_common_ancestor(self.taxonomy.getGraph(), valueA, valueB)
+            return [commonAncestor, commonAncestor]
+        except Exception as e:
+            return ['','']
     
     
     
