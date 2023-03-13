@@ -38,7 +38,6 @@ from itertools import combinations_with_replacement
 from itertools import combinations
 
 from cmSpice.utils.dataLoader import DataLoader
-from cmSpice.utils.npEncoder import NpEncoder
 import json
 
 #--------------------------------------------------------------------------------------------------------------------------
