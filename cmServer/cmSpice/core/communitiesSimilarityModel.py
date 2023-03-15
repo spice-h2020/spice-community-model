@@ -60,7 +60,9 @@ class CommunitiesSimilarityModel():
         self.distanceMatrix = communityModel.getDistanceMatrix()
         # Remove last community (users without community)
         self.communities = communityModel.getCommunityVisualizationJSON()['communities'].copy()
-        self.communities.pop(-1)
+        if (len(self.communities) > 0):
+            if (self.communities[-1]['community-type'] != 'implicit'):
+                self.communities.pop(-1)
 
         print("last communities")
         print(communityModel.getCommunityVisualizationJSON()['communities'])
