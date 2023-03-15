@@ -15,12 +15,6 @@ module.exports.getSeed = function getSeed(req, res, next) {
 };
 
 
-/**
- http://localhost:8080/visualizationAPI/....
- http://localhost:8080/visualizationAPI/file/{perspectiveId}     -> return the first file with name equal to "fileId" -- JSON
- http://localhost:8080/visualizationAPI/index                    -> return json files index (returns only perspectievId and name) -- list[JSON]
- */
-
 // router.get('/index', function (req, res, next) {
 module.exports.getIndex = function getIndex(req, res, next) {
     Flags.getFlags()

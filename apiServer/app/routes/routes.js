@@ -1,6 +1,5 @@
 // Adds rest actions defined in openapi.yaml and jobs managet to the router
-const basicAuth = require("../controllers/helpers/basic-auth");
-const jobsRouter = require("../controllers/jobsRoute/jobsRoute");
+const basicAuth = require("./helpers/basic-auth.js");
 
 const swaggerUI = require("../api/swagger-ui-express");
 const YAML = require('yaml')
@@ -68,13 +67,6 @@ module.exports = app => {
 
     var router = express.Router();
 
-
-    // basic auth
-    const basicAuth = require("../controllers/helpers/basic-auth.js")
-
-    // hidden API
-    const jobsRouter = require("../controllers/jobsRoute/jobsRoute.js")
-    const databaseContrl = require("../controllers/databaseController.js")
 
 
     // interactive API

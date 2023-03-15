@@ -1,6 +1,6 @@
 'use strict';
 
-var requests = require('./redirectRequest.js');
+var requests = require('./helpers/redirectRequest.js');
 
 
 exports.getDump = function () {

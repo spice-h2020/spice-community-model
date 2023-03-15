@@ -2,20 +2,20 @@
 
 const idParam_jobId = 'jobId';
 
-const Job = require("./job.js");
-const Flags = require('../../service/flagsService.js');
-const jobsHandler = require("./jobsHandler.js");
-
-var jobManager = require('./jobsManager.js');
-
-
 var express = require('express');
 const {response} = require("express");
-const {communities} = require('../../models/index.js');
+
 var router = express.Router();
 
 
+const Job = require("./job.js");
+
+const jobsHandler = require("./jobsHandler.js");
+var jobManager = require('./jobsManager.js');
+
+
 var jobPrefix = "/v1.1/jobs-manager/jobs/";
+
 
 /**Response templates */
 var jobStarted = {

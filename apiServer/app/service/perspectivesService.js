@@ -1,6 +1,6 @@
 'use strict';
 const db = require("../models");
-var redirect = require('./redirectRequest.js');
+var redirect = require('./helpers/redirectRequest.js');
 
 const PerspectiveDAO = db.perspectives;
 const CommunityDAO = db.communities;
