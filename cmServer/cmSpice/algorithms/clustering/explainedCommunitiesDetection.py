@@ -11,6 +11,9 @@ from pandas.api.types import is_numeric_dtype
 
 from cmSpice.dao.dao_api_iconclass import DAO_api_iconclass
 
+import traceback
+from cmSpice.logger.logger import getLogger
+
 
 class ExplainedCommunitiesDetection:
     """Class to search all communities that all members have a common
@@ -659,303 +662,312 @@ class ExplainedCommunitiesDetection:
         return df1.head(k)[['Number','Count']].to_dict('records')
     
     def extractDominantInteractionAttribute(self, row, col2, communityMemberIndexes):
-        #communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '']
-        # Skip itself
-        communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
-        
-        print("extract Dominant interaction attribute")
-        print(col2)
-        print(communityMembers_interactionAttributeList)
-        print("\n")
-        
-        communityMembers_interactionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == False or isinstance(x,list) == False) or len(x) > 0]
-        
-        print(communityMembers_interactionAttributeList)
-        print("\n")
+        try:
 
-        validCommunityIndexes = [i for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
-
-        # print("extract dominant interaction attribute")
-        # print(col2)
-        # print("\n")
-
-        #if (row['userNameAuxiliar'] == 'e4aM9WL7' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 2):
-        if (row['userNameAuxiliar'] == 'x2AUnHqw' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 1):
-         
-        
-            """
-            print("username: " + row['userNameAuxiliar'])
-            print("index: " + str(row['real_index']))
-            print("community: " + str(row['community']))
-            print("dominant artworks: " + str(row[col2]))
-            print("communityMemberIndexes: " + str(communityMemberIndexes))
-            print("communityMembers_interactionAttributeList")
+            #communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '']
+            # Skip itself
+            communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
+            
+            print("extract Dominant interaction attribute")
+            print(col2)
+            print(communityMembers_interactionAttributeList)
+            print("\n")
+            
+            communityMembers_interactionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == False or isinstance(x,list) == False) or len(x) > 0]
+            
             print(communityMembers_interactionAttributeList)
             print("\n")
 
-            
-            """
-                    
-        if (len(communityMembers_interactionAttributeList) > 0):
-            communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == True or isinstance(x,list) == True) and len(x) > 0]
+            validCommunityIndexes = [i for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
 
-            # print(communityMembers_validInteractionAttributeList)
+            # print("extract dominant interaction attribute")
+            # print(col2)
             # print("\n")
 
-            if col2 == 'dominantArtworksDominantInteractionGenerated':
-                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
-                if (len(communityMembers_validInteractionAttributeList) > 0):
-                    np_array = np.asarray(communityMembers_validInteractionAttributeList, dtype=object)
-                    array2 = list(np.hstack(np_array)) #if (len(np_array) > 0)
-                else:
-                    array2 = communityMembers_validInteractionAttributeList
-                    
-                return list(set(array2))
+            #if (row['userNameAuxiliar'] == 'e4aM9WL7' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 2):
+            if (row['userNameAuxiliar'] == 'x2AUnHqw' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 1):
             
+            
+                """
+                print("username: " + row['userNameAuxiliar'])
+                print("index: " + str(row['real_index']))
+                print("community: " + str(row['community']))
+                print("dominant artworks: " + str(row[col2]))
+                print("communityMemberIndexes: " + str(communityMemberIndexes))
+                print("communityMembers_interactionAttributeList")
+                print(communityMembers_interactionAttributeList)
+                print("\n")
 
-            # Testing new iconclass attribute
-            # Now, we get dictionaries with keys (iconclassIDs) and values (arrays indicating the [iconclassIDs artworkA, artworkB] they originate from)
-            # elif ('iconclassArrayIDs' in col2 or 'Materials' in col2 or 'Colour' in col2):
-            elif ('iconclassArrayIDs' in col2):
-                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
+                
+                """
+                        
+            if (len(communityMembers_interactionAttributeList) > 0):
+                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == True or isinstance(x,list) == True) and len(x) > 0]
 
-                if (len(communityMembers_validInteractionAttributeList) > 0):
-                    
+                # print(communityMembers_validInteractionAttributeList)
+                # print("\n")
+
+                if col2 == 'dominantArtworksDominantInteractionGenerated':
+                    communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
+                    if (len(communityMembers_validInteractionAttributeList) > 0):
+                        np_array = np.asarray(communityMembers_validInteractionAttributeList, dtype=object)
+                        array2 = list(np.hstack(np_array)) #if (len(np_array) > 0)
+                    else:
+                        array2 = communityMembers_validInteractionAttributeList
+                        
+                    return list(set(array2))
+                
+
+                # Testing new iconclass attribute
+                # Now, we get dictionaries with keys (iconclassIDs) and values (arrays indicating the [iconclassIDs artworkA, artworkB] they originate from)
+                # elif ('iconclassArrayIDs' in col2 or 'Materials' in col2 or 'Colour' in col2):
+                elif ('iconclassArrayIDs' in col2):
+                    communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
+
+                    if (len(communityMembers_validInteractionAttributeList) > 0):
+                        
+                        return self.extractDominantAttributeDictExplanation(communityMembers_validInteractionAttributeList)
+
+                    else:
+                        return {}
+
+                # Dominant attributes of the form 
+                # dict: key (attribute); value (list of artwork(s) id(s) they reference)
+                # Example: SAME ARTWORKS 
+                # key: artwork id; value: [artwork id]
+                elif (self.checkDictExplanation(communityMembers_validInteractionAttributeList)):
+                
+                    # return statistics.mode(communityMembers_interactionAttributeList)
+                    # Sort key by length of the array
+                    #communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
+
+                    # print ("function return")
+                    # print(col2)
+                    # print(communityMembers_validInteractionAttributeList)
+                    # print("\n")
+
+                    # Print
                     return self.extractDominantAttributeDictExplanation(communityMembers_validInteractionAttributeList)
 
-                else:
-                    return {}
 
-            # Dominant attributes of the form 
-            # dict: key (attribute); value (list of artwork(s) id(s) they reference)
-            # Example: SAME ARTWORKS 
-            # key: artwork id; value: [artwork id]
-            elif (self.checkDictExplanation(communityMembers_validInteractionAttributeList)):
-            
-                # return statistics.mode(communityMembers_interactionAttributeList)
-                # Sort key by length of the array
-                #communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if len(x) > 0]
-
-                # print ("function return")
-                # print(col2)
-                # print(communityMembers_validInteractionAttributeList)
-                # print("\n")
-
-                # Print
-                return self.extractDominantAttributeDictExplanation(communityMembers_validInteractionAttributeList)
-
-
-                
-                """
-                print("new dict explanation")
-                print("username: " + row['userNameAuxiliar'])
-                print("index: " + str(row['real_index']))
-                print("community: " + str(row['community']))
-                print("dominant artworks: " + str(row[col2]))
-                print("communityMemberIndexes: " + str(communityMemberIndexes))
-                print("communityMembers_interactionAttributeList")
-                print(communityMembers_interactionAttributeList)
-                print("\n")
-                """
-
-                """
-                """
-
-                # Flatten array of dicts into a dict
-                #res = {k: v for d in ini_dict for k, v in d.items()}
-                explanationDictionary = {}
-                for dictionary in communityMembers_validInteractionAttributeList:
-                    for key in dictionary:
-                        if (key not in explanationDictionary):
-                            explanationDictionary[key] = []
-                        explanationDictionary[key].append(dictionary[key])
-
-                
-                # Sort it by length of key
-                # Select x (5) keys with the highest number of results
-                # using sorted() + join() + lambda
-                # Sort dictionary by value list length
-                res = '#separator#'.join(sorted(explanationDictionary, key = lambda key: len(explanationDictionary[key])))
-
-                # From most frequent to less frequent
-                result = res.split('#separator#')
-                result.reverse()
-
-                
-                print("result")
-                print(result)
-                print("\n")
-                """
-                """
-
-                # Get children associated to the keys 
-                result2 = []
-                result2 = {k:explanationDictionary[k] for k in result[0:5:1] if k in explanationDictionary}
-
-                
-                print("result2")
-                print(result2)
-                print("\n")
-                """
-                """
-
-                return result2
-
-            #elif (isinstance(communityMembers_interactionAttributeList[0],str)):
-            elif (isinstance(communityMembers_interactionAttributeList[0],list) == False):
-
-                """
-                if ('Distance' in col2):
-                    print("extract dominant distance dissimilar")
+                    
+                    """
+                    print("new dict explanation")
+                    print("username: " + row['userNameAuxiliar'])
+                    print("index: " + str(row['real_index']))
+                    print("community: " + str(row['community']))
+                    print("dominant artworks: " + str(row[col2]))
+                    print("communityMemberIndexes: " + str(communityMemberIndexes))
+                    print("communityMembers_interactionAttributeList")
                     print(communityMembers_interactionAttributeList)
                     print("\n")
-                    return communityMembers_interactionAttributeList
-                else:
-                    return statistics.mode(communityMembers_interactionAttributeList)
-                """
+                    """
 
-                """
+                    """
+                    """
 
-                print("year explanation")
-                print(col2)
-                print("username: " + row['userNameAuxiliar'])
-                print("index: " + str(row['real_index']))
-                print("community: " + str(row['community']))
-                print("dominant artworks: " + str(row[col2]))
-                print("communityMemberIndexes: " + str(communityMemberIndexes))
-                print("communityMembers_interactionAttributeList")
-                print(communityMembers_interactionAttributeList)
-                print("communityMembers_validInteractionAttributeList")
-                print(communityMembers_validInteractionAttributeList)
-                print("\n")
+                    # Flatten array of dicts into a dict
+                    #res = {k: v for d in ini_dict for k, v in d.items()}
+                    explanationDictionary = {}
+                    for dictionary in communityMembers_validInteractionAttributeList:
+                        for key in dictionary:
+                            if (key not in explanationDictionary):
+                                explanationDictionary[key] = []
+                            explanationDictionary[key].append(dictionary[key])
 
-                """
+                    
+                    # Sort it by length of key
+                    # Select x (5) keys with the highest number of results
+                    # using sorted() + join() + lambda
+                    # Sort dictionary by value list length
+                    res = '#separator#'.join(sorted(explanationDictionary, key = lambda key: len(explanationDictionary[key])))
 
-                # print("year explanation")
-                # print(col2)
-                # print("username: " + row['userNameAuxiliar'])
-                # print("index: " + str(row['real_index']))
-                # print("community: " + str(row['community']))
-                # print("dominant artworks: " + str(row[col2]))
-                # print("communityMemberIndexes: " + str(communityMemberIndexes))
-                # print("communityMembers_interactionAttributeList")
-                # print(communityMembers_interactionAttributeList)
-                # print("communityMembers_validInteractionAttributeList")
-                # print(communityMembers_validInteractionAttributeList)
-                # print("\n")
-                newList = []
-                for element in communityMembers_interactionAttributeList:
-                    if (isinstance(element,dict)):
-                        newList.extend(list(element.keys()))
-                    elif (isinstance(element,str)):
-                        newList.append(element)
-                communityMembers_interactionAttributeList = newList
+                    # From most frequent to less frequent
+                    result = res.split('#separator#')
+                    result.reverse()
 
-                """
-                # Flatten
-                np_array = np.asarray(communityMembers_interactionAttributeList, dtype=object)
-                communityMembers_interactionAttributeList = list(np.hstack(np_array))
-                """
-
-                print("flatten")
-                print(communityMembers_interactionAttributeList)
-
-                # print("communityMembers_validInteractionAttributeList")
-                # print(communityMembers_validInteractionAttributeList)
-                # print("\n")
-
-                if ('Distance' in col2):
-                    # print("extract dominant distance dissimilar")
-                    # print(communityMembers_interactionAttributeList)
-                    # print("\n")
-                    return communityMembers_interactionAttributeList
-                else:
-                    return statistics.mode(communityMembers_interactionAttributeList)
-
-
-
-
-
-
-
-            # iconclass attribute (OLD) Not used anymore
-            else:
-
-                # print("else explanation")
-                # print(col2)
-                # print("username: " + row['userNameAuxiliar'])
-                # print("index: " + str(row['real_index']))
-                # print("community: " + str(row['community']))
-                # print("dominant artworks: " + str(row[col2]))
-                # print("communityMemberIndexes: " + str(communityMemberIndexes))
-                # print("communityMembers_interactionAttributeList")
-                # print(communityMembers_interactionAttributeList)
-                # print("communityMembers_validInteractionAttributeList")
-                # print(communityMembers_validInteractionAttributeList)
-                # print("\n")
-
-                communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == True or isinstance(x,list) == True) and len(x) > 0]
-                #intersection = communityMembers_validInteractionAttributeList[0]
-                result = []
-                for interactionAttribute in communityMembers_validInteractionAttributeList:
-                    #print("interactionAttribute: " + str(interactionAttribute))
-                    # intersection = set(intersection).intersection(interactionAttribute)
-                    # Union without repetition
-                    #intersection = list(set(intersection) | set(lst2))
-                    # Union with repetition
-                    result.extend(interactionAttribute)
-
-                # Return the 3 most frequent elements
-                #print("result: " + str(result))
-                result = self.getMostFrequentElementsList(result,5)
-                result = [ x['Number'] for x in result ]
-                
-                #print(row.index)
-                #print("row: " + str(row['userNameAuxiliar']) + " ; " + str(communityMembers_validInteractionAttributeList))
-                
-                # print
-                """
-                if (row['community'] == 6):
-                    print("community 6")
-                    print("communityMemberIndexes: " + str(communityMemberIndexes))
-                    print("attribute list: " + str(communityMembers_interactionAttributeList))
-                    print("index: " + str(row['real_index']))
-                    print("userName: " + str(row['userNameAuxiliar']))
-                    print("result: " + str(result))
+                    
+                    print("result")
+                    print(result)
                     print("\n")
-                """
-                
-                """
-                print("community: " + str(row['community']))
-                print("col2: " + str(col2))
-                print("index: " + str(row['real_index']))
-                print("userName: " + str(row['userNameAuxiliar']))
-                print("attribute list (not empty): " + str(communityMembers_interactionAttributeList))
-                print("valid ones: " + str(communityMembers_validInteractionAttributeList))
-                print("result: " + str(result))
-                print("\n")
-                """
-                
-                
-                #artworks = [row['iconclassArrayIDsDominantInteractionGenerated'][i] for i in communityMemberIndexes if row['iconclassArrayIDsDominantInteractionGenerated'][i] != '' and i != row['real_index']]
-                #print("dominant iconclassArrayIDs: " + str(row['iconclassArrayIDsDominantInteractionGenerated']))
-                #print("dominant iconclassArrayIDs community: " + str(artworks))
-                #print("\n")
+                    """
+                    """
+
+                    # Get children associated to the keys 
+                    result2 = []
+                    result2 = {k:explanationDictionary[k] for k in result[0:5:1] if k in explanationDictionary}
+
                     
+                    print("result2")
+                    print(result2)
+                    print("\n")
+                    """
+                    """
+
+                    return result2
+
+                #elif (isinstance(communityMembers_interactionAttributeList[0],str)):
+                elif (isinstance(communityMembers_interactionAttributeList[0],list) == False):
+
+                    """
+                    if ('Distance' in col2):
+                        print("extract dominant distance dissimilar")
+                        print(communityMembers_interactionAttributeList)
+                        print("\n")
+                        return communityMembers_interactionAttributeList
+                    else:
+                        return statistics.mode(communityMembers_interactionAttributeList)
+                    """
+
+                    """
+
+                    print("year explanation")
+                    print(col2)
+                    print("username: " + row['userNameAuxiliar'])
+                    print("index: " + str(row['real_index']))
+                    print("community: " + str(row['community']))
+                    print("dominant artworks: " + str(row[col2]))
+                    print("communityMemberIndexes: " + str(communityMemberIndexes))
+                    print("communityMembers_interactionAttributeList")
+                    print(communityMembers_interactionAttributeList)
+                    print("communityMembers_validInteractionAttributeList")
+                    print(communityMembers_validInteractionAttributeList)
+                    print("\n")
+
+                    """
+
+                    # print("year explanation")
+                    # print(col2)
+                    # print("username: " + row['userNameAuxiliar'])
+                    # print("index: " + str(row['real_index']))
+                    # print("community: " + str(row['community']))
+                    # print("dominant artworks: " + str(row[col2]))
+                    # print("communityMemberIndexes: " + str(communityMemberIndexes))
+                    # print("communityMembers_interactionAttributeList")
+                    # print(communityMembers_interactionAttributeList)
+                    # print("communityMembers_validInteractionAttributeList")
+                    # print(communityMembers_validInteractionAttributeList)
+                    # print("\n")
+                    newList = []
+                    for element in communityMembers_interactionAttributeList:
+                        if (isinstance(element,dict)):
+                            newList.extend(list(element.keys()))
+                        elif (isinstance(element,str)):
+                            newList.append(element)
+                    communityMembers_interactionAttributeList = newList
+
+                    """
+                    # Flatten
+                    np_array = np.asarray(communityMembers_interactionAttributeList, dtype=object)
+                    communityMembers_interactionAttributeList = list(np.hstack(np_array))
+                    """
+
+                    print("flatten")
+                    print(communityMembers_interactionAttributeList)
+
+                    # print("communityMembers_validInteractionAttributeList")
+                    # print(communityMembers_validInteractionAttributeList)
+                    # print("\n")
+
+                    if ('Distance' in col2):
+                        # print("extract dominant distance dissimilar")
+                        # print(communityMembers_interactionAttributeList)
+                        # print("\n")
+                        return communityMembers_interactionAttributeList
+                    else:
+                        return statistics.mode(communityMembers_interactionAttributeList)
+
+
+
+
+
+
+
+                # iconclass attribute (OLD) Not used anymore
+                else:
+
+                    # print("else explanation")
+                    # print(col2)
+                    # print("username: " + row['userNameAuxiliar'])
+                    # print("index: " + str(row['real_index']))
+                    # print("community: " + str(row['community']))
+                    # print("dominant artworks: " + str(row[col2]))
+                    # print("communityMemberIndexes: " + str(communityMemberIndexes))
+                    # print("communityMembers_interactionAttributeList")
+                    # print(communityMembers_interactionAttributeList)
+                    # print("communityMembers_validInteractionAttributeList")
+                    # print(communityMembers_validInteractionAttributeList)
+                    # print("\n")
+
+                    communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == True or isinstance(x,list) == True) and len(x) > 0]
+                    #intersection = communityMembers_validInteractionAttributeList[0]
+                    result = []
+                    for interactionAttribute in communityMembers_validInteractionAttributeList:
+                        #print("interactionAttribute: " + str(interactionAttribute))
+                        # intersection = set(intersection).intersection(interactionAttribute)
+                        # Union without repetition
+                        #intersection = list(set(intersection) | set(lst2))
+                        # Union with repetition
+                        result.extend(interactionAttribute)
+
+                    # Return the 3 most frequent elements
+                    #print("result: " + str(result))
+                    result = self.getMostFrequentElementsList(result,5)
+                    result = [ x['Number'] for x in result ]
                     
-                if (row['community'] == 6 and 1==2):
-                    print("community 6")
+                    #print(row.index)
+                    #print("row: " + str(row['userNameAuxiliar']) + " ; " + str(communityMembers_validInteractionAttributeList))
+                    
+                    # print
+                    """
+                    if (row['community'] == 6):
+                        print("community 6")
+                        print("communityMemberIndexes: " + str(communityMemberIndexes))
+                        print("attribute list: " + str(communityMembers_interactionAttributeList))
+                        print("index: " + str(row['real_index']))
+                        print("userName: " + str(row['userNameAuxiliar']))
+                        print("result: " + str(result))
+                        print("\n")
+                    """
+                    
+                    """
+                    print("community: " + str(row['community']))
                     print("col2: " + str(col2))
                     print("index: " + str(row['real_index']))
                     print("userName: " + str(row['userNameAuxiliar']))
-                    artworks = [row['dominantArtworksDominantInteractionGenerated'][i] for i in communityMemberIndexes if row['dominantArtworksDominantInteractionGenerated'][i] != '' and i != row['real_index']]
-                    print("dominantArtworks: " + str(row['dominantArtworksDominantInteractionGenerated']))
-                    print("dominantArtworks community: " + str(artworks))
+                    print("attribute list (not empty): " + str(communityMembers_interactionAttributeList))
+                    print("valid ones: " + str(communityMembers_validInteractionAttributeList))
+                    print("result: " + str(result))
                     print("\n")
-                
-                return result
+                    """
+                    
+                    
+                    #artworks = [row['iconclassArrayIDsDominantInteractionGenerated'][i] for i in communityMemberIndexes if row['iconclassArrayIDsDominantInteractionGenerated'][i] != '' and i != row['real_index']]
+                    #print("dominant iconclassArrayIDs: " + str(row['iconclassArrayIDsDominantInteractionGenerated']))
+                    #print("dominant iconclassArrayIDs community: " + str(artworks))
+                    #print("\n")
+                        
+                        
+                    if (row['community'] == 6 and 1==2):
+                        print("community 6")
+                        print("col2: " + str(col2))
+                        print("index: " + str(row['real_index']))
+                        print("userName: " + str(row['userNameAuxiliar']))
+                        artworks = [row['dominantArtworksDominantInteractionGenerated'][i] for i in communityMemberIndexes if row['dominantArtworksDominantInteractionGenerated'][i] != '' and i != row['real_index']]
+                        print("dominantArtworks: " + str(row['dominantArtworksDominantInteractionGenerated']))
+                        print("dominantArtworks community: " + str(artworks))
+                        print("\n")
+                    
+                    return result
 
-        else:
+            else:
+                return ''
+
+        except Exception as e:
+
+            logger = getLogger(__name__)
+            logger.error(traceback.format_exc())
+
             return ''
         
     
@@ -1191,7 +1203,9 @@ class ExplainedCommunitiesDetection:
                             print(str(distanceCommunity))
                             print("\n")
 
-                            distanceCommunity = distanceCommunity / len(distanceList_flatten)
+                            numberDistance = max(1, len(distanceList_flatten))
+
+                            distanceCommunity = distanceCommunity / numberDistance
                             print("distance comunity final")
                             print(str(distanceCommunity))
                             print("\n")
@@ -2202,11 +2216,20 @@ class ExplainedCommunitiesDetection:
             print("algorithm result")
             print(self.resultAlgorithm)
             print(self.idsCommunities)
+            print("Exception retrieving community " + str(id_community))
             print("\n")
-            raise Exception("Exception retrieving community " + str(id_community))
+
+            logger = getLogger(__name__)
+            logger.error(traceback.format_exc())
+
+            #raise Exception("Exception retrieving community " + str(id_community))
 
             
-            return -1
+            explainedCommunityProperties[col] = dict()
+            explainedCommunityProperties[col]["label"] = 'Community representative properties of the implicit attribute ' + "(" + str(col2) + ")" + ":"
+            explainedCommunityProperties[col]["explanation"] = {}
+
+            community_data['explanation'] = explainedCommunityProperties
             
     
             
