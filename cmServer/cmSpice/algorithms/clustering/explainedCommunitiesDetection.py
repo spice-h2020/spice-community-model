@@ -662,6 +662,17 @@ class ExplainedCommunitiesDetection:
         #communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '']
         # Skip itself
         communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
+        
+        print("extract Dominant interaction attribute")
+        print(col2)
+        print(communityMembers_interactionAttributeList)
+        print("\n")
+        
+        communityMembers_interactionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == False or isinstance(x,list) == False) or len(x) > 0]
+        
+        print(communityMembers_interactionAttributeList)
+        print("\n")
+
         validCommunityIndexes = [i for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
 
         # print("extract dominant interaction attribute")
@@ -832,10 +843,22 @@ class ExplainedCommunitiesDetection:
                 # print("communityMembers_validInteractionAttributeList")
                 # print(communityMembers_validInteractionAttributeList)
                 # print("\n")
+                newList = []
+                for element in communityMembers_interactionAttributeList:
+                    if (isinstance(element,dict)):
+                        newList.extend(list(element.keys()))
+                    elif (isinstance(element,str)):
+                        newList.append(element)
+                communityMembers_interactionAttributeList = newList
 
+                """
                 # Flatten
                 np_array = np.asarray(communityMembers_interactionAttributeList, dtype=object)
                 communityMembers_interactionAttributeList = list(np.hstack(np_array))
+                """
+
+                print("flatten")
+                print(communityMembers_interactionAttributeList)
 
                 # print("communityMembers_validInteractionAttributeList")
                 # print(communityMembers_validInteractionAttributeList)
@@ -1496,7 +1519,9 @@ class ExplainedCommunitiesDetection:
                             # print('-', col, community[col].value_counts().index[0])
                     else:
                     
-                        array = community[col].tolist()                        
+                        array = community[col].tolist()   
+                        array = [x for x in array if (isinstance(x,dict) == False or isinstance(x,list) == False) or len(x) > 0]
+                             
                         # For iconclass (list) types
                         #if (len(community[col] > 0 and isinstance(community[col][0],list))):
 
@@ -1904,7 +1929,7 @@ class ExplainedCommunitiesDetection:
                             explainedCommunityProperties[col]["explanation"] = result3
 
                         # For id
-                        elif (col == "community_" + "id" and 1 == 1):
+                        elif (col == "community_" + "id" and 1 == 2):
                             print("improved explanation for id")
                             print("\n")
 
