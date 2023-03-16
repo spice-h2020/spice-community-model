@@ -668,15 +668,15 @@ class ExplainedCommunitiesDetection:
             # Skip itself
             communityMembers_interactionAttributeList = [row[col2][i] for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
             
-            print("extract Dominant interaction attribute")
-            print(col2)
-            print(communityMembers_interactionAttributeList)
-            print("\n")
+            # print("extract Dominant interaction attribute")
+            # print(col2)
+            # print(communityMembers_interactionAttributeList)
+            # print("\n")
             
             communityMembers_interactionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == False or isinstance(x,list) == False) or len(x) > 0]
             
-            print(communityMembers_interactionAttributeList)
-            print("\n")
+            # print(communityMembers_interactionAttributeList)
+            # print("\n")
 
             validCommunityIndexes = [i for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
 
@@ -862,8 +862,8 @@ class ExplainedCommunitiesDetection:
                     communityMembers_interactionAttributeList = list(np.hstack(np_array))
                     """
 
-                    print("flatten")
-                    print(communityMembers_interactionAttributeList)
+                    # print("flatten")
+                    # print(communityMembers_interactionAttributeList)
 
                     # print("communityMembers_validInteractionAttributeList")
                     # print(communityMembers_validInteractionAttributeList)
