@@ -149,6 +149,6 @@ def __updateCM(self):
             daoFlags.deleteFlag(flag)
 
     except Exception as e:
-        flag["error"] = traceback.format_exc()
+        flag["error"] = str(e)
         daoFlags.replaceFlag(flag)
         logger.error(traceback.format_exc())

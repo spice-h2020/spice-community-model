@@ -19,6 +19,9 @@ from cmSpice.dao.dao_db_interactionDistances import DAO_db_interactionDistances
 from itertools import combinations
 from itertools import combinations_with_replacement
 
+import traceback
+from cmSpice.logger.logger import getLogger
+
 
 
 class InteractionSimilarityDAO(SimilarityDAO):
@@ -249,7 +252,31 @@ class InteractionSimilarityDAO(SimilarityDAO):
 #   Interaction Similarity
 #-------------------------------------------------------------------------------------------------------------------------------
 
-    
+    def validatePerspective(self):
+        """
+        Validates if the perspective and the data are compatible.
+        If not, the Community Model aborts and an informative error message is displayed to the user
+
+        Parameters
+        ----------
+
+        """
+        for citizenAttribute in self.perspective['user_attributes']:
+            if (citizenAttribute['att_name'] not in self.data.columns):
+                raise NameError('The perspective includes the explicit attribute ' + str(citizenAttribute['att_name']) + ', but this attribute is not in the data')
+
+        for interactionSimilarity in self.perspective["interaction_similarity_functions"]:
+            interactionAttribute = interactionSimilarity['sim_function']['on_attribute']['att_name']
+            interactionAttributeOrigin = interactionAttribute + "_origin"
+            interactionAttributeText = interactionAttribute.rsplit(".",1)[0] + ".text"
+
+            if (interactionAttribute not in self.data.columns):
+                raise NameError("User data doesn't include the attribute " + str(interactionAttribute) + " encoded in the perspective")
+            elif (interactionAttributeOrigin not in self.data.columns):
+                raise NameError("User data doesn't include the artwork associated to the attribute " + str(interactionAttribute) + " encoded in the perspective")
+            elif (interactionAttributeText not in self.data.columns):
+                raise NameError("User data doesn't include the text associated to the attribute " + str(interactionAttribute) + " encoded in the perspective")
+
     def __init__(self, dao, perspective):
         """Construct of TaxonomySimilarity objects.
 
@@ -261,6 +288,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
         """
         super().__init__(dao)
         self.perspective = perspective
+
+        # Validate perspective with data format
+        self.validatePerspective()
 
         self.initializeArtworkDistanceMatrix()
         
@@ -533,7 +563,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
             interactionInformation[1][interactionInformationAttribute] = []
 
         try:
-        
+
             # For each IO in A, get most similar IO in B
             for objectIndexA in range(len(IOA)):
                 objectA = IOA[objectIndexA]
@@ -651,31 +681,41 @@ class InteractionSimilarityDAO(SimilarityDAO):
                 
             # Mean average        
             distanceTotal /= len(IOA)
+
+            
             
         except Exception as e:
-            print("\n\n\n")
-            print("Exception dominant attribute")
-            print(str(e))
-            """
-            print("elemA: " + str(elemA))
-            print("elemB: " + str(elemB))
-            """
-            print("userA: " + str(userInteractionA['userid']))
-            print("userB: " + str(userInteractionB['userid']))
-            print("IOA: " + str(IOA))
-            print("IOB: " + str(IOB))
-            print("interactionsA: " + str(userInteractionA[self.similarityColumn]))
-            print("interactionsB: " + str(userInteractionB[self.similarityColumn]))
-            print("objectIndexA: " + str(objectIndexA))
-            print("len IOA: " + str(len(IOA)))
-            print("IOA: " + str(IOA))
-            print(userInteractionA['userid'])
 
-            raise Exception(e)
+            logger = getLogger(__name__)
+            logger.error(traceback.format_exc())
             
-            # Get interaction similarity feature associated to IO A and IO B
-            interactionFeatureA = userInteractionA[self.similarityColumn][objectIndexA]
-            interactionFeatureB = userInteractionB[self.similarityColumn][objectIndexB]
+            distanceTotal = 1.0
+
+
+
+            # print("\n\n\n")
+            # print("Exception dominant attribute")
+            # print(str(e))
+            # """
+            # print("elemA: " + str(elemA))
+            # print("elemB: " + str(elemB))
+            # """
+            # print("userA: " + str(userInteractionA['userid']))
+            # print("userB: " + str(userInteractionB['userid']))
+            # print("IOA: " + str(IOA))
+            # print("IOB: " + str(IOB))
+            # print("interactionsA: " + str(userInteractionA[self.similarityColumn]))
+            # print("interactionsB: " + str(userInteractionB[self.similarityColumn]))
+            # print("objectIndexA: " + str(objectIndexA))
+            # print("len IOA: " + str(len(IOA)))
+            # print("IOA: " + str(IOA))
+            # print(userInteractionA['userid'])
+
+            # raise Exception(e)
+            
+            # # Get interaction similarity feature associated to IO A and IO B
+            # interactionFeatureA = userInteractionA[self.similarityColumn][objectIndexA]
+            # interactionFeatureB = userInteractionB[self.similarityColumn][objectIndexB]
             
             """
             print("interactionFeatureA: " + str(interactionFeatureA))
@@ -721,46 +761,51 @@ class InteractionSimilarityDAO(SimilarityDAO):
         -------
         
         """
-
-        #-------------------------------------------------------------------------------------------------------------------------------
-        #   Simplify dominant interaction attribute
-        #-------------------------------------------------------------------------------------------------------------------------------
-
-        # Get most frequent element in dominantInteractionAttributes
-        if (len(interactionInformationDict[self.similarityColumn]) > 0):
-            dominantInteractionAttribute = mode(interactionInformationDict[self.similarityColumn])
+        try:
             
-            #distances = dominantInteractionAttributeDistances[dominantInteractionAttribute]
-            #dominantInteractionAttributeDistance = (sum(distances)) / (len(distances))
-        
-        else:
-            dominantInteractionAttribute = ""
-            #dominantInteractionAttributeDistance = 1.0
+            #-------------------------------------------------------------------------------------------------------------------------------
+            #   Simplify dominant interaction attribute
+            #-------------------------------------------------------------------------------------------------------------------------------
 
-        interactionInformationDict[self.similarityColumn] = dominantInteractionAttribute
+            # Get most frequent element in dominantInteractionAttributes
+            if (len(interactionInformationDict[self.similarityColumn]) > 0):
+                dominantInteractionAttribute = mode(interactionInformationDict[self.similarityColumn])
+                
+                #distances = dominantInteractionAttributeDistances[dominantInteractionAttribute]
+                #dominantInteractionAttributeDistance = (sum(distances)) / (len(distances))
+            
+            else:
+                dominantInteractionAttribute = ""
+                #dominantInteractionAttributeDistance = 1.0
 
-        #-------------------------------------------------------------------------------------------------------------------------------
-        #   Update pandas columns
-        #-------------------------------------------------------------------------------------------------------------------------------
+            interactionInformationDict[self.similarityColumn] = dominantInteractionAttribute
 
-        for key in interactionInformationDict:
-            column = key + 'DominantInteractionGenerated'
-            value = interactionInformationDict[key]
+            #-------------------------------------------------------------------------------------------------------------------------------
+            #   Update pandas columns
+            #-------------------------------------------------------------------------------------------------------------------------------
 
-            if (key != self.similarityColumn and key != 'dominantArtworks'):
-                if (len(interactionInformationDict[key]) > 0):
-                    # if (isinstance(interactionInformationDict[key][0], str)):
-                    #     #value = interactionInformationDict[key][-1]
-                    #     value = mode(interactionInformationDict[key])
+            for key in interactionInformationDict:
+                column = key + 'DominantInteractionGenerated'
+                value = interactionInformationDict[key]
 
-                    value = interactionInformationDict[key][-1]
-                else:
-                    #value = ''
-                    value = interactionInformationDict[key]
+                if (key != self.similarityColumn and key != 'dominantArtworks'):
+                    if (len(interactionInformationDict[key]) > 0):
+                        # if (isinstance(interactionInformationDict[key][0], str)):
+                        #     #value = interactionInformationDict[key][-1]
+                        #     value = mode(interactionInformationDict[key])
 
-            self.data.at[elemA, column][elemB] = value
+                        value = interactionInformationDict[key][-1]
+                    else:
+                        #value = ''
+                        value = interactionInformationDict[key]
 
+                self.data.at[elemA, column][elemB] = value
 
+        except Exception as e:
+
+            logger = getLogger(__name__)
+            logger.error(traceback.format_exc())
+            
 
 
 

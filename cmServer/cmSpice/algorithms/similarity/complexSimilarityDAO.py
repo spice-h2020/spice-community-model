@@ -6,6 +6,24 @@ from cmSpice.dao.dao_db_artworkDistanceMatrixes import DAO_db_artworkDistanceMat
 
 class ComplexSimilarityDAO(SimilarityDAO):
 
+    def validatePerspective(self, similarityDict):
+        """
+        Validates if the perspective and the data are compatible.
+        If not, the Community Model aborts and an informative error message is displayed to the user
+
+        Parameters
+        ----------
+        similarityDict : dict
+            Perspective JSON object encoding the artwork similarity measures
+        """
+        #for artworkSimilarity in self.perspective['similarity_functions']:
+        for artworkSimilarity in similarityDict:
+            attribute = artworkSimilarity['sim_function']['on_attribute']['att_name']
+            if ('name' not in artworkSimilarity["sim_function"]):
+                raise NameError('Similarity measure was not provided for ' + str(attribute))
+            if (attribute not in self.data.columns):
+                raise NameError("Data doesn't include the attribute " + str(attribute) + " encoded in the perspective")
+
     def __init__(self,dao,similarityDict):
         """Construct of Similarity objects.
 
@@ -17,6 +35,8 @@ class ComplexSimilarityDAO(SimilarityDAO):
         
         """
         super().__init__(dao)
+
+        self.validatePerspective(similarityDict)
         
         # self.similarityDict = {}
         # for similarityFunction in similarityDict:
