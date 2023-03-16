@@ -33,6 +33,10 @@ class ExtendedPlutchikEmotionSimilarity(ExtendedPlutchikEmotionSimilarityDAO):
         double
             Distance between the two combination of emotions.
         """
+        if (isinstance(emotionsDictA, dict) == False or isinstance(emotionsDictB, dict) == False):
+            self.lowestDistancePair = ["",""]
+            return 1.0 
+
         emotionsDictA = dict([(x.replace("emotion:",""), y) for x, y in emotionsDictA.items() ])
         emotionsDictB = dict([(x.replace("emotion:",""), y) for x, y in emotionsDictB.items() ])
         
