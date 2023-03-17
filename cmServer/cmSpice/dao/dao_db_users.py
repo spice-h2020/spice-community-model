@@ -184,9 +184,11 @@ class DAO_db_users(DAO_db):
                     if (attributeLabel not in user):
                         user[attributeLabel] = []
                         user[attributeLabel + "_origin"] = []
+                        user[attributeLabel + "_source"] = []
                     
                     user[attributeLabel].append(item["pvalue"])
                     user[attributeLabel + "_origin"].append(item["origin"])
+                    user[attributeLabel + "_source"].append(item["source_id"])
                 else:
                     user[attributeLabel] = item["pvalue"]
 

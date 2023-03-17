@@ -311,6 +311,8 @@ class InteractionSimilarityDAO(SimilarityDAO):
         self.interactionAttribute = self.similarityFunction['sim_function']['on_attribute']['att_name']
         self.interactionAttributeOrigin = self.interactionAttribute + "_origin"
         self.interactionAttributeText = self.interactionAttribute.rsplit(".",1)[0] + ".text"
+        # For DMH
+        self.interactionAttributeSource = self.interactionAttribute + '_source'
 
         # Fill na (interaction attributes)
 
@@ -354,8 +356,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
         print(df[[self.interactionAttributeText]])
         print("\n")
 
-
-        df2 = df.explode([self.interactionAttribute, self.interactionAttributeOrigin, self.interactionAttributeText])
+        # explodeColumns = [self.interactionAttribute, self.interactionAttributeOrigin, self.interactionAttributeText]
+        explodeColumns = [self.interactionAttribute, self.interactionAttributeOrigin, self.interactionAttributeText, self.interactionAttributeSource]
+        df2 = df.explode(explodeColumns)
 
         df3 = df2.loc[ df2[self.similarityColumn].str.len() != 0 ]
         

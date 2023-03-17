@@ -81,7 +81,7 @@ class CommunityJsonGenerator:
         extractedEmotions = element[1]
         if (isinstance(extractedEmotions, list)):
             extractedEmotions = {extractedEmotions[i]: 100 / len(extractedEmotions) for i in range(0, len(extractedEmotions))}
-        return {'artwork_id': str(element[0]), 'feelings': element[2], 'extracted_emotions': extractedEmotions} 
+        return {'artwork_id': str(element[0]), 'sourceid': element[2], 'feelings': element[3], 'extracted_emotions': extractedEmotions} 
         
         #return {
     
@@ -168,6 +168,8 @@ class CommunityJsonGenerator:
         self.interactionAttribute = self.perspective['interaction_similarity_functions'][0]['sim_function']['on_attribute']['att_name']
         self.interactionAttributeOrigin = self.interactionAttribute + "_origin"
         self.interactionAttributeText = self.interactionAttribute.rsplit(".",1)[0] + ".text"
+        # For DMH
+        self.interactionAttributeSource = self.interactionAttribute + '_source'
 
         # Get trilogy associated to dominant artworks (artworkId, itMakesMeThinkAbout, itMakesMeThinkAbout.emotions)
         userCommunityInteractions = []
@@ -177,7 +179,9 @@ class CommunityJsonGenerator:
             artworkIndex = row[self.interactionAttributeOrigin].index(artworkId)
             
         
-            communityInteraction = self.generateDict([artworkId, row[self.interactionAttribute][artworkIndex], row[self.interactionAttributeText][artworkIndex]])
+            # communityInteraction = self.generateDict([artworkId, row[self.interactionAttribute][artworkIndex], row[self.interactionAttributeText][artworkIndex]])
+            communityInteraction = self.generateDict([artworkId, row[self.interactionAttribute][artworkIndex], row[self.interactionAttributeSource][artworkIndex], row[self.interactionAttributeText][artworkIndex]])
+  
             userCommunityInteractions.append(communityInteraction)
             #{'artwork_id': str(element[0]), 'feelings': element[2], 'extracted_emotions': element[1]} 
         
@@ -211,9 +215,12 @@ class CommunityJsonGenerator:
         self.interactionAttribute = self.perspective['interaction_similarity_functions'][0]['sim_function']['on_attribute']['att_name']
         self.interactionAttributeOrigin = self.interactionAttribute + "_origin"
         self.interactionAttributeText = self.interactionAttribute.rsplit(".",1)[0] + ".text"
-            
+        # For DMH
+        self.interactionAttributeSource = self.interactionAttribute + '_source'
+
+
         #user_interactions = self.json_df.apply(lambda row: list(map(self.generateDict, list(zip(row[IO_id], row[IO_similarityFeatures[0]], row['itMakesMeThinkAbout'])))), axis = 1)
-        user_interactions = self.json_df.apply(lambda row: list(map(self.generateDict, list(zip(row[self.interactionAttributeOrigin], row[self.interactionAttribute], row[self.interactionAttributeText])))), axis = 1)
+        user_interactions = self.json_df.apply(lambda row: list(map(self.generateDict, list(zip(row[self.interactionAttributeOrigin], row[self.interactionAttribute], row[self.interactionAttributeSource], row[self.interactionAttributeText])))), axis = 1)
         
         
         
@@ -606,7 +613,9 @@ class CommunityJsonGenerator:
             self.interactionAttribute = self.perspective['interaction_similarity_functions'][0]['sim_function']['on_attribute']['att_name']
             self.interactionAttributeOrigin = self.interactionAttribute + "_origin"
             self.interactionAttributeText = self.interactionAttribute.rsplit(".",1)[0] + ".text"
-     
+            # For DMH
+            self.interactionAttributeSource = self.interactionAttribute + '_source'
+
             interactedIO = self.json_df[self.interactionAttributeOrigin].tolist()
             interactedIO = list(sum(interactedIO, []))
             interactedIO = list(map(str, interactedIO))
