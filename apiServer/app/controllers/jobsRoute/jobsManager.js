@@ -4,8 +4,8 @@
  */
 
 const Job = require("./job.js");
-const Flags = require('../../service/FlagsService.js');
-const redirect = require('../../service/redirectRequest.js');
+const Flags = require('../../service/flagsService.js');
+const redirect = require('../../service/helpers/redirectRequest.js');
 
 
 var jobsList = []
@@ -39,18 +39,30 @@ function setJobToErrorState(flag, errorMsg) {
     // create copy of the flag and preprocess the flag before comparing 
     var flagWithError = JSON.parse(JSON.stringify(flag["_id"]));
 
-    // find the failed job and set the state to ERROR. remove flag that contains the error 
-    jobsList.forEach(elem => {
-        elem.flags_id.forEach(elemFlag => {
-            if ((JSON.stringify(elemFlag) == JSON.stringify(flagWithError))) {
-                elem.jobState = Job.jobStates.ERROR;
-                elem.request = "error";
-                elem.param = errorMsg;
-                elem.timeCompleted = new Date();
-                Flags.removeFlag(flag["_id"]);
-            }
-        })
-    });
+    // // find the failed job and set the state to ERROR. remove flag that contains the error
+    // jobsList.forEach(elem => {
+    //     elem.flags_id.forEach(elemFlag => {
+    //         if ((JSON.stringify(elemFlag) == JSON.stringify(flagWithError))) {
+    //             elem.jobState = Job.jobStates.ERROR;
+    //             elem.request = "error";
+    //             elem.param = errorMsg;
+    //             elem.timeCompleted = new Date();
+    //             Flags.removeFlag(flag["_id"]);
+    //         }
+    //     })
+    // });
+
+    //the job with error it is the current job
+    var jobWithError = jobsList.find(job => (job.jobState == Job.jobStates.STARTED));
+    jobWithError.flags_id.forEach(elemFlag => {
+                if ((JSON.stringify(elemFlag) == JSON.stringify(flagWithError))) {
+                    jobWithError.jobState = Job.jobStates.ERROR;
+                    jobWithError.request = "error";
+                    jobWithError.param = errorMsg;
+                    jobWithError.timeCompleted = new Date();
+                    Flags.removeFlag(flag["_id"]);
+                }
+            })
 }
 
 /**
@@ -71,7 +83,6 @@ function checkAndStartNewJob() {
                 flags.forEach(flag => {
                     //check for jobs with errors
                     if (flag["error"] !== "N/D") {
-                        // cmState = "error";
                         var errorMsg = flag["error"];
                         setJobToErrorState(flag, errorMsg)
                     }
@@ -87,6 +98,7 @@ function checkAndStartNewJob() {
                         var finished = true;
                         for (let jobflag of job.flags_id) {
                             for (let flag of flags) {
+                                // compare if mongoDB has the same flags as the job
                                 if (JSON.stringify(jobflag) == JSON.stringify(flag["_id"])) {
                                     finished = false;
                                 }

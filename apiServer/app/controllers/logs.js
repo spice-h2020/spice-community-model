@@ -2,7 +2,7 @@ const idParam_nLogs = 'nLogs';
 const idParam_startDate = 'startDate';
 const idParam_endDate = 'endDate';
 const idParam_logsType = 'logsType';
-const Logs = require('../service/LogsService.js');
+const Logs = require('../service/logsService.js');
 
 
 module.exports.getNLatestLogs = function getPerspectives(req, res, next) {

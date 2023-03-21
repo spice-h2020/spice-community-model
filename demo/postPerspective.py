@@ -2,6 +2,7 @@ import json
 import requests
 import sys
 from config import configDict
+from requests.auth import HTTPBasicAuth
 
 def main():
     if len(sys.argv) < 2 :
@@ -23,6 +24,7 @@ def main():
 
     # Change Sample Perspective
     filename = 'samplePerspective.json'
+    auth = HTTPBasicAuth(configData['user'], configData['pass'])
 
     #--------------------------------------------------------------------------------------------------------------------------
     #    Insert perspective
@@ -32,7 +34,7 @@ def main():
     file = open(route)
     perspective = json.load(file)
     
-    response = requests.post("{}/v1.1/perspective".format(server), json=perspective)
+    response = requests.post("{}/v1.1/perspectives".format(server), json=perspective, auth=auth)
     print(response)
     print(response.text)
     
