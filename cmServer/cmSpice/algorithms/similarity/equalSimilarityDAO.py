@@ -3,6 +3,7 @@ import os
 import json
 
 import numpy as np
+import itertools
 
 from cmSpice.algorithms.similarity.similarityDAO import SimilarityDAO
 
@@ -27,10 +28,30 @@ class EqualSimilarityDAO(SimilarityDAO):
         double
             Distance between the two values.
         """
-        if (valueA != valueB):
-            return 1.0
+        if (isinstance(valueA, dict) and isinstance(valueB, dict) and len(valueA) > 0 and len(valueB) > 0):
+            emotionsListA = [key for key, value in valueA.items() if value == max(valueA.values())]
+            emotionsListB = [key for key, value in valueB.items() if value == max(valueB.values())]
+
+            intersectionList = list(set(emotionsListA) & set(emotionsListB))
+
+            if (len(intersectionList) > 0):
+                distance = 0.0
+            else:
+                distance = 1.0
+        elif (isinstance(valueA, list) and isinstance(valueB, list) and len(valueA) > 0 and len(valueB) > 0):
+            setA = set(valueA)
+            setB = set(valueB)
+
+            intersection = setA.intersection(setB)
+            union = setA.union(setB)
+
+            distance = 1 - (len(intersection) / len(union))
+        elif (valueA != valueB):
+            distance = 1.0
         else:
-            return 0.0
+            distance = 0.0
+
+        return distance
 
 #-------------------------------------------------------------------------------------------------------------------------------
 #   To calculate dominant value
