@@ -18,8 +18,6 @@ servers:
 security:
   - basicAuth: []
 tags:
-  - name: Config Tool
-    description: Configuration Tool App
   - name: Perspectives
     description: Operations related to computing perspectives among communities.
   - name: Communities
@@ -144,7 +142,7 @@ paths:
       summary: Get logs between date range
       description: Returns logs between date range
       x-swagger-router-controller: Logs
-  /seed:
+  /visir/seed:
     get:
       tags:
         - '[DEV] VISIR'

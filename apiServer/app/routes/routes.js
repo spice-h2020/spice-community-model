@@ -14,8 +14,10 @@ module.exports = app => {
         Similarity: require("../controllers/similarity.js"),
         Users: require("../controllers/users.js"),
         Perspectives: require("../controllers/perspectives.js"),
-        ConfigTool: require("../controllers/configTool.js"),
+        Visir: require("../controllers/visir.js"),
         Logs: require("../controllers/logs.js"),
+        DatabaseController: require("../controllers/databaseController.js"),
+        JobsRouter: require("../controllers/jobsRoute/jobsRoute.js")
     };
 
     function initRouters(router) {

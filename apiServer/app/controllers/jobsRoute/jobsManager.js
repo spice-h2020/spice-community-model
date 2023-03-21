@@ -124,7 +124,7 @@ function checkAndStartNewJob() {
                     jobToUpdate.advanceState();
                 }
 
-                console.log("CM State: " + cmState);
+                // console.log("CM State: " + cmState);
                 resolve();
             })
             .catch(function (error) {
