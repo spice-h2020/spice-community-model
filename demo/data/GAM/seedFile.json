@@ -439,11 +439,6 @@
 			"default": false
 		},
 		{
-			"name": "greedy",
-			"params": [],
-			"default": false
-		},
-		{
 			"name": "markov",
 			"params": [],
 			"default": false

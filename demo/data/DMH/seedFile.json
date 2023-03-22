@@ -481,11 +481,6 @@
 		"default": false
 	  },
 	  {
-		"name": "greedy",
-		"params": [],
-		"default": false
-	  },
-	  {
 		"name": "kmedoids",
 		"params": [],
 		"default": false
