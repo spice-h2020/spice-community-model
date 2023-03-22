@@ -34,7 +34,7 @@ def main():
     file = open(route)
     perspective = json.load(file)
     
-    response = requests.post("{}/v1.1/perspectives".format(server), json=perspective, auth=auth)
+    response = requests.post("{}/v2.0/perspectives".format(server), json=perspective, auth=auth)
     print(response)
     print(response.text)
     

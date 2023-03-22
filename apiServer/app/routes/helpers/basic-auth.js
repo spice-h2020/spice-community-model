@@ -18,8 +18,8 @@ function basicAuth(req, res, next) {
     const user = process.env.API_USER;
     const pass = process.env.API_PASS;
 
-    console.log("Received auth headers: " + req.headers.authorization + " -> " + username + " " + password)
-    console.log("Current user-pass: " + user + " " + pass)
+    // console.log("Received auth headers: " + req.headers.authorization + " -> " + username + " " + password)
+    // console.log("Current user-pass: " + user + " " + pass)
 
     const valid = (username == user) && (password == pass)
 

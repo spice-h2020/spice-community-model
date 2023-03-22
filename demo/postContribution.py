@@ -46,7 +46,7 @@ def main():
     for ctype in postDictKeys:
         contribsDict = postDict[ctype]
         for key, value in contribsDict.items():
-            response=requests.post(f'{server}/v1.1/users/{key}/update-generated-content', json = value, auth=auth)
+            response=requests.post(f'{server}/v2.0/users/{key}/update-generated-content', json = value, auth=auth)
             
             print("key: " + str(key))
             print("value: " + str(value))

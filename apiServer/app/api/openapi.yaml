@@ -14,7 +14,7 @@ info:
   x-logo:
     url: ''
 servers:
-  - url: /v1.1/
+  - url: /v2.0/
 security:
   - basicAuth: []
 tags:
@@ -163,7 +163,7 @@ paths:
       summary: Get seed file
       description: Returns seed configuration file used by VISIR application.
       x-swagger-router-controller: Visir
-  /visir/index:
+  /visir/files:
     get:
       tags:
         - '[DEV] VISIR'
@@ -896,7 +896,7 @@ components:
             path:
               description: path
               type: string
-              example: /v1.1/jobs/4351
+              example: /v2.0/jobs/4351
             jobId:
               $ref: '#/components/schemas/jobId'
             name:
@@ -933,7 +933,7 @@ components:
             path:
               description: path
               type: string
-              example: /v1.1/jobs/4351
+              example: /v2.0/jobs/4351
             jobId:
               $ref: '#/components/schemas/jobId'
             name:
@@ -986,7 +986,7 @@ components:
         path:
           description: job
           type: string
-          example: /v1.1/jobs/{jobId}
+          example: /v2.0/jobs/{jobId}
     log:
       title: log
       type: object

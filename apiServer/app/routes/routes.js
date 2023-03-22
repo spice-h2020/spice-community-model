@@ -73,9 +73,6 @@ module.exports = app => {
     const file = fs.readFileSync(app.get("apiSpec"), 'utf8')
     const swaggerDocument = YAML.parse(file)
 
-    // console.log(fs.readdirSync(__dirname))
-    console.log(fs.readdirSync(__dirname + "/api"))
-    console.log(fs.readdirSync("./api"))
 
     // var options = {
     //     customCss: '.swagger-ui .topbar { display: none }',
@@ -132,12 +129,12 @@ module.exports = app => {
     );
 
     // To use auth add basicAuth before initRouters()
-    // app.use('/v1.1/visir', basicAuth);
-    // app.use('/v1.1/databaseController', basicAuth);
-    // app.use('/v1.1/logs', basicAuth);
-    // app.use('/v1.1/jobs', basicAuth);
+    // app.use('/v2.0/visir', basicAuth);
+    // app.use('/v2.0/databaseController', basicAuth);
+    // app.use('/v2.0/logs', basicAuth);
+    // app.use('/v2.0/jobs', basicAuth);
 
-    app.use('/v1.1', basicAuth);
+    app.use('/v2.0', basicAuth);
 
     initRouters(router);
     app.use('/', express.static('api'));

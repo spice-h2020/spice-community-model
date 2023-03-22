@@ -15,7 +15,7 @@ module.exports.getSeed = function getSeed(req, res, next) {
 };
 
 
-// router.get('/index', function (req, res, next) {
+// router.get('/files', function (req, res, next) {
 module.exports.getIndex = function getIndex(req, res, next) {
     Flags.getFlags()
         .then(function (response) {

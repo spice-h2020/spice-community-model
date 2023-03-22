@@ -52,7 +52,7 @@ def main():
         print("userid: " + str(userid))
         print("value: " + str(userArray))
         print("\n")
-        response=requests.post(f'{server}/v1.1/users/{userid}/update-generated-content', json = userArray, auth=auth)
+        response=requests.post(f'{server}/v2.0/users/{userid}/update-generated-content', json = userArray, auth=auth)
         print(response)
         print("\n\n")
             

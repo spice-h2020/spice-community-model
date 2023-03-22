@@ -14,7 +14,7 @@ const jobsHandler = require("./jobsHandler.js");
 var jobManager = require('./jobsManager.js');
 
 
-var jobPrefix = "/v1.1/jobs-manager/jobs/";
+var jobPrefix = "/v2.0/jobs-manager/jobs/";
 
 
 /**Response templates */
