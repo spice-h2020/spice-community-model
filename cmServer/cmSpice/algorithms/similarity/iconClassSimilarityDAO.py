@@ -16,6 +16,9 @@ class IconClassSimilarityDAO(SimilarityDAO):
         super().__init__(dao, similarityFunction)
         self.similarityColumn = similarityFunction['on_attribute']['att_name']
 
+        # Number of similar iconclass themes to consider for the similarity between artworks. 
+        self.numberThemes = 1
+
 
 
     def elemLayer(self,elem):
@@ -116,7 +119,14 @@ class IconClassSimilarityDAO(SimilarityDAO):
             distance: float
         """
         longestPrefixElemB = self.iconClassBestMatch(elemA, iconClassListB)
-        return self.getDistanceBetweenItems(elemA,longestPrefixElemB)    
+        distance = self.getDistanceBetweenItems(elemA,longestPrefixElemB)
+
+        distanceDict = {}
+        distanceDict['elemA'] = elemA
+        distanceDict['elemB'] = longestPrefixElemB
+        distanceDict['distance'] = distance
+
+        return distanceDict
 
     def distanceValues(self, iconClassListA, iconClassListB):
         """
@@ -144,43 +154,40 @@ class IconClassSimilarityDAO(SimilarityDAO):
         
         # Set largest list to be A and the other B
         if (len(iconClassListB) > len(iconClassListA)):
-            aux = iconClassListA
-            iconClassListA = iconClassListB
-            iconClassListB = aux
-        
-        """
-        print("elemA: " + str(elemA))
-        print("elemB: " + str(elemB))
-        print("Iconclass A: " + str(iconClassListA))
-        print("Iconclass B: " + str(iconClassListB))
-        print("\n")
-        """
-        
+            iconClassListA, iconClassListB = self.exchangeElements(iconClassListA, iconClassListB)
+
         # Compare each element of valueA with the element from B with the biggest common prefix
-        # If none from B share a common prefix, distance is equal to 0
-        distanceTotal = 0
+        # If none from B share a common prefix, distance is equal to 1
+        self.distanceList = []
         for elemA in iconClassListA:
-            distance = self.iconClassDistance(elemA,iconClassListB)
-            distanceTotal += distance
-            
-            #print("distance " + str(elemA) + " : " + str(distance))
-        
-        distanceTotal /= len(iconClassListA)
-        """
-        print("distanceTotal: " + str(distanceTotal))
-        """
-        
+            distanceDict = self.iconClassDistance(elemA,iconClassListB)
+            self.distanceList.append(distanceDict)
+
+        # Take into account only the [numberThemes] lowest distances
+        self.distanceList = sorted(self.distanceList, key=lambda d: d['distance']) 
+        distanceTotal = 0
+        number = min(self.numberThemes, len(self.distanceList))
+        number = max(number,1)
+        for i in range(number):
+            distanceTotal += self.distanceList[i]['distance']
+        distanceTotal /= number
+
         return distanceTotal
-        
+
 #-------------------------------------------------------------------------------------------------------------------------------
 #   To calculate dominant value between two values (in order to explain communities)
 #-------------------------------------------------------------------------------------------------------------------------------
     
     def dominantValue(self, iconClassListA, iconClassListB):
         dominantValues = []
+        artworkA = self.artworkA
+        artworkB = self.artworkB
+        if (len(iconClassListB) > len(iconClassListA)):
+            iconClassListA, iconClassListB = self.exchangeElements(iconClassListA, iconClassListB)
+            artworkA, artworkB = self.exchangeElements(self.artworkA, self.artworkB)
 
-        dominantValues.append(self.extractDominantValue(iconClassListA, iconClassListB, self.artworkA, self.artworkB) )
-        dominantValues.append(self.extractDominantValue(iconClassListB, iconClassListA, self.artworkB, self.artworkA) )
+        dominantValues.append(self.extractDominantValue(iconClassListA, iconClassListB, artworkA, artworkB))
+        dominantValues.append(self.extractDominantValue(iconClassListA, iconClassListB, artworkA, artworkB))
 
         return dominantValues
 
@@ -194,12 +201,16 @@ class IconClassSimilarityDAO(SimilarityDAO):
         """
         
         try:
-            
-            for elemA in iconClassListA:
-                longestPrefixElemB = self.iconClassBestMatch(elemA, iconClassListB)
+
+            number = min(self.numberThemes, len(self.distanceList))
+            for i in range(number):
+                elemA = self.distanceList[i]['elemA']
+                longestPrefixElemB = self.distanceList[i]['elemB']
                 commonParent = os.path.commonprefix([elemA, longestPrefixElemB])
                 maxLayer = max(self.elemLayer(elemA), self.elemLayer(longestPrefixElemB))
-                if (self.elemLayer(commonParent) + 2 >= maxLayer):
+                parentLayer = self.elemLayer(commonParent)
+                # if (parentLayer != 0 and parentLayer + 3 >= maxLayer):
+                if (parentLayer != 0):
                     # Previous explanation
                     #explainable_iconclassValues.append(commonParent)
 
@@ -212,6 +223,24 @@ class IconClassSimilarityDAO(SimilarityDAO):
                     commonParentDict[commonParent][longestPrefixElemB].append( artworkB['id'] )
 
                     explainable_iconclassValues.append(commonParentDict)
+            
+            # for elemA in iconClassListA:
+            #     longestPrefixElemB = self.iconClassBestMatch(elemA, iconClassListB)
+            #     commonParent = os.path.commonprefix([elemA, longestPrefixElemB])
+            #     maxLayer = max(self.elemLayer(elemA), self.elemLayer(longestPrefixElemB))
+            #     if (self.elemLayer(commonParent) + 2 >= maxLayer):
+            #         # Previous explanation
+            #         #explainable_iconclassValues.append(commonParent)
+
+            #         # New explanation: add information about the iconclassIDs (children) from which this new one (parent) is derived 
+            #         commonParentDict = {}
+            #         commonParentDict[commonParent] = {}
+            #         commonParentDict[commonParent][elemA] = [ artworkA['id'] ]
+            #         if (longestPrefixElemB not in commonParentDict[commonParent]):
+            #             commonParentDict[commonParent][longestPrefixElemB] = []
+            #         commonParentDict[commonParent][longestPrefixElemB].append( artworkB['id'] )
+
+            #         explainable_iconclassValues.append(commonParentDict)
 
         except Exception as e:
             print("exception")
