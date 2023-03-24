@@ -612,8 +612,8 @@ class ExplainedCommunitiesDetection:
 
             simplify_cols = list(set(simplify_cols))
             
-            for attribute in self.dissimilar_attributes:
-                simplify_cols.append(attribute + "Distance")
+            # for attribute in self.dissimilar_attributes:
+            #     simplify_cols.append(attribute + "Distance")
 
             """
             print("simplify community")
@@ -1225,64 +1225,64 @@ class ExplainedCommunitiesDetection:
 
                             explainableAttribute = not explainableAttribute
 
-                            print("apply dissimilar explanation")
-                            print(explainableAttribute)
-                            print("(len(community[col]) * percentage)")
-                            print(str((len(community[col]) * percentage)))
-                            print("community[col].value_counts().max()")
-                            print(str(community[col].value_counts().max()))
-                            print("\n")
+                            # print("apply dissimilar explanation")
+                            # print(explainableAttribute)
+                            # print("(len(community[col]) * percentage)")
+                            # print(str((len(community[col]) * percentage)))
+                            # print("community[col].value_counts().max()")
+                            # print(str(community[col].value_counts().max()))
+                            # print("\n")
 
 
-                            # Second approximation
-                            # Calculate the similarity average of the community members based on [col2] attribute. 
-                            # If it is higher or equal to percentage, the community can be explained
-                            print("checking distance")
-                            print(list(community.columns))
-                            print(community[[col + 'Distance']])
-                            print("\n")
+                            # # Second approximation
+                            # # Calculate the similarity average of the community members based on [col2] attribute. 
+                            # # If it is higher or equal to percentage, the community can be explained
+                            # print("checking distance")
+                            # print(list(community.columns))
+                            # print(community[[col + 'Distance']])
+                            # print("\n")
 
-                            # Now filter distance column using the community 
-                            #distanceList = community[col2 + 'DistanceDominantInteractionGenerated'].to_list()
-                            distanceList = community[col + 'Distance'].to_list()
-                            # Community only has one user (users without community)
-                            if (len(distanceList) <= 1):
-                                explainableAttribute = True
-                            else:
+                            # # Now filter distance column using the community 
+                            # #distanceList = community[col2 + 'DistanceDominantInteractionGenerated'].to_list()
+                            # distanceList = community[col + 'Distance'].to_list()
+                            # # Community only has one user (users without community)
+                            # if (len(distanceList) <= 1):
+                            #     explainableAttribute = True
+                            # else:
 
-                                print("distanceList")
-                                print(distanceList)
-                                print(str(len(distanceList)))
-                                print(str(len(distanceList[0])))
-                                print(str(len(community)))
-                                print("\n")
+                            #     print("distanceList")
+                            #     print(distanceList)
+                            #     print(str(len(distanceList)))
+                            #     print(str(len(distanceList[0])))
+                            #     print(str(len(community)))
+                            #     print("\n")
 
-                                np_array = np.asarray(distanceList, dtype=object)
-                                distanceList_flatten = list(np.hstack(np_array)) #if (len(np_array) > 0)
-                                print("distanceList_flatten")
-                                print(distanceList_flatten)
-                                print(str(len(distanceList_flatten)))
-                                print("\n")
+                            #     np_array = np.asarray(distanceList, dtype=object)
+                            #     distanceList_flatten = list(np.hstack(np_array)) #if (len(np_array) > 0)
+                            #     print("distanceList_flatten")
+                            #     print(distanceList_flatten)
+                            #     print(str(len(distanceList_flatten)))
+                            #     print("\n")
 
-                                distanceCommunity = sum(distanceList_flatten)
-                                print("distance comunity")
-                                print(str(distanceCommunity))
-                                print("\n")
+                            #     distanceCommunity = sum(distanceList_flatten)
+                            #     print("distance comunity")
+                            #     print(str(distanceCommunity))
+                            #     print("\n")
 
-                                numberDistance = max(1, len(distanceList_flatten))
+                            #     numberDistance = max(1, len(distanceList_flatten))
 
-                                distanceCommunity = distanceCommunity / numberDistance
-                                print("distance comunity final")
-                                print(str(distanceCommunity))
-                                print("\n")
+                            #     distanceCommunity = distanceCommunity / numberDistance
+                            #     print("distance comunity final")
+                            #     print(str(distanceCommunity))
+                            #     print("\n")
 
-                                self.distanceCommunity = distanceCommunity
+                            #     self.distanceCommunity = distanceCommunity
 
-                                if (distanceCommunity <= percentage):
-                                    print("less percentage")
-                                    explainableAttribute = True
-                                else:
-                                    explainableAttribute = False
+                            #     if (distanceCommunity <= percentage):
+                            #         print("less percentage")
+                            #         explainableAttribute = True
+                            #     else:
+                            #         explainableAttribute = False
 
 
 
@@ -1311,18 +1311,18 @@ class ExplainedCommunitiesDetection:
                         # print(explainable_community)
                         # print("\n")
 
-                        if (explainable_community == False):
-                            print("fail explain community")
-                            print(community)
-                            print("\n")
+                        # if (explainable_community == False):
+                        #     print("fail explain community")
+                        #     print(community)
+                        #     print("\n")
 
-                            print(col)
-                            print((len(community[col])))
-                            print(percentage)
-                            print((len(community[col]) * percentage))
-                            print(community[col].value_counts().max())
-                            print("end fail explain community")
-                            print("\n")
+                        #     print(col)
+                        #     print((len(community[col])))
+                        #     print(percentage)
+                        #     print((len(community[col]) * percentage))
+                        #     print(community[col].value_counts().max())
+                        #     print("end fail explain community")
+                        #     print("\n")
 
 
             isExplainableResult = explainable_community
@@ -1702,8 +1702,8 @@ class ExplainedCommunitiesDetection:
 
                             if (col != "community_" + "id"):
                                 for key in iconclassDictionary:
-                                    print("iconclassDictionary " + "(" + str(key) + ")" )
-                                    print(iconclassDictionary[key])
+                                    # print("iconclassDictionary " + "(" + str(key) + ")" )
+                                    # print(iconclassDictionary[key])
                                     #iconclassDictionary[iconclassID]= list(set(iconclassDictionary[iconclassID]))
 
                                     set_of_jsons = {json.dumps(d, sort_keys=True) for d in iconclassDictionary[key]}
