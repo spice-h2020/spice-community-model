@@ -17,7 +17,7 @@ class IconClassSimilarityDAO(SimilarityDAO):
         self.similarityColumn = similarityFunction['on_attribute']['att_name']
 
         # Number of similar iconclass themes to consider for the similarity between artworks. 
-        self.numberThemes = 1
+        self.numberThemes = 2
 
 
 
