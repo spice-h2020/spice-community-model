@@ -547,16 +547,18 @@ class SimilarityDAO:
 
         if self.similarityColumn == 'id':
             return [{valueA: self.artworkA['id']}, {valueB: self.artworkB['id']}]
-        elif (isinstance(valueA, dict)):
-            if (len(valueA) <= 0):
-                keyA = ""
-            else:
-                keyA = max(valueA, key=valueA.get).lower()
-                
-            if (len(valueB) <= 0):
-                keyB = ""
-            else:
-                keyB = max(valueB, key=valueB.get).lower()
+        elif (isinstance(valueA, dict) and isinstance(valueB, dict)):
+            if (len(valueA) > 0 and len(valueB) > 0):
+                emotionsListA = [key for key, value in valueA.items() if value == max(valueA.values())]
+                emotionsListB = [key for key, value in valueB.items() if value == max(valueB.values())]
+
+                intersectionList = list(set(emotionsListA) & set(emotionsListB))
+                if (len(intersectionList) > 0):
+                    keyA = intersectionList[0]
+                    keyB = intersectionList[0]
+                else:
+                    keyA = emotionsListA[0]
+                    keyB = emotionsListB[0]
 
             return [keyA, keyB]
         elif (isinstance(valueA, list)):
