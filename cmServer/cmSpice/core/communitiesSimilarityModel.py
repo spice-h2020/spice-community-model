@@ -242,7 +242,8 @@ class CommunitiesSimilarityModel():
             indexA = explicitAttributeList.index(attributeValueA)
             indexB = explicitAttributeList.index(attributeValueB)
 
-            result = (abs(indexA - indexB)) / len(explicitAttributeList)
+            denominator = max(len(explicitAttributeList) - 1, 1)
+            result = (abs(indexA - indexB)) / denominator
         else:
             result = float(attributeValueA != attributeValueB)
 
