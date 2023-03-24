@@ -100,26 +100,11 @@ class ExplainedCommunitiesDetection:
         for community in uniqueLabels:
             falsePositives_df = self.complete_data.loc[ self.complete_data['community'] == community ]
             if (len(falsePositives_df) > 1):
-                
-                """
-                print("falsePositives_df")
-                print(falsePositives_df[['real_index', 'community']])
-                print("\n")
-                """
                 falsePositives_index = falsePositives_df['real_index'].tolist()
-                
-                """
-                print("false positives index")
-                print(falsePositives_index)
-                print("\n")
-                """
-
                 falsePositives_userid = falsePositives_df.index.values.tolist()
 
                 """
-                print("false positives userid")
-                print(falsePositives_userid)
-                print("\n")
+
 
                 print("self.distanceMatrix")
                 print(self.distanceMatrix)
@@ -145,20 +130,10 @@ class ExplainedCommunitiesDetection:
 
                 #distanceMatrix_community = self.distanceMatrix[falsePositives_index, falsePositives_index]
 
-                """
-                print("self.distanceMatrix community")
-                print(distanceMatrix_community)
-                print("\n")
-                """
 
                 # Sum
                 distanceMatrix_community_sum = np.sum(distanceMatrix_community,axis=1).tolist()
 
-                """
-                print("self.distanceMatrix community sum")
-                print(distanceMatrix_community_sum)
-                print("\n")
-                """
 
                 # Get false positives (distance 1 to all other users in the community (vs itself it is 0))
                 falsePositiveDistance = len(falsePositives_df) - 1
@@ -166,11 +141,54 @@ class ExplainedCommunitiesDetection:
                 falsePositivesCommunity = [falsePositives_index[i] for i in range(len(distanceMatrix_community_sum)) if distanceMatrix_community_sum[i] == falsePositiveDistance]
                 falsePositives.extend(falsePositivesCommunity)
 
-                """
-                print("false positives community")
-                print(falsePositivesCommunity)
-                print("\n")
-                """
+
+        #         # Print debug
+        #         print("community " + str(community))
+        #         print("falsePositives_df")
+        #         print(falsePositives_df[['real_index', 'community']])
+        #         print("\n")
+        #         print("false positives index")
+        #         print(falsePositives_index)
+        #         print("\n")
+        #         print("false positives userid")
+        #         print(falsePositives_userid)
+        #         print("\n")
+
+        #         # print("self.distanceMatrix")
+        #         # print(self.distanceMatrix)
+        #         # print("\n")
+
+        #         # print("self distance matrix row 0")
+        #         # print(self.distanceMatrix[ falsePositives_index[0] ])
+        #         # print("\n")
+
+        #         print("self.distanceMatrix community")
+        #         print(distanceMatrix_community)
+        #         print("\n")
+
+        #         print("self.distanceMatrix community sum")
+        #         print(distanceMatrix_community_sum)
+        #         print("\n")
+
+        #         print("false positives community")
+        #         print(falsePositivesCommunity)
+        #         print("\n")
+
+        #         print("false positives final")
+        #         print(falsePositives)
+        #         print("\n")
+
+        #     else:
+
+        #         print("without community")
+        #         print("falsePositives_df")
+        #         print(falsePositives_df[['real_index', 'community']])
+        #         print("\n")
+
+
+        # print("total communities")
+        # print(len(uniqueLabels))
+        # print("\n")
 
 
         """
@@ -277,11 +295,26 @@ class ExplainedCommunitiesDetection:
         rows = distanceMatrix_community.shape[0]
         rowIndex = 0
         while isExplainable and rowIndex < rows:
-            if (1.0 in distanceMatrix_community[rowIndex]):
+            # maxDistanceCounter = distanceMatrix_community[rowIndex].count(1.0)
+            maxDistanceCounter = np.count_nonzero(distanceMatrix_community[rowIndex] == 1.0)
+            if (maxDistanceCounter >= (rows / 2) ):
                 isExplainable = False
             rowIndex += 1
 
         return isExplainable
+
+        # falsePositives_index = community['real_index'].tolist()
+        # distanceMatrix_community = self.distanceMatrix[np.ix_(falsePositives_index,falsePositives_index)]
+
+        # isExplainable = True
+        # rows = distanceMatrix_community.shape[0]
+        # rowIndex = 0
+        # while isExplainable and rowIndex < rows:
+        #     if (1.0 in distanceMatrix_community[rowIndex]):
+        #         isExplainable = False
+        #     rowIndex += 1
+
+        # return isExplainable
 
 
 
@@ -323,6 +356,7 @@ class ExplainedCommunitiesDetection:
             self.communities = complete_data.groupby(by='community')
 
         while not finish_search:
+            # print("search communities loop - n_communities: " + str(n_communities))
             community_detection = self.algorithm(self.data)
             userCommunityLabels = community_detection.calculate_communities(distanceMatrix = self.distanceMatrix, n_clusters=n_communities)
             result = userCommunityLabels
@@ -424,12 +458,15 @@ class ExplainedCommunitiesDetection:
 
                 
 
-                n_communities = n_clusters
+                # n_communities = n_clusters
+
+
                 """
                 
                 """
 
-                for c in range(n_communities):
+                # for c in range(n_communities):
+                for c in range(n_clusters):
                     community = self.communities.get_group(c)
                     #community = self.simplifyInteractionAttributes(community, printing = False)
                     explainables.append(self.is_explainable(community, answer_binary, percentage))
@@ -449,7 +486,8 @@ class ExplainedCommunitiesDetection:
                 """
                 
 
-                finish_search = sum(explainables) == n_communities
+                # finish_search = sum(explainables) == n_communities
+                finish_search = sum(explainables) == n_clusters
             
             # Each datapoint belongs to a different cluster  
             if (n_communities == maxCommunities):
@@ -632,20 +670,26 @@ class ExplainedCommunitiesDetection:
                 df.loc[:, ('community_' + col)] = community.apply(lambda row: self.extractDominantInteractionAttribute(row, col2, communityMemberIndexes), axis = 1)
                 # df.loc[:, ('community_' + col)] = community.apply(lambda row: statistics.mode([row[col2][i] for i in communityMemberIndexes if row[col2][i] != '']), axis = 1)
             
+                
+            # if (1 == 2):
+            #     print("dominantArtworks")
+            #     print(df[['real_index','userNameAuxiliar', 'community_dominantArtworks']])
+            #     print("\n")
 
-
-            if (1 == 2):
-                print("dominantArtworks")
-                print(df[['real_index','userNameAuxiliar', 'community_dominantArtworks']])
-                print("\n")
-
-            """
-            if (printing):
-                print('dominant artworks')
-                print(df[['real_index', 'community_' + 'dominantArtworks']])
-                print("\n")
+            # """
+            # if (printing):
+            #     print('dominant artworks')
+            #     print(df[['real_index', 'community_' + 'dominantArtworks']])
+            #     print("\n")
             
-            """
+            # """
+
+            # if ('jTb1qXEo' in df['userNameAuxiliar'].tolist()):
+            #     print("community attribute jTb1qXEo")
+            #     print(df[['community_dominantArtworks']])
+            #     print(df[['community_iconclassArrayIDs']])
+            #     print("\n")
+
             
             return df
     
@@ -680,9 +724,25 @@ class ExplainedCommunitiesDetection:
 
             validCommunityIndexes = [i for i in communityMemberIndexes if row[col2][i] != '' and i != row['real_index']]
 
-            # print("extract dominant interaction attribute")
-            # print(col2)
-            # print("\n")
+            # if (row['userNameAuxiliar'] == 'jTb1qXEo' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 1):
+            #     print("extract dominant interaction attribute")
+            #     print(col2)
+            #     print(row['real_index'])
+            #     print(row['userNameAuxiliar'] )
+            #     print(row['dominantArtworksDominantInteractionGenerated'])
+            #     print(row['iconclassArrayIDsDominantInteractionGenerated'])
+            #     print(communityMemberIndexes)
+            #     array = []
+            #     array2 = []
+            #     for index in communityMemberIndexes:
+            #         array.append(row['dominantArtworksDominantInteractionGenerated'][index])
+            #         array2.append(row['iconclassArrayIDsDominantInteractionGenerated'][index])
+
+            #     print(array)
+            #     print(array2)
+
+            #     print(communityMembers_interactionAttributeList)
+            #     print("\n")
 
             #if (row['userNameAuxiliar'] == 'e4aM9WL7' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 2):
             if (row['userNameAuxiliar'] == 'x2AUnHqw' and col2 == 'dominantArtworksDominantInteractionGenerated' and 1 == 1):
@@ -1152,6 +1212,11 @@ class ExplainedCommunitiesDetection:
                         else:
                             explainableAttribute = (len(community[col]) * percentage) <= community[col].value_counts().max()
 
+
+                        # print("explainable attribute")
+                        # print(explainableAttribute)
+                        # print("\n")
+
                         # Apply dissimilar
                         # First approximation (most frequent value appears below the community similarity percentage)
                         
@@ -1242,6 +1307,10 @@ class ExplainedCommunitiesDetection:
 
                         explainable_community |= explainableAttribute
 
+                        # print("explainable community")
+                        # print(explainable_community)
+                        # print("\n")
+
                         if (explainable_community == False):
                             print("fail explain community")
                             print(community)
@@ -1256,7 +1325,7 @@ class ExplainedCommunitiesDetection:
                             print("\n")
 
 
-            return explainable_community
+            isExplainableResult = explainable_community
 
         except Exception as e:
 
@@ -1265,7 +1334,22 @@ class ExplainedCommunitiesDetection:
             logger.error(community)
             logger.error(traceback.format_exc())
 
-            return True
+            isExplainableResult = True
+
+        # print("is_explainable function")
+        # print("correct community")
+        # print(self.correctCommunityCheck(community))
+        # print("community " + str(community['community'].tolist()[0]))
+        # print(community['community_interest.itMakesMeThinkAbout.emotions'])
+        # print("isExplainableResult")
+        # print(isExplainableResult)
+        # if (isExplainableResult == False):
+        #     print("Cannot explain this community")
+        # print("\n")
+
+
+
+        return isExplainableResult
     
     # Explainable AND
     def is_explainableAND(self, community, answer_binary=False, percentage=1.0):
@@ -1677,6 +1761,7 @@ class ExplainedCommunitiesDetection:
                                 # basic explanation
                                 #iconclassExplanation = str(iconclassID) + " " + iconclassText
                                 iconclassExplanation = iconclassText + " " + "[" + str(iconclassID) + "]"
+                                
                                 artworksExplanation = []
 
                                 # key includes children keys (dict value): iconclass, ontology
@@ -1702,10 +1787,11 @@ class ExplainedCommunitiesDetection:
                                     artworks_iconclassID = set(artworks_iconclassID)
 
 
+                                    iconclassExplanation += " - Artworks: " + str(len(artworks_iconclassID))
                                     if (iconclassID in iconclassChildrenCombinedDictionary):
                                         # Instead of showing list artworks, just the number of them
                                         #iconclassExplanation += " (" + ", ".join(iconclassChildrenCombinedDictionary[iconclassID]) + ")"
-                                        iconclassExplanation += " - Artworks: " + str(len(artworks_iconclassID))
+                                        # iconclassExplanation += " - Artworks: " + str(len(artworks_iconclassID))
 
                                         artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassID])
                                     iconclassChildrenText = []
@@ -1715,7 +1801,7 @@ class ExplainedCommunitiesDetection:
                                         print("\n")
 
                                         #iconclassExplanation += ". Obtained from the artwork's materials: "
-                                        iconclassExplanation += ". Obtained from the artwork's " + str(col2).lower() + ": "
+                                        iconclassExplanation += ". This identifier is the common parent of the following labels: "
                                         for iconclassChild in iconclassChildrenCombinedDictionary:
                                             iconclassChildText = ""
                                             # Iconclass: Get description of the iconclassID through the Iconclass API
