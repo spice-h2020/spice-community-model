@@ -458,7 +458,7 @@ class ExplainedCommunitiesDetection:
 
                 
 
-                # n_communities = n_clusters
+                n_communities = n_clusters
 
 
                 """
@@ -1745,7 +1745,7 @@ class ExplainedCommunitiesDetection:
 
                             # Prepare explanation text for each of the selected keys
                             for iconclassID in result2:
-                                print("checking iconclass id " + str(iconclassID))
+                                # print("checking iconclass id " + str(iconclassID))
                                 iconclassText = ""
                                 if (col == "community_" + "iconclassArrayIDs"):
                                     iconclassText = self.daoAPI_iconclass.getIconclassText(iconclassID)
@@ -1754,9 +1754,9 @@ class ExplainedCommunitiesDetection:
                                 np_array = np.asarray(result2[iconclassID], dtype=object)
                                 iconclassChildren = list(np.hstack(np_array))
 
-                                print("iconclass children")
-                                print(iconclassChildren)
-                                print("\n")
+                                # print("iconclass children")
+                                # print(iconclassChildren)
+                                # print("\n")
 
                                 # basic explanation
                                 #iconclassExplanation = str(iconclassID) + " " + iconclassText
@@ -1796,9 +1796,9 @@ class ExplainedCommunitiesDetection:
                                         artworksExplanation.extend(iconclassChildrenCombinedDictionary[iconclassID])
                                     iconclassChildrenText = []
                                     if (len(iconclassChildrenCombinedDictionary) > 1):
-                                        print("iconclass combined dictionary")
-                                        print(iconclassChildrenCombinedDictionary)
-                                        print("\n")
+                                        # print("iconclass combined dictionary")
+                                        # print(iconclassChildrenCombinedDictionary)
+                                        # print("\n")
 
                                         #iconclassExplanation += ". Obtained from the artwork's materials: "
                                         iconclassExplanation += ". This identifier is the common parent of the following labels: "
@@ -1861,7 +1861,7 @@ class ExplainedCommunitiesDetection:
                                 result3[iconclassExplanation] = list(set(artworksExplanation))
                                 
 
-                            print("result3 dict explanation: " + str(result3))
+                            # print("result3 dict explanation: " + str(result3))
                             
                             
                             #explainedCommunityProperties[col] = "\n".join(result2)
