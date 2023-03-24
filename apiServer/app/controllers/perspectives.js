@@ -1,6 +1,6 @@
 const idParam = 'perspectiveId';
-const Perspectives = require('../service/PerspectivesService.js');
-const Flags = require('../service/FlagsService.js');
+const Perspectives = require('../service/perspectivesService.js');
+const Flags = require('../service/flagsService.js');
 const JobManager = require('./jobsRoute/jobsManager.js');
 
 // check if flag exist
@@ -96,7 +96,7 @@ module.exports.listPerspectiveCommunities = function listPerspectiveCommunities(
 };
 
 // redirect post request to api_loader
-module.exports.PostPerspective = function PostPerspective(req, res, next) {
+module.exports.postPerspective = function postPerspective(req, res, next) {
   try {
 
     Perspectives.getPerspectiveById(req.body.id)

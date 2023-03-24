@@ -1,6 +1,6 @@
 const idParam = 'communityId';
-const Communities = require('../service/CommunitiesService.js');
-const Flags = require('../service/FlagsService.js');
+const Communities = require('../service/communitiesService.js');
+const Flags = require('../service/flagsService.js');
 const JobManager = require('./jobsRoute/jobsManager.js');
 
 module.exports.getCommunities = function getCommunities(req, res, next) {

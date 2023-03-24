@@ -2,10 +2,10 @@ const idParam_nLogs = 'nLogs';
 const idParam_startDate = 'startDate';
 const idParam_endDate = 'endDate';
 const idParam_logsType = 'logsType';
-const Logs = require('../service/LogsService.js');
+const Logs = require('../service/logsService.js');
 
 
-module.exports.getNLatestLogs = function getPerspectives(req, res, next) {
+module.exports.getNLatestLogs = function getNLatestLogs(req, res, next) {
     const nLogs = parseInt(req.query[idParam_nLogs]);
     let logsType = req.query[idParam_logsType]
 
@@ -38,7 +38,7 @@ module.exports.getNLatestLogs = function getPerspectives(req, res, next) {
 };
 
 
-module.exports.getLogsBetweenTwoDates = function getPerspectives(req, res, next) {
+module.exports.getLogsBetweenTwoDates = function getLogsBetweenTwoDates(req, res, next) {
     const startDate = req.query[idParam_startDate];
     const endDate = req.query[idParam_endDate];
     let logsType = req.query[idParam_logsType]

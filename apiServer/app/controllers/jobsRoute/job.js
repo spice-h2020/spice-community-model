@@ -3,7 +3,7 @@
 /**
  * 
  */
-const jobPrefix = "/v1.1/jobs/";
+const jobPrefix = "/v2.0/jobs-manager/jobs/";
 
 export const jobStates = {
     INQUEUE: "INQUEUE",
