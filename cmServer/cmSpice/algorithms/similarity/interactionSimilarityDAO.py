@@ -160,8 +160,20 @@ class InteractionSimilarityDAO(SimilarityDAO):
             objectAIndex = self.IO_distanceIndex.index(str(objectA))
             distanceMatrix_IOB_indexes = np.nonzero(np.in1d(self.IO_distanceIndex,IOB))[0]
             distanceMatrix_IOB_values = self.IO_distanceMatrix[objectAIndex, distanceMatrix_IOB_indexes]
-            mostSimilarIOIndex = distanceMatrix_IOB_values.argmin()
+            mostSimilarIOIndex2 = distanceMatrix_IOB_values.argmin()
+
+            objectId = self.IO_distanceIndex[distanceMatrix_IOB_indexes[mostSimilarIOIndex2]]
+            mostSimilarIOIndex = IOB.index(objectId)
+            # print("objectId")
+            # print(objectId)
+            # print("IOB")
+            # print(IOB)
+            # print("most similar index")
+            # print(mostSimilarIOIndex)
+            # print("\n")
             mostSimilarIO = IOB[mostSimilarIOIndex]  
+
+            
             
             """
             print("type object A: " + str(type(objectA)))
@@ -213,32 +225,34 @@ class InteractionSimilarityDAO(SimilarityDAO):
             #similarThreshold = 0.8
             #similarThreshold = 0.6
             #similarThreshold = 500.0
-            if (distanceMatrix_IOB_values[mostSimilarIOIndex] > distanceThreshold):
+            if (distanceMatrix_IOB_values[mostSimilarIOIndex2] > distanceThreshold):
                 mostSimilarIOIndex = -1
+                
             """
             """
-            
+
+            # return mostSimilarIOIndex, distanceMatrix_IOB_indexes, distanceMatrix_IOB_values, objectAIndex, mostSimilarIOIndex2, objectId
             return mostSimilarIOIndex
         
         except ValueError:
             
-            print("exception ")
-            print("type object A: " + str(type(objectA)))
-            """
-            """
-            print("objectA: " + str(objectA))
-            print("IO_distanceIndex: " + str(self.IO_distanceIndex))
+            # print("exception ")
+            # print("type object A: " + str(type(objectA)))
+            # """
+            # """
+            # print("objectA: " + str(objectA))
+            # print("IO_distanceIndex: " + str(self.IO_distanceIndex))
             
-            objectAIndex = self.IO_distanceIndex.index(str(objectA))
-            print("objectA index: " + str(objectAIndex))
-            distanceMatrix_IOB_indexes = np.nonzero(np.in1d(self.IO_distanceIndex,IOB))[0]
-            print("distanceMatrix_IOB_indexes: " + str(distanceMatrix_IOB_indexes))
-            distanceMatrix_IOB_values = self.IO_distanceMatrix[objectAIndex, distanceMatrix_IOB_indexes]
-            print("distanceMatrix_IOB_values: " + str(distanceMatrix_IOB_values))
-            mostSimilarIOIndex = distanceMatrix_IOB_values.argmin()
-            print("most similar IO Index: " + str(mostSimilarIOIndex))
-            mostSimilarIO = IOB[mostSimilarIOIndex]
-            print("most similar IO: " + str(mostSimilarIO))
+            # objectAIndex = self.IO_distanceIndex.index(str(objectA))
+            # print("objectA index: " + str(objectAIndex))
+            # distanceMatrix_IOB_indexes = np.nonzero(np.in1d(self.IO_distanceIndex,IOB))[0]
+            # print("distanceMatrix_IOB_indexes: " + str(distanceMatrix_IOB_indexes))
+            # distanceMatrix_IOB_values = self.IO_distanceMatrix[objectAIndex, distanceMatrix_IOB_indexes]
+            # print("distanceMatrix_IOB_values: " + str(distanceMatrix_IOB_values))
+            # mostSimilarIOIndex = distanceMatrix_IOB_values.argmin()
+            # print("most similar IO Index: " + str(mostSimilarIOIndex))
+            # mostSimilarIO = IOB[mostSimilarIOIndex]
+            # print("most similar IO: " + str(mostSimilarIO))
             
             print("end exception")
             
@@ -523,6 +537,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
         
         if (len(IOB) > len(IOA)):
             self.exchanged = True
+            # elemA, elemB = self.exchangeElements(elemA, elemB)
             IOA, IOB = self.exchangeElements(IOA,IOB)
             userInteractionA, userInteractionB = self.exchangeElements(userInteractionA, userInteractionB)
         """
@@ -537,6 +552,7 @@ class InteractionSimilarityDAO(SimilarityDAO):
         
         # Initialize distance
         distanceTotal = 0
+        distanceNumber = 0
 
         # Dominant interaction attribute value
         dominantInteractionAttribute = ""
@@ -571,7 +587,40 @@ class InteractionSimilarityDAO(SimilarityDAO):
             for objectIndexA in range(len(IOA)):
                 objectA = IOA[objectIndexA]
                 objectIndexB = self.getSimilarIOIndex(objectA, IOB)
+                # objectIndexB, distanceMatrix_IOB_indexes, distanceMatrix_IOB_values, objectAIndex, objectBIndexMatrix, objectId = self.getSimilarIOIndex(objectA, IOB)
                 objectB = IOB[objectIndexB]
+
+                # # Print object information
+                # if (userInteractionA['userid'] == '2JfmseEG' and userInteractionB['userid'] == 'jTb1qXEo'):
+                #     print("checking user interaction 2JfmseEG")
+                #     print("object A")
+                #     print(IOA)
+                #     print(objectIndexA)
+                #     print(objectA)
+                #     print("\n")
+                #     print("object B")
+                #     print(IOB)
+                #     print(objectIndexB)
+                #     print(objectB)
+                #     print("\n")
+                #     print("Extra information getSimilarIOIndex")
+                #     print("distance matrix")
+                #     print(self.IO_distanceMatrix)
+                #     print("distance matrix indexes")
+                #     print(self.IO_distanceIndex)
+                #     print("objectAIndex")
+                #     print(objectAIndex)
+                #     print("object B Index Matrix")
+                #     print(objectBIndexMatrix)
+                #     print("object id")
+                #     print(objectId)
+                #     print("distanceMatrix_IOB_indexes")
+                #     print(distanceMatrix_IOB_indexes)
+                #     print("distanceMatrix_IOB_values")
+                #     print(distanceMatrix_IOB_values)
+                #     print("\n")
+                #     print("\n")
+
 
                 # A MATCHING SIMILAR ARTWORK WAS FOUND
                 if (objectIndexB != -1):
@@ -615,6 +664,20 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     dominantInteractionAttributeDistance = self.interactionSimilarityMeasure.getDistanceBetweenItems(dominantInteractionAttributeA, dominantInteractionAttributeB)
 
 #-------------------------------------------------------------------------------------------------------------------------------
+#   Save interaction information
+#-------------------------------------------------------------------------------------------------------------------------------
+
+                    # if (self.exchanged):
+                    #     dominantInteractionAttributeA, dominantInteractionAttributeB = self.exchangeElements(dominantInteractionAttributeA, dominantInteractionAttributeB)
+                    #     objectA, objectB = self.exchangeElements(objectA, objectB)
+
+                    interactionInformation[0][self.similarityColumn].append(dominantInteractionAttributeA)
+                    interactionInformation[0]['dominantArtworks'].append(objectA)
+                    
+                    interactionInformation[1][self.similarityColumn].append(dominantInteractionAttributeB)
+                    interactionInformation[1]['dominantArtworks'].append(objectB)
+
+#-------------------------------------------------------------------------------------------------------------------------------
 #   Get dominant values (artworks)
 #-------------------------------------------------------------------------------------------------------------------------------
 
@@ -633,16 +696,6 @@ class InteractionSimilarityDAO(SimilarityDAO):
                         
                         interactionInformation[0][dominantAttribute].append(dominantValueA)
                         interactionInformation[1][dominantAttribute].append(dominantValueB)
-                    
-#-------------------------------------------------------------------------------------------------------------------------------
-#   Save interaction information
-#-------------------------------------------------------------------------------------------------------------------------------
-
-                    interactionInformation[0][self.similarityColumn].append(dominantInteractionAttributeA)
-                    interactionInformation[0]['dominantArtworks'].append(objectA)
-                    
-                    interactionInformation[1][self.similarityColumn].append(dominantInteractionAttributeB)
-                    interactionInformation[1]['dominantArtworks'].append(objectB)
 
 #-------------------------------------------------------------------------------------------------------------------------------
 #   Distance between dominant interaction attribute (add later)
@@ -673,6 +726,9 @@ class InteractionSimilarityDAO(SimilarityDAO):
 
                     daoInteractionDistances.updateInteractionDistance(getDatabaseConditions)
 
+                    distanceNumber += 1
+                    distanceTotal += distance
+
 
 
                 # NO SIMILAR ARTWORK    
@@ -680,10 +736,14 @@ class InteractionSimilarityDAO(SimilarityDAO):
                     distance = 1
                 
 
-                distanceTotal += distance
+                # distanceTotal += distance
                 
             # Mean average        
-            distanceTotal /= len(IOA)
+            # distanceTotal /= len(IOA)
+            if (distanceNumber == 0):
+                distanceTotal = 1.0
+            else:
+                distanceTotal = distanceTotal / (max(1, distanceNumber))
 
             
             
@@ -797,7 +857,17 @@ class InteractionSimilarityDAO(SimilarityDAO):
                         #     #value = interactionInformationDict[key][-1]
                         #     value = mode(interactionInformationDict[key])
 
-                        value = interactionInformationDict[key][-1]
+                        # print("updateInteractionInformationColumn")
+                        # print(interactionInformationDict[key])
+
+                        np_array = np.asarray(interactionInformationDict[key], dtype=object)
+                        value = list(np.hstack(np_array)) #if (len(np_array) > 0)
+
+                        # print("flatten")
+                        # print(value)
+                        # print("\n")
+
+                        #value = interactionInformationDict[key][-1]
                     else:
                         #value = ''
                         value = interactionInformationDict[key]
