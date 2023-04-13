@@ -459,13 +459,16 @@ class CommunityJsonGenerator:
                         implicitPropertyExplanations[key] = dict()
                         implicitPropertyExplanations[key]['label'] = community_data['explanation'][key]['label']
                         implicitPropertyExplanations[key]['explanation'] = communityPropertiesDict
-                
+                        implicitPropertyExplanations[key]['explanation_type'] = community_data['explanation'][key]['explanation_type']
                 
                 # Implicit attribute (explanation)
                 for implicitAttribute in implicitPropertyExplanations.keys():
                 
                     explanationJson = {}
-                    explanationJson['explanation_type'] = 'implicit_attributes'
+                    #explanationJson['explanation_type'] = 'implicit_attributes'
+                    
+                    explanationJson['explanation_type'] = implicitPropertyExplanations[implicitAttribute]['explanation_type']
+                    explanationJson['explanation_key'] = implicitAttribute.replace("community_","")
                     explanationJson['explanation_data'] = {}
                     
                     #explanationJson['explanation_data']['label'] = 'Percentage distribution of the implicit attribute ' + "(" + implicitAttribute + ")" + ":"
@@ -474,11 +477,34 @@ class CommunityJsonGenerator:
                     #explanationJson['explanation_data']['accordionMode'] = False
                     explanationJson['explanation_data']['label'] = implicitPropertyExplanations[implicitAttribute]['label']
                     explanationJson['explanation_data']['data'] = implicitPropertyExplanations[implicitAttribute]['explanation']
-                    
-                    values = list(explanationJson['explanation_data']['data'].values())
-                    if (len(values) > 0 and isinstance(values[0],list)):
+
+                    if (explanationJson['explanation_type'] == 'implicit_attributes_list'):
                         explanationJson['explanation_data']['accordionMode'] = True
-                    
+                        
+
+
+
+                    # if ('explanation_type' in implicitPropertyExplanations[implicitAttribute]):
+                        
+                    # else:
+                    #     print("checking implicit attribute " + str(implicitAttribute))
+
+                    #     values = list(explanationJson['explanation_data']['data'].values())
+                    #     if (len(values) > 0 and isinstance(values[0],list)):
+                    #         explanationJson['explanation_data']['accordionMode'] = True
+                    #     else:
+                    #         explanationJson['explanation_type'] = 'implicit_attributes_map'
+
+
+
+                            # if (isinstance(values[0],list)):
+                            #     explanationJson['explanation_type'] = 'implicit_attributes_list'
+                            # elif (isinstance(values[0],dict)):
+                            #     explanationJson['explanation_type'] = 'implicit_attributes_map'
+
+
+
+
                     if (implicitAttribute == 'community_' + 'id'):
                         explanationJson['visible'] = False
                     else:
