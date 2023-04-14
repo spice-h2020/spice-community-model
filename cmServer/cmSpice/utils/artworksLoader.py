@@ -1,37 +1,60 @@
 import json
 import pandas as pd
 import re
+from cmSpice.dao.dao_linkedDataHub import DAO_linkedDataHub
+
+seedFilePath = 'seed.json'
 
 
 class artworkLoader():
 
-    def __init__(self, type, url=None):
+    def __init__(self, type=None, transform=False, url=None, uuid="xxx"):
         self.type = type
+        self.transform = transform
         self.url = url
+        self.uuid = uuid
         self.seedFile = None
         self.artworks = None
+        self.seedFilePath = seedFilePath
 
-        f = open('seed.json')
+        if self.type is None:
+            raise Exception("type is not defined")
+
+        f = open(self.seedFilePath)
         self.seedFile = json.load(f)
 
         self.__readArtworks()
-        if not self.__checkUsingSeedFile():
+        if self.transform:
             self.__transform()
+
+        if not self.__checkUsingSeedFile():
+            # print("artworks validation with seed file failed")
+            raise Exception("artworks validation with seed file failed")
+
 
     def __readArtworks(self):
 
         if self.url is None:
-            f = open('localFIle.json')
+            f = open('localFile.json')
             self.artworks = json.load(f)
         else:
-            f = open('apiFile.json')
-            self.artworks = json.load(f)
+            dao = DAO_linkedDataHub(self.url, self.uuid)
+            data, response = dao.getData()
+            # print(response)
+
+            # transform data from api format
+            artworks = []
+            for key in data[0].keys():
+                if key.isnumeric():
+                    artworks.append(data[0][key])
+
+            self.artworks = artworks
 
     def __checkUsingSeedFile(self):
         for att in self.seedFile["artwork_attributes"]:
             for artwork in self.artworks:
                 if att["on_attribute"]["att_name"] not in artwork:
-                    # print(att["on_attribute"]["att_name"])
+                    print(att["on_attribute"]["att_name"])
                     return False
         return True
 
@@ -45,7 +68,20 @@ class artworkLoader():
             artifacts['ApproxYear'].fillna(value=0, inplace=True)
             artifacts['Decade'] = artifacts['ApproxYear'].apply(lambda v: int((v - 1) / 10) * 10)
 
-        self.artworks = artifacts.to_json(orient='records')
+        self.artworks = json.loads(artifacts.to_json(orient='records'))
+
+        # rename keys
+        dict = {
+            "Author": "author",
+            "Link": "image",
+            "Title": "tittle",
+            "Year": "year",
+        }
+        for row in self.artworks:
+            for k, v in dict.items():
+                    if k in row.keys():
+                        row[v] = row.pop(k)
+                    row["id"] = row["@id"]
 
     def __transformMaterial(self, row):
         """Returns a list of materials according to a dictionary for transformations
