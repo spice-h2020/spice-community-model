@@ -2,11 +2,15 @@ import json
 import pandas as pd
 import re
 from cmSpice.dao.dao_linkedDataHub import DAO_linkedDataHub
+from cmSpice.dao.dao_api import DAO_api
+import json
 
 seedFilePath = 'seed.json'
 
+# loader = ArtworkLoader(os.environ['TYPE'], True, "url", "uuid")
+# outputData = loader.getArtworks()
 
-class artworkLoader():
+class ArtworkLoader():
 
     def __init__(self, type=None, transform=False, url=None, uuid="xxx"):
         self.type = type
@@ -20,8 +24,10 @@ class artworkLoader():
         if self.type is None:
             raise Exception("type is not defined")
 
-        f = open(self.seedFilePath)
-        self.seedFile = json.load(f)
+        # f = open(self.seedFilePath)
+        # self.seedFile = json.load(f)
+        daoApi = DAO_api()
+        self.seedFile, _ = daoApi.getSeedFile()
 
         self.__readArtworks()
         if self.transform:
@@ -30,7 +36,6 @@ class artworkLoader():
         if not self.__checkUsingSeedFile():
             # print("artworks validation with seed file failed")
             raise Exception("artworks validation with seed file failed")
-
 
     def __readArtworks(self):
 
@@ -79,9 +84,9 @@ class artworkLoader():
         }
         for row in self.artworks:
             for k, v in dict.items():
-                    if k in row.keys():
-                        row[v] = row.pop(k)
-                    row["id"] = row["@id"]
+                if k in row.keys():
+                    row[v] = row.pop(k)
+                row["id"] = row["@id"]
 
     def __transformMaterial(self, row):
         """Returns a list of materials according to a dictionary for transformations
