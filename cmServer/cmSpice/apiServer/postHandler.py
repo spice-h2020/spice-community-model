@@ -27,6 +27,8 @@ from cmSpice.core.communitiesSimilarityModel import CommunitiesSimilarityModel
 import logging
 from cmSpice.logger.logger import getLogger
 
+from cmSpice.core.explicitCommunities import ExplicitCommunityJSONGenerator
+
 logger = getLogger(__name__)
 
 def post(self):
@@ -87,28 +89,36 @@ def __updateUsers(self, post_data):
     daoUsers = DAO_db_users()
     ok = daoUsers.insertUser_API(users)
 
-    # Activate flags associated to user/perspective pair (perspective makes use of one of the user's
-    # attributes (pname))
-    daoPerspectives = DAO_db_perspectives()
-    daoFlags = DAO_db_flags()
+    loadExplicitCommunityVisualizations()
 
-    perspectives = daoPerspectives.getPerspectives()
+    # # Activate flags associated to user/perspective pair (perspective makes use of one of the user's
+    # # attributes (pname))
+    # daoPerspectives = DAO_db_perspectives()
+    # daoFlags = DAO_db_flags()
 
-    for user in users:
-        for perspective in perspectives:
-            for similarityFunction in perspective['similarity_functions'] + perspective[
-                'interaction_similarity_functions']:
-                """
-                print("checking similarity function")
-                print("att_name: " + str(similarityFunction['sim_function']['on_attribute']['att_name']))
-                print("pname: " + str(user['pname']))
-                """
-                attributeLabel = user["category"] + "." + user["pname"]
-                if similarityFunction['sim_function']['on_attribute']['att_name'] == attributeLabel:
-                    flag = {'perspectiveId': perspective['id'], 'userid': user['userid'], 'needToProcess': True, 'error': "N/D"}
-                    # flag = {'perspectiveId': perspective['id'], 'userid': 'flagAllUsers', 'flag': True}
-                    daoFlags.updateFlag(flag)
+    # perspectives = daoPerspectives.getPerspectives()
 
+    # for user in users:
+    #     for perspective in perspectives:
+    #         for similarityFunction in perspective['similarity_functions'] + perspective[
+    #             'interaction_similarity_functions']:
+    #             """
+    #             print("checking similarity function")
+    #             print("att_name: " + str(similarityFunction['sim_function']['on_attribute']['att_name']))
+    #             print("pname: " + str(user['pname']))
+    #             """
+    #             attributeLabel = user["category"] + "." + user["pname"]
+    #             if similarityFunction['sim_function']['on_attribute']['att_name'] == attributeLabel:
+    #                 flag = {'perspectiveId': perspective['id'], 'userid': user['userid'], 'needToProcess': True, 'error': "N/D"}
+    #                 # flag = {'perspectiveId': perspective['id'], 'userid': 'flagAllUsers', 'flag': True}
+    #                 daoFlags.updateFlag(flag)
+
+def loadExplicitCommunityVisualizations(self):
+    try:
+        explicitVisualizationGenerator = ExplicitCommunityJSONGenerator()
+        explicitVisualizationGenerator.generate()
+    except Exception as e:
+        logger.error(traceback.format_exc())
 
 def __updateCM(self):
 

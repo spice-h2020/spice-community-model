@@ -10,6 +10,7 @@ if [ -d "$DIR" ]; then
 	if [ -f "$DIR/artworks.json" ]; then
 		cp ./data/$museum/artworks.json ../cmServer/cmSpice/data/artworks.json
 	fi
+	cp ./data/$museum/seedFile.json ../cmServer/cmSpice/data/seedFile.json
 	cp ./data/$museum/seedFile.json ../apiServer/app/src/seedFile.json
 	cp ./data/$museum/template.env ../deploy/.env
 else
