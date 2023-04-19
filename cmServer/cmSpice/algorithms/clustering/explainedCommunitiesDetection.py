@@ -61,9 +61,9 @@ class ExplainedCommunitiesDetection:
                 self.artwork_attributes.append(similarityFunction['sim_function']['on_attribute']['att_name'])
 
             # explainable attributes
-            print("explanaible attributes")
-            print(self.explainInteractionAttributes())
-            print("\n")
+            # print("explanaible attributes")
+            # print(self.explainInteractionAttributes())
+            # print("\n")
             self.explanaible_attributes = []              
             if (self.explainInteractionAttributes() == False):
                 self.explanaible_attributes = self.artwork_attributes
@@ -1874,7 +1874,7 @@ class ExplainedCommunitiesDetection:
                                 visualizationExplanation["data"] = list(set(artworksExplanation))
                                 visualizationExplanationList.append(visualizationExplanation)
 
-                            print("result3 dict explanation: " + str(result3))
+                            # print("result3 dict explanation: " + str(result3))
                             
                             
                             #explainedCommunityProperties[col] = "\n".join(result2)
@@ -1885,9 +1885,9 @@ class ExplainedCommunitiesDetection:
                             explainedCommunityProperties[col]["explanation"] = visualizationExplanationList
                             explainedCommunityProperties[col]["explanation_type"] = 'implicit_attributes_list'
                             
-                            print("explainedCommunityProperties")
-                            print(explainedCommunityProperties)
-                            print("\n")
+                            # print("explainedCommunityProperties")
+                            # print(explainedCommunityProperties)
+                            # print("\n")
 
 
                         # # For iconclass
@@ -2229,7 +2229,7 @@ class ExplainedCommunitiesDetection:
                             
                             #result2.append(str(array) + " " + "0.0")
                                 
-                            print("result2: " + str(result2))
+                            # print("result2: " + str(result2))
                             
                             
                             #explainedCommunityProperties[col] = "\n".join(result2)
@@ -2245,7 +2245,7 @@ class ExplainedCommunitiesDetection:
                         # For string types
                         else:
 
-                            print("is explainable get community")
+                            # print("is explainable get community")
 
                             #explainableAttribute = self.is_explainable(community, answer_binary, percentage)
 

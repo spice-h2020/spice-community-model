@@ -89,7 +89,7 @@ def __updateUsers(self, post_data):
     daoUsers = DAO_db_users()
     ok = daoUsers.insertUser_API(users)
 
-    loadExplicitCommunityVisualizations()
+    
 
     # # Activate flags associated to user/perspective pair (perspective makes use of one of the user's
     # # attributes (pname))
@@ -121,6 +121,7 @@ def loadExplicitCommunityVisualizations(self):
         logger.error(traceback.format_exc())
 
 def __updateCM(self):
+    loadExplicitCommunityVisualizations(self)
 
     # Check if there is an update flag
     daoPerspectives = DAO_db_perspectives()

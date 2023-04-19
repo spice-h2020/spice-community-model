@@ -44,9 +44,9 @@ class ExplicitCommunityJSONGenerator:
                 self.citizenAttribute_name = citizenAttribute["att_name"]
                 self.citizenAttribute_values = pd.unique(self.data[self.citizenAttribute_name]).tolist()
 
-                print("self.citizenAttribute_values")
-                print(self.citizenAttribute_values)
-                print("\n")
+                # print("self.citizenAttribute_values")
+                # print(self.citizenAttribute_values)
+                # print("\n")
                 
                 # Set the community labels
                 # self.data['group'] = communityDict['users'].values()
@@ -169,4 +169,4 @@ class ExplicitCommunityJSONGenerator:
         # add new data
         daoCommunityModelCommunity.insertFileList("", humanizedJsonCommunity)
 
-        logger.info("json data saved")
+        logger.info("explicit community json data saved")
