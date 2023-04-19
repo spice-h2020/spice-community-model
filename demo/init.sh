@@ -12,6 +12,7 @@ if [ -d "$DIR" ]; then
 	fi
 	cp ./data/$museum/seedFile.json ../cmServer/cmSpice/data/seedFile.json
 	cp ./data/$museum/seedFile.json ../apiServer/app/src/seedFile.json
+	cp ./data/$museum/network.yml ../deploy/network.yml
 	cp ./data/$museum/template.env ../deploy/.env
 else
 	echo "data folder not found for $museum"
