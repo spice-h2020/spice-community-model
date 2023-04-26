@@ -93,15 +93,11 @@ class CommunitiesSimilarityModel():
         pairs = combinations(range(len(communitiesA)), r=2)
 
         for p in pairs:
-            print("elems")
-            print(p[0])
-            print(p[1])
-            print("\n")
             communityA = communitiesA[p[0]]
             communityB = communitiesA[p[1]]
 
-            similarity = self.similarityCommunities(communityA, communityB)
-            # similarity = self.similarityCommunitiesAllAttributes(communityA, communityB)
+            # similarity = self.similarityCommunities(communityA, communityB)
+            similarity = self.similarityCommunitiesAllAttributes(communityA, communityB)
 
             # Insert it in the two different orders
             similarityJson = {

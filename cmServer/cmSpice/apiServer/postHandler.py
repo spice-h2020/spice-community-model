@@ -112,7 +112,7 @@ def loadExplicitCommunityVisualizations(self):
         logger.error(traceback.format_exc())
 
 def __updateCM(self):
-    #loadExplicitCommunityVisualizations(self)
+    loadExplicitCommunityVisualizations(self)
 
     # Check if there is an update flag
     daoPerspectives = DAO_db_perspectives()

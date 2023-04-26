@@ -129,22 +129,6 @@ class ExplicitCommunityJSONGenerator:
     def interactionObjectJSON(self):
         self.communityJson['artworks'] = []
 
-        # columns = list(self.data.columns)
-        # if ('artwork_origin' in columns and len(self.seedFile["interaction_similarity_functions"]) > 0):
-        #     self.interactionAttribute = self.seedFile['interaction_similarity_functions'][0]['sim_function']['on_attribute']['att_name']
-        #     self.interactionAttributeOrigin = self.interactionAttribute + "_origin"
-        #     self.interactionAttributeText = self.interactionAttribute.rsplit(".",1)[0] + ".text"
-
-        #     interactedIO = self.data[self.interactionAttributeOrigin].tolist()
-        #     interactedIO = list(sum(interactedIO, []))
-        #     interactedIO = list(map(str, interactedIO))
-            
-        #     # @id is for ints
-        #     aux_df = self.io_df.copy()
-        #     aux_df['id'] = self.io_df['id'].astype(str)
-            
-        #     io_df2 = aux_df[aux_df['id'].isin(interactedIO)]
-        #     self.communityJson['artworks'] = io_df2.to_dict('records')
 
 # --------------------------------------------------------------------------------------------------------------------------
 #    Community jsons (visualization)
