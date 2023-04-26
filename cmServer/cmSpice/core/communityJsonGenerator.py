@@ -229,33 +229,6 @@ class CommunityJsonGenerator:
         return user_interactions
         
         
-        """
-        user_df3 = json_df2.apply(lambda row: {key: value for key, value in zip(row)}, axis = 1)
-        print("user_df3")
-        print(user_df3)
-        print("\n")
-        """
-        
-        """
-        # https://stackoverflow.com/questions/48011404/pandas-how-to-combine-multiple-columns-into-an-array-column
-        user_interactions = self.json_df[['IdArtefact','emotions']].head(3).values.tolist()
-        print(user_interactions)
-        """
-        
-        
-        """
-        user_interactions = self.json_df[['IdArtefact','emotions']].apply(lambda row: list({stocks: prices for stocks,
-            prices in zip(row)}), axis=1)
-        
-        
-        print("user_interactions")
-        print(self.json_df[['IdArtefact','emotions']].head(2))
-        print("\n")
-        print(user_interactions.head(2))
-        """
-       
-        
-        
         
     def generateJSON(self,filename):
         # Export community information to JSON format
@@ -296,30 +269,9 @@ class CommunityJsonGenerator:
         self.similarityJSON()
         self.interactionObjectJSON()
         
-        """
-        self.communityJson['fileId'] = str(uuid.uuid1())
-        self.communityJson['fileName'] = self.communityDict['perspective']['name']
-        """
-        
-        # Remove parts to work with Marco visualization
-        #self.communityJson.pop('perspectiveId')
-        #self.communityJson.pop('numberOfCommunities')
-        #self.communityJson['communities'].pop('community-type')
-        #self.communityJson['communities'].pop('medoid')
 
         # Insert centroid
         self.insertCentroidVisualization(self.communityJson)
-        
-        print("\n\n")
-        print("generate json " + filename)
-        #print(self.communityJson)
-        print("\n\n")
-        
-        
-        # with open(filename, "w") as outfile:
-        #     json.dump(self.communityJson, outfile, indent=4)
-        # """
-        # """
         
         return self.communityJson
         
@@ -383,78 +335,10 @@ class CommunityJsonGenerator:
                     if (self.skipPropertyValue):
                         communityPropertiesList.append("'" + str(k) + "'")
                     else:
-                        #communityPropertiesList.append("'" + str(k) + "'"  + ': ' + "'" + str(community_data['explanation'][0][k]) + "'")
-                        #communityPropertiesList.append(community_data['explanation'][0][k])
-                        
-                        """
-                        print("implicit attribute explanations")
-                        print("community number: " + str(c))
-                        print("community id: " + str(communityDictionary['id']))
-                        print(community_data['explanation'][key])
-                        print(community_data['explanation'][key]['explanation'])
-                        print("\n")
-                        """
 
                         communityPropertiesDict = community_data['explanation'][key]['explanation']
                         
-                        # #keyValueList = community_data['explanation'][key].split("\n")
-                        # keyValueList = community_data['explanation'][key]['explanation'].split("\n")
                         
-                        # percentageTotal = 0
-                        
-                        # #print("keyValueList: " + str(keyValueList))
-                        # for keyValue in keyValueList:
-                            # pattern = r'\W+'
-                            # # empty character " " one or more times
-                            # pattern = r'\s+'
-                            
-                            # """
-                            # #keyValueSplit = keyValue.split("    ")
-                            # #keyValueSplit = re.split(pattern, keyValue)
-                            # keyValueSplit = keyValue.rsplit(" ",1)
-                            # print("keyValueList 2: " + str(keyValueSplit))
-                            
-                            # key2 = keyValueSplit[0]
-                            # key2 = re.split(pattern, key2, 2)
-                            # print("key2 : " + str(key2))
-                            # key2 = key2[0]
-                            # """
-                            
-                            # print("communityJSON Generator")
-                            # print("keyValue is " + str(keyValue))
-                            # print("\n")
-
-                            # #keyValueSplit = re.split(pattern, keyValue)
-                            # keyValueSplit = keyValue.split("#percentageSeparator#")
-                            # key2 = keyValueSplit[0]
-                            # """
-                            # indexes = range(len(keyValueSplit) - 1)
-                            # keySublist = [keyValueSplit[index] for index in indexes]
-                            # key2 = " ".join(keySublist)
-                            # """
-                            # try:
-                                # #key2 = keyValueSplit[0]
-                                # value = keyValueSplit[-1]
-                                # value = float(value)
-                                # value = value * 100
-                                # value = int(value)
-                                # value = value / 100
-                            # except Exception as e:
-                                # value = 0
-                            
-                            # percentageTotal += value
-                            # print("keyValueSplit: " + str(keyValueSplit))
-                            # print("key2:" + str(key2) + "  ;  " + "value: " + str(value))
-                            # communityPropertiesDict[key2] = value
-                            
-                        # if (percentageTotal != 100 and percentageTotal > 0):
-                            # #print("percentage total is different than 100: " + str(percentageTotal))
-                            # value = communityPropertiesDict[key2]
-                            # newValue = value + 100 - percentageTotal
-                            # newValue = newValue * 100
-                            # newValue = int(newValue)
-                            # newValue = newValue / 100
-                            # communityPropertiesDict[key2] = newValue
                         
                         implicitPropertyExplanations[key] = dict()
                         implicitPropertyExplanations[key]['label'] = community_data['explanation'][key]['label']
@@ -465,50 +349,28 @@ class CommunityJsonGenerator:
                 for implicitAttribute in implicitPropertyExplanations.keys():
                 
                     explanationJson = {}
-                    #explanationJson['explanation_type'] = 'implicit_attributes'
                     
                     explanationJson['explanation_type'] = implicitPropertyExplanations[implicitAttribute]['explanation_type']
                     explanationJson['explanation_key'] = implicitAttribute.replace("community_","")
                     explanationJson['explanation_data'] = {}
                     
-                    #explanationJson['explanation_data']['label'] = 'Percentage distribution of the implicit attribute ' + "(" + implicitAttribute + ")" + ":"
-                    #explanationJson['explanation_data']['data'] = implicitPropertyExplanations[implicitAttribute]
-                    
-                    #explanationJson['explanation_data']['accordionMode'] = False
+
                     explanationJson['explanation_data']['label'] = implicitPropertyExplanations[implicitAttribute]['label']
                     explanationJson['explanation_data']['data'] = implicitPropertyExplanations[implicitAttribute]['explanation']
 
                     if (explanationJson['explanation_type'] == 'implicit_attributes_list'):
                         explanationJson['explanation_data']['accordionMode'] = True
                         
-
-
-
-                    # if ('explanation_type' in implicitPropertyExplanations[implicitAttribute]):
-                        
-                    # else:
-                    #     print("checking implicit attribute " + str(implicitAttribute))
-
-                    #     values = list(explanationJson['explanation_data']['data'].values())
-                    #     if (len(values) > 0 and isinstance(values[0],list)):
-                    #         explanationJson['explanation_data']['accordionMode'] = True
-                    #     else:
-                    #         explanationJson['explanation_type'] = 'implicit_attributes_map'
-
-
-
-                            # if (isinstance(values[0],list)):
-                            #     explanationJson['explanation_type'] = 'implicit_attributes_list'
-                            # elif (isinstance(values[0],dict)):
-                            #     explanationJson['explanation_type'] = 'implicit_attributes_map'
-
-
-
-
                     if (implicitAttribute == 'community_' + 'id'):
                         explanationJson['visible'] = False
                     else:
                         explanationJson['visible'] = True
+
+                    # Unavailable
+                    if (isinstance(explanationJson['explanation_data']['data'], dict) and len(explanationJson['explanation_data']['data']) == 1):
+                        keys = list(explanationJson['explanation_data']['data'].keys())
+                        if (keys[0] == 'unknown'):
+                            explanationJson['unavailable'] = True
                     
                     communityDictionary['explanations'].append(explanationJson)
                 
@@ -527,10 +389,7 @@ class CommunityJsonGenerator:
                     
                 # add it to communities
                 self.communityJson['communities'].append(communityDictionary)
-                
-                print("community " + str(communityDictionary['id']))
-                print("members: " + str(community_data['members']))
-                print("\n")
+
                 
                 # Update the group to which the users belong
                 self.json_df.loc[ self.json_df['userid'].isin(community_data['members']), 'group'] = len(self.communityJson['communities']) - 1
@@ -539,26 +398,7 @@ class CommunityJsonGenerator:
                 if (self.containsInteractions()):
                     aux_df = community_data['data'].copy().set_index('real_index')[['community_' + 'dominantArtworks']]
                     self.json_df.update(aux_df)
-                
-
-
-                
-                """
-                
-                community_json_df = self.json_df.loc[ self.json_df['id'].isin(community_data['members']) ]
-                print("Community_json_df")
-                print(community_json_df[['community_' + 'dominantArtworks']])
-                print("\n")
-                community_json_df['community_dominantArtworks'] = community_data['data']['community_dominantArtworks']
-                community_json_df.loc['community_dominantArtworks']
-                #deaf_users.loc[deaf_users[column] == italianValue,  column] = englishValue
-                print("Community_json_df (after assignment)")
-                print(community_json_df[['community_' + 'dominantArtworks']])
-                print("\n")
-                
-                self.json_df.loc[ self.json_df['id'].isin(community_data['members']), 'community_dominantArtworks'] = community_data['data']['community_dominantArtworks']
-                """
-                
+  
             else:
                 usersWithoutCommunity.extend(community_data['members'])
         
@@ -583,31 +423,17 @@ class CommunityJsonGenerator:
         
         # Update the group value for the users not belonging to any community
         self.json_df.loc[ self.json_df['userid'].isin(usersWithoutCommunity), 'group'] = len(self.communityJson['communities']) - 1
-      
 
-        """
-        print("community_dominantArtworks")
-        print(self.json_df['community_dominantArtworks'])
-        print("\n")
-        """
-
-
-      
-            
+   
     def userJSON(self):
         # User Data
         self.communityJson["users"] = []
-        #self.communityJson['users'] = self.json_df[['id','label','group','explicit_community','interactions']].to_dict('records')
         
         df = self.json_df.copy()
         df['id'] = df['userid']
         
-        #self.communityJson['users'] = df[['id','label','group','explicit_community','interactions', 'community_interactions', 'no_community_interactions']].to_dict('records')
-        # self.communityJson['users'] = df[['id','label','group','explicit_community', 'community_interactions', 'no_community_interactions']].to_dict('records')
         self.communityJson['users'] = df[['id','label','group','explicit_community', 'implicit_community', 'community_interactions', 'no_community_interactions']].to_dict('records')
-        
 
-        #self.communityJson
     
     def similarityJSON(self):
         # Similarity Data

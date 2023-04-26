@@ -89,29 +89,20 @@ def __updateUsers(self, post_data):
     daoUsers = DAO_db_users()
     ok = daoUsers.insertUser_API(users)
 
-    
+    # Activate flags associated to user/perspective pair (perspective makes use of one of the user's
+    # attributes (pname))
+    daoPerspectives = DAO_db_perspectives()
+    daoFlags = DAO_db_flags()
 
-    # # Activate flags associated to user/perspective pair (perspective makes use of one of the user's
-    # # attributes (pname))
-    # daoPerspectives = DAO_db_perspectives()
-    # daoFlags = DAO_db_flags()
+    perspectives = daoPerspectives.getPerspectives()
 
-    # perspectives = daoPerspectives.getPerspectives()
-
-    # for user in users:
-    #     for perspective in perspectives:
-    #         for similarityFunction in perspective['similarity_functions'] + perspective[
-    #             'interaction_similarity_functions']:
-    #             """
-    #             print("checking similarity function")
-    #             print("att_name: " + str(similarityFunction['sim_function']['on_attribute']['att_name']))
-    #             print("pname: " + str(user['pname']))
-    #             """
-    #             attributeLabel = user["category"] + "." + user["pname"]
-    #             if similarityFunction['sim_function']['on_attribute']['att_name'] == attributeLabel:
-    #                 flag = {'perspectiveId': perspective['id'], 'userid': user['userid'], 'needToProcess': True, 'error': "N/D"}
-    #                 # flag = {'perspectiveId': perspective['id'], 'userid': 'flagAllUsers', 'flag': True}
-    #                 daoFlags.updateFlag(flag)
+    for user in users:
+        for perspective in perspectives:
+            for similarityFunction in perspective['similarity_functions'] + perspective['interaction_similarity_functions']:
+                attributeLabel = user["category"] + "." + user["pname"]
+                if similarityFunction['sim_function']['on_attribute']['att_name'] == attributeLabel:
+                    flag = {'perspectiveId': perspective['id'], 'userid': user['userid'], 'needToProcess': True, 'error': "N/D"}
+                    daoFlags.updateFlag(flag)
 
 def loadExplicitCommunityVisualizations(self):
     try:
@@ -121,7 +112,7 @@ def loadExplicitCommunityVisualizations(self):
         logger.error(traceback.format_exc())
 
 def __updateCM(self):
-    loadExplicitCommunityVisualizations(self)
+    #loadExplicitCommunityVisualizations(self)
 
     # Check if there is an update flag
     daoPerspectives = DAO_db_perspectives()
