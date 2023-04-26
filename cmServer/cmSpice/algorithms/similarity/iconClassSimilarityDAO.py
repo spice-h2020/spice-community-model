@@ -25,7 +25,7 @@ class IconClassSimilarityDAO(SimilarityDAO):
         elem = elem.split("(")[0]
         return len(elem)
     
-    def getIconclassParent(elemA, elemB):
+    def getIconclassParent(self, elemA, elemB):
         elemA = elemA.split("(")[0]
         elemB = elemB.split("(")[0]
 
@@ -48,7 +48,7 @@ class IconClassSimilarityDAO(SimilarityDAO):
         """
         
         # Get first common characters 
-        commonAncestor = getIconclassParent(elemA, elemB)
+        commonAncestor = self.getIconclassParent(elemA, elemB)
         maxLayer = max(self.elemLayer(elemA), self.elemLayer(elemB))
         if (maxLayer <= 0):
             sim = 0
@@ -76,7 +76,7 @@ class IconClassSimilarityDAO(SimilarityDAO):
         longestPrefix = ""
         longestPrefixElemB = ""
         for elemB in iconClassListB:
-            prefix = getIconclassParent(elemA, elemB)
+            prefix = self.getIconclassParent(elemA, elemB)
             if (len(prefix) > len(longestPrefix) or (len(prefix) == len(longestPrefix) and len(longestPrefixElemB) > len(elemB))):
                 longestPrefix = prefix
                 longestPrefixElemB = elemB
@@ -185,7 +185,7 @@ class IconClassSimilarityDAO(SimilarityDAO):
             for i in range(number):
                 elemA = self.distanceList[i]['elemA']
                 longestPrefixElemB = self.distanceList[i]['elemB']
-                commonParent = getIconclassParent(elemA, longestPrefixElemB)
+                commonParent = self.getIconclassParent(elemA, longestPrefixElemB)
                 maxLayer = max(self.elemLayer(elemA), self.elemLayer(longestPrefixElemB))
                 parentLayer = self.elemLayer(commonParent)
                 # if (parentLayer != 0 and parentLayer + 3 >= maxLayer):
