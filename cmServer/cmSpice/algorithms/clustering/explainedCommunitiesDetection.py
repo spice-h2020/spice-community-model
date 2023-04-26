@@ -89,7 +89,7 @@ class ExplainedCommunitiesDetection:
 
         """
         # Clustering algorithms cause false positives while dealing with extreme similarity values (0).
-        # Assign all these false positives (users with similarity 0 (distance 1) with all the other users in the community) to users without community
+        # Assign all these false positives (users with similarity 0 (distance 1) with all the other users in the community) to users without community    
         uniqueLabels = set(userCommunityLabels)
         uniqueLabels = sorted(uniqueLabels)
         falsePositives = []
@@ -168,8 +168,6 @@ class ExplainedCommunitiesDetection:
         n_communities = min(1, maxCommunities)
         n_clusters = n_communities
         finish_search = False
-
-        print("search_all_communities")
 
         # Special case: not enough data (1 or less users)
         # This can happen if we filter by an artwork and only 1 or less users interacted with it.
@@ -329,9 +327,6 @@ class ExplainedCommunitiesDetection:
                 # Get row index of community members
                 communityMemberIndexes = np.nonzero(np.in1d(self.data.index,community.index))[0]
 
-                
-                # From the attribute list, consider only the ones between the members of the community
-                # https://stackoverflow.com/questions/23763591/python-selecting-elements-in-a-list-by-indices
                 # Transform attribute list to fit community members
                 df.loc[:, ('community_' + col)] = community.apply(lambda row: self.extractDominantInteractionAttribute(row, col2, communityMemberIndexes), axis = 1)
             
@@ -421,7 +416,6 @@ class ExplainedCommunitiesDetection:
                 # iconclass attribute (OLD) Not used anymore
                 else:
 
-
                     communityMembers_validInteractionAttributeList = [x for x in communityMembers_interactionAttributeList if (isinstance(x,dict) == True or isinstance(x,list) == True) and len(x) > 0]
                     result = []
                     for interactionAttribute in communityMembers_validInteractionAttributeList:
@@ -430,6 +424,16 @@ class ExplainedCommunitiesDetection:
                     # Return the 3 most frequent elements
                     result = self.getMostFrequentElementsList(result,5)
                     result = [ x['Number'] for x in result ]
+                        
+                    if (row['community'] == 6 and 1==2):
+                        print("community 6")
+                        print("col2: " + str(col2))
+                        print("index: " + str(row['real_index']))
+                        print("userName: " + str(row['userNameAuxiliar']))
+                        artworks = [row['dominantArtworksDominantInteractionGenerated'][i] for i in communityMemberIndexes if row['dominantArtworksDominantInteractionGenerated'][i] != '' and i != row['real_index']]
+                        print("dominantArtworks: " + str(row['dominantArtworksDominantInteractionGenerated']))
+                        print("dominantArtworks community: " + str(artworks))
+                        print("\n")
                     
                     return result
 
@@ -461,6 +465,8 @@ class ExplainedCommunitiesDetection:
             set_of_jsons = {json.dumps(d, sort_keys=True) for d in iconclassDictionary[iconclassID]}
             iconclassDictionary[iconclassID] = [json.loads(t) for t in set_of_jsons]
 
+
+
         # Select x (5) keys with the highest number of results
         # using sorted() + join() + lambda
         # Sort dictionary by value list length
@@ -470,13 +476,13 @@ class ExplainedCommunitiesDetection:
 
         # From most frequent to less frequent
         result = res.split('#separator#')
+
+
         result.reverse()
 
         # Get children associated to the keys 
         result2 = []
         result2 = {k:iconclassDictionary[k] for k in result[0:5:1] if k in iconclassDictionary}
-
-        # Next work: include the artworks these iconclass IDs originate from in the explanations
 
         return result2
 
@@ -501,8 +507,6 @@ class ExplainedCommunitiesDetection:
                             #col = col2
                             col = "community_" + col2
                         
-                        # https://www.alphacodingskills.com/python/notes/python-operator-bitwise-or-assignment.php
-                        # (x |= y) is equivalent to (x = x | y)
                         explainableAttribute = False
                         if answer_binary:
                             explainableAttribute = (len(community[col]) * percentage)  <= community[col].sum()
