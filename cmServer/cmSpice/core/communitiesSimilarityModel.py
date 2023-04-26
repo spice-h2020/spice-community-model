@@ -231,6 +231,53 @@ class CommunitiesSimilarityModel():
         return 1 - self.distanceExplicitAttribute(explicitAttributeList, attributeValueA, attributeValueB)
 
         
+#--------------------------------------------------------------------------------------------------------------------------
+#  Alternative similarity between communities. 
+#  To use it instead of the centroid linkage, replace "self.distanceCommunities" with one of the functions below
+#--------------------------------------------------------------------------------------------------------------------------
+    
+    def singleLinkage(self, communityA, communityB):
+        usersA = communityA['users']
+        usersB = communityB['users']
+        userList = self.data['userid'].to_list()
 
+        userIndexA = [userList.index(x) for x in usersA]
+        userIndexB = [userList.index(x) for x in usersB]
 
+        distanceMatrix_singleLinkage = self.distanceMatrix[np.ix_(userIndexA,userIndexB)]
+        clusterRepresentativeIndex = np.argmin(distanceMatrix_singleLinkage)
+
+        singleLinkageUserA = clusterRepresentativeIndex / np.shape(distanceMatrix_singleLinkage)[1]
+        singleLinkageUserB = clusterRepresentativeIndex % np.shape(distanceMatrix_singleLinkage)[1]
         
+        return np.min(distanceMatrix_singleLinkage)
+
+    def completeLinkage(self, communityA, communityB):
+        usersA = communityA['users']
+        usersB = communityB['users']
+        userList = self.data['userid'].to_list()
+
+        userIndexA = [userList.index(x) for x in usersA]
+        userIndexB = [userList.index(x) for x in usersB]
+
+        distanceMatrix_completeLinkage = self.distanceMatrix[np.ix_(userIndexA,userIndexB)]
+        clusterRepresentativeIndex = np.argmax(distanceMatrix_completeLinkage)
+
+        singleLinkageUserA = clusterRepresentativeIndex / np.shape(distanceMatrix_completeLinkage)[1]
+        singleLinkageUserB = clusterRepresentativeIndex % np.shape(distanceMatrix_completeLinkage)[1]
+        
+        return np.max(distanceMatrix_completeLinkage)
+
+    def averageLinkage(self, communityA, communityB):
+        usersA = communityA['users']
+        usersB = communityB['users']
+        userList = self.data['userid'].to_list()
+
+        userIndexA = [userList.index(x) for x in usersA]
+        userIndexB = [userList.index(x) for x in usersB]
+
+        distanceMatrix_averageLinkage = self.distanceMatrix[np.ix_(userIndexA,userIndexB)]
+
+        return np.mean(distanceMatrix_averageLinkage)
+
+    
