@@ -14,6 +14,8 @@ from cmSpice.dao.dao_api_iconclass import DAO_api_iconclass
 import traceback
 from cmSpice.logger.logger import getLogger
 
+logger = getLogger(__name__)
+
 
 class ExplainedCommunitiesDetection:
     """Class to search all communities that all members have a common
@@ -164,107 +166,116 @@ class ExplainedCommunitiesDetection:
             int: Number of communities detected.
             dict: Dictionary where each user is assigned to a community.
         """
-        maxCommunities = len(self.data)
-        n_communities = min(1, maxCommunities)
-        n_clusters = n_communities
-        finish_search = False
+        try:
 
-        # Special case: not enough data (1 or less users)
-        # This can happen if we filter by an artwork and only 1 or less users interacted with it.
-        if (maxCommunities <= 1):
-            finish_search = True
-            result2 = []
-            result = {}
-            for user in self.data.index:
-                result[user] = 0
-                result2.append(0)
+            maxCommunities = len(self.data)
+            n_communities = min(1, maxCommunities)
+            n_clusters = n_communities
+            finish_search = False
 
-            complete_data = self.data.copy()
-            complete_data['community'] = result.values()
-            self.complete_data = complete_data
-
-            # Comprobamos que para cada grupo existe al menos una respuesta en común
-            self.communities = complete_data.groupby(by='community')
-
-        while not finish_search:
-            community_detection = self.algorithm(self.data)
-            userCommunityLabels = community_detection.calculate_communities(distanceMatrix = self.distanceMatrix, n_clusters=n_communities)
-            result = userCommunityLabels
-
-            # Process community data (explanation)
-            complete_data = self.data.copy()
-            complete_data['community'] = userCommunityLabels
-            self.complete_data = complete_data
-
-            # Filter false positives
-            userCommunityLabels = self.filterFalsePositives(userCommunityLabels)
-
-            # Associate each element with its cluster/community
-            ids_communities = {}
-            for i in range(len(self.data.index)):
-                ids_communities[self.data.index[i]] = userCommunityLabels[i]
-
-            result2 = list(ids_communities.values())
-            result = ids_communities
-            self.resultAlgorithm = result2
-            self.idsCommunities = result
-
-            # Try to simplifyInteractionAttributes directly in complete_data
-            complete_data = self.simplifyInteractionAttributesCompleteData(complete_data, len(set(result2)), printing = False)
-
-            # Comprobamos que para cada grupo existe al menos una respuesta en común
-            explainables = []
-            self.communities = complete_data.groupby(by='community')
-            
-            n_clusters = len(set(result2))
-            n_communities_before = n_communities
-
-            # Cannot be explained with implicit
-            if (n_clusters < n_communities):
-                # Set n_communities = n_clusters (communities could not be explained)
-                #finish_search = True 
-                #n_communities = n_clusters
-                pass
-
-            else:
-                
-                n_communities = n_clusters
-
-                # for c in range(n_communities):
-                for c in range(n_clusters):
-                    community = self.communities.get_group(c)
-                    #community = self.simplifyInteractionAttributes(community, printing = False)
-                    explainables.append(self.is_explainable(community, answer_binary, percentage))
-
-
-                # finish_search = sum(explainables) == n_communities
-                finish_search = sum(explainables) == n_clusters
-            
-            # Each datapoint belongs to a different cluster  
-            if (n_communities == maxCommunities):
+            # Special case: not enough data (1 or less users)
+            # This can happen if we filter by an artwork and only 1 or less users interacted with it.
+            if (maxCommunities <= 1):
                 finish_search = True
-                
-            if not finish_search:
-                n_communities += 1
+                result2 = []
+                result = {}
+                for user in self.data.index:
+                    result[user] = 0
+                    result2.append(0)
 
-        # Set communities to be equal to clusters (if it is bigger, then at least one community cannot be explained)
-        n_communities = n_clusters
-        # Get medoids
-        medoids_communities = self.getMedoidsCommunities(result2)
-        
-        communityDict = {}
-        communityDict['number'] = n_communities
-        communityDict['users'] = result
-        communityDict['medoids'] = medoids_communities
-        communityDict['percentage'] = percentage
-        communityDict['userAttributes'] = self.user_attributes
-        # For HECHT
-        if ('Beliefs.beliefJ' in self.data.columns or 'demographics.food' in self.data.columns):
-            communityDict['implicitAttributes'] = self.explanaible_attributes
-        else:
-            communityDict['implicitAttributes'] = []
-        
-        return complete_data, communityDict
+                complete_data = self.data.copy()
+                complete_data['community'] = result.values()
+                self.complete_data = complete_data
+
+                # Comprobamos que para cada grupo existe al menos una respuesta en común
+                self.communities = complete_data.groupby(by='community')
+
+            while not finish_search:
+                community_detection = self.algorithm(self.data)
+                userCommunityLabels = community_detection.calculate_communities(distanceMatrix = self.distanceMatrix, n_clusters=n_communities)
+                result = userCommunityLabels
+
+                # Process community data (explanation)
+                complete_data = self.data.copy()
+                complete_data['community'] = userCommunityLabels
+                self.complete_data = complete_data
+
+                # Filter false positives
+                userCommunityLabels = self.filterFalsePositives(userCommunityLabels)
+
+                # Associate each element with its cluster/community
+                ids_communities = {}
+                for i in range(len(self.data.index)):
+                    ids_communities[self.data.index[i]] = userCommunityLabels[i]
+
+                result2 = list(ids_communities.values())
+                result = ids_communities
+                self.resultAlgorithm = result2
+                self.idsCommunities = result
+
+                # Try to simplifyInteractionAttributes directly in complete_data
+                complete_data = self.simplifyInteractionAttributesCompleteData(complete_data, len(set(result2)), printing = False)
+
+                # Comprobamos que para cada grupo existe al menos una respuesta en común
+                explainables = []
+                self.communities = complete_data.groupby(by='community')
+                
+                n_clusters = len(set(result2))
+                n_communities_before = n_communities
+
+                # Cannot be explained with implicit
+                if (n_clusters < n_communities):
+                    # Set n_communities = n_clusters (communities could not be explained)
+                    #finish_search = True 
+                    #n_communities = n_clusters
+                    pass
+
+                else:
+                    
+                    n_communities = n_clusters
+
+                    # for c in range(n_communities):
+                    for c in range(n_clusters):
+                        community = self.communities.get_group(c)
+                        #community = self.simplifyInteractionAttributes(community, printing = False)
+                        explainables.append(self.is_explainable(community, answer_binary, percentage))
+
+
+                    # finish_search = sum(explainables) == n_communities
+                    finish_search = sum(explainables) == n_clusters
+                
+                # Each datapoint belongs to a different cluster  
+                if (n_communities == maxCommunities):
+                    finish_search = True
+                    
+                if not finish_search:
+                    n_communities += 1
+
+            # Set communities to be equal to clusters (if it is bigger, then at least one community cannot be explained)
+            n_communities = n_clusters
+            # Get medoids
+            medoids_communities = self.getMedoidsCommunities(result2)
+            
+            communityDict = {}
+            communityDict['number'] = n_communities
+            communityDict['users'] = result
+            communityDict['medoids'] = medoids_communities
+            communityDict['percentage'] = percentage
+            communityDict['userAttributes'] = self.user_attributes
+            # For HECHT
+            if ('Beliefs.beliefJ' in self.data.columns or 'demographics.food' in self.data.columns):
+                communityDict['implicitAttributes'] = self.explanaible_attributes
+            else:
+                communityDict['implicitAttributes'] = []
+            
+            return complete_data, communityDict
+
+        except Exception as e:
+            logger.error(traceback.format_exc())
+
+            communityDict = {}
+
+            return self.data, communityDict
     
     def explainInteractionAttributes(self):
         return len(self.perspective['interaction_similarity_functions']) > 0
@@ -299,38 +310,28 @@ class ExplainedCommunitiesDetection:
             Updated dataframe including the dominant value for each user-interaction attribute pair in new columns.
             Column name = community_ + 'interaction attribute label'
         """
-        """
-        print("simplify interaction attributes")
-        print(community['community'].tolist())
-        print("\n\n")
-        """
-        
-        # This is not used anymore
-        if (1 == 2 and self.explainInteractionAttributes() == False):
-            return community
-        else:
                     
-            df = community.copy()
-            #for col in self.explanaible_attributes:
-            # Include similarity features between artworks too
-            #for col in self.explanaible_attributes + self.artwork_attributes + ['dominantArtworks']:
-            # Add distance between emotions for dissimilar emotions
-            simplify_cols = self.explanaible_attributes + self.artwork_attributes
-            if (self.explainInteractionAttributes() == True):
-                simplify_cols += ['dominantArtworks'] 
+        df = community.copy()
+        #for col in self.explanaible_attributes:
+        # Include similarity features between artworks too
+        #for col in self.explanaible_attributes + self.artwork_attributes + ['dominantArtworks']:
+        # Add distance between emotions for dissimilar emotions
+        simplify_cols = self.explanaible_attributes + self.artwork_attributes
+        if (self.explainInteractionAttributes() == True):
+            simplify_cols += ['dominantArtworks'] 
 
-            simplify_cols = list(set(simplify_cols))
+        simplify_cols = list(set(simplify_cols))
 
-            for col in simplify_cols:  
-                col2 = col + 'DominantInteractionGenerated'
+        for col in simplify_cols:  
+            col2 = col + 'DominantInteractionGenerated'
 
-                # Get row index of community members
-                communityMemberIndexes = np.nonzero(np.in1d(self.data.index,community.index))[0]
+            # Get row index of community members
+            communityMemberIndexes = np.nonzero(np.in1d(self.data.index,community.index))[0]
 
-                # Transform attribute list to fit community members
-                df.loc[:, ('community_' + col)] = community.apply(lambda row: self.extractDominantInteractionAttribute(row, col2, communityMemberIndexes), axis = 1)
-            
-            return df
+            # Transform attribute list to fit community members
+            df.loc[:, ('community_' + col)] = community.apply(lambda row: self.extractDominantInteractionAttribute(row, col2, communityMemberIndexes), axis = 1)
+        
+        return df
     
     def getMostFrequentElementsList(self, array, k):
         df=pd.DataFrame({'Number': array, 'Value': array})
@@ -441,8 +442,6 @@ class ExplainedCommunitiesDetection:
                 return ''
 
         except Exception as e:
-
-            logger = getLogger(__name__)
             logger.error(traceback.format_exc())
 
             return ''
@@ -486,11 +485,21 @@ class ExplainedCommunitiesDetection:
 
         return result2
 
-
-        
     def is_explainable(self, community, answer_binary=False, percentage=1.0):
         try:
+            if ('Beliefs.beliefJ' in self.data.columns):
+                return self.is_explainable_AND(community, answer_binary, percentage)
+            else:
+                return self.is_explainable_OR(community, answer_binary, percentage)
+        except Exception as e:
+            logger.error("Error determining the explainability of the following community")
+            logger.error(community)
+            logger.error(traceback.format_exc())
 
+            return False
+
+    def is_explainable_OR(self, community, answer_binary=False, percentage=1.0):
+        try:
             explainable_community = False
 
             # Users without community
@@ -522,8 +531,6 @@ class ExplainedCommunitiesDetection:
             isExplainableResult = explainable_community
 
         except Exception as e:
-
-            logger = getLogger(__name__)
             logger.error("Error determining the explainability of the following community")
             logger.error(community)
             logger.error(traceback.format_exc())
@@ -532,8 +539,8 @@ class ExplainedCommunitiesDetection:
 
         return isExplainableResult
     
-    # Explainable AND
-    def is_explainableAND(self, community, answer_binary=False, percentage=1.0):
+
+    def is_explainable_AND(self, community, answer_binary=False, percentage=1.0):
         explainable_community = False
 
         # Users without community
@@ -823,8 +830,6 @@ class ExplainedCommunitiesDetection:
             community_data['explanation'] = explainedCommunityProperties
 
         except Exception as e:
-
-            logger = getLogger(__name__)
             logger.error(traceback.format_exc())
 
             
