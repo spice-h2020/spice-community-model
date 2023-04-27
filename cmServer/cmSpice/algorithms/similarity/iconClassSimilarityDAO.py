@@ -22,13 +22,9 @@ class IconClassSimilarityDAO(SimilarityDAO):
 
 
     def elemLayer(self,elem):
-        elem = elem.split("(")[0]
         return len(elem)
     
     def getIconclassParent(self, elemA, elemB):
-        elemA = elemA.split("(")[0]
-        elemB = elemB.split("(")[0]
-
         return os.path.commonprefix([elemA, elemB])
     
     def distanceItems(self,elemA,elemB):
@@ -188,6 +184,7 @@ class IconClassSimilarityDAO(SimilarityDAO):
                 commonParent = self.getIconclassParent(elemA, longestPrefixElemB)
                 maxLayer = max(self.elemLayer(elemA), self.elemLayer(longestPrefixElemB))
                 parentLayer = self.elemLayer(commonParent)
+                commonParent = commonParent.split("(")[0]
                 # if (parentLayer != 0 and parentLayer + 3 >= maxLayer):
                 if (parentLayer != 0):
                     # Previous explanation
