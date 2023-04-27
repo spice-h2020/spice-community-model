@@ -132,7 +132,6 @@ class CommunityJsonGenerator:
             
             self.json_df['no_community_interactions'] = self.json_df.apply(lambda row:  [ i for i in row['interactions'] if i not in row['community_interactions'] ]    , axis = 1)
         else:
-            print("it doesnt contain interactions")
             self.json_df['interactions'] = [[] for _ in range(len(self.json_df))]
             self.json_df['community_interactions'] = [[] for _ in range(len(self.json_df))]
             self.json_df['no_community_interactions'] = [[] for _ in range(len(self.json_df))]
@@ -195,9 +194,6 @@ class CommunityJsonGenerator:
                 implicitPropertyExplanations = {}
                 
                 for key in community_data['explanation'].keys():
-                    #print('\t\t-', k)
-                    #communityProperties += '\t\t-' + ' ' + str(k) + ' ' + community_data['properties'][k] + '\n'
-                    
                     communityPropertiesDict = {}
 
                     if (self.skipPropertyValue):

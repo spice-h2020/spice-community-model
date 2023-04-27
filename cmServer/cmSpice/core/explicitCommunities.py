@@ -16,6 +16,7 @@ from itertools import combinations_with_replacement
 # ------------------
 # logger
 import logging
+import traceback
 from cmSpice.logger.logger import getLogger
 
 logger = getLogger(__name__)
@@ -42,33 +43,30 @@ class ExplicitCommunityJSONGenerator:
 
             for citizenAttribute in self.seedFile["user_attributes"]:
                 self.citizenAttribute_name = citizenAttribute["att_name"]
-                self.citizenAttribute_values = pd.unique(self.data[self.citizenAttribute_name]).tolist()
+                if (self.citizenAttribute_name in self.data.columns):
+                    self.citizenAttribute_values = pd.unique(self.data[self.citizenAttribute_name]).tolist()
+                    
+                    # Set the community labels
+                    # self.data['group'] = communityDict['users'].values()
+                    self.data['group'] = self.data.apply(lambda row: self.citizenAttribute_values.index(row[self.citizenAttribute_name]), axis = 1)
+                    # Set other visualization attributes
+                    self.data["id"] = self.data["userid"]
+                    self.data["label"] = self.data["userid"]
+                    self.data['explicit_community'] = self.data[[self.citizenAttribute_name]].to_dict(orient='records')
+                    self.data["implicit_community"] = [{} for _ in range(len(self.data))]
+                    self.data["community_interactions"] = [{} for _ in range(len(self.data))]
+                    self.data["no_community_interactions"] = [{} for _ in range(len(self.data))]
 
-                # print("self.citizenAttribute_values")
-                # print(self.citizenAttribute_values)
-                # print("\n")
-                
-                # Set the community labels
-                # self.data['group'] = communityDict['users'].values()
-                self.data['group'] = self.data.apply(lambda row: self.citizenAttribute_values.index(row[self.citizenAttribute_name]), axis = 1)
-                # Set other visualization attributes
-                self.data["id"] = self.data["userid"]
-                self.data["label"] = self.data["userid"]
-                self.data['explicit_community'] = self.data[[self.citizenAttribute_name]].to_dict(orient='records')
-                self.data["implicit_community"] = [{} for _ in range(len(self.data))]
-                self.data["community_interactions"] = [{} for _ in range(len(self.data))]
-                self.data["no_community_interactions"] = [{} for _ in range(len(self.data))]
+                    # Generate JSON
+                    self.communityJson = {}
 
-                # Generate JSON
-                self.communityJson = {}
+                    self.communityJSON(self.citizenAttribute_name)
+                    self.userJSON()
+                    self.similarityJSON(self.citizenAttribute_name)
+                    self.interactionObjectJSON()
 
-                self.communityJSON(self.citizenAttribute_name)
-                self.userJSON()
-                self.similarityJSON(self.citizenAttribute_name)
-                self.interactionObjectJSON()
-
-                # Save it in the database
-                self.saveDatabase(self.communityJson)
+                    # Save it in the database
+                    self.saveDatabase(self.communityJson)
 
         except Exception as e:
 
@@ -88,7 +86,7 @@ class ExplicitCommunityJSONGenerator:
             communityDictionary['id'] = self.communityJson['name'] + "-" + str(len(self.communityJson['communities']))
             communityDictionary['perspectiveId'] = self.communityJson['name'] 
             communityDictionary['community-type'] = 'explicit'
-            communityDictionary['name'] = 'Community ' + str(len(self.communityJson['communities'])) + " - " + self.citizenAttribute_values[i]
+            communityDictionary['name'] = 'Community ' + str(len(self.communityJson['communities'])) + " - " + str(self.citizenAttribute_values[i])
 
             # Explanations
             communityDictionary['explanations'] = []
