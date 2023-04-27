@@ -185,11 +185,8 @@ class IconClassSimilarityDAO(SimilarityDAO):
                 maxLayer = max(self.elemLayer(elemA), self.elemLayer(longestPrefixElemB))
                 parentLayer = self.elemLayer(commonParent)
                 commonParent = commonParent.split("(")[0]
-                # if (parentLayer != 0 and parentLayer + 3 >= maxLayer):
-                if (parentLayer != 0):
-                    # Previous explanation
-                    #explainable_iconclassValues.append(commonParent)
 
+                if (parentLayer != 0):
                     # New explanation: add information about the iconclassIDs (children) from which this new one (parent) is derived 
                     commonParentDict = {}
                     commonParentDict[commonParent] = {}
