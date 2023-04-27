@@ -104,6 +104,11 @@ def __updateUsers(self, post_data):
                     flag = {'perspectiveId': perspective['id'], 'userid': user['userid'], 'needToProcess': True, 'error': "N/D"}
                     daoFlags.updateFlag(flag)
 
+    flags = daoFlags.getFlags()
+    if (len(flags) <= 0):
+        flag = {'perspectiveId': 'updateExplicitCommunities', 'userid': 'updateExplicitCommunities', 'needToProcess': True, 'error': "N/D"}
+        daoFlags.updateFlag(flag)
+        
 def loadExplicitCommunityVisualizations(self):
     try:
         explicitVisualizationGenerator = ExplicitCommunityJSONGenerator()
@@ -112,8 +117,6 @@ def loadExplicitCommunityVisualizations(self):
         logger.error(traceback.format_exc())
 
 def __updateCM(self):
-    loadExplicitCommunityVisualizations(self)
-
     # Check if there is an update flag
     daoPerspectives = DAO_db_perspectives()
     daoFlags = DAO_db_flags()
@@ -121,17 +124,27 @@ def __updateCM(self):
     flags = daoFlags.getFlags()
     deleteFlags = []
 
+    newUsersBoolean = False
+
     # Sort all flags by perspectiveId
     perspectiveFlagsDict = {}
     for flag in flags:
         if flag['needToProcess'] == True:
-            if flag["perspectiveId"] not in perspectiveFlagsDict:
-                perspectiveFlagsDict[flag["perspectiveId"]] = []
-            perspectiveFlagsDict[flag["perspectiveId"]].append(flag['userid'])
+            if (flag['userid'] != "flagAllUsers"):
+                newUsersBoolean = True
+            
+            if (flag['userid'] != "updateExplicitCommunities"):
+                if flag["perspectiveId"] not in perspectiveFlagsDict:
+                    perspectiveFlagsDict[flag["perspectiveId"]] = []
+                perspectiveFlagsDict[flag["perspectiveId"]].append(flag['userid'])
+                
             # needToProcess to false
             flag["needToProcess"] = False
             daoFlags.replaceFlag(flag)
             deleteFlags.append(flag)
+
+    if (newUsersBoolean):
+        loadExplicitCommunityVisualizations(self)
 
     try:
         # Update each perspective communities
