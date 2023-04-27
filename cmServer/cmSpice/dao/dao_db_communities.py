@@ -89,7 +89,7 @@ class DAO_db_community(DAO_db):
         :Return:
             File List
         """
-        data = self.db_fullListCommunities.find({"fileId": fileId}, {"_id": 0})
+        data = self.db_fullListCommunities.find({"perspectiveId": fileId}, {"_id": 0})
         data = loads(dumps(list(data)))
         if len(data) == 0:
             return {}
